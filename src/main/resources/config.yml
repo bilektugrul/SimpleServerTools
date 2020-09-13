@@ -1,22 +1,28 @@
-# SimpleVanish doesn't provide any placeholder other than %prefix%. You must have PlaceholderAPI for other placeholders.
+# SimpleVanish doesn't provide any placeholder other than %prefix% and %player%. You must have PlaceholderAPI for other placeholders.
 # You have to install ProtocolLib for editing client-side max player and player count in server list
 
 prefix: '&8[&6SimpleVanish&8]&r'
 vanish-activated: '%prefix% &eVanish mode: &bON'
 vanish-disabled: '%prefix% &eVanish mode: &cOFF'
 vanish-command-permission: 'simplevanish.admin'
-no-permission: '%prefix% &cI''m sorry %player_name% but you don''t have enough permission to do that!'
-config-reloaded: '%prefix% &eConfig has been reloaded %player_name%!'
+no-permission: '%prefix% &cI''m sorry %player% but you don''t have enough permission to do that!'
+config-reloaded: '%prefix% &eConfig has been reloaded %player%!'
 
 join-quit-messages:
   enabled: true
-  first-join-message: '&9[+] &b&l%player_name% &7has joined to server for the first time'
-  join-message: '&9[+] &b&l%player_name% &7has joined to server'
-  quit-message: '&9[-] &b&l%player_name% &7has left from server'
+  first-join-message: '&9[+] &b&l%player% &7has joined to server for the first time'
+  join-message: '&9[+] &b&l%player% &7has joined to server'
+  quit-message: '&9[-] &b&l%player% &7has left from server'
 
 one-more-slot:
   enabled: true # Requires ProtocolLib
+                # Changes maximum player amount to player count + 1 (fake)
 
 remove-vanished-players:
   enabled: true # Removes vanished players from client-side server list.
                 # Requires ProtocolLib and won't work on BungeeCord (you won't need tho).
+MOTD: # MOTD requires ProtocolLib when its enabled.
+  enabled: false
+  value: |
+    %prefix% &aThis server is using &b&lSimpleVanish&a!
+    %prefix% &b&lSimpleVanish&a is awesome!

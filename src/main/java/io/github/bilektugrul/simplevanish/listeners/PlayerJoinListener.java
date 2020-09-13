@@ -1,15 +1,18 @@
 package io.github.bilektugrul.simplevanish.listeners;
 
 import io.github.bilektugrul.simplevanish.SimpleVanish;
-import io.github.bilektugrul.simplevanish.commands.VanishCommand;
+import io.github.bilektugrul.simplevanish.utils.Utils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import java.util.UUID;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerJoinListener implements Listener {
+
+    private SimpleVanish plugin = JavaPlugin.getPlugin(SimpleVanish.class);
 
     public PlayerJoinListener(SimpleVanish main) {
         main.getServer().getPluginManager().registerEvents(this, main);
@@ -20,12 +23,12 @@ public class PlayerJoinListener implements Listener {
 
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-        if (SimpleVanish.plugin.getBoolean("join-quit-messages.enabled", false)) {
-            if (!VanishCommand.instance.isVanished(uuid)) {
+        if (Utils.getBoolean("join-quit-messages.enabled", false)) {
+            if (!Utils.isVanished(uuid)) {
                 if (player.hasPlayedBefore())
-                    e.setJoinMessage(SimpleVanish.plugin.getString("join-quit-messages.join-message", player));
+                    e.setJoinMessage(Utils.getString("join-quit-messages.join-message", player));
                 else
-                    e.setJoinMessage(SimpleVanish.plugin.getString("join-quit-messages.first-join-message", player));
+                    e.setJoinMessage(Utils.getString("join-quit-messages.first-join-message", player));
 
             } else {
                 e.setJoinMessage("");
@@ -33,11 +36,11 @@ public class PlayerJoinListener implements Listener {
         }
 
         if (!player.hasPermission("simplevanish.admin")) {
-            for (UUID vanished : VanishCommand.instance.onlineVanishPlayers) {
-                player.hidePlayer(SimpleVanish.plugin, Bukkit.getPlayer(vanished));
+            for (UUID vanished : plugin.getOnlineVanishedPlayers()) {
+                player.hidePlayer(plugin, Bukkit.getPlayer(vanished));
             }
 
-        } else if (VanishCommand.instance.isVanished(uuid)) VanishCommand.instance.hidePlayer(player, true);
+        } else if (Utils.isVanished(uuid)) Utils.hidePlayer(player, true);
 
     }
 }
