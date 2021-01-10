@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class Utils {
 
-    private static SimpleVanish plugin = JavaPlugin.getPlugin(SimpleVanish.class);
+    private static final SimpleVanish plugin = JavaPlugin.getPlugin(SimpleVanish.class);
 
     static String permission = getString("vanish-command-permission");
 
@@ -21,21 +21,27 @@ public class Utils {
             plugin.getVanishedPlayers().add(player.getUniqueId());
         if (!plugin.getOnlineVanishedPlayers().contains(uuid))
             plugin.getOnlineVanishedPlayers().add(player.getUniqueId());
-        for (Player p : Bukkit.getOnlinePlayers()) { if (!p.hasPermission(permission)) { p.hidePlayer(player); } }
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (!p.hasPermission(permission)) {
+                p.hidePlayer(player);
+            }
+        }
         player.sendMessage(getString("vanish-activated", player));
-        if (getBoolean("join-quit-messages.enabled", false))
-            if (!silent)
-                Bukkit.broadcastMessage(getString("join-quit-messages.quit-message", player));
+        if (getBoolean("join-quit-messages.enabled", false)) {
+            if (!silent) Bukkit.broadcastMessage(getString("join-quit-messages.quit-message", player));
+        }
     }
 
     public static void showPlayer(Player player, boolean silent) {
-        for (Player p : Bukkit.getOnlinePlayers()) { p.showPlayer(player); }
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.showPlayer(player);
+        }
         player.sendMessage(getString("vanish-disabled", player));
         plugin.getVanishedPlayers().remove(player.getUniqueId());
         plugin.getOnlineVanishedPlayers().remove(player.getUniqueId());
-        if (getBoolean("join-quit-messages.enabled", false))
-            if (!silent)
-                Bukkit.broadcastMessage(getString("join-quit-messages.join-message", player));
+        if (getBoolean("join-quit-messages.enabled", false)) {
+            if (!silent) Bukkit.broadcastMessage(getString("join-quit-messages.join-message", player));
+        }
     }
 
     public static boolean isVanished(UUID uuid) {

@@ -19,7 +19,7 @@ public class VanishCommand implements CommandExecutor {
         main.getServer().getPluginCommand("simplevanish").setExecutor(this);
     }
 
-    String permission = Utils.getString("vanish-command-permission");
+    private final String permission = Utils.getString("vanish-command-permission");
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, String[] args) {
         if (args.length == 0) {

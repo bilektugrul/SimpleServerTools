@@ -37,7 +37,7 @@ public class PlayerJoinListener implements Listener {
 
         if (!player.hasPermission("simplevanish.admin")) {
             for (UUID vanished : plugin.getOnlineVanishedPlayers()) {
-                player.hidePlayer(plugin, Bukkit.getPlayer(vanished));
+                player.hidePlayer(Bukkit.getPlayer(vanished));
             }
 
         } else if (Utils.isVanished(uuid)) Utils.hidePlayer(player, true);

@@ -2,6 +2,8 @@ package io.github.bilektugrul.simplevanish;
 
 import io.github.bilektugrul.simplevanish.commands.*;
 import io.github.bilektugrul.simplevanish.listeners.*;
+import io.github.bilektugrul.simplevanish.placeholders.PAPIPlaceholders;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -28,6 +30,9 @@ public class SimpleVanish extends JavaPlugin {
         new PlayerQuitListener(this);
         new VanishCommand(this);
         new PacketListener(this);
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new PAPIPlaceholders(this).register();
+        }
         getLogger().info("SimpleVanish " + getDescription().getVersion() + " activated!");
     }
 
