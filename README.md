@@ -1,1 +1,2 @@
-## SimpleVanishA simple vanish plugin for Spigot/Paper 1.8.8-1.16.5.
+## SimpleVanish
+Basic server tools plugin for Spigot/Paper 1.8.8-1.16.5.
