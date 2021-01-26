@@ -1,15 +1,23 @@
-name: SimpleVanish
+name: SimpleServerTools
 version: ${project.version}
-main: io.github.bilektugrul.simplevanish.SimpleVanish
+main: io.github.bilektugrul.simpleservertools.SimpleServerTools
 api-version: '1.16'
-prefix: SimpleVanish
+prefix: SimpleServerTools
 softdepend:
   - PlaceholderAPI
   - ProtocolLib
 authors: [ bilektugrul ]
-description: Simple vanish plugin with just one command.
+description: Simple tools for your server.
 commands:
-  simplevanish:
-    usage: /simplevanish [<reload>]
-    description: Vanish command.
-    aliases: [v, vanish]
+  simpleservertools:
+    usage: /simpleservertools reload
+    description: Main SST command. Just for reloading.
+    aliases: [sst]
+  vanish:
+      usage: /vanish [<another player>]
+      description: Vanish command.
+      aliases:
+        - v
+  warp:
+      usage: /warp <coming soon>
+      description: Warp command.

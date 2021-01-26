@@ -1,22 +1,20 @@
-package io.github.bilektugrul.simplevanish.listeners;
+package io.github.bilektugrul.simpleservertools.listeners;
 
-import io.github.bilektugrul.simplevanish.SimpleVanish;
-import io.github.bilektugrul.simplevanish.utils.Utils;
-import org.bukkit.event.EventHandler;
-import org.bukkit.entity.Player;
+import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
-import java.util.UUID;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PlayerJoinListener implements Listener {
+import java.util.UUID;
 
-    private SimpleVanish plugin = JavaPlugin.getPlugin(SimpleVanish.class);
+public class PlayerListener implements Listener {
 
-    public PlayerJoinListener(SimpleVanish main) {
-        main.getServer().getPluginManager().registerEvents(this, main);
-    }
+    private SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -43,4 +41,18 @@ public class PlayerJoinListener implements Listener {
         } else if (Utils.isVanished(uuid)) Utils.hidePlayer(player, true);
 
     }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+
+        UUID uuid = e.getPlayer().getUniqueId();
+
+        if (Utils.getBoolean("join-quit-messages.enabled", false)) {
+            if (!Utils.isVanished(uuid)) e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", e.getPlayer()));
+        }
+
+        if (Utils.isVanished(uuid)) plugin.getOnlineVanishedPlayers().remove(uuid);
+
+    }
+
 }

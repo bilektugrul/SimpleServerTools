@@ -1,7 +1,7 @@
-package io.github.bilektugrul.simplevanish.placeholders;
+package io.github.bilektugrul.simpleservertools.placeholders;
 
-import io.github.bilektugrul.simplevanish.SimpleVanish;
-import io.github.bilektugrul.simplevanish.utils.Utils;
+import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -9,11 +9,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class PAPIPlaceholders extends PlaceholderExpansion {
 
-    private final String permission = Utils.getString("vanish-command-permission");
+    private final SimpleServerTools plugin;
 
-    private final SimpleVanish plugin;
-
-    public PAPIPlaceholders(SimpleVanish plugin){
+    public PAPIPlaceholders(SimpleServerTools plugin){
         this.plugin = plugin;
     }
 
@@ -34,7 +32,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "simplevanish";
+        return "sst";
     }
 
     @Override
@@ -52,7 +50,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
         }
 
         if (identifier.equals("safeonline")){
-            if (!player.hasPermission(permission)) {
+            if (!player.hasPermission(SimpleServerTools.staffPerm)) {
                 return String.valueOf(Bukkit.getOnlinePlayers().size() - plugin.getOnlineVanishedPlayers().size());
             } else {
                 return String.valueOf(Bukkit.getOnlinePlayers().size());

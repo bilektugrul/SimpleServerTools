@@ -1,12 +1,17 @@
 # SimpleVanish doesn't provide any placeholder other than %prefix% and %player%. You must have PlaceholderAPI for other placeholders.
 # You have to install ProtocolLib for editing client-side max player and player count in server list
 
-prefix: '&8[&6SimpleVanish&8]&r'
-vanish-activated: '%prefix% &eVanish mode: &bON'
-vanish-disabled: '%prefix% &eVanish mode: &cOFF'
-vanish-command-permission: 'simplevanish.admin'
+prefixes:
+  global: '&8[&6SST&8]&r'
+  warps: '&8[&6Warps&8]&r'
+permissions:
+  admin-permission: 'sst.admin'
+  staff-permission: 'sst.staff'
+  vanish:
+    permission: 'sst.vanish'
+    permission-others: 'sst.vanish.others'
+  list-command-permission: 'sst.warplist'
 no-permission: '%prefix% &cI''m sorry %player% but you don''t have enough permission to do that!'
-config-reloaded: '%prefix% &eConfig has been reloaded %player%!'
 
 join-quit-messages:
   enabled: true
@@ -21,8 +26,58 @@ one-more-slot:
 remove-vanished-players:
   enabled: true # Removes vanished players from client-side server list.
                 # Requires ProtocolLib and won't work on BungeeCord (you won't need tho).
+
 MOTD: # MOTD requires ProtocolLib when its enabled.
   enabled: false
   value: |
-    %prefix% &aThis server is using &b&lSimpleVanish&a!
-    %prefix% &b&lSimpleVanish&a is awesome!
+    %prefix% &aThis server is using &b&lSSTh&a!
+    %prefix% &b&lSST&a is awesome!
+
+warps:
+  teleport-time: 5 # in second
+  staff-bypass-time: true # if true, makes staff teleport immediately
+
+other-messages:
+  help-message:
+    beginning: |
+      %prefix%
+    only-staff: |
+      &9/sst reload &f- &6Reloads config.
+      &9/vanish [<another player>] &f- &6Hides you (or given player) from non-staff players. Use again to disable vanish mode.
+    everyone: |
+      &9/warp <name> [<arguments>] &f- &6Teleports you to given warp. For help abouta arguments, type /sst help warpArgs.
+    ending: |
+      %prefix%
+    other:
+      warpArgs:
+        list:
+          beginning: |
+            %prefix:warp%
+          only-staff: |
+            &9/warp <name> --del &f- &6Deletes given warp.
+            &9/warp <name> --force &f- &6Overwrites (if exists) given warp.
+            &9/warp <name> --info &f- &6Sends information of given warp.
+          ending: |
+            %prefix:warp%
+  config-reloaded: '%prefix% &eConfig has been reloaded %player%!'
+  vanish:
+    activated: '%prefix% &eVanish mode: &bON'
+    disabled: '%prefix% &eVanish mode: &cOFF'
+    toggled: '%prefix% &eVanish mode toggled for &b%other%&e.'
+  warps:
+      created: '%prefix:warp% &eYou have created a warp named &b%warp%&e!'
+      deleted: '%prefix:warp% &eYou have deleted a warp named &b%warp%&e!'
+      teleporting:
+        mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+        message: |
+          %prefix:warp%
+          &eTeleporting to &b%warp% &ein &b%time%...
+      teleported:
+        mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+        message: |
+          %prefix:warp%
+          &eYou have teleported to &b%warp%
+      list: '%prefix:warp% &eWarp list (%warpamount%): %warps%'
+      saved: '%prefix:warp% &eAll of the warps are saved into warps.yml.'
+      no-permission: '%prefix:warp% &cI''m sorry but you can not go to this warp.'
+      info: '%prefix:warp% &eInfo of &b%warp%&e: &b%warpinfo%'
