@@ -1,5 +1,7 @@
 package io.github.bilektugrul.simpleservertools.listeners;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
@@ -17,7 +19,7 @@ public class PacketListener extends PacketAdapter {
     private final SimpleServerTools plugin;
 
     public PacketListener(SimpleServerTools plugin) {
-        super(plugin);
+        super(plugin, ListenerPriority.LOWEST, PacketType.Status.Server.SERVER_INFO);
         this.plugin = plugin;
     }
 
@@ -41,5 +43,4 @@ public class PacketListener extends PacketAdapter {
         }
         ping.setMotD(Utils.getString("MOTD.value"));
     }
-
 }

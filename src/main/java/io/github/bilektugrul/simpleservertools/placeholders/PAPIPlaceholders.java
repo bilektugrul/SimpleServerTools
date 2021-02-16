@@ -1,7 +1,6 @@
 package io.github.bilektugrul.simpleservertools.placeholders;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
-import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -49,7 +48,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
             if (player == null) return "";
         }
 
-        if (identifier.equals("safeonline")){
+        if (identifier.equals("safeonline")) {
             if (!player.hasPermission(SimpleServerTools.staffPerm)) {
                 return String.valueOf(Bukkit.getOnlinePlayers().size() - plugin.getOnlineVanishedPlayers().size());
             } else {

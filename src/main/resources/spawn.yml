@@ -1,0 +1,24 @@
+spawn:
+  enabled: true
+  send-warning-if-not-enabled: true #if true, player will get a warning saying spawn isn't enabled.
+  teleport-on-join: false # if true, Teleports players to spawn when they join
+  teleport-when-die: true # if true, Teleports players to spawn when they die
+  command:
+    permission-required: true # sst.spawn
+    teleport:
+      time: 5 #in second
+      staff-bypass-time: true
+      cancel-when-move:
+        settings:
+          block-move: true # if true, player cannot move when teleporting
+          cancel-teleport: false # if true, teleport process will be cancelled when player moves
+        mode: EVERYONE
+        # Modes: EVERYONE, STAFF
+      cancel-damage:
+        settings:
+          block-damage: true
+          cancel-teleport: false
+        mode: EVERYONE
+        # Modes: EVERYONE, STAFF
+        # EVERYONE: blocks damage for everyone when teleporting to warp
+        # STAFF: blocks damage for staff when teleporting to warp

@@ -13,25 +13,27 @@ public class VanishCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length == 0) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                if (player.hasPermission(SimpleServerTools.vanishPerm)) {
-                    if (!Utils.isVanished(player.getUniqueId())) Utils.hidePlayer(player, false);
-                    else Utils.showPlayer(player, false);
-                } else {
-                    player.sendMessage(Utils.getString("no-permission", player));
-                }
+        if (args.length == 0 && sender instanceof Player) {
+            Player player = (Player) sender;
+            if (player.hasPermission(SimpleServerTools.vanishPerm)) {
+                if (!Utils.isVanished(player.getUniqueId())) Utils.hidePlayer(player, false);
+                else Utils.showPlayer(player, false);
+            } else {
+                player.sendMessage(Utils.getString("no-permission", player));
             }
-        } else {
+        } else if (args.length >= 1) {
             Player toVanish = Bukkit.getPlayer(args[0]);
             if (toVanish != null) {
                 if (!Utils.isVanished(toVanish.getUniqueId())) Utils.hidePlayer(toVanish, false);
                 else Utils.showPlayer(toVanish, false);
-                sender.sendMessage(Utils.getString("other-messages.vanish.toggled")
+                sender.sendMessage(Utils.getPAPILessString("other-messages.vanish.toggled", sender)
                         .replace("%other%", toVanish.getName()));
+            } else {
+                sender.sendMessage(Utils.getPAPILessString("other-messages.vanish.player-not-found", sender)
+                        .replace("%other%", args[0]));
             }
         }
         return true;
     }
+
 }

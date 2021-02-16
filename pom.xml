@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.bilektugrul</groupId>
-    <artifactId>simplevanish</artifactId>
+    <artifactId>simpleservertools</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>SimpleVanish</name>
+    <name>SimpleServerTools</name>
 
-    <description>Simple vanish plugin with just one command.</description>
+    <description>Basic server tools plugin for Spigot/Paper 1.8.8-1.16.5.</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -66,7 +66,7 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>placeholderapi</id>
+            <id>paper-repo</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
+            <version>4.6.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -99,6 +99,12 @@
             <artifactId>commons-box</artifactId>
             <version>1.2.2</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

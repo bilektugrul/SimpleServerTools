@@ -1,18 +1,31 @@
 package io.github.bilektugrul.simpleservertools.utils;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
+import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
+import io.github.bilektugrul.simpleservertools.stuff.ActionBar;
+import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
+import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.users.User;
+import io.github.bilektugrul.simpleservertools.users.UserManager;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.despical.commonsbox.compat.Titles;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
 public class Utils {
 
     private static final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
+    private static final WarpManager warpManager = plugin.getWarpManager();
+    private static final UserManager userManager = plugin.getUserManager();
+    private static final SpawnManager spawnManager = plugin.getSpawnManager();
 
     public static void hidePlayer(Player player, boolean silent) {
         UUID uuid = player.getUniqueId();
@@ -48,22 +61,44 @@ public class Utils {
     }
 
     public static String getString(String string, Player player) {
-        return colorMessage(PlaceholderAPI.setPlaceholders(player, plugin.getConfig().getString(string))
-                .replace("%player%", player.getName()));
+        String msg = colorMessage(plugin.getConfig().getString(string)).replace("%player%", player.getName());
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PlaceholderAPI.setPlaceholders(player, msg);
+        }
+        return msg;
     }
 
     public static String getString(String string) {
-        return colorMessage(PlaceholderAPI.setPlaceholders(null, plugin.getConfig().getString(string)));
+        String msg = colorMessage(plugin.getConfig().getString(string));
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PlaceholderAPI.setPlaceholders(null, msg);
+        }
+        return msg;
     }
+
 
     public static String getPAPILessString(String string) {
         return colorMessage(plugin.getConfig().getString(string));
     }
 
+    public static String getPAPILessString(String string, CommandSender sender) {
+        return colorMessage(plugin.getConfig().getString(string)
+                .replace("%player%", sender instanceof Player ? sender.getName() : "CONSOLE"));
+    }
+
+    public static String replacePlaceholders(String msg, Player player) {
+        msg = colorMessage(msg).replace("%player%", player.getName());
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            return PlaceholderAPI.setPlaceholders(player, msg);
+        }
+        return msg;
+    }
+
     public static String colorMessage(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg)
                 .replace("%prefix%", SimpleServerTools.prefix)
-                .replace("%prefix:warp%", SimpleServerTools.warpPrefix);
+                .replace("%prefix:warp%", SimpleServerTools.warpPrefix)
+                .replace("%prefix:spawn%", SimpleServerTools.spawnPrefix);
     }
 
     public static boolean getBoolean(String string, boolean def) {
@@ -76,6 +111,118 @@ public class Utils {
 
     public static int getInt(String path) {
         return plugin.getConfig().getInt(path);
+    }
+
+    public static boolean isSameLoc(Location loc1, Location loc2) {
+        return (loc1.getBlockX() == loc2.getBlockX()) && (loc1.getBlockY() == loc2.getBlockY()) && (loc1.getBlockZ() == loc2.getBlockZ());
+    }
+
+
+    public static void sendMessage(Player p, String mode, String msg, String subtitle, String time) {
+        msg = msg.replace("%time%", time);
+        subtitle = subtitle.replace("%time%", time);
+        switch (mode) {
+            case "CHAT":
+                p.sendMessage(msg);
+                break;
+            case "TITLE":
+                Titles.sendTitle(p, msg, subtitle);
+                break;
+            case "ACTIONBAR":
+                ActionBar.sendActionBar(p, msg);
+                break;
+        }
+    }
+
+    public static void teleport(Player p, Location loc, String mode) {
+        new BukkitRunnable() {
+            final TeleportSettings settings;
+            {
+                if (mode.equalsIgnoreCase("warps"))
+                    settings = warpManager.getSettings();
+                else
+                    settings = spawnManager.getSettings();
+            }
+            int time = p.hasPermission(SimpleServerTools.staffPerm) && Utils.getBoolean(mode + ".staff-bypass-time")
+                    ? 0
+                    : settings.getTime();
+
+            String teleportingMsg = Utils.getString("other-messages." + mode + ".teleporting.message", p);
+            final String teleportingMode = Utils.getPAPILessString("other-messages." + mode + ".teleporting.mode");
+            String teleportingSub = "";
+
+            String teleportedMsg = Utils.getString("other-messages." + mode + ".teleported.message", p);
+            final String teleportedMode = Utils.getPAPILessString("other-messages." + mode +".teleported.mode");
+            String teleportedSub = "";
+
+            final Location firstLoc = p.getLocation();
+            final double firstHealth = p.getHealth();
+
+            final UUID uuid = p.getUniqueId();
+
+            final CancelModes cancelMoveMode = settings.getCancelMoveMode();
+            final CancelModes cancelDamageMode = settings.getCancelDamageMode();
+            final User user = userManager.getUser(uuid);
+
+            {
+                user.setState(User.State.TELEPORTING_SPAWN);
+                if ((teleportingMode.equalsIgnoreCase("TITLE") && teleportingMsg.contains("\n"))) {
+                    int index = teleportingMsg.indexOf("\n");
+                    teleportingSub = teleportingMsg.split("\n")[1];
+                    teleportingMsg = teleportingMsg.substring(0, index);
+                }
+                if (teleportedMode.equalsIgnoreCase("TITLE") && teleportedMsg.contains("\n")) {
+                    int index = teleportedMsg.indexOf("\n");
+                    teleportedSub  = teleportedMsg.split("\n")[1];
+                    teleportedMsg = teleportedMsg.substring(0, index);
+                }
+            }
+
+            @Override
+            public void run() {
+
+                if (!Utils.isSameLoc(firstLoc, p.getLocation())) {
+                    boolean cancel = cancelMoveMode == CancelModes.EVERYONE
+                            || (cancelMoveMode == CancelModes.STAFF && p.hasPermission(SimpleServerTools.staffPerm));
+                    if (cancel) {
+                        if (settings.getCancelTeleportOnMove()) {
+                            cancelTeleport(user, this, p);
+                            return;
+                        }
+                        if (settings.getBlockMove()) p.teleport(firstLoc);
+                    }
+                }
+
+                if (p.getHealth() != firstHealth) {
+                    boolean cancel = cancelDamageMode == CancelModes.EVERYONE
+                            || (cancelDamageMode == CancelModes.STAFF && p.hasPermission(SimpleServerTools.staffPerm));
+                    if (cancel) {
+                        if (settings.getBlockDamage()) {
+                            p.setHealth(firstHealth);
+                            return;
+                        }
+                        if (settings.getCancelTeleportOnDamage()) Utils.cancelTeleport(user, this, p);
+                    }
+                }
+
+                if (time == 0) {
+                    user.setState(User.State.PLAYING);
+                    p.teleport(loc);
+                    Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
+                    cancel();
+                    return;
+                }
+
+                Utils.sendMessage(p, teleportingMode, teleportingMsg, teleportingSub, String.valueOf(time));
+                time--;
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
+    }
+
+    public static void cancelTeleport(User user, BukkitRunnable runnable, Player p) {
+        user.setState(User.State.PLAYING);
+        runnable.cancel();
+        p.sendMessage(Utils.getString("other-messages.warps.teleport-cancelled", p));
     }
 
 }

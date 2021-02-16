@@ -1,0 +1,16 @@
+join-message:
+  enabled: true
+  per-group:
+    enabled: false
+    groups:
+      default: |
+        default group message
+  per-permission:
+    enabled: false
+    permissions:
+      default: | #sst.joinmessages.default - you cannot use "." in these options.
+        default permission message
+  everyone:
+    enabled: true
+    message: |
+      %prefix% &9Welcome to our server %player%!

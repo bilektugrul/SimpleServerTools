@@ -6,6 +6,7 @@ prefix: SimpleServerTools
 softdepend:
   - PlaceholderAPI
   - ProtocolLib
+  - Vault
 authors: [ bilektugrul ]
 description: Simple tools for your server.
 commands:
@@ -16,8 +17,23 @@ commands:
   vanish:
       usage: /vanish [<another player>]
       description: Vanish command.
-      aliases:
-        - v
+      aliases: [v]
   warp:
-      usage: /warp <coming soon>
+      usage: /warp <name> [<arguments>]
       description: Warp command.
+  setspawn:
+      usage: /setspawn
+  spawn:
+    usage: /spawn [<player>]
+  gamemode:
+    usage: /gamemode <mode> [<player>]
+    aliases: [ adventure,eadventure,adventuremode,eadventuremode,creative,ecreative,eecreative,creativemode,ecreativemode,egamemode,gm,egm,gma,egma,gmc,egmc,gms,egms,gmt,egmt,survival,esurvival,survivalmode,esurvivalmode,gmsp,sp,egmsp,spec,spectator ]
+permissions:
+  sst.*:
+    default: op
+  sst.gamemode.*:
+    default: op
+    children:
+      sst.gamemode: true
+      sst.gamemode.others: true
+      sst.gamemode.all: true

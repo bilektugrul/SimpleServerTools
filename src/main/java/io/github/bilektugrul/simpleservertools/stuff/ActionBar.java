@@ -98,9 +98,6 @@ public class ActionBar {
         PACKET_PLAY_OUT_CHAT = packet;
     }
 
-    private ActionBar() {
-    }
-
     public static void sendActionBar(Player player, String message) {
         Objects.requireNonNull(player, "Cannot send action bar to null player");
         if (SPIGOT) {
@@ -181,4 +178,5 @@ public class ActionBar {
             }
         }.runTaskTimerAsynchronously(plugin, 0L, 40L);
     }
+
 }

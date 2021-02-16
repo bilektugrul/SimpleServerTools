@@ -1,38 +1,42 @@
-package io.github.bilektugrul.simpleservertools.warps;
+package io.github.bilektugrul.simpleservertools.features.warps;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
+import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.despical.commonsbox.configuration.ConfigUtils;
 import me.despical.commonsbox.serializer.LocationSerializer;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class WarpManager {
 
     private final ArrayList<Warp> warpList = new ArrayList<>();
     private final SimpleServerTools plugin;
-    private final FileConfiguration warpsFile;
+    private FileConfiguration warpsFile;
+    private TeleportSettings settings;
 
     public WarpManager(SimpleServerTools plugin) {
         this.plugin = plugin;
-        this.warpsFile = ConfigUtils.getConfig(plugin, "warps");
-        loadWarps();
+        reloadWarps();
     }
 
     public boolean registerWarp(String name, Location loc) {
         if (!isPresent(name)) {
-            warpList.add(new Warp(name, loc, "none", false));
+            warpList.add(new Warp(name, loc, false));
             saveWarps();
             return true;
         }
         return false;
     }
 
-    public boolean registerWarp(String name, Location loc, String permission) {
+    public boolean registerWarp(String name, Location loc, boolean permRequired) {
         if (!isPresent(name)) {
-            warpList.add(new Warp(name, loc, permission, true));
+            warpList.add(new Warp(name, loc, permRequired));
             saveWarps();
             return true;
         }
@@ -40,12 +44,12 @@ public class WarpManager {
     }
 
     public void forceRegisterWarp(String name, Location loc) {
-        warpList.add(new Warp(name, loc, "none", false));
+        warpList.add(new Warp(name, loc, false));
         saveWarps();
     }
 
-    public void forceRegisterWarp(String name, Location loc, String permission) {
-        warpList.add(new Warp(name, loc, permission, true));
+    public void forceRegisterWarp(String name, Location loc, boolean permRequired) {
+        warpList.add(new Warp(name, loc, permRequired));
         saveWarps();
     }
 
@@ -71,6 +75,21 @@ public class WarpManager {
         return false;
     }
 
+    public TeleportSettings getSettings() {
+        if (settings == null) {
+            final int time = Utils.getInt("warps.teleport-time");
+            final boolean blockMove = Utils.getBoolean("warps.cancel-when-move.settings.block-move");
+            final boolean cancelTeleportOnMove = Utils.getBoolean("warps.cancel-when-move.settings.cancel-teleport");
+            final CancelModes cancelMoveMode = CancelModes.valueOf(Utils.getString("warps.cancel-when-move.mode"));
+            final boolean blockDamage = Utils.getBoolean("warps.cancel-damage.settings.block-damage");
+            final boolean cancelTeleportOnDamage = Utils.getBoolean("warps.cancel-damage.settings.cancel-teleport");
+            final CancelModes cancelDamageMode = CancelModes.valueOf(Utils.getString("warps.cancel-damage.mode"));
+            final boolean staffBypassTime = Utils.getBoolean("warps.staff-bypass-time");
+            return new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
+        }
+        return settings;
+    }
+
     public Warp getWarp(String name) {
         for (Warp entry : warpList) {
             if (entry.getName().equalsIgnoreCase(name)) {
@@ -83,10 +102,16 @@ public class WarpManager {
     public void saveWarps() {
         for (Warp entry : warpList) {
             String name = entry.getName();
+
             warpsFile.set(("warps." + name + ".location"), entry.getLocation());
-            warpsFile.set(("warps." + name + ".permission"), "sst." + entry.getPermission());
+            warpsFile.set(("warps." + name + ".permissionRequired"), entry.getPermRequire());
         }
         ConfigUtils.saveConfig(plugin, warpsFile, "warps");
+    }
+
+    public void reloadWarps() {
+        this.warpsFile = ConfigUtils.getConfig(plugin, "warps");
+        loadWarps();
     }
 
     public String readableWarpList() {
@@ -94,7 +119,7 @@ public class WarpManager {
             List<String> warps = warpList.stream().map(Warp::getName).collect(Collectors.toList());
             return String.join(", ", warps);
         } else {
-            return "Yok";
+            return Utils.getString("other-messages.warps.no-warp");
         }
     }
 
@@ -106,12 +131,17 @@ public class WarpManager {
         return LocationSerializer.locationToString(getWarp(warp).getLocation());
     }
 
+    public String readableWarpLoc(Warp warp) {
+        return LocationSerializer.locationToString(warp.getLocation());
+    }
+
     public void loadWarps() {
+        warpList.clear();
         if (warpsFile.contains("warps")) {
             for (String name : warpsFile.getConfigurationSection("warps").getKeys(false)) {
-                String permission = warpsFile.getString("warps." + name + ".permission");
+                boolean permRequired = warpsFile.getBoolean("warps." + name + ".permissionRequired");
                 Location location = (Location) warpsFile.get("warps." + name + ".location");
-                warpList.add(new Warp(name, location, permission, !permission.equalsIgnoreCase("sst.none")));
+                warpList.add(new Warp(name, location, permRequired));
             }
         }
     }
