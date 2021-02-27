@@ -1,5 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
+import io.github.bilektugrul.simpleservertools.stuff.GamemodeInfo;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -11,41 +12,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-// UNCOMPLETED AND BAD
 public class GamemodeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        GameMode gamemode;
-        Player p2;
-        boolean ifPlayer = sender instanceof Player;
-        if (args.length >= 1) {
-            gamemode = matchGameMode(args[0]);
-            if (gamemode == null) {
-                gamemode = matchGameMode(label);
-                if (gamemode == null) {
-                    if (ifPlayer) Utils.getString("other-messages.gamemode.not-found", (Player) sender);
-                    else Utils.getPAPILessString("other-messages.gamemode.not-found", sender);
-                } else {
-                    p2 = Bukkit.getPlayer(args[0]);
-                    if (p2 == null) {
-                        if (ifPlayer) Utils.getString("other-messages.gamemode.player-not-found", (Player) sender);
-                        else Utils.getPAPILessString("other-messages.gamemode.player-not-found", sender);
-                    } else {
-                        if (ifPlayer) setGamemode(sender, p2, gamemode);
-                    }
-
-                }
-            }
-        } else if (ifPlayer) {
-            gamemode = matchGameMode(label);
-            if (gamemode == null) {
-                Utils.getString("other-messages.gamemode.not-found", (Player) sender);
-            } else {
-                setGamemode(sender, (Player) sender, gamemode);
-            }
+        StringBuilder builder = new StringBuilder();
+        builder.append(label).append(" ");
+        for (String arg : args) {
+            builder.append(arg).append(" ");
+        }
+        GamemodeInfo gamemodeInfo = matchInfo(builder.toString(), sender);
+        if (canChange(sender, gamemodeInfo.gameMode)) {
+            if (gamemodeInfo.player == null && sender instanceof Player) gamemodeInfo.setPlayer((Player) sender);
+            gamemodeInfo.apply(sender);
         } else {
-            Utils.getPAPILessString("other-messages.gamemode.wrong-arguments", sender);
+            sender.sendMessage(Utils.getPAPILessString("no-permission", sender));
         }
         return true;
     }
@@ -66,33 +47,21 @@ public class GamemodeCommand implements CommandExecutor {
         return null;
     }
 
-    private void setGamemode(CommandSender p, Player p2, GameMode mode) {
-        try {
-            if (canChange(p, mode)) {
-                p2.setGameMode(mode);
-                if (p instanceof Player) {
-                    Player p3  = (Player) p;
-                    if (p3.equals(p2)) {
-                        p3.sendMessage(Utils.getString("other-messages.gamemode.changed", p3)
-                                .replace("%gamemode%", Utils.getPAPILessString("other-messages.gamemode." + mode.name())));
-                    } else {
-                        String changedOther = Utils.getString("other-messages.gamemode.changed-other", p3)
-                                .replace("%gamemode%", Utils.getPAPILessString("other-messages.gamemode." + mode.name()));
-                        p2.sendMessage(Utils.getString("other-messages.gamemode.changed", p2)
-                                .replace("%gamemode%", Utils.getPAPILessString("other-messages.gamemode." + mode.name())));
-                        p3.sendMessage(changedOther);
-                    }
-                } else {
-                    String changedOther = Utils.getPAPILessString("other-messages.gamemode.changed-other", p)
-                            .replace("%other%", p2.getName())
-                            .replace("%gamemode%", Utils.getPAPILessString("other-messages.gamemode." + mode.name()));
-                    p2.sendMessage(Utils.getString("other-messages.gamemode.changed", p2)
-                            .replace("%gamemode%", Utils.getPAPILessString("other-messages.gamemode." + mode.name())));
-                    p.sendMessage(changedOther);
+    private GamemodeInfo matchInfo(String fullCommand, CommandSender sender) {
+        String[] splitted = fullCommand.split(" ");
+        GamemodeInfo gamemodeInfo = new GamemodeInfo();
+        for (String s : splitted) {
+            GameMode gamemode = matchGameMode(s);
+            if (gamemode != null) {
+                gamemodeInfo.setGameMode(gamemode);
+            } else {
+                Player p = Bukkit.getPlayer(s);
+                if (p != null) {
+                    gamemodeInfo.setPlayer(p);
                 }
             }
-        } catch (Exception ignored) {
         }
+        return gamemodeInfo;
     }
 
     private boolean canChange(CommandSender sender, GameMode gamemode) {

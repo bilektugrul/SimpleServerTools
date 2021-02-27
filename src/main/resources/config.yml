@@ -138,7 +138,6 @@ other-messages:
     changed: '%prefix% &eYou have changed your gamemode to %gamemode%'
     changed-other: '%prefix% &eYou have changed %other%''s gamemode to %gamemode%'
     changed-other-2: '%prefix% &eOyun modun artık %gamemode%.'
-    no-perm: '%prefix% &cYou cannot use gamemode %gamemode%.'
     not-found: '%prefix% &cI couldn''t found that gamemode.'
     player-not-found: '%prefix% &cSorry, I couldn''t find that player.'
     wrong-arguments: '%prefix% &cKomutu hatalı kullandınız.'
