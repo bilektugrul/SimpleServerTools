@@ -26,10 +26,10 @@ public class VanishCommand implements CommandExecutor {
             if (toVanish != null) {
                 if (!Utils.isVanished(toVanish.getUniqueId())) Utils.hidePlayer(toVanish, false);
                 else Utils.showPlayer(toVanish, false);
-                sender.sendMessage(Utils.getPAPILessString("other-messages.vanish.toggled", sender)
+                sender.sendMessage(Utils.getString("other-messages.vanish.toggled", sender)
                         .replace("%other%", toVanish.getName()));
             } else {
-                sender.sendMessage(Utils.getPAPILessString("other-messages.vanish.player-not-found", sender)
+                sender.sendMessage(Utils.getString("other-messages.vanish.player-not-found", sender)
                         .replace("%other%", args[0]));
             }
         }

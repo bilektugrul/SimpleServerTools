@@ -2,13 +2,17 @@ package io.github.bilektugrul.simpleservertools.features.spawn;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
+import io.github.bilektugrul.simpleservertools.stuff.TeleportMode;
 import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import io.papermc.lib.PaperLib;
 import me.despical.commonsbox.configuration.ConfigUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.logging.Level;
 
@@ -95,15 +99,24 @@ public class SpawnManager {
         return spawnFile.getBoolean("spawn.enabled");
     }
 
-    public void teleport(Player player) {
+    public void teleport(Player player, boolean direct) {
         if (isEnabled() && isPresent()) {
-            Utils.teleport(player, spawn.getLocation(), "spawn");
+            Location loc = spawn.getLocation();
+            loc.getChunk().load();
+            TeleportMode mode = new TeleportMode(TeleportMode.Mode.SPAWN, null, spawn);
+            if (!direct) {
+                Utils.teleport(player, loc, mode);
+            } else {
+                //player.teleport(loc);
+                PaperLib.teleportAsync(player, loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                //Bukkit.getScheduler().runTask(plugin, () -> player.teleport(loc));
+            }
         }
     }
 
     public void sendWarnIfEnabled(CommandSender sender) {
         if (spawnFile.getBoolean("spawn.send-warning-if-not-enabled"))
-            sender.sendMessage(Utils.getPAPILessString("other-messages.spawn.not-enabled", sender));
+            sender.sendMessage(Utils.getString("other-messages.spawn.not-enabled", sender));
     }
 
     public FileConfiguration getSpawnFile() {

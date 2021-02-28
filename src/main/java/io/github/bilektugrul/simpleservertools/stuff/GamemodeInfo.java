@@ -44,18 +44,19 @@ public class GamemodeInfo {
             player.setGameMode(gameMode);
             sendMessage(from);
         } else {
-            from.sendMessage(Utils.getPAPILessString("other-messages.gamemode.wrong-arguments", from));
+            from.sendMessage(Utils.getString("other-messages.gamemode.wrong-arguments", from));
         }
     }
 
     public void sendMessage(CommandSender from) {
         player.sendMessage(Utils.getString("other-messages.gamemode.changed-other-2", player)
-                .replace("%gamemode%", Utils.getPAPILessString("other-messages.gamemode." + gameMode.name())));
+                .replace("%gamemode%", Utils.getString("other-messages.gamemode." + gameMode.name(), from)));
         if (!from.equals(player)) {
-            String changedOther = Utils.getPAPILessString("other-messages.gamemode.changed-other", from)
-                    .replace("%gamemode%", Utils.getPAPILessString("other-messages.gamemode." + gameMode.name()))
+            String changedOther = Utils.getString("other-messages.gamemode.changed-other", from)
+                    .replace("%gamemode%", Utils.getString("other-messages.gamemode." + gameMode.name(), from))
                     .replace("%other%", player.getName());
             from.sendMessage(changedOther);
         }
     }
+
 }

@@ -41,6 +41,6 @@ public class PacketListener extends PacketAdapter {
             else
                 ping.setPlayersMaximum(size + 1);
         }
-        ping.setMotD(Utils.getString("MOTD.value"));
+        ping.setMotD(Utils.getString("MOTD.value", null));
     }
 }

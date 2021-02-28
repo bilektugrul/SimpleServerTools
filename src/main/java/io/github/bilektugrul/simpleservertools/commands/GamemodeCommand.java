@@ -26,7 +26,7 @@ public class GamemodeCommand implements CommandExecutor {
             if (gamemodeInfo.player == null && sender instanceof Player) gamemodeInfo.setPlayer((Player) sender);
             gamemodeInfo.apply(sender);
         } else {
-            sender.sendMessage(Utils.getPAPILessString("no-permission", sender));
+            sender.sendMessage(Utils.getString("no-permission", sender));
         }
         return true;
     }

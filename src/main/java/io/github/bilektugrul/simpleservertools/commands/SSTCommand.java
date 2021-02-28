@@ -16,7 +16,7 @@ public class SSTCommand implements CommandExecutor {
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload") && sender.hasPermission(SimpleServerTools.adminPerm)) {
                 plugin.reload(false);
-                sender.sendMessage(Utils.getPAPILessString("other-messages.config-reloaded", sender));
+                sender.sendMessage(Utils.getString("other-messages.config-reloaded", sender));
             } else if (args.length >= 2 && args[1].equalsIgnoreCase("warpArgs")) {
                 plugin.sendMessage(sender, "help-message.other.warpArgs.list");
             } else if (args[0].equalsIgnoreCase("help")) {

@@ -7,7 +7,6 @@ public class JoinMessage {
     private final String group;
     private final String permission;
 
-
     public JoinMessage(String content, JoinMessageType type, String group, String permission) {
         this.content = content;
         this.type = type;

@@ -5,16 +5,18 @@ import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.stuff.ActionBar;
 import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
+import io.github.bilektugrul.simpleservertools.stuff.TeleportMode;
 import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
+import io.papermc.lib.PaperLib;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commonsbox.compat.Titles;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -60,35 +62,18 @@ public class Utils {
         return plugin.getVanishedPlayers().contains(uuid);
     }
 
-    public static String getString(String string, Player player) {
-        String msg = colorMessage(plugin.getConfig().getString(string)).replace("%player%", player.getName());
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            PlaceholderAPI.setPlaceholders(player, msg);
-        }
-        return msg;
-    }
-
-    public static String getString(String string) {
+    public static String getString(String string, Object from) {
         String msg = colorMessage(plugin.getConfig().getString(string));
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            PlaceholderAPI.setPlaceholders(null, msg);
+            if (from instanceof Player) msg = replacePlaceholders(msg, (Player) from, true);
+            else msg = PlaceholderAPI.setPlaceholders(null, msg);
         }
         return msg;
     }
 
-
-    public static String getPAPILessString(String string) {
-        return colorMessage(plugin.getConfig().getString(string));
-    }
-
-    public static String getPAPILessString(String string, CommandSender sender) {
-        return colorMessage(plugin.getConfig().getString(string)
-                .replace("%player%", sender instanceof Player ? sender.getName() : "CONSOLE"));
-    }
-
-    public static String replacePlaceholders(String msg, Player player) {
+    public static String replacePlaceholders(String msg, Player player, boolean direct) {
         msg = colorMessage(msg).replace("%player%", player.getName());
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if (direct || Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, msg);
         }
         return msg;
@@ -134,11 +119,12 @@ public class Utils {
         }
     }
 
-    public static void teleport(Player p, Location loc, String mode) {
+    public static void teleport(Player p, Location loc, final TeleportMode teleportMode) {
         new BukkitRunnable() {
             final TeleportSettings settings;
+            final String mode = teleportMode.getModeString();
             {
-                if (mode.equalsIgnoreCase("warps"))
+                if (teleportMode.getMode() == TeleportMode.Mode.WARPS)
                     settings = warpManager.getSettings();
                 else
                     settings = spawnManager.getSettings();
@@ -148,11 +134,11 @@ public class Utils {
                     : settings.getTime();
 
             String teleportingMsg = Utils.getString("other-messages." + mode + ".teleporting.message", p);
-            final String teleportingMode = Utils.getPAPILessString("other-messages." + mode + ".teleporting.mode");
+            final String teleportingMode = Utils.getString("other-messages." + mode + ".teleporting.mode", p);
             String teleportingSub = "";
 
             String teleportedMsg = Utils.getString("other-messages." + mode + ".teleported.message", p);
-            final String teleportedMode = Utils.getPAPILessString("other-messages." + mode +".teleported.mode");
+            final String teleportedMode = Utils.getString("other-messages." + mode +".teleported.mode", p);
             String teleportedSub = "";
 
             final Location firstLoc = p.getLocation();
@@ -165,6 +151,9 @@ public class Utils {
             final User user = userManager.getUser(uuid);
 
             {
+                if (teleportMode.getMode() == TeleportMode.Mode.WARPS) {
+                    teleportedMsg = teleportedMsg.replace("%warp%", teleportMode.getWarp().getName());
+                }
                 user.setState(User.State.TELEPORTING_SPAWN);
                 if ((teleportingMode.equalsIgnoreCase("TITLE") && teleportingMsg.contains("\n"))) {
                     int index = teleportingMsg.indexOf("\n");
@@ -207,7 +196,7 @@ public class Utils {
 
                 if (time == 0) {
                     user.setState(User.State.PLAYING);
-                    p.teleport(loc);
+                    PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                     Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
                     cancel();
                     return;

@@ -1,9 +1,6 @@
 package io.github.bilektugrul.simpleservertools;
 
-import io.github.bilektugrul.simpleservertools.commands.GamemodeCommand;
-import io.github.bilektugrul.simpleservertools.commands.SSTCommand;
-import io.github.bilektugrul.simpleservertools.commands.VanishCommand;
-import io.github.bilektugrul.simpleservertools.commands.WarpCommand;
+import io.github.bilektugrul.simpleservertools.commands.*;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SetSpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
@@ -13,10 +10,12 @@ import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
 import io.github.bilektugrul.simpleservertools.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ public class SimpleServerTools extends JavaPlugin {
     public static String prefix = "";
     public static String warpPrefix = "";
     public static String spawnPrefix = "";
+
     public static String adminPerm = "";
     public static String vanishPerm = "";
     public static String vanishOthersPerm = "";
@@ -55,6 +55,7 @@ public class SimpleServerTools extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        PaperLib.suggestPaper(this);
         warpManager = new WarpManager(this);
         spawnManager = new SpawnManager(this);
         userManager = new UserManager();
@@ -71,11 +72,18 @@ public class SimpleServerTools extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new PlayerListener(this, vaultManager), this);
         getCommand("simpleservertools").setExecutor(new SSTCommand());
-        getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand());
+        getCommand("gamemode").setExecutor(new GamemodeCommand());
+        getCommand("fly").setExecutor(new FlyCommand());
+        getCommand("broadcast").setExecutor(new BroadcastCommand());
+        getCommand("disposal").setExecutor(new DisposalCommand());
+        getCommand("ping").setExecutor(new PingCommand());
+        getCommand("feed").setExecutor(new FeedCommand());
+        getCommand("heal").setExecutor(new HealCommand());
+        getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
-        getCommand("gamemode").setExecutor(new GamemodeCommand());
+        getCommand("god").setExecutor(new GodCommand(this));
         reload(true);
     }
 
@@ -119,16 +127,17 @@ public class SimpleServerTools extends JavaPlugin {
     public void reload(boolean first) {
         reloadConfig();
         checkAndLoadPacketListener();
+        FileConfiguration config = getConfig();
         //TODO: PREFIX SISTEMI DEGISECEK
-        prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefixes.global"));
-        warpPrefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefixes.warps"));
-        spawnPrefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefixes.spawn"));
+        prefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefixes.global"));
+        warpPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefixes.warps"));
+        spawnPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefixes.spawn"));
         //TODO: PREFIX SISTEMI DEGISECEK
-        adminPerm = Utils.getString("permissions.admin-permission");
-        vanishPerm = Utils.getString("permissions.vanish.permission");
-        vanishOthersPerm = Utils.getString("permissions.vanish.permission-others");
-        listPerm = Utils.getString("permissions.list-command-permission");
-        staffPerm = Utils.getString("permissions.staff-permission");
+        adminPerm = config.getString("permissions.admin-permission");
+        vanishPerm = config.getString("permissions.vanish.permission");
+        vanishOthersPerm = config.getString("permissions.vanish.permission-others");
+        listPerm = config.getString("permissions.list-command-permission");
+        staffPerm = config.getString("permissions.staff-permission");
         if (!first) {
             warpManager.reloadWarps();
             spawnManager.reloadSpawn();
@@ -137,12 +146,12 @@ public class SimpleServerTools extends JavaPlugin {
     }
 
     public void sendMessage(CommandSender sender, String msg) {
-        sender.sendMessage(Utils.getPAPILessString("other-messages." + msg + ".beginning", sender));
+        sender.sendMessage(Utils.getString("other-messages." + msg + ".beginning", sender));
         if (sender.hasPermission(staffPerm)) {
-            sender.sendMessage(Utils.getPAPILessString("other-messages." + msg + ".only-staff", sender));
+            sender.sendMessage(Utils.getString("other-messages." + msg + ".only-staff", sender));
         }
-        sender.sendMessage(Utils.getPAPILessString("other-messages." + msg + ".everyone", sender));
-        sender.sendMessage(Utils.getPAPILessString("other-messages." + msg + ".ending", sender));
+        sender.sendMessage(Utils.getString("other-messages." + msg + ".everyone", sender));
+        sender.sendMessage(Utils.getString("other-messages." + msg + ".ending", sender));
     }
 
 }

@@ -22,11 +22,11 @@ join-quit-messages:
 
 one-more-slot:
   enabled: true # Requires ProtocolLib
-                # Changes maximum player amount to player count + 1 (fake)
+  # Changes maximum player amount to player count + 1 (fake)
 
 remove-vanished-players:
   enabled: true # Removes vanished players from client-side server list.
-                # Requires ProtocolLib and won't work on BungeeCord (you won't need tho).
+  # Requires ProtocolLib and won't work on BungeeCord (you won't need tho).
 
 MOTD: # MOTD requires ProtocolLib when its enabled.
   enabled: false
@@ -90,50 +90,50 @@ other-messages:
     toggled: '%prefix% &eVanish mode toggled for &b%other%&e.'
     player-not-found: '%prefix% &cSorry, I couldn''t find that player.'
   warps:
-      created: '%prefix:warp% &eYou have created a warp named &b%warp%&e!'
-      deleted: '%prefix:warp% &eYou have deleted a warp named &b%warp%&e!'
-      teleporting:
-        mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
-        message: |
-          %prefix:warp%
-          &eTeleporting to &b%warp% &ein &b%time%...
-      teleported:
-        mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
-        message: |
-          %prefix:warp%
-          &eYou have teleported to &b%warp%
-      teleport-cancelled: '%prefix:warp% &cTeleport cancelled.'
-      list: '%prefix:warp% &eWarp list (%warpamount%): %warps%'
-      no-warp: '&cThere is no warp.'
-      saved: '%prefix:warp% &eAll of the warps are saved into warps.yml.'
-      no-permission: '%prefix:warp% &cI''m sorry but you can not go to this warp.'
-      info: |
+    created: '%prefix:warp% &eYou have created a warp named &b%warp%&e!'
+    deleted: '%prefix:warp% &eYou have deleted a warp named &b%warp%&e!'
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
         %prefix:warp%
-        &eInfo of warp &b%warp%
-        &eLocation: &b%warpLoc%
-        &ePermission: &b%warpPerm%
+        &eTeleporting to &b%warp% &ein &b%time%...
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
         %prefix:warp%
+        &eYou have teleported to &b%warp%
+    teleport-cancelled: '%prefix:warp% &cTeleport cancelled.'
+    list: '%prefix:warp% &eWarp list (%warpamount%): %warps%'
+    no-warp: '&cThere is no warp.'
+    saved: '%prefix:warp% &eAll of the warps are saved into warps.yml.'
+    no-permission: '%prefix:warp% &cI''m sorry but you can not go to this warp.'
+    info: |
+      %prefix:warp%
+      &eInfo of warp &b%warp%
+      &eLocation: &b%warpLoc%
+      &ePermission: &b%warpPerm%
+      %prefix:warp%
   spawn:
-      created: |
-        %prefix:spawn% &eSpawn created!
-        %prefix:spawn% &eLocation: &b%spawnlocation%
-      changed: |
-        %prefix:spawn% &eSpawn location changed.
-        %prefix:spawn% &eNew location: &b%spawnlocation%
-      teleporting:
-        mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
-        message: |
-          %prefix:spawn%
-          &eTeleporting to &bSpawn &ein &b%time%...
-      teleported:
-        mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
-        message: |
-          %prefix:spawn%
-          &eYou have teleported to &bSpawn
-      teleport-cancelled: '%prefix:spawn% &cTeleport cancelled.'
-      player-not-found: '%prefix:spawn% &cSorry, I couldn''t find that player.'
-      spawn-not-set: '%prefix:spawn% &cSorry, spawn doesn''t exist.'
-      not-enabled: '%prefix:spawn% &cSpawn feature is not enabled.'
+    created: |
+      %prefix:spawn% &eSpawn created!
+      %prefix:spawn% &eLocation: &b%spawnlocation%
+    changed: |
+      %prefix:spawn% &eSpawn location changed.
+      %prefix:spawn% &eNew location: &b%spawnlocation%
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix:spawn%
+        &eTeleporting to &bSpawn &ein &b%time%...
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix:spawn%
+        &eYou have teleported to &bSpawn
+    teleport-cancelled: '%prefix:spawn% &cTeleport cancelled.'
+    player-not-found: '%prefix:spawn% &cSorry, I couldn''t find that player.'
+    spawn-not-set: '%prefix:spawn% &cSorry, spawn doesn''t exist.'
+    not-enabled: '%prefix:spawn% &cSpawn feature is not enabled.'
   gamemode:
     changed: '%prefix% &eYou have changed your gamemode to %gamemode%'
     changed-other: '%prefix% &eYou have changed %other%''s gamemode to %gamemode%'
@@ -145,4 +145,34 @@ other-messages:
     SURVIVAL: Hayatta Kalma #permission: sst.gamemode.survival
     SPECTATOR: Izleyici #permission: sst.gamemode.spectator
     ADVENTURE: Macera #permission: sst.gamemode.adventure
-
+  fly:
+    modes:
+      true: aktif
+      false: deaktif
+    toggled: '%prefix% &6Uçuş modun artık &3%flymode%.'
+    toggled-other: '%prefix% &3%other% &6adlı oyuncunun uçuş modu artık &3%flymode%.'
+    type-player: '%prefix% &cBir oyuncu girmelisin.'
+  god:
+    modes:
+      true: aktif
+      false: deaktif
+    toggled: '%prefix% &6Ölümsüzlük modun artık &3%godmode%.'
+    toggled-other: '%prefix% &3%other% &6adlı oyuncunun ölümsüzlük modu artık &3%godmode%.'
+    type-player: '%prefix% &cBir oyuncu girmelisin.'
+  broadcast:
+    prefix: '&7[&6Duyuru&7]&r'
+    not-enough: '%prefix% &cYeterli sayıda argüman girmedin.'
+  disposal:
+    title: 'Çöplük'
+  ping:
+    message-other: '%prefix% &6%other% &eadlı oyuncunun pingi: &6%ping%'
+    message: '%prefix% &3Pingin: &6%ping%'
+    not-found: '%prefix% &cBir oyuncu girmelisin.'
+  feed:
+    message-other: '%prefix% &6%other% &eadlı oyuncunun açlığını giderdin.'
+    message: '%prefix% &3Açlığını giderdin.'
+    not-found: '%prefix% &cBir oyuncu girmelisin.'
+  heal:
+    message-other: '%prefix% &6%other% &eadlı oyuncunun canını doldurdun.'
+    message: '%prefix% &3Canını doldurdun.'
+    not-found: '%prefix% &cBir oyuncu girmelisin.'

@@ -12,22 +12,38 @@ description: Simple tools for your server.
 commands:
   simpleservertools:
     usage: /simpleservertools reload
-    description: Main SST command. Just for reloading.
+    description: Main SST command.
     aliases: [sst]
   vanish:
-      usage: /vanish [<another player>]
-      description: Vanish command.
-      aliases: [v]
+    usage: /vanish [<another player>]
+    description: Vanish command.
+    aliases: [v]
   warp:
-      usage: /warp <name> [<arguments>]
-      description: Warp command.
+    usage: /warp <name> [<arguments>]
+    description: Warp command.
   setspawn:
-      usage: /setspawn
+    usage: /setspawn
   spawn:
     usage: /spawn [<player>]
   gamemode:
     usage: /gamemode <mode> [<player>]
-    aliases: [ adventure,eadventure,adventuremode,eadventuremode,creative,ecreative,eecreative,creativemode,ecreativemode,egamemode,gm,egm,gma,egma,gmc,egmc,gms,egms,gmt,egmt,survival,esurvival,survivalmode,esurvivalmode,gmsp,sp,egmsp,spec,spectator ]
+    aliases: [adventure, eadventure, adventuremode, eadventuremode, creative, ecreative, eecreative, creativemode, ecreativemode, egamemode, gm, egm, gma, egma, gmc, egmc, gms, egms, gmt, egmt, survival, esurvival, survivalmode, esurvivalmode, gmsp, sp, egmsp, spec, spectator]
+  fly:
+    usage: /fly [<player>] [<mode>]
+    aliases: [flight, uç, uçuşmodu]
+  broadcast:
+    usage: /broadcast <message>
+    aliases: [bc, duyur, duyuru]
+  god:
+    usage: /god [<player>] [<mode>]
+  disposal:
+    usage: /disposal
+  ping:
+    usage: /ping [<player>]
+  feed:
+    usage: /feed [<player>]
+  heal:
+    usage: /heal [<player>]
 permissions:
   sst.*:
     default: op
@@ -37,3 +53,17 @@ permissions:
       sst.gamemode: true
       sst.gamemode.others: true
       sst.gamemode.all: true
+  sst.broadcast:
+    default: op
+  sst.fly:
+    default: op
+  sst.spawn:
+    default: op
+  sst.setspawn:
+    default: op
+  sst.god:
+    default: op
+  sst.disposal:
+    default: op
+  sst.ping:
+    default: op

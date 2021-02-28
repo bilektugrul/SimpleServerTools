@@ -12,15 +12,18 @@ import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,19 +59,19 @@ public class PlayerListener implements Listener {
                 JoinMessageType type = msg.getType();
                 String content = msg.getContent();
                 if (type == JoinMessageType.EVERYONE) {
-                    player.sendMessage(Utils.replacePlaceholders(content, player));
+                    player.sendMessage(Utils.replacePlaceholders(content, player, false));
                 } else if (plugin.isPermManagerReady() && type == JoinMessageType.GROUP) {
                     if ((Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.getGroup()::equalsIgnoreCase))) {
-                        player.sendMessage(Utils.replacePlaceholders(content, player));
+                        player.sendMessage(Utils.replacePlaceholders(content, player, false));
                     }
                 } else if (type == JoinMessageType.PERMISSION && player.hasPermission(msg.getPermission())) {
-                    player.sendMessage(Utils.replacePlaceholders(content, player));
+                    player.sendMessage(Utils.replacePlaceholders(content, player, false));
                 }
             }
         }
 
         if (spawnManager.getSpawnFile().getBoolean("spawn.teleport-on-join")) {
-            player.teleport(spawnManager.getSpawn().getLocation());
+            PaperLib.teleportAsync(player, spawnManager.getSpawn().getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
 
         UUID uuid = player.getUniqueId();
@@ -108,7 +111,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player) {
+        User attackerUser = userManager.getUser(e.getDamager().getUniqueId());
+        if (attackerUser.isGod()) {
+            e.setCancelled(true);
+        } else if (e.getEntity() instanceof Player) {
             Player victim = (Player) e.getEntity();
             User user = userManager.getUser(victim.getUniqueId());
             if (userManager.isTeleporting(user)) {
@@ -118,6 +124,16 @@ public class PlayerListener implements Listener {
         } else if (e.getDamager() instanceof Player) {
             User damager = userManager.getUser(e.getDamager().getUniqueId());
             e.setCancelled(getCancelState(damager, damager.getState()));
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player) {
+            User user = userManager.getUser(e.getEntity().getUniqueId());
+            if (user.isGod()) {
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -142,12 +158,13 @@ public class PlayerListener implements Listener {
     public void onDeath(PlayerDeathEvent e) {
         Player victim = e.getEntity();
         if (Utils.getBoolean("auto-respawn.enabled")) {
-            if (Utils.getBoolean("auto-respawn") && !(victim.hasPermission("sst.autorespawn")))
+            if (Utils.getBoolean("auto-respawn.permission-required") && !victim.hasPermission("sst.autorespawn")) {
                 return;
+            }
             Bukkit.getScheduler().runTask(plugin, () -> victim.spigot().respawn());
         }
         if (spawnManager.getSpawnFile().getBoolean("spawn.teleport-when-die")) {
-            spawnManager.teleport(victim);
+            spawnManager.teleport(victim, true);
         }
     }
 

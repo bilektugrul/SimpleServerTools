@@ -3,6 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
+import io.github.bilektugrul.simpleservertools.stuff.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -33,18 +34,18 @@ public class WarpCommand implements CommandExecutor {
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("list")) {
                 if (sender.hasPermission(SimpleServerTools.listPerm)) {
-                    sender.sendMessage(Utils.getString("other-messages.warps.list")
+                    sender.sendMessage(Utils.getString("other-messages.warps.list", sender)
                             .replace("%warpamount%", String.valueOf(warpManager.getWarpList().size()))
                             .replace("%warps%", warpManager.readableWarpList()));
                 } else if (isPlayer) {
                     sender.sendMessage(Utils.getString("no-permission", (Player) sender));
                 } else {
-                    sender.sendMessage(Utils.getPAPILessString("other-messages.config-reloaded")
+                    sender.sendMessage(Utils.getString("other-messages.config-reloaded", sender)
                             .replace("%player%", "CONSOLE"));
                 }
             } else if (args[0].equalsIgnoreCase("save") && sender.hasPermission(SimpleServerTools.adminPerm)) {
                 warpManager.saveWarps();
-                sender.sendMessage(Utils.getPAPILessString("other-messages.warps.saved", sender));
+                sender.sendMessage(Utils.getString("other-messages.warps.saved", sender));
             } else if (isPlayer) {
                 Player p = (Player) sender;
                 String arg = args[0];
@@ -65,7 +66,7 @@ public class WarpCommand implements CommandExecutor {
                                             .replace("%warp%", arg));
                                     return true;
                                 case "--info":
-                                    p.sendMessage(Utils.getString("other-messages.warps.info")
+                                    p.sendMessage(Utils.getString("other-messages.warps.info", sender)
                                             .replace("%warp%", arg)
                                             .replace("%warploc%", warpManager.readableWarpLoc(warp))
                                             .replace("%warpperm%", warp.getPermRequire() ? "sst.warps." + warp.getName() : "none"));
@@ -76,10 +77,11 @@ public class WarpCommand implements CommandExecutor {
                     } else if (args.length == 1) {
                         Warp warp = warpManager.getWarp(arg);
                         Location loc = warp.getLocation();
+                        TeleportMode mode = new TeleportMode(TeleportMode.Mode.WARPS, warp, null);
                         if (warp.getPermRequire() && p.hasPermission("sst.warps." + warp.getName())) {
-                            Utils.teleport(p, loc, "warps");
+                            Utils.teleport(p, loc, mode);
                         } else if (!warp.getPermRequire()) {
-                            Utils.teleport(p, loc, "warps");
+                            Utils.teleport(p, loc, mode);
                         } else {
                             p.sendMessage(Utils.getString("other-messages.warps.no-permission", p));
                         }
