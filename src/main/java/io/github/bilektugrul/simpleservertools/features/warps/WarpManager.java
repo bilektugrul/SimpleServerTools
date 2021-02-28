@@ -85,7 +85,7 @@ public class WarpManager {
             final boolean cancelTeleportOnDamage = Utils.getBoolean("warps.cancel-damage.settings.cancel-teleport");
             final CancelModes cancelDamageMode = CancelModes.valueOf(Utils.getString("warps.cancel-damage.mode", null));
             final boolean staffBypassTime = Utils.getBoolean("warps.staff-bypass-time");
-            return new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
+            settings = new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
         }
         return settings;
     }

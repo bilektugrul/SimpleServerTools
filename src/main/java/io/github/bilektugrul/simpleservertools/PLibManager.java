@@ -11,7 +11,7 @@ public class PLibManager {
     private static final ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
     public static void loadPacketListener(SimpleServerTools plugin) {
-        if ((Utils.getBoolean("remove-vanished-players.enabled", false)) || (Utils.getBoolean("one-more-slot.enabled", false))) {
+        if (Utils.getBoolean("remove-vanished-players.enabled", false) || Utils.getBoolean("one-more-slot.enabled", false)) {
             if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
                 manager.removePacketListeners(plugin);
                 manager.addPacketListener(new PacketListener(plugin));
