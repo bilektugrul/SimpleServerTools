@@ -33,7 +33,7 @@ public class WarpCommand implements CommandExecutor {
         boolean isPlayer = (sender instanceof Player);
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("list")) {
-                if (sender.hasPermission(SimpleServerTools.listPerm)) {
+                if (sender.hasPermission("sst.warplist")) {
                     sender.sendMessage(Utils.getString("other-messages.warps.list", sender)
                             .replace("%warpamount%", String.valueOf(warpManager.getWarpList().size()))
                             .replace("%warps%", warpManager.readableWarpList()));
@@ -43,7 +43,7 @@ public class WarpCommand implements CommandExecutor {
                     sender.sendMessage(Utils.getString("other-messages.config-reloaded", sender)
                             .replace("%player%", "CONSOLE"));
                 }
-            } else if (args[0].equalsIgnoreCase("save") && sender.hasPermission(SimpleServerTools.adminPerm)) {
+            } else if (args[0].equalsIgnoreCase("save") && sender.hasPermission("sst.admin")) {
                 warpManager.saveWarps();
                 sender.sendMessage(Utils.getString("other-messages.warps.saved", sender));
             } else if (isPlayer) {
@@ -56,16 +56,21 @@ public class WarpCommand implements CommandExecutor {
                             Warp warp = warpManager.getWarp(arg);
                             switch (args[1]) {
                                 case "--del":
-                                    warpManager.deleteWarp(arg);
-                                    p.sendMessage(Utils.getString("other-messages.warps.deleted", p)
-                                            .replace("%warp%", arg));
+                                    if (sender.hasPermission("sst.admin")) {
+                                        warpManager.deleteWarp(arg);
+                                        p.sendMessage(Utils.getString("other-messages.warps.deleted", p)
+                                                .replace("%warp%", arg));
+                                    }
                                     return true;
                                 case "--force":
-                                    warpManager.forceRegisterWarp(arg, p.getLocation());
-                                    p.sendMessage(Utils.getString("other-messages.warps.created", p)
-                                            .replace("%warp%", arg));
+                                    if (sender.hasPermission("sst.admin")) {
+                                        warpManager.forceRegisterWarp(arg, p.getLocation());
+                                        p.sendMessage(Utils.getString("other-messages.warps.created", p)
+                                                .replace("%warp%", arg));
+                                    }
                                     return true;
                                 case "--info":
+                                    if (warp.getPermRequire() && !sender.hasPermission("sst.warps." + warp.getName())) return true;
                                     p.sendMessage(Utils.getString("other-messages.warps.info", sender)
                                             .replace("%warp%", arg)
                                             .replace("%warploc%", warpManager.readableWarpLoc(warp))
@@ -87,7 +92,7 @@ public class WarpCommand implements CommandExecutor {
                         }
                     }
 
-                } else if (p.hasPermission(SimpleServerTools.adminPerm)) {
+                } else if (p.hasPermission("sst.admin")) {
                     if (args.length == 2 && (warpManager.registerWarp(arg, p.getLocation(), true))) {
                         p.sendMessage(Utils.getString("other-messages.warps.created", p)
                                 .replace("%warp%", arg));

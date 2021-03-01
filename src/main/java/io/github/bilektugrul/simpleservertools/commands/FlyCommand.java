@@ -34,6 +34,8 @@ public class FlyCommand implements CommandExecutor {
             } else {
                 sender.sendMessage(Utils.getString("other-messages.fly.type-player", sender));
             }
+        } else {
+            sender.sendMessage(Utils.getString("no-permission", sender));
         }
         return true;
     }

@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools.placeholders;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -9,9 +10,11 @@ import org.jetbrains.annotations.NotNull;
 public class PAPIPlaceholders extends PlaceholderExpansion {
 
     private final SimpleServerTools plugin;
+    private final CustomPlaceholderManager placeholderManager;
 
     public PAPIPlaceholders(SimpleServerTools plugin){
         this.plugin = plugin;
+        this.placeholderManager = plugin.getPlaceholderManager();
     }
 
     @Override
@@ -49,7 +52,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
         }
 
         if (identifier.equals("safeonline")) {
-            if (!player.hasPermission(SimpleServerTools.staffPerm)) {
+            if (!player.hasPermission("sst.staff")) {
                 return String.valueOf(Bukkit.getOnlinePlayers().size() - plugin.getOnlineVanishedPlayers().size());
             } else {
                 return String.valueOf(Bukkit.getOnlinePlayers().size());
@@ -58,6 +61,9 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
 
         if (identifier.equals("vanished")){
             return String.valueOf(plugin.getOnlineVanishedPlayers().size());
+        } else if (identifier.contains("custom")) {
+            String name = identifier.substring(identifier.indexOf("custom_") + 7);
+            return placeholderManager.getPlaceholder(name).getValue();
         }
 
         return null;

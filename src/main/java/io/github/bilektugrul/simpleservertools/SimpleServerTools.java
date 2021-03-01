@@ -3,15 +3,17 @@ package io.github.bilektugrul.simpleservertools;
 import io.github.bilektugrul.simpleservertools.commands.*;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SetSpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
+import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
 import io.github.bilektugrul.simpleservertools.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
+import io.github.bilektugrul.simpleservertools.utils.PLibManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
-import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//TODO: VanishManager
 public class SimpleServerTools extends JavaPlugin {
 
     private final List<UUID> vanishedPlayers = new ArrayList<>();
@@ -35,27 +38,18 @@ public class SimpleServerTools extends JavaPlugin {
         return onlineVanishedPlayers;
     }
 
+    private CustomPlaceholderManager placeholderManager;
     private WarpManager warpManager;
     private UserManager userManager;
     private SpawnManager spawnManager;
     private JoinMessageManager joinMessageManager;
-
-    public static String prefix = "";
-    public static String warpPrefix = "";
-    public static String spawnPrefix = "";
-
-    public static String adminPerm = "";
-    public static String vanishPerm = "";
-    public static String vanishOthersPerm = "";
-    public static String listPerm = "";
-    public static String staffPerm = "";
-
     private VaultManager vaultManager;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         PaperLib.suggestPaper(this);
+        placeholderManager = new CustomPlaceholderManager(this);
         warpManager = new WarpManager(this);
         spawnManager = new SpawnManager(this);
         userManager = new UserManager();
@@ -94,6 +88,9 @@ public class SimpleServerTools extends JavaPlugin {
         getLogger().info("Warps and spawn saved.");
     }
 
+    public CustomPlaceholderManager getPlaceholderManager() {
+        return placeholderManager;
+    }
     public WarpManager getWarpManager() {
         return warpManager;
     }
@@ -128,16 +125,7 @@ public class SimpleServerTools extends JavaPlugin {
         reloadConfig();
         checkAndLoadPacketListener();
         FileConfiguration config = getConfig();
-        //TODO: PREFIX SISTEMI DEGISECEK
-        prefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefixes.global"));
-        warpPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefixes.warps"));
-        spawnPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefixes.spawn"));
-        //TODO: PREFIX SISTEMI DEGISECEK
-        adminPerm = config.getString("permissions.admin-permission");
-        vanishPerm = config.getString("permissions.vanish.permission");
-        vanishOthersPerm = config.getString("permissions.vanish.permission-others");
-        listPerm = config.getString("permissions.list-command-permission");
-        staffPerm = config.getString("permissions.staff-permission");
+        placeholderManager.load();
         if (!first) {
             warpManager.reloadWarps();
             spawnManager.reloadSpawn();
@@ -147,7 +135,7 @@ public class SimpleServerTools extends JavaPlugin {
 
     public void sendMessage(CommandSender sender, String msg) {
         sender.sendMessage(Utils.getString("other-messages." + msg + ".beginning", sender));
-        if (sender.hasPermission(staffPerm)) {
+        if (sender.hasPermission("sst.staff")) {
             sender.sendMessage(Utils.getString("other-messages." + msg + ".only-staff", sender));
         }
         sender.sendMessage(Utils.getString("other-messages." + msg + ".everyone", sender));

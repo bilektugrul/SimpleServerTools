@@ -1,9 +1,9 @@
-package io.github.bilektugrul.simpleservertools;
+package io.github.bilektugrul.simpleservertools.utils;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.listeners.PacketListener;
-import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 
 public class PLibManager {

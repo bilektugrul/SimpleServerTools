@@ -1,7 +1,6 @@
 package io.github.bilektugrul.simpleservertools.listeners;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
-import io.github.bilektugrul.simpleservertools.VaultManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessage;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageType;
@@ -12,6 +11,7 @@ import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -87,7 +87,7 @@ public class PlayerListener implements Listener {
             }
         }
 
-        if (!player.hasPermission(SimpleServerTools.staffPerm)) {
+        if (!player.hasPermission("sst.staff")) {
             for (UUID vanished : plugin.getOnlineVanishedPlayers()) {
                 player.hidePlayer(Bukkit.getPlayer(vanished));
             }
@@ -150,7 +150,7 @@ public class PlayerListener implements Listener {
         if (damageCancelMode == CancelModes.EVERYONE) {
             return true;
         } else {
-            return damageCancelMode == CancelModes.STAFF && user.getPlayer().hasPermission(SimpleServerTools.staffPerm);
+            return damageCancelMode == CancelModes.STAFF && user.getPlayer().hasPermission("sst.staff");
         }
     }
 

@@ -22,29 +22,16 @@ public class GamemodeCommand implements CommandExecutor {
             builder.append(arg).append(" ");
         }
         GamemodeInfo gamemodeInfo = matchInfo(builder.toString(), sender);
-        if (canChange(sender, gamemodeInfo.gameMode)) {
-            if (gamemodeInfo.player == null && sender instanceof Player) gamemodeInfo.setPlayer((Player) sender);
-            gamemodeInfo.apply(sender);
+        if (gamemodeInfo.isCompleted()) {
+            if (canChange(sender, gamemodeInfo.gameMode)) {
+                gamemodeInfo.apply(sender);
+            } else {
+                sender.sendMessage(Utils.getString("no-permission", sender));
+            }
         } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getString("other-messages.gamemode.wrong-arguments", sender));
         }
         return true;
-    }
-
-
-    //Source: https://github.com/EssentialsX/Essentials/blob/2.x/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgamemode.java - EssentialsX
-    private GameMode matchGameMode(String mode) {
-        mode = mode.toLowerCase();
-        if (mode.equalsIgnoreCase("gmc") || mode.equalsIgnoreCase("egmc") || mode.contains("creat") || mode.equalsIgnoreCase("1") || mode.equalsIgnoreCase("c")) {
-            return GameMode.CREATIVE;
-        } else if (mode.equalsIgnoreCase("gms") || mode.equalsIgnoreCase("egms") || mode.contains("survi") || mode.equalsIgnoreCase("0") || mode.equalsIgnoreCase("s")) {
-            return GameMode.SURVIVAL;
-        } else if (mode.equalsIgnoreCase("gma") || mode.equalsIgnoreCase("egma") || mode.contains("advent") || mode.equalsIgnoreCase("2") || mode.equalsIgnoreCase("a")) {
-            return GameMode.ADVENTURE;
-        } else if (mode.equalsIgnoreCase("gmsp") || mode.equalsIgnoreCase("egmsp") || mode.contains("spec") || mode.equalsIgnoreCase("3") || mode.equalsIgnoreCase("sp")) {
-            return GameMode.SPECTATOR;
-        }
-        return null;
     }
 
     private GamemodeInfo matchInfo(String fullCommand, CommandSender sender) {
@@ -61,7 +48,23 @@ public class GamemodeCommand implements CommandExecutor {
                 }
             }
         }
+        if (gamemodeInfo.player == null && sender instanceof Player) gamemodeInfo.setPlayer((Player) sender);
         return gamemodeInfo;
+    }
+
+    //Source: https://github.com/EssentialsX/Essentials/blob/2.x/Essentials/src/main/java/com/earth2me/essentials/commands/Commandgamemode.java - EssentialsX
+    private GameMode matchGameMode(String mode) {
+        mode = mode.toLowerCase();
+        if (mode.equalsIgnoreCase("gmc") || mode.equalsIgnoreCase("egmc") || mode.contains("creat") || mode.equalsIgnoreCase("1") || mode.equalsIgnoreCase("c")) {
+            return GameMode.CREATIVE;
+        } else if (mode.equalsIgnoreCase("gms") || mode.equalsIgnoreCase("egms") || mode.contains("survi") || mode.equalsIgnoreCase("0") || mode.equalsIgnoreCase("s")) {
+            return GameMode.SURVIVAL;
+        } else if (mode.equalsIgnoreCase("gma") || mode.equalsIgnoreCase("egma") || mode.contains("advent") || mode.equalsIgnoreCase("2") || mode.equalsIgnoreCase("a")) {
+            return GameMode.ADVENTURE;
+        } else if (mode.equalsIgnoreCase("gmsp") || mode.equalsIgnoreCase("egmsp") || mode.contains("spec") || mode.equalsIgnoreCase("3") || mode.equalsIgnoreCase("sp")) {
+            return GameMode.SPECTATOR;
+        }
+        return null;
     }
 
     private boolean canChange(CommandSender sender, GameMode gamemode) {

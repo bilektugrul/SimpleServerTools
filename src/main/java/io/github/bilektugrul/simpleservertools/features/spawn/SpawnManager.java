@@ -7,7 +7,6 @@ import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.papermc.lib.PaperLib;
 import me.despical.commonsbox.configuration.ConfigUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,5 +1,6 @@
-package io.github.bilektugrul.simpleservertools;
+package io.github.bilektugrul.simpleservertools.utils;
 
+import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -10,6 +11,7 @@ public class VaultManager {
 
     public VaultManager(SimpleServerTools plugin) {
         this.plugin = plugin;
+        setupPermissions();
     }
 
     public void setupPermissions() {

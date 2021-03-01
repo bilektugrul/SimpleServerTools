@@ -1,17 +1,12 @@
 # You should install PlaceholderAPI for placeholders.
 # You have to install ProtocolLib for editing client-side max player and player count in server list.
 
-prefixes:
-  global: '&8[&6SST&8]&r'
-  warps: '&8[&6Warps&8]&r'
-  spawn: '&8[&6Spawn&8]&r'
-permissions:
-  admin-permission: 'sst.admin'
-  staff-permission: 'sst.staff'
-  vanish:
-    permission: 'sst.vanish'
-    permission-others: 'sst.vanish.others'
-  list-command-permission: 'sst.warplist'
+custom-placeholders: # You can use these placeholders everywhere. You can create new ones too. (%prefix%, %warpprefix%, %spawnprefix%)
+  prefix: '&8[&6SST&8]&r'
+  warpprefix: '&8[&6Warps&8]&r'
+  spawnprefix: '&8[&6Spawn&8]&r'
+  #name: value
+
 no-permission: '%prefix% &cI''m sorry %player% but you don''t have enough permission to do that!'
 
 join-quit-messages:
@@ -73,7 +68,7 @@ other-messages:
       warpArgs:
         list:
           beginning: |
-            %prefix:warp%
+            %warpprefix%
           only-staff: |
             &9/warp <name> --del &f- &6Deletes given warp.
             &9/warp <name> --force &f- &6Overwrites (if exists) given warp.
@@ -81,7 +76,7 @@ other-messages:
           everyone: |
 
           ending: |
-            %prefix:warp%
+            %warpprefix%
   config-reloaded: '%prefix% &eConfig has been reloaded %player%!'
   wrong-usage: '%prefix% &cWrong usage. /sst help'
   vanish:
@@ -90,50 +85,50 @@ other-messages:
     toggled: '%prefix% &eVanish mode toggled for &b%other%&e.'
     player-not-found: '%prefix% &cSorry, I couldn''t find that player.'
   warps:
-    created: '%prefix:warp% &eYou have created a warp named &b%warp%&e!'
-    deleted: '%prefix:warp% &eYou have deleted a warp named &b%warp%&e!'
+    created: '%warpprefix% &eYou have created a warp named &b%warp%&e!'
+    deleted: '%warpprefix% &eYou have deleted a warp named &b%warp%&e!'
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
-        %prefix:warp%
+        %warpprefix%
         &eTeleporting to &b%warp% &ein &b%time%...
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
-        %prefix:warp%
+        %warpprefix%
         &eYou have teleported to &b%warp%
-    teleport-cancelled: '%prefix:warp% &cTeleport cancelled.'
-    list: '%prefix:warp% &eWarp list (%warpamount%): %warps%'
+    teleport-cancelled: '%warpprefix% &cTeleport cancelled.'
+    list: '%warpprefix% &eWarp list (%warpamount%): %warps%'
     no-warp: '&cThere is no warp.'
-    saved: '%prefix:warp% &eAll of the warps are saved into warps.yml.'
-    no-permission: '%prefix:warp% &cI''m sorry but you can not go to this warp.'
+    saved: '%warpprefix% &eAll of the warps are saved into warps.yml.'
+    no-permission: '%warpprefix% &cI''m sorry but you can not go to this warp.'
     info: |
-      %prefix:warp%
+      %warpprefix%
       &eInfo of warp &b%warp%
       &eLocation: &b%warpLoc%
       &ePermission: &b%warpPerm%
-      %prefix:warp%
+      %warpprefix%
   spawn:
     created: |
-      %prefix:spawn% &eSpawn created!
-      %prefix:spawn% &eLocation: &b%spawnlocation%
+      %spawnprefix% &eSpawn created!
+      %spawnprefix% &eLocation: &b%spawnlocation%
     changed: |
-      %prefix:spawn% &eSpawn location changed.
-      %prefix:spawn% &eNew location: &b%spawnlocation%
+      %spawnprefix% &eSpawn location changed.
+      %spawnprefix% &eNew location: &b%spawnlocation%
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
-        %prefix:spawn%
+        %spawnprefix%
         &eTeleporting to &bSpawn &ein &b%time%...
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
-        %prefix:spawn%
+        %spawnprefix%
         &eYou have teleported to &bSpawn
-    teleport-cancelled: '%prefix:spawn% &cTeleport cancelled.'
-    player-not-found: '%prefix:spawn% &cSorry, I couldn''t find that player.'
-    spawn-not-set: '%prefix:spawn% &cSorry, spawn doesn''t exist.'
-    not-enabled: '%prefix:spawn% &cSpawn feature is not enabled.'
+    teleport-cancelled: '%spawnprefix% &cTeleport cancelled.'
+    player-not-found: '%spawnprefix% &cSorry, I couldn''t find that player.'
+    spawn-not-set: '%spawnprefix% &cSorry, spawn doesn''t exist.'
+    not-enabled: '%spawnprefix% &cSpawn feature is not enabled.'
   gamemode:
     changed: '%prefix% &eYou have changed your gamemode to %gamemode%'
     changed-other: '%prefix% &eYou have changed %other%''s gamemode to %gamemode%'
