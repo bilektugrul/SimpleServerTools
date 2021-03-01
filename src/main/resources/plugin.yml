@@ -44,6 +44,8 @@ commands:
     usage: /feed [<player>]
   heal:
     usage: /heal [<player>]
+  invsee:
+    usage: /invsee <player>
 permissions:
   sst.*:
     default: op
@@ -66,4 +68,12 @@ permissions:
   sst.disposal:
     default: op
   sst.ping:
+    default: op
+  sst.invsee:
+    default: op
+  sst.admin:
+    default: op
+  sst.staff:
+    default: op
+  sst.warplist:
     default: op

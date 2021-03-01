@@ -50,7 +50,6 @@ public class WarpCommand implements CommandExecutor {
                 Player p = (Player) sender;
                 String arg = args[0];
                 if (warpManager.isPresent(arg)) {
-
                     if (args.length == 2) {
                         if (warpManager.isPresent(arg)) {
                             Warp warp = warpManager.getWarp(arg);

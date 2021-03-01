@@ -1,0 +1,37 @@
+package io.github.bilektugrul.simpleservertools.commands;
+
+import io.github.bilektugrul.simpleservertools.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
+
+public class InvSeeCommand implements CommandExecutor {
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (sender instanceof Player && sender.hasPermission("sst.invsee")) {
+            Player senderPlayer = (Player) sender;
+             if (args.length >= 1) {
+                Player invPlayer = Bukkit.getPlayer(args[0]);
+                if (invPlayer != null) {
+                    if (args.length == 1) {
+                        senderPlayer.openInventory(invPlayer.getInventory());
+                    } else if (args[1].equalsIgnoreCase("zırh")) {
+                        Inventory armorInventory = Bukkit.getServer().createInventory(senderPlayer, 9, Utils.getString("other-messages.invsee.title", senderPlayer)) ;
+                        armorInventory.setContents(senderPlayer.getInventory().getArmorContents());
+                    } else {
+                        senderPlayer.sendMessage(Utils.getString("other-messages.invsee.wrong-usage", senderPlayer));
+                    }
+                } else {
+                    senderPlayer.sendMessage(Utils.getString("other-messages.invsee.not-found", senderPlayer));
+                }
+            }
+        }
+        return true;
+    }
+
+}

@@ -74,6 +74,7 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("feed").setExecutor(new FeedCommand());
         getCommand("heal").setExecutor(new HealCommand());
+        getCommand("invsee").setExecutor(new InvSeeCommand());
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));

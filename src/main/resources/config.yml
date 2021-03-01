@@ -171,3 +171,7 @@ other-messages:
     message-other: '%prefix% &6%other% &eadlı oyuncunun canını doldurdun.'
     message: '%prefix% &3Canını doldurdun.'
     not-found: '%prefix% &cBir oyuncu girmelisin.'
+  invsee:
+    title: 'Zırhlar' # Sadece zırhları görüntülerken gözükür.
+    not-found: '%prefix% &cGirdiğiniz oyuncu bulunamadı.'
+    wrong-usage: '%prefix% &cKomutu hatalı kullandınız.'
