@@ -4,10 +4,9 @@ import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
-import io.github.bilektugrul.simpleservertools.stuff.ActionBar;
 import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportMode;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportMode;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.papermc.lib.PaperLib;
@@ -128,7 +127,9 @@ public class Utils {
                 else
                     settings = spawnManager.getSettings();
             }
-            int time = p.hasPermission("sst.staff") && Utils.getBoolean(mode + ".staff-bypass-time")
+            final boolean isStaff = p.hasPermission("sst.staff");
+
+            int time = isStaff && Utils.getBoolean(mode + ".staff-bypass-time")
                     ? 0
                     : settings.getTime();
 
@@ -171,7 +172,7 @@ public class Utils {
 
                 if (!Utils.isSameLoc(firstLoc, p.getLocation())) {
                     boolean cancel = cancelMoveMode == CancelModes.EVERYONE
-                            || (cancelMoveMode == CancelModes.STAFF && p.hasPermission("sst.staff"));
+                            || (cancelMoveMode == CancelModes.STAFF && isStaff);
                     if (cancel) {
                         if (settings.getCancelTeleportOnMove()) {
                             cancelTeleport(user, this, p);
@@ -183,7 +184,7 @@ public class Utils {
 
                 if (p.getHealth() != firstHealth) {
                     boolean cancel = cancelDamageMode == CancelModes.EVERYONE
-                            || (cancelDamageMode == CancelModes.STAFF && p.hasPermission("sst.staff"));
+                            || (cancelDamageMode == CancelModes.STAFF && isStaff);
                     if (cancel) {
                         if (settings.getBlockDamage()) {
                             p.setHealth(firstHealth);

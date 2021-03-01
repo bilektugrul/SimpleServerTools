@@ -2,8 +2,8 @@ package io.github.bilektugrul.simpleservertools.features.spawn;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportMode;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportMode;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.papermc.lib.PaperLib;
 import me.despical.commonsbox.configuration.ConfigUtils;

@@ -1,4 +1,4 @@
-package io.github.bilektugrul.simpleservertools.stuff;
+package io.github.bilektugrul.simpleservertools.utils;
 
 import me.despical.commonsbox.ReflectionUtils;
 import net.md_5.bungee.api.ChatMessageType;
@@ -15,7 +15,6 @@ import java.lang.invoke.MethodType;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-
 
 // Made by Despical
 public class ActionBar {

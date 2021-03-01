@@ -2,7 +2,7 @@ package io.github.bilektugrul.simpleservertools.features.warps;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.despical.commonsbox.configuration.ConfigUtils;
 import me.despical.commonsbox.serializer.LocationSerializer;

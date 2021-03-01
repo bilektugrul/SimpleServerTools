@@ -3,7 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportMode;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,19 +33,17 @@ public class WarpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         boolean isPlayer = (sender instanceof Player);
+        boolean isAdmin = sender.hasPermission("sst.admin");
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("list")) {
                 if (sender.hasPermission("sst.warplist")) {
                     sender.sendMessage(Utils.getString("other-messages.warps.list", sender)
                             .replace("%warpamount%", String.valueOf(warpManager.getWarpList().size()))
                             .replace("%warps%", warpManager.readableWarpList()));
-                } else if (isPlayer) {
-                    sender.sendMessage(Utils.getString("no-permission", (Player) sender));
                 } else {
-                    sender.sendMessage(Utils.getString("other-messages.config-reloaded", sender)
-                            .replace("%player%", "CONSOLE"));
+                    sender.sendMessage(Utils.getString("no-permission", sender));
                 }
-            } else if (args[0].equalsIgnoreCase("save") && sender.hasPermission("sst.admin")) {
+            } else if (args[0].equalsIgnoreCase("save") && isAdmin) {
                 warpManager.saveWarps();
                 sender.sendMessage(Utils.getString("other-messages.warps.saved", sender));
             } else if (isPlayer) {
@@ -55,25 +55,28 @@ public class WarpCommand implements CommandExecutor {
                             Warp warp = warpManager.getWarp(arg);
                             switch (args[1]) {
                                 case "--del":
-                                    if (sender.hasPermission("sst.admin")) {
+                                    if (isAdmin) {
+                                        p.performCommand("warp " + arg + " --info");
+                                        p.sendMessage(Utils.getString("other-messages.warps.deleting", p)
+                                                .replace("%warp%", arg));
                                         warpManager.deleteWarp(arg);
                                         p.sendMessage(Utils.getString("other-messages.warps.deleted", p)
                                                 .replace("%warp%", arg));
                                     }
                                     return true;
                                 case "--force":
-                                    if (sender.hasPermission("sst.admin")) {
+                                    if (isAdmin) {
                                         warpManager.forceRegisterWarp(arg, p.getLocation());
                                         p.sendMessage(Utils.getString("other-messages.warps.created", p)
                                                 .replace("%warp%", arg));
                                     }
                                     return true;
                                 case "--info":
-                                    if (warp.getPermRequire() && !sender.hasPermission("sst.warps." + warp.getName())) return true;
+                                    if (warp.getPermRequire() && !sender.hasPermission(warp.getPermission())) return true;
                                     p.sendMessage(Utils.getString("other-messages.warps.info", sender)
                                             .replace("%warp%", arg)
                                             .replace("%warploc%", warpManager.readableWarpLoc(warp))
-                                            .replace("%warpperm%", warp.getPermRequire() ? "sst.warps." + warp.getName() : "none"));
+                                            .replace("%warpperm%", warp.getPermRequire() ? warp.getPermission() : "yok"));
                                     return true;
                             }
                         }
@@ -82,7 +85,7 @@ public class WarpCommand implements CommandExecutor {
                         Warp warp = warpManager.getWarp(arg);
                         Location loc = warp.getLocation();
                         TeleportMode mode = new TeleportMode(TeleportMode.Mode.WARPS, warp, null);
-                        if (warp.getPermRequire() && p.hasPermission("sst.warps." + warp.getName())) {
+                        if (warp.getPermRequire() && p.hasPermission(warp.getPermission())) {
                             Utils.teleport(p, loc, mode);
                         } else if (!warp.getPermRequire()) {
                             Utils.teleport(p, loc, mode);
@@ -91,11 +94,11 @@ public class WarpCommand implements CommandExecutor {
                         }
                     }
 
-                } else if (p.hasPermission("sst.admin")) {
-                    if (args.length == 2 && (warpManager.registerWarp(arg, p.getLocation(), true))) {
+                } else if (isAdmin) {
+                    if (args.length == 2 && warpManager.registerWarp(arg, p.getLocation(), true)) {
                         p.sendMessage(Utils.getString("other-messages.warps.created", p)
                                 .replace("%warp%", arg));
-                    } else if (args.length == 1 && (warpManager.registerWarp(arg, p.getLocation()))) {
+                    } else if (args.length == 1 && warpManager.registerWarp(arg, p.getLocation())) {
                         p.sendMessage(Utils.getString("other-messages.warps.created", p)
                                 .replace("%warp%", arg));
                     } else {
@@ -114,8 +117,18 @@ public class WarpCommand implements CommandExecutor {
 
         @Nullable
         @Override
-        public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-            return warpManager.getWarpList().stream().map(Warp::getName).collect(Collectors.toList());
+        public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+            if (Utils.getBoolean("warps.tab-complete")) {
+                switch (args.length) {
+                    case 1:
+                        return warpManager.getWarpList().stream()
+                                .filter(warp -> !warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission()))
+                                .map(Warp::getName).collect(Collectors.toList());
+                    case 2:
+                        return Arrays.asList("--del", "--force", "--info");
+                }
+            }
+            return Collections.emptyList();
         }
     }
 

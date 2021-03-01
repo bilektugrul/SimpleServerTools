@@ -7,7 +7,7 @@ import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageT
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;

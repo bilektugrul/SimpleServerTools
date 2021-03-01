@@ -3,7 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands.spawn;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.spawn.Spawn;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
-import io.github.bilektugrul.simpleservertools.stuff.TeleportMode;
+import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

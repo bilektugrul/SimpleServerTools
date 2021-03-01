@@ -1,4 +1,6 @@
-package io.github.bilektugrul.simpleservertools.stuff;
+package io.github.bilektugrul.simpleservertools.stuff.objects;
+
+import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
 
 public class TeleportSettings {
 

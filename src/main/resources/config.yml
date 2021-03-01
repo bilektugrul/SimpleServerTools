@@ -34,6 +34,7 @@ auto-respawn:
   permission-required: false # sst.autorespawn
 
 warps:
+  tab-complete: true # sends warp list to client when tab button is clicked if true
   teleport-time: 5 # in second
   staff-bypass-time: true # if true, makes staff teleport immediately
   cancel-when-move:
@@ -86,7 +87,8 @@ other-messages:
     player-not-found: '%prefix% &cSorry, I couldn''t find that player.'
   warps:
     created: '%warpprefix% &eYou have created a warp named &b%warp%&e!'
-    deleted: '%warpprefix% &eYou have deleted a warp named &b%warp%&e!'
+    deleting: '%warpprefix% &eDeleting warp &b%warp%&e...'
+    deleted: '%warpprefix% &eYou have deleted the warp &b%warp%&e!'
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
@@ -175,3 +177,4 @@ other-messages:
     title: 'Zırhlar' # Sadece zırhları görüntülerken gözükür.
     not-found: '%prefix% &cGirdiğiniz oyuncu bulunamadı.'
     wrong-usage: '%prefix% &cKomutu hatalı kullandınız.'
+    armor-empty: '%prefix% &cBu oyuncu hiç zırh giymiyor.'

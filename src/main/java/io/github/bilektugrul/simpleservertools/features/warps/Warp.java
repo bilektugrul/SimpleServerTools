@@ -26,4 +26,8 @@ public class Warp {
         return permRequired;
     }
 
+    public String getPermission() {
+        return "sst.warps." + warp;
+    }
+
 }
