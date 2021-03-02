@@ -12,7 +12,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
     private final SimpleServerTools plugin;
     private final CustomPlaceholderManager placeholderManager;
 
-    public PAPIPlaceholders(SimpleServerTools plugin){
+    public PAPIPlaceholders(SimpleServerTools plugin) {
         this.plugin = plugin;
         this.placeholderManager = plugin.getPlaceholderManager();
     }

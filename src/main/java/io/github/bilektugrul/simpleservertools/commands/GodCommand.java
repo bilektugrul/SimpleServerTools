@@ -34,7 +34,7 @@ public class GodCommand implements CommandExecutor {
             if (godPlayer != null) {
                 User godUser = userManager.getUser(godPlayer.getUniqueId());
                 if (argGodMode) {
-                    boolean newMode = FlyCommand.matchMode(args[1]);
+                    boolean newMode = Utils.matchMode(args[1]);
                     change(sender, godPlayer, godUser, newMode);
                 } else {
                     change(sender, godPlayer, godUser, !godUser.isGod());

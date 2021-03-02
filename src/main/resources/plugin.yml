@@ -46,6 +46,8 @@ commands:
     usage: /heal [<player>]
   invsee:
     usage: /invsee <player>
+  kick:
+    usage: /kick <player> [<message>]
 permissions:
   sst.*:
     default: op
@@ -77,3 +79,7 @@ permissions:
     default: op
   sst.warplist:
     default: op
+  sst.kick:
+    default: op
+    children:
+      sst.kick.admins: false

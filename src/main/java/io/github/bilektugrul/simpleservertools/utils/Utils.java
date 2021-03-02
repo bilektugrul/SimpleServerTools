@@ -15,11 +15,13 @@ import me.despical.commonsbox.compat.Titles;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class Utils {
@@ -129,16 +131,16 @@ public class Utils {
             }
             final boolean isStaff = p.hasPermission("sst.staff");
 
-            int time = isStaff && Utils.getBoolean(mode + ".staff-bypass-time")
+            int time = isStaff && getBoolean(mode + ".staff-bypass-time")
                     ? 0
                     : settings.getTime();
 
-            String teleportingMsg = Utils.getString("other-messages." + mode + ".teleporting.message", p);
-            final String teleportingMode = Utils.getString("other-messages." + mode + ".teleporting.mode", p);
+            String teleportingMsg = getString("other-messages." + mode + ".teleporting.message", p);
+            final String teleportingMode = getString("other-messages." + mode + ".teleporting.mode", p);
             String teleportingSub = "";
 
-            String teleportedMsg = Utils.getString("other-messages." + mode + ".teleported.message", p);
-            final String teleportedMode = Utils.getString("other-messages." + mode +".teleported.mode", p);
+            String teleportedMsg = getString("other-messages." + mode + ".teleported.message", p);
+            final String teleportedMode = getString("other-messages." + mode +".teleported.mode", p);
             String teleportedSub = "";
 
             final Location firstLoc = p.getLocation();
@@ -170,7 +172,7 @@ public class Utils {
             @Override
             public void run() {
 
-                if (!Utils.isSameLoc(firstLoc, p.getLocation())) {
+                if (!isSameLoc(firstLoc, p.getLocation())) {
                     boolean cancel = cancelMoveMode == CancelModes.EVERYONE
                             || (cancelMoveMode == CancelModes.STAFF && isStaff);
                     if (cancel) {
@@ -190,19 +192,19 @@ public class Utils {
                             p.setHealth(firstHealth);
                             return;
                         }
-                        if (settings.getCancelTeleportOnDamage()) Utils.cancelTeleport(user, this, p);
+                        if (settings.getCancelTeleportOnDamage()) cancelTeleport(user, this, p);
                     }
                 }
 
                 if (time == 0) {
                     user.setState(User.State.PLAYING);
                     PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
+                    sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
                     cancel();
                     return;
                 }
 
-                Utils.sendMessage(p, teleportingMode, teleportingMsg, teleportingSub, String.valueOf(time));
+                sendMessage(p, teleportingMode, teleportingMsg, teleportingSub, String.valueOf(time));
                 time--;
             }
         }.runTaskTimer(plugin, 0L, 20L);
@@ -211,7 +213,26 @@ public class Utils {
     public static void cancelTeleport(User user, BukkitRunnable runnable, Player p) {
         user.setState(User.State.PLAYING);
         runnable.cancel();
-        p.sendMessage(Utils.getString("other-messages.warps.teleport-cancelled", p));
+        p.sendMessage(getString("other-messages.warps.teleport-cancelled", p));
+    }
+
+    public static void sendMessage(CommandSender sender, String msg) {
+        sender.sendMessage(getString("other-messages." + msg + ".beginning", sender));
+        if (sender.hasPermission("sst.staff")) {
+            sender.sendMessage(getString("other-messages." + msg + ".only-staff", sender));
+        }
+        sender.sendMessage(getString("other-messages." + msg + ".everyone", sender));
+        sender.sendMessage(getString("other-messages." + msg + ".ending", sender));
+    }
+
+    public static boolean matchMode(String mode) {
+        mode = mode.toLowerCase(Locale.ROOT);
+        if (mode.contains("on") || mode.contains("true") || mode.contains("aç") || mode.contains("aktif")) {
+            return true;
+        } else if (mode.contains("off") || mode.contains("false") || mode.contains("kapat") || mode.contains("de-aktif") || mode.contains("dekatif")) {
+            return false;
+        }
+        return false;
     }
 
 }

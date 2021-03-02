@@ -8,6 +8,7 @@ custom-placeholders: # You can use these placeholders everywhere. You can create
   #name: value
 
 no-permission: '%prefix% &cI''m sorry %player% but you don''t have enough permission to do that!'
+main-command-perm-required: true # if true, player must have 'sst.maincmd' permission for using '/sst' command
 
 join-quit-messages:
   enabled: true
@@ -178,3 +179,10 @@ other-messages:
     not-found: '%prefix% &cGirdiğiniz oyuncu bulunamadı.'
     wrong-usage: '%prefix% &cKomutu hatalı kullandınız.'
     armor-empty: '%prefix% &cBu oyuncu hiç zırh giymiyor.'
+  kick:
+    broadcast:
+      enabled: true
+      message: '%prefix% &e%kicked% &6adlı oyuncu &e%kicker% &6tarafından sunucudan atıldı.'
+    kick-message: '%prefix% &c%kicker% adlı yetkili tarafından atıldın.'
+    kicked: '%prefix% &e%kicked% &3adlı oyuncuyu attın.'
+    went-wrong: '%prefix% &cBir şeyler ters gitti.'

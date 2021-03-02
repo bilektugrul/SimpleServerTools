@@ -75,6 +75,7 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("feed").setExecutor(new FeedCommand());
         getCommand("heal").setExecutor(new HealCommand());
         getCommand("invsee").setExecutor(new InvSeeCommand());
+        getCommand("kick").setExecutor(new KickCommand());
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
@@ -92,6 +93,7 @@ public class SimpleServerTools extends JavaPlugin {
     public CustomPlaceholderManager getPlaceholderManager() {
         return placeholderManager;
     }
+
     public WarpManager getWarpManager() {
         return warpManager;
     }
@@ -102,10 +104,6 @@ public class SimpleServerTools extends JavaPlugin {
 
     public SpawnManager getSpawnManager() {
         return spawnManager;
-    }
-
-    public Permission getPermissionManager() {
-        return vaultManager.getPermissionProvider();
     }
 
     public boolean isPermManagerReady() {
@@ -125,22 +123,12 @@ public class SimpleServerTools extends JavaPlugin {
     public void reload(boolean first) {
         reloadConfig();
         checkAndLoadPacketListener();
-        FileConfiguration config = getConfig();
         placeholderManager.load();
         if (!first) {
             warpManager.reloadWarps();
             spawnManager.reloadSpawn();
             joinMessageManager.reload();
         }
-    }
-
-    public void sendMessage(CommandSender sender, String msg) {
-        sender.sendMessage(Utils.getString("other-messages." + msg + ".beginning", sender));
-        if (sender.hasPermission("sst.staff")) {
-            sender.sendMessage(Utils.getString("other-messages." + msg + ".only-staff", sender));
-        }
-        sender.sendMessage(Utils.getString("other-messages." + msg + ".everyone", sender));
-        sender.sendMessage(Utils.getString("other-messages." + msg + ".ending", sender));
     }
 
 }

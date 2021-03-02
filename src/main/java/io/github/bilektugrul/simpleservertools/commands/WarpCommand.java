@@ -21,11 +21,9 @@ import java.util.stream.Collectors;
 
 public class WarpCommand implements CommandExecutor {
 
-    private final SimpleServerTools plugin;
     private final WarpManager warpManager;
 
     public WarpCommand(SimpleServerTools plugin) {
-        this.plugin = plugin;
         this.warpManager = plugin.getWarpManager();
         plugin.getCommand("warp").setTabCompleter(new WarpTabCompleter());
     }
@@ -106,7 +104,7 @@ public class WarpCommand implements CommandExecutor {
                     }
                 }
             } else {
-                plugin.sendMessage(sender, "help-message");
+                Utils.sendMessage(sender, "help-message");
             }
         }
         return true;

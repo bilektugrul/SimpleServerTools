@@ -8,8 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
-
 public class FlyCommand implements CommandExecutor {
 
     @Override
@@ -26,7 +24,7 @@ public class FlyCommand implements CommandExecutor {
             if (flightPlayer == null && sender instanceof Player) flightPlayer = (Player) sender;
             if (flightPlayer != null) {
                 if (argFlightMode) {
-                    boolean newMode = matchMode(args[1]);
+                    boolean newMode = Utils.matchMode(args[1]);
                     change(sender, flightPlayer, newMode);
                 } else {
                     change(sender, flightPlayer, !flightPlayer.getAllowFlight());
@@ -50,16 +48,6 @@ public class FlyCommand implements CommandExecutor {
                     .replace("%other%", flightPlayer.getName())
                     .replace("%flymode%", Utils.getString("other-messages.fly.modes." + newMode, from)));
         }
-    }
-    
-    public static boolean matchMode(String mode) {
-        mode = mode.toLowerCase(Locale.ROOT);
-        if (mode.contains("on") || mode.contains("true") || mode.contains("aç") || mode.contains("aktif")) {
-            return true;
-        } else if (mode.contains("off") || mode.contains("false") || mode.contains("kapat") || mode.contains("de-aktif") || mode.contains("dekatif")) {
-            return false;
-        }
-        return false;
     }
 
 }
