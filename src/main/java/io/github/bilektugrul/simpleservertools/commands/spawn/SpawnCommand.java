@@ -3,7 +3,8 @@ package io.github.bilektugrul.simpleservertools.commands.spawn;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.spawn.Spawn;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
-import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportMode;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,9 +17,11 @@ import org.jetbrains.annotations.NotNull;
 public class SpawnCommand implements CommandExecutor {
 
     private final SpawnManager spawnManager;
+    private final TeleportManager teleportManager;
 
     public SpawnCommand(SimpleServerTools plugin) {
         this.spawnManager = plugin.getSpawnManager();
+        this.teleportManager = plugin.getTeleportManager();
     }
 
     @Override
@@ -26,14 +29,14 @@ public class SpawnCommand implements CommandExecutor {
         if (spawnManager.isEnabled()) {
             if (spawnManager.isPresent()) {
                 Spawn spawn = spawnManager.getSpawn();
-                TeleportMode mode = new TeleportMode(TeleportMode.Mode.SPAWN, null, spawn);
+                TeleportMode mode = new TeleportMode(TeleportMode.Mode.SPAWN, null, spawn, null);
                 final Location loc = spawn.getLocation();
                 if (args.length == 1) {
                     Player toTeleport = Bukkit.getPlayer(args[0]);
-                    if (toTeleport != null) Utils.teleport(toTeleport, loc, mode);
+                    if (toTeleport != null) teleportManager.teleport(toTeleport, loc, mode, spawnManager.getSettings());
                     else sender.sendMessage(Utils.getString("other-messages.spawn.player-not-found", sender));
                 } else if (args.length == 0 && sender instanceof Player) {
-                    Utils.teleport((Player) sender, loc, mode);
+                    teleportManager.teleport((Player) sender, loc, mode, spawnManager.getSettings());
                 }
             } else {
                 sender.sendMessage(Utils.getString("other-messages.spawn.spawn-not-set", sender));

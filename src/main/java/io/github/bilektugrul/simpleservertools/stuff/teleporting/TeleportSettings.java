@@ -1,14 +1,14 @@
-package io.github.bilektugrul.simpleservertools.stuff.objects;
+package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
-import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
+import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 
 public class TeleportSettings {
 
     private final int time;
-    private final CancelModes cancelMoveMode, cancelDamageMode;
+    private final CancelMode cancelMoveMode, cancelDamageMode;
     private final boolean blockMove, cancelTeleportOnMove, blockDamage, cancelTeleportOnDamage, staffBypassTime;
 
-    public TeleportSettings(int time, boolean blockMove, boolean cancelTeleportOnMove, CancelModes cancelMoveMode, boolean blockDamage, boolean cancelTeleportOnDamage, CancelModes cancelDamageMode, boolean staffBypassTime) {
+    public TeleportSettings(int time, boolean blockMove, boolean cancelTeleportOnMove, CancelMode cancelMoveMode, boolean blockDamage, boolean cancelTeleportOnDamage, CancelMode cancelDamageMode, boolean staffBypassTime) {
         this.time = time;
         this.blockMove = blockMove;
         this.cancelTeleportOnMove = cancelTeleportOnMove;
@@ -31,7 +31,7 @@ public class TeleportSettings {
         return cancelTeleportOnMove;
     }
 
-    public CancelModes getCancelMoveMode() {
+    public CancelMode getCancelMoveMode() {
         return cancelMoveMode;
     }
 
@@ -43,7 +43,7 @@ public class TeleportSettings {
         return cancelTeleportOnDamage;
     }
 
-    public CancelModes getCancelDamageMode() {
+    public CancelMode getCancelDamageMode() {
         return cancelDamageMode;
     }
 

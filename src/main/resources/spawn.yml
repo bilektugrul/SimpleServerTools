@@ -13,7 +13,7 @@ spawn:
           block-move: true # if true, player cannot move when teleporting
           cancel-teleport: false # if true, teleport process will be cancelled when player moves
         mode: EVERYONE
-        # Modes: EVERYONE, STAFF
+        # Modes: EVERYONE, STAFF, EXCEPT_STAFF
       cancel-damage:
         settings:
           block-damage: true
@@ -22,3 +22,4 @@ spawn:
         # Modes: EVERYONE, STAFF
         # EVERYONE: blocks damage for everyone when teleporting to warp
         # STAFF: blocks damage for staff when teleporting to warp
+        # EXCEPT_STAFF: block damage for everyone except staff

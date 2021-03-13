@@ -3,13 +3,9 @@ package io.github.bilektugrul.simpleservertools.utils;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
+import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
-import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
-import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportMode;
-import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
-import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
-import io.papermc.lib.PaperLib;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commonsbox.compat.Titles;
 import net.md_5.bungee.api.ChatColor;
@@ -17,12 +13,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Locale;
-import java.util.UUID;
 
 public class Utils {
 
@@ -31,53 +24,17 @@ public class Utils {
     private static final WarpManager warpManager = plugin.getWarpManager();
     private static final UserManager userManager = plugin.getUserManager();
     private static final SpawnManager spawnManager = plugin.getSpawnManager();
+    private static final TPAManager tpaManager = plugin.getTPAManager();
 
-    public static void hidePlayer(Player player, boolean silent) {
-        UUID uuid = player.getUniqueId();
-        if (!isVanished(uuid))
-            plugin.getVanishedPlayers().add(player.getUniqueId());
-        if (!plugin.getOnlineVanishedPlayers().contains(uuid))
-            plugin.getOnlineVanishedPlayers().add(player.getUniqueId());
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.hasPermission("sst.vanish")) {
-                p.hidePlayer(player);
-            }
-        }
-        player.sendMessage(getString("other-messages.vanish.activated", player));
-        if (getBoolean("join-quit-messages.enabled", false)) {
-            if (!silent) Bukkit.broadcastMessage(getString("join-quit-messages.quit-message", player));
-        }
+    public static String getString(String string, CommandSender from) {
+        return replacePlaceholders(plugin.getConfig().getString(string), from, false);
     }
 
-    public static void showPlayer(Player player, boolean silent) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            p.showPlayer(player);
-        }
-        player.sendMessage(getString("other-messages.vanish.disabled", player));
-        plugin.getVanishedPlayers().remove(player.getUniqueId());
-        plugin.getOnlineVanishedPlayers().remove(player.getUniqueId());
-        if (getBoolean("join-quit-messages.enabled", false)) {
-            if (!silent) Bukkit.broadcastMessage(getString("join-quit-messages.join-message", player));
-        }
-    }
-
-    public static boolean isVanished(UUID uuid) {
-        return plugin.getVanishedPlayers().contains(uuid);
-    }
-
-    public static String getString(String string, Object from) {
-        String msg = colorMessage(plugin.getConfig().getString(string));
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            if (from instanceof Player) msg = replacePlaceholders(msg, (Player) from, true);
-            else msg = PlaceholderAPI.setPlaceholders(null, msg);
-        }
-        return msg;
-    }
-
-    public static String replacePlaceholders(String msg, Player player, boolean direct) {
-        msg = colorMessage(msg).replace("%player%", player.getName());
+    public static String replacePlaceholders(String msg, CommandSender from, boolean direct) {
+        boolean isPlayer = from instanceof Player;
+        msg = colorMessage(msg).replace("%player%", isPlayer ? from.getName() : "CONSOLE");
         if (direct || Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            return PlaceholderAPI.setPlaceholders(player, msg);
+            return PlaceholderAPI.setPlaceholders(isPlayer ? (Player) from : null, msg);
         }
         return msg;
     }
@@ -119,103 +76,6 @@ public class Utils {
         }
     }
 
-    public static void teleport(Player p, Location loc, final TeleportMode teleportMode) {
-        new BukkitRunnable() {
-            final TeleportSettings settings;
-            final String mode = teleportMode.getModeString();
-            {
-                if (teleportMode.getMode() == TeleportMode.Mode.WARPS)
-                    settings = warpManager.getSettings();
-                else
-                    settings = spawnManager.getSettings();
-            }
-            final boolean isStaff = p.hasPermission("sst.staff");
-
-            int time = isStaff && getBoolean(mode + ".staff-bypass-time")
-                    ? 0
-                    : settings.getTime();
-
-            String teleportingMsg = getString("other-messages." + mode + ".teleporting.message", p);
-            final String teleportingMode = getString("other-messages." + mode + ".teleporting.mode", p);
-            String teleportingSub = "";
-
-            String teleportedMsg = getString("other-messages." + mode + ".teleported.message", p);
-            final String teleportedMode = getString("other-messages." + mode +".teleported.mode", p);
-            String teleportedSub = "";
-
-            final Location firstLoc = p.getLocation();
-            final double firstHealth = p.getHealth();
-
-            final UUID uuid = p.getUniqueId();
-
-            final CancelModes cancelMoveMode = settings.getCancelMoveMode();
-            final CancelModes cancelDamageMode = settings.getCancelDamageMode();
-            final User user = userManager.getUser(uuid);
-
-            {
-                if (teleportMode.getMode() == TeleportMode.Mode.WARPS) {
-                    teleportedMsg = teleportedMsg.replace("%warp%", teleportMode.getWarp().getName());
-                }
-                user.setState(User.State.TELEPORTING_SPAWN);
-                if ((teleportingMode.equalsIgnoreCase("TITLE") && teleportingMsg.contains("\n"))) {
-                    int index = teleportingMsg.indexOf("\n");
-                    teleportingSub = teleportingMsg.split("\n")[1];
-                    teleportingMsg = teleportingMsg.substring(0, index);
-                }
-                if (teleportedMode.equalsIgnoreCase("TITLE") && teleportedMsg.contains("\n")) {
-                    int index = teleportedMsg.indexOf("\n");
-                    teleportedSub  = teleportedMsg.split("\n")[1];
-                    teleportedMsg = teleportedMsg.substring(0, index);
-                }
-            }
-
-            @Override
-            public void run() {
-
-                if (!isSameLoc(firstLoc, p.getLocation())) {
-                    boolean cancel = cancelMoveMode == CancelModes.EVERYONE
-                            || (cancelMoveMode == CancelModes.STAFF && isStaff);
-                    if (cancel) {
-                        if (settings.getCancelTeleportOnMove()) {
-                            cancelTeleport(user, this, p);
-                            return;
-                        }
-                        if (settings.getBlockMove()) p.teleport(firstLoc);
-                    }
-                }
-
-                if (p.getHealth() != firstHealth) {
-                    boolean cancel = cancelDamageMode == CancelModes.EVERYONE
-                            || (cancelDamageMode == CancelModes.STAFF && isStaff);
-                    if (cancel) {
-                        if (settings.getBlockDamage()) {
-                            p.setHealth(firstHealth);
-                            return;
-                        }
-                        if (settings.getCancelTeleportOnDamage()) cancelTeleport(user, this, p);
-                    }
-                }
-
-                if (time == 0) {
-                    user.setState(User.State.PLAYING);
-                    PaperLib.teleportAsync(p, loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
-                    cancel();
-                    return;
-                }
-
-                sendMessage(p, teleportingMode, teleportingMsg, teleportingSub, String.valueOf(time));
-                time--;
-            }
-        }.runTaskTimer(plugin, 0L, 20L);
-    }
-
-    public static void cancelTeleport(User user, BukkitRunnable runnable, Player p) {
-        user.setState(User.State.PLAYING);
-        runnable.cancel();
-        p.sendMessage(getString("other-messages.warps.teleport-cancelled", p));
-    }
-
     public static void sendMessage(CommandSender sender, String msg) {
         sender.sendMessage(getString("other-messages." + msg + ".beginning", sender));
         if (sender.hasPermission("sst.staff")) {
@@ -229,7 +89,7 @@ public class Utils {
         mode = mode.toLowerCase(Locale.ROOT);
         if (mode.contains("on") || mode.contains("true") || mode.contains("aç") || mode.contains("aktif")) {
             return true;
-        } else if (mode.contains("off") || mode.contains("false") || mode.contains("kapat") || mode.contains("de-aktif") || mode.contains("dekatif")) {
+        } else if (mode.contains("off") || mode.contains("false") || mode.contains("kapat") || mode.contains("de-aktif") || mode.contains("deaktif")) {
             return false;
         }
         return false;

@@ -48,38 +48,43 @@ commands:
     usage: /invsee <player>
   kick:
     usage: /kick <player> [<message>]
+  tpa:
+    usage: /tpa <player>
 permissions:
   sst.*:
     default: op
-  sst.gamemode.*:
-    default: op
     children:
-      sst.gamemode: true
-      sst.gamemode.others: true
-      sst.gamemode.all: true
-  sst.broadcast:
-    default: op
-  sst.fly:
-    default: op
-  sst.spawn:
-    default: op
-  sst.setspawn:
-    default: op
-  sst.god:
-    default: op
-  sst.disposal:
-    default: op
-  sst.ping:
-    default: op
-  sst.invsee:
-    default: op
-  sst.admin:
-    default: op
-  sst.staff:
-    default: op
-  sst.warplist:
-    default: op
-  sst.kick:
-    default: op
-    children:
-      sst.kick.admins: false
+      sst.gamemode.*:
+        default: op
+        children:
+          sst.gamemode: true
+          sst.gamemode.others: true
+          sst.gamemode.all: true
+      sst.broadcast:
+        default: op
+      sst.fly:
+        default: op
+      sst.spawn:
+        default: op
+      sst.setspawn:
+        default: op
+      sst.god:
+        default: op
+      sst.disposal:
+        default: op
+      sst.ping:
+        default: op
+      sst.invsee:
+        default: op
+      sst.admin:
+        default: op
+      sst.staff:
+        default: op
+      sst.warplist:
+        default: op
+      sst.kick:
+        default: op
+        children:
+          sst.kick.admins: false
+      sst.tpa:
+        default: op

@@ -5,9 +5,11 @@ import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessage;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageType;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
+import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
+import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
-import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
-import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -37,14 +39,18 @@ public class PlayerListener implements Listener {
     private final WarpManager warpManager;
     private final JoinMessageManager joinMessageManager;
     private final VaultManager vaultManager;
+    private final VanishManager vanishManager;
+    private final TPAManager tpaManager;
 
-    public PlayerListener(SimpleServerTools plugin, VaultManager vaultManager) {
+    public PlayerListener(SimpleServerTools plugin) {
         this.plugin = plugin;
         this.userManager = plugin.getUserManager();
         this.spawnManager = plugin.getSpawnManager();
         this.warpManager = plugin.getWarpManager();
         this.joinMessageManager = plugin.getJoinMessageManager();
-        this.vaultManager = vaultManager;
+        this.vaultManager = plugin.getVaultManager();
+        this.vanishManager = plugin.getVanishManager();
+        this.tpaManager = plugin.getTPAManager();
     }
 
     @EventHandler
@@ -76,7 +82,7 @@ public class PlayerListener implements Listener {
 
         UUID uuid = player.getUniqueId();
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
-            if (!Utils.isVanished(uuid)) {
+            if (!vanishManager.isVanished(uuid)) {
                 if (player.hasPlayedBefore())
                     e.setJoinMessage(Utils.getString("join-quit-messages.join-message", player));
                 else
@@ -88,11 +94,11 @@ public class PlayerListener implements Listener {
         }
 
         if (!player.hasPermission("sst.staff")) {
-            for (UUID vanished : plugin.getOnlineVanishedPlayers()) {
+            for (UUID vanished : vanishManager.getOnlineVanishedPlayers()) {
                 player.hidePlayer(Bukkit.getPlayer(vanished));
             }
 
-        } else if (Utils.isVanished(uuid)) Utils.hidePlayer(player, true);
+        } else if (vanishManager.isVanished(uuid)) vanishManager.hidePlayer(player, true);
 
     }
 
@@ -102,10 +108,10 @@ public class PlayerListener implements Listener {
         UUID uuid = e.getPlayer().getUniqueId();
 
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
-            if (!Utils.isVanished(uuid)) e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", e.getPlayer()));
+            if (!vanishManager.isVanished(uuid)) e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", e.getPlayer()));
         }
 
-        if (Utils.isVanished(uuid)) plugin.getOnlineVanishedPlayers().remove(uuid);
+        if (vanishManager.isVanished(uuid)) vanishManager.getOnlineVanishedPlayers().remove(uuid);
 
     }
 
@@ -143,14 +149,17 @@ public class PlayerListener implements Listener {
             settings = warpManager.getSettings();
         } else if (state == User.State.TELEPORTING_SPAWN) {
             settings = spawnManager.getSettings();
+        } else if (state == User.State.TELEPORTING_PLAYER) {
+            settings = tpaManager.getSettings();
         } else {
             return false;
         }
-        final CancelModes damageCancelMode = settings.getCancelDamageMode();
-        if (damageCancelMode == CancelModes.EVERYONE) {
+        final boolean isStaff = user.getPlayer().hasPermission("sst.staff");
+        final CancelMode damageCancelMode = settings.getCancelDamageMode();
+        if (damageCancelMode == CancelMode.EVERYONE || (damageCancelMode == CancelMode.EXCEPT_STAFF && !isStaff)) {
             return true;
         } else {
-            return damageCancelMode == CancelModes.STAFF && user.getPlayer().hasPermission("sst.staff");
+            return damageCancelMode == CancelMode.STAFF && isStaff;
         }
     }
 

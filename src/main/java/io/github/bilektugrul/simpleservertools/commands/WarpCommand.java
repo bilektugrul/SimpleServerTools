@@ -3,7 +3,8 @@ package io.github.bilektugrul.simpleservertools.commands;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
-import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportMode;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -22,9 +23,11 @@ import java.util.stream.Collectors;
 public class WarpCommand implements CommandExecutor {
 
     private final WarpManager warpManager;
+    private final TeleportManager teleportManager;
 
     public WarpCommand(SimpleServerTools plugin) {
         this.warpManager = plugin.getWarpManager();
+        this.teleportManager = plugin.getTeleportManager();
         plugin.getCommand("warp").setTabCompleter(new WarpTabCompleter());
     }
 
@@ -82,11 +85,9 @@ public class WarpCommand implements CommandExecutor {
                     } else if (args.length == 1) {
                         Warp warp = warpManager.getWarp(arg);
                         Location loc = warp.getLocation();
-                        TeleportMode mode = new TeleportMode(TeleportMode.Mode.WARPS, warp, null);
-                        if (warp.getPermRequire() && p.hasPermission(warp.getPermission())) {
-                            Utils.teleport(p, loc, mode);
-                        } else if (!warp.getPermRequire()) {
-                            Utils.teleport(p, loc, mode);
+                        TeleportMode mode = new TeleportMode(TeleportMode.Mode.WARPS, warp, null, null);
+                        if (!warp.getPermRequire() || warp.getPermRequire() && p.hasPermission(warp.getPermission())) {
+                            teleportManager.teleport(p, loc, mode, warpManager.getSettings());
                         } else {
                             p.sendMessage(Utils.getString("other-messages.warps.no-permission", p));
                         }

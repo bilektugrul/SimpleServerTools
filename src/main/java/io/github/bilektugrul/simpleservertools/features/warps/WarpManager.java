@@ -1,8 +1,8 @@
 package io.github.bilektugrul.simpleservertools.features.warps;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
-import io.github.bilektugrul.simpleservertools.stuff.CancelModes;
-import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.despical.commonsbox.configuration.ConfigUtils;
 import me.despical.commonsbox.serializer.LocationSerializer;
@@ -80,10 +80,10 @@ public class WarpManager {
             final int time = Utils.getInt("warps.teleport-time");
             final boolean blockMove = Utils.getBoolean("warps.cancel-when-move.settings.block-move");
             final boolean cancelTeleportOnMove = Utils.getBoolean("warps.cancel-when-move.settings.cancel-teleport");
-            final CancelModes cancelMoveMode = CancelModes.valueOf(Utils.getString("warps.cancel-when-move.mode", null));
+            final CancelMode cancelMoveMode = CancelMode.valueOf(Utils.getString("warps.cancel-when-move.mode", null));
             final boolean blockDamage = Utils.getBoolean("warps.cancel-damage.settings.block-damage");
             final boolean cancelTeleportOnDamage = Utils.getBoolean("warps.cancel-damage.settings.cancel-teleport");
-            final CancelModes cancelDamageMode = CancelModes.valueOf(Utils.getString("warps.cancel-damage.mode", null));
+            final CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("warps.cancel-damage.mode", null));
             final boolean staffBypassTime = Utils.getBoolean("warps.staff-bypass-time");
             settings = new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
         }

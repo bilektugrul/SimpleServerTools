@@ -5,6 +5,7 @@ custom-placeholders: # You can use these placeholders everywhere. You can create
   prefix: '&8[&6SST&8]&r'
   warpprefix: '&8[&6Warps&8]&r'
   spawnprefix: '&8[&6Spawn&8]&r'
+  tpaprefix: '&8[&6TPA&8]&r'
   #name: value
 
 no-permission: '%prefix% &cI''m sorry %player% but you don''t have enough permission to do that!'
@@ -40,10 +41,10 @@ warps:
   staff-bypass-time: true # if true, makes staff teleport immediately
   cancel-when-move:
     settings:
-      block-move: true # if true, teleport process will be cancelled when player moves
-      cancel-teleport: false
+      block-move: true # if true, player cannot move when teleporting
+      cancel-teleport: false # if true, teleport process will be cancelled when player moves
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF
+    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
   cancel-damage:
     settings:
       block-damage: true
@@ -52,6 +53,26 @@ warps:
     # Modes: EVERYONE, STAFF
     # EVERYONE: blocks damage for everyone when teleporting to warp
     # STAFF: blocks damage for staff when teleporting to warp
+    # EXCEPT_STAFF: block damage for everyone except staff
+
+tpa:
+  teleport-time: 5
+  staff-bypass-time: true # if true, makes staff teleport immediately
+  cancel-when-move:
+    settings:
+      block-move: true # if true, player cannot move when teleporting
+      cancel-teleport: false # if true, teleport process will be cancelled when player moves
+    mode: EVERYONE
+    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
+  cancel-damage:
+    settings:
+      block-damage: true
+      cancel-teleport: false
+    mode: EVERYONE
+    # Modes: EVERYONE, STAFF
+    # EVERYONE: blocks damage for everyone when teleporting to warp
+    # STAFF: blocks damage for staff when teleporting to warp
+    # EXCEPT_STAFF: block damage for everyone except staff
 
 other-messages:
   help-message:
@@ -186,3 +207,15 @@ other-messages:
     kick-message: '%prefix% &c%kicker% adlı yetkili tarafından atıldın.'
     kicked: '%prefix% &e%kicked% &3adlı oyuncuyu attın.'
     went-wrong: '%prefix% &cBir şeyler ters gitti.'
+  tpa:
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %tpaprefix%
+        &eTeleporting to &b%teleporting% &ein &b%time%...
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %tpaprefix%
+        &eYou have teleported to &b%teleporting%
+    teleport-cancelled: '%tpaprefix% &cTeleport cancelled.'

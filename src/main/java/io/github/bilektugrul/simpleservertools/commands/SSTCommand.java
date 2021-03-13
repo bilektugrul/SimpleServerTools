@@ -13,8 +13,8 @@ public class SSTCommand implements CommandExecutor {
     private final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, String[] args) {
-        if (!Utils.getBoolean("main-command-perm-required")) {
-            if (sender.hasPermission("sst.maincmd") && args.length > 0) {
+        if (!Utils.getBoolean("main-command-perm-required") || sender.hasPermission("sst.maincmd")) {
+            if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("sst.admin")) {
                     plugin.reload(false);
                     sender.sendMessage(Utils.getString("other-messages.config-reloaded", sender));

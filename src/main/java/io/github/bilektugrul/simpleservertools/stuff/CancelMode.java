@@ -1,7 +1,7 @@
 package io.github.bilektugrul.simpleservertools.stuff;
 
-public enum CancelModes {
+public enum CancelMode {
 
-    EVERYONE, STAFF
+    EVERYONE, STAFF, EXCEPT_STAFF
 
 }

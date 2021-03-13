@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 
 import java.util.ArrayList;
@@ -17,16 +18,18 @@ import java.util.UUID;
 public class PacketListener extends PacketAdapter {
 
     private final SimpleServerTools plugin;
+    private final VanishManager vanishManager;
 
     public PacketListener(SimpleServerTools plugin) {
         super(plugin, ListenerPriority.LOWEST, PacketType.Status.Server.SERVER_INFO);
         this.plugin = plugin;
+        this.vanishManager = plugin.getVanishManager();
     }
 
     @Override
     public void onPacketSending(PacketEvent event) {
         WrappedServerPing ping = event.getPacket().getServerPings().read(0);
-        Collection<UUID> vanishedPlayers = plugin.getVanishedPlayers();
+        Collection<UUID> vanishedPlayers = vanishManager.getVanishedPlayers();
         int size = plugin.getServer().getOnlinePlayers().size();
         int vanishedSize = vanishedPlayers.size();
         if (Utils.getBoolean("remove-vanished-players.enabled")) {

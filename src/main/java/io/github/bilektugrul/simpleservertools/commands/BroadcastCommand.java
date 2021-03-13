@@ -18,7 +18,7 @@ public class BroadcastCommand implements CommandExecutor {
                 for (String arg : args) {
                     builder.append(arg).append(" ");
                 }
-                Bukkit.broadcastMessage(Utils.colorMessage(builder.toString()));
+                Bukkit.broadcastMessage(Utils.replacePlaceholders(builder.toString(), sender, false));
             } else {
                 sender.sendMessage(Utils.getString("other-messages.broadcast.not-enough", sender));
             }

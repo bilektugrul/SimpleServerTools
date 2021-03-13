@@ -8,7 +8,7 @@ import java.util.UUID;
 public class User {
 
     public enum State {
-        TELEPORTING, TELEPORTING_SPAWN, PLAYING
+        TELEPORTING, TELEPORTING_SPAWN, TELEPORTING_PLAYER, PLAYING
     }
 
     private final UUID uuid;

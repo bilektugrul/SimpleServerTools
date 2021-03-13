@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.spawn;
 
-import io.github.bilektugrul.simpleservertools.stuff.objects.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import org.bukkit.Location;
 
 public class Spawn {

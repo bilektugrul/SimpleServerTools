@@ -2,6 +2,7 @@ package io.github.bilektugrul.simpleservertools.placeholders;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
+import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,10 +12,12 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
 
     private final SimpleServerTools plugin;
     private final CustomPlaceholderManager placeholderManager;
+    private final VanishManager vanishManager;
 
     public PAPIPlaceholders(SimpleServerTools plugin) {
         this.plugin = plugin;
         this.placeholderManager = plugin.getPlaceholderManager();
+        this.vanishManager = plugin.getVanishManager();
     }
 
     @Override
@@ -53,19 +56,18 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
 
         if (identifier.equals("safeonline")) {
             if (!player.hasPermission("sst.staff")) {
-                return String.valueOf(Bukkit.getOnlinePlayers().size() - plugin.getOnlineVanishedPlayers().size());
+                return String.valueOf(Bukkit.getOnlinePlayers().size() - vanishManager.getOnlineVanishedPlayers().size());
             } else {
                 return String.valueOf(Bukkit.getOnlinePlayers().size());
             }
         }
 
         if (identifier.equals("vanished")){
-            return String.valueOf(plugin.getOnlineVanishedPlayers().size());
+            return String.valueOf(vanishManager.getOnlineVanishedPlayers().size());
         } else if (identifier.contains("custom")) {
             String name = identifier.substring(identifier.indexOf("custom_") + 7);
             return placeholderManager.getPlaceholder(name).getValue();
         }
-
         return null;
     }
 

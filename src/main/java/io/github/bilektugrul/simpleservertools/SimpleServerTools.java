@@ -6,37 +6,21 @@ import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
+import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
+import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
 import io.github.bilektugrul.simpleservertools.placeholders.PAPIPlaceholders;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
-import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-//TODO: VanishManager
+//TODO: Add /tpaccept and /tpadeny
 public class SimpleServerTools extends JavaPlugin {
-
-    private final List<UUID> vanishedPlayers = new ArrayList<>();
-    private final List<UUID> onlineVanishedPlayers = new ArrayList<>();
-
-    public List<UUID> getVanishedPlayers() {
-        return vanishedPlayers;
-    }
-
-    public List<UUID> getOnlineVanishedPlayers() {
-        return onlineVanishedPlayers;
-    }
 
     private CustomPlaceholderManager placeholderManager;
     private WarpManager warpManager;
@@ -44,16 +28,22 @@ public class SimpleServerTools extends JavaPlugin {
     private SpawnManager spawnManager;
     private JoinMessageManager joinMessageManager;
     private VaultManager vaultManager;
+    private VanishManager vanishManager;
+    private TPAManager tpaManager;
+    private TeleportManager teleportManager;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         PaperLib.suggestPaper(this);
         placeholderManager = new CustomPlaceholderManager(this);
+        teleportManager = new TeleportManager(this);
         warpManager = new WarpManager(this);
         spawnManager = new SpawnManager(this);
         userManager = new UserManager();
         joinMessageManager = new JoinMessageManager(this);
+        vanishManager = new VanishManager();
+        tpaManager = new TPAManager();
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
@@ -64,9 +54,9 @@ public class SimpleServerTools extends JavaPlugin {
         } else {
             getLogger().warning("Vault couldn't found. Permission based features probably will not work.");
         }
-        getServer().getPluginManager().registerEvents(new PlayerListener(this, vaultManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getCommand("simpleservertools").setExecutor(new SSTCommand());
-        getCommand("vanish").setExecutor(new VanishCommand());
+        getCommand("vanish").setExecutor(new VanishCommand(vanishManager));
         getCommand("gamemode").setExecutor(new GamemodeCommand());
         getCommand("fly").setExecutor(new FlyCommand());
         getCommand("broadcast").setExecutor(new BroadcastCommand());
@@ -80,6 +70,7 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
         getCommand("god").setExecutor(new GodCommand(this));
+        getCommand("tpa").setExecutor(new TPACommand(this));
         reload(true);
     }
 
@@ -106,12 +97,28 @@ public class SimpleServerTools extends JavaPlugin {
         return spawnManager;
     }
 
+    public VaultManager getVaultManager() {
+        return vaultManager;
+    }
+
     public boolean isPermManagerReady() {
         return vaultManager != null;
     }
 
     public JoinMessageManager getJoinMessageManager() {
         return joinMessageManager;
+    }
+
+    public VanishManager getVanishManager() {
+        return vanishManager;
+    }
+
+    public TPAManager getTPAManager() {
+        return tpaManager;
+    }
+
+    public TeleportManager getTeleportManager() {
+        return teleportManager;
     }
 
     public void checkAndLoadPacketListener() {
