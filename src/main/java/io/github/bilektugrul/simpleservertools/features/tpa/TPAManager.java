@@ -1,16 +1,82 @@
 package io.github.bilektugrul.simpleservertools.features.tpa;
 
+import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
-import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class TPAManager {
 
     private TeleportSettings settings;
+    private final Map<Player, Set<Player>> tpaList = new HashMap<>();
+    private final TeleportManager teleportManager;
+    private final SimpleServerTools plugin;
 
-    public boolean isTeleporting(User user) {
-        return user.getState() == User.State.TELEPORTING_PLAYER;
+    public TPAManager(SimpleServerTools plugin) {
+        this.teleportManager = plugin.getTeleportManager();
+        this.plugin = plugin;
+    }
+
+    public boolean isPresent(Player key) {
+        return tpaList.containsKey(key);
+    }
+
+    public boolean isPresent(Player key, Player value) {
+        if (isPresent(key)) return tpaList.get(key).contains(value);
+        else return false;
+    }
+
+    public void add(Player p, Player to) {
+        if (isPresent(to)) {
+            tpaList.get(to).add(p);
+        } else {
+            Set<Player> set = new HashSet<>();
+            set.add(p);
+            tpaList.put(to, set);
+        }
+    }
+
+    public void remove(Player p, Player from) {
+        if (isPresent(from)) {
+            tpaList.get(from).remove(p);
+        }
+    }
+
+    public void startWaitTask(Player p, Player to) {
+        add(p, to);
+        new BukkitRunnable() {
+
+            int i = 0;
+            final int max = Utils.getInt("tpa.accept-time");
+
+            @Override
+            public void run() {
+                i++;
+                if (isPresent(to, p) && i == max) {
+                    remove(p, to);
+                    p.sendMessage(Utils.getString("other-messages.tpa.request-cancelled-2", p)
+                            .replace("%teleporting%", to.getName()));
+                    to.sendMessage(Utils.getString("other-messages.tpa.request-cancelled", to)
+                            .replace("%requester%", p.getName()));
+                    cancel();
+                }
+            }
+        }.runTaskTimer(plugin, 20L, 20);
+    }
+
+    public void teleport(Player p, Player to, Location loc, TeleportMode teleportMode) {
+        remove(p, to);
+        teleportManager.teleport(p, loc, teleportMode, getSettings());
     }
     
     public TeleportSettings getSettings() {

@@ -4,29 +4,27 @@ import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class VanishManager {
 
-    private final List<UUID> vanishedPlayers = new ArrayList<>();
-    private final List<UUID> onlineVanishedPlayers = new ArrayList<>();
+    private final Set<UUID> vanishedPlayers = new HashSet<>();
+    private final Set<UUID> onlineVanishedPlayers = new HashSet<>();
 
-    public List<UUID> getVanishedPlayers() {
+    public Set<UUID> getVanishedPlayers() {
         return vanishedPlayers;
     }
 
-    public List<UUID> getOnlineVanishedPlayers() {
+    public Set<UUID> getOnlineVanishedPlayers() {
         return onlineVanishedPlayers;
     }
 
     public void hidePlayer(Player player, boolean silent) {
         UUID uuid = player.getUniqueId();
-        if (!isVanished(uuid))
-            vanishedPlayers.add(player.getUniqueId());
-        if (!getOnlineVanishedPlayers().contains(uuid))
-            getOnlineVanishedPlayers().add(player.getUniqueId());
+        vanishedPlayers.add(uuid);
+        onlineVanishedPlayers.add(uuid);
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!p.hasPermission("sst.vanish")) {
                 p.hidePlayer(player);
@@ -39,12 +37,13 @@ public class VanishManager {
     }
 
     public void showPlayer(Player player, boolean silent) {
+        UUID uuid = player.getUniqueId();
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.showPlayer(player);
         }
         player.sendMessage(Utils.getString("other-messages.vanish.disabled", player));
-        getVanishedPlayers().remove(player.getUniqueId());
-        getOnlineVanishedPlayers().remove(player.getUniqueId());
+        getVanishedPlayers().remove(uuid);
+        getOnlineVanishedPlayers().remove(uuid);
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
             if (!silent) Bukkit.broadcastMessage(Utils.getString("join-quit-messages.join-message", player));
         }

@@ -38,23 +38,24 @@ public class TeleportTask extends BukkitRunnable {
     private final CancelMode cancelMoveMode;
     private final CancelMode cancelDamageMode;
     private final User user;
+    private final String mode;
 
     public TeleportTask(Player player, Location loc, TeleportMode teleportMode, TeleportSettings teleportSettings) {
         p = player;
         settings = teleportSettings;
-        String mode1 = teleportMode.getModeString();
+        mode = teleportMode.getModeString();
         isStaff = player.hasPermission("sst.staff");
 
         time = isStaff && settings.getStaffBypassTime()
                 ? 0
                 : settings.getTime();
 
-        teleportingMsg = Utils.getString("other-messages." + mode1 + ".teleporting.message", player);
-        teleportingMode = Utils.getString("other-messages." + mode1 + ".teleporting.mode", player);
+        teleportingMsg = Utils.getString("other-messages." + mode + ".teleporting.message", player);
+        teleportingMode = Utils.getString("other-messages." + mode + ".teleporting.mode", player);
         teleportingSub = "";
 
-        teleportedMsg = Utils.getString("other-messages." + mode1 + ".teleported.message", player);
-        teleportedMode = Utils.getString("other-messages." + mode1 +".teleported.mode", player);
+        teleportedMsg = Utils.getString("other-messages." + mode + ".teleported.message", player);
+        teleportedMode = Utils.getString("other-messages." + mode +".teleported.mode", player);
         teleportedSub = "";
 
         firstLoc = player.getLocation();
@@ -78,9 +79,9 @@ public class TeleportTask extends BukkitRunnable {
             user.setState(User.State.TELEPORTING_SPAWN);
         } else {
             user.setState(User.State.TELEPORTING_PLAYER);
-            Player teleportingTo = teleportMode.getTPAInfo().getToTeleport();
-            teleportedMsg = teleportedMsg.replace("%teleporting%", teleportingTo.getName());
-            teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo.getName());
+            String teleportingTo = teleportMode.getTPAInfo().getToTeleport().getName();
+            teleportedMsg = teleportedMsg.replace("%teleporting%", teleportingTo);
+            teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo);
         }
 
         if ((teleportingMode.equalsIgnoreCase("TITLE") && teleportingMsg.contains("\n"))) {
@@ -104,7 +105,7 @@ public class TeleportTask extends BukkitRunnable {
                     || (cancelMoveMode == CancelMode.EXCEPT_STAFF && !isStaff);
             if (cancel) {
                 if (settings.getCancelTeleportOnMove()) {
-                    cancelTeleport(user, p);
+                    cancelTeleport(true);
                     return;
                 }
                 if (settings.getBlockMove()) p.teleport(firstLoc);
@@ -120,7 +121,7 @@ public class TeleportTask extends BukkitRunnable {
                     p.setHealth(firstHealth);
                     return;
                 }
-                if (settings.getCancelTeleportOnDamage()) cancelTeleport(user, p);
+                if (settings.getCancelTeleportOnDamage()) cancelTeleport(true);
             }
         }
 
@@ -129,7 +130,7 @@ public class TeleportTask extends BukkitRunnable {
             PaperLib.teleportAsync(p, finalLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
             Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
             teleportManager.getTeleportTasks().remove(this);
-            cancel();
+            cancelTeleport(false);
             return;
         }
 
@@ -137,11 +138,11 @@ public class TeleportTask extends BukkitRunnable {
         time--;
     }
 
-    public void cancelTeleport(User user, Player p) {
+    public void cancelTeleport(boolean msg) {
         user.setState(User.State.PLAYING);
-        p.sendMessage(Utils.getString("other-messages.warps.teleport-cancelled", p));
+        if (msg) p.sendMessage(Utils.getString("other-messages." + mode + ".teleport-cancelled", p));
         teleportManager.getTeleportTasks().remove(this);
-        cancel();
+        super.cancel();
     }
 
 }

@@ -26,16 +26,16 @@ public class JoinMessageManager {
                 String s3 = "join-message.everyone";
                 if (msgFile.getBoolean("join-message.per-group.enabled")) {
                     for (String group : msgFile.getConfigurationSection(s1).getKeys(false)) {
-                        joinMessageList.add(new JoinMessage(msgFile.getString(s1 + "." + group), group, JoinMessageType.GROUP));
+                        joinMessageList.add(new JoinMessage(msgFile.getString(s1 + "." + group), group, JoinMessage.JoinMessageType.GROUP));
                     }
                 }
                 if (msgFile.getBoolean("join-message.per-permission.enabled")) {
                     for (String perm : msgFile.getConfigurationSection(s2).getKeys(false)) {
-                        joinMessageList.add(new JoinMessage(msgFile.getString(s2 + "." + perm), JoinMessageType.PERMISSION, "sst.joinmessages." + perm));
+                        joinMessageList.add(new JoinMessage(msgFile.getString(s2 + "." + perm), JoinMessage.JoinMessageType.PERMISSION, "sst.joinmessages." + perm));
                     }
                 }
                 if (msgFile.getBoolean(s3 + ".enabled")) {
-                    joinMessageList.add(new JoinMessage(msgFile.getString(s3 + ".message"), JoinMessageType.EVERYONE));
+                    joinMessageList.add(new JoinMessage(msgFile.getString(s3 + ".message"), JoinMessage.JoinMessageType.EVERYONE));
                 }
             } else {
                 plugin.getLogger().warning("Join messages file couldn't found.");

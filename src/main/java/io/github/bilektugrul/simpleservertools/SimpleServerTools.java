@@ -3,6 +3,9 @@ package io.github.bilektugrul.simpleservertools;
 import io.github.bilektugrul.simpleservertools.commands.*;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SetSpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
+import io.github.bilektugrul.simpleservertools.commands.tpa.TPAAcceptCommand;
+import io.github.bilektugrul.simpleservertools.commands.tpa.TPACommand;
+import io.github.bilektugrul.simpleservertools.commands.tpa.TPADenyCommand;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
@@ -43,7 +46,7 @@ public class SimpleServerTools extends JavaPlugin {
         userManager = new UserManager();
         joinMessageManager = new JoinMessageManager(this);
         vanishManager = new VanishManager();
-        tpaManager = new TPAManager();
+        tpaManager = new TPAManager(this);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
@@ -71,6 +74,8 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("spawn").setExecutor(new SpawnCommand(this));
         getCommand("god").setExecutor(new GodCommand(this));
         getCommand("tpa").setExecutor(new TPACommand(this));
+        getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
+        getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
         reload(true);
     }
 

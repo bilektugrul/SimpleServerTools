@@ -50,6 +50,10 @@ commands:
     usage: /kick <player> [<message>]
   tpa:
     usage: /tpa <player>
+  tpaaccept:
+    usage: /tpaaccept <player>
+  tpadeny:
+    usage: /tpadeny <player>
 permissions:
   sst.*:
     default: op

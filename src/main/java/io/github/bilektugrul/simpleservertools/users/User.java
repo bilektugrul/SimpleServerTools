@@ -54,4 +54,8 @@ public class User {
         this.isGod = isGod;
     }
 
+    public boolean isAvailable() {
+        return state == State.PLAYING;
+    }
+
 }

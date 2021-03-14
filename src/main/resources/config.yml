@@ -56,6 +56,7 @@ warps:
     # EXCEPT_STAFF: block damage for everyone except staff
 
 tpa:
+  accept-time: 10
   teleport-time: 5
   staff-bypass-time: true # if true, makes staff teleport immediately
   cancel-when-move:
@@ -208,6 +209,20 @@ other-messages:
     kicked: '%prefix% &e%kicked% &3adlı oyuncuyu attın.'
     went-wrong: '%prefix% &cBir şeyler ters gitti.'
   tpa:
+    request-sent: '%tpaprefix% &6You have sent a TPA request to &3%teleporting%'
+    new-request: '%tpaprefix% &3%requester% &6have sent a TPA request to you'
+    click-to-accept: '%tpaprefix% &6&nClick here to accept'
+    click-to-deny: '%tpaprefix% &c&nClick here to deny'
+    request-accepted: '%tpaprefix% &3%teleporting% &6have accepted your TPA request.'
+    request-accepted-2: '%tpaprefix% &6You have accepted &3%requester%''s TPA request.'
+    request-denied: '%tpaprefix% &3%teleporting% &6have denied your TPA request.'
+    request-denied-2: '%tpaprefix% &6You have denied &3%requester%''s TPA request.'
+    request-cancelled: '%tpaprefix% &6TPA request from &3%requester% &6cancelled by server.'
+    request-cancelled-2: '%tpaprefix% &6Your TPA request that sent to &3%teleporting% &6cancelled by server.'
+    no-request: '%tpaprefix% &cYou don''t have any TPA request or command was wrong.'
+    went-wrong: '%tpaprefix% &cThat player didn''t send you a TPA request or something went wrong.'
+    not-found: '%tpaprefix% &cYou can''t send TPA request to that user.'
+    usage: '%tpaprefix% &c/tpa <player>'
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |

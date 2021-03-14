@@ -1,9 +1,8 @@
-package io.github.bilektugrul.simpleservertools.commands;
+package io.github.bilektugrul.simpleservertools.commands.tpa;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAInfo;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
-import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -14,33 +13,35 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class TPACommand implements CommandExecutor {
+public class TPAAcceptCommand implements CommandExecutor {
 
-    private final SimpleServerTools plugin;
     private final TPAManager tpaManager;
     private final UserManager userManager;
-    private final TeleportManager teleportManager;
 
-    public TPACommand(SimpleServerTools plugin) {
-        this.plugin = plugin;
+    public TPAAcceptCommand(SimpleServerTools plugin) {
         this.tpaManager = plugin.getTPAManager();
         this.userManager = plugin.getUserManager();
-        this.teleportManager = plugin.getTeleportManager();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender.hasPermission("sst.tpa") && sender instanceof Player) {
             Player p = (Player) sender;
-            if (args.length == 1) {
-                Player toTeleport = Bukkit.getPlayer(args[0]);
-                if (toTeleport != null && !toTeleport.equals(sender)) {
-                    TPAInfo info = new TPAInfo(p, toTeleport);
+            if (args.length == 1 && tpaManager.isPresent(p)) {
+                Player reqSender = Bukkit.getPlayer(args[0]);
+                if (reqSender != null && !reqSender.equals(sender) && tpaManager.isPresent(p, reqSender) && userManager.getUser(reqSender.getUniqueId()).isAvailable()) {
+                    TPAInfo info = new TPAInfo(reqSender, p);
                     TeleportMode mode = new TeleportMode(TeleportMode.Mode.TPA, null, null, info);
-                    if (!tpaManager.isTeleporting(userManager.getUser(p.getUniqueId()))) {
-                        teleportManager.teleport(p, toTeleport.getLocation(), mode, tpaManager.getSettings());
-                    }
+                    reqSender.sendMessage(Utils.getString("other-messages.tpa.request-accepted", reqSender)
+                            .replace("%teleporting%", p.getName()));
+                    p.sendMessage(Utils.getString("other-messages.tpa.request-accepted-2", p)
+                            .replace("%requester%", reqSender.getName()));
+                    tpaManager.teleport(reqSender, p, p.getLocation(), mode);
+                } else {
+                    p.sendMessage(Utils.getString("other-messages.tpa.went-wrong", p));
                 }
+            } else {
+                p.sendMessage(Utils.getString("other-messages.tpa.no-request", p));
             }
         } else {
             sender.sendMessage(Utils.getString("no-permission", sender));
