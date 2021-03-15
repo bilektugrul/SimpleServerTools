@@ -52,8 +52,13 @@ commands:
     usage: /tpa <player>
   tpaaccept:
     usage: /tpaaccept <player>
+    aliases: [tpaccept]
   tpadeny:
     usage: /tpadeny <player>
+    aliases: [tpdeny]
+  tpatoggle:
+    usage: /tpatoggle
+    aliases: [tptoggle]
 permissions:
   sst.*:
     default: op
@@ -64,6 +69,10 @@ permissions:
           sst.gamemode: true
           sst.gamemode.others: true
           sst.gamemode.all: true
+          sst.gamemode.creative: true
+          sst.gamemode.survival: true
+          sst.gamemode.spectator: true
+          sst.gamemode.adventure: true
       sst.broadcast:
         default: op
       sst.fly:
@@ -91,4 +100,6 @@ permissions:
         children:
           sst.kick.admins: false
       sst.tpa:
+        default: op
+      sst.tpatoggle:
         default: op

@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -56,6 +57,7 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
 
         Player player = e.getPlayer();
+        userManager.getUser(player); // This will load user's data into RAM
 
         ArrayList<JoinMessage> msgList = joinMessageManager.getList();
 
@@ -102,12 +104,14 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
+    public void onQuit(PlayerQuitEvent e) throws IOException {
 
-        UUID uuid = e.getPlayer().getUniqueId();
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
+        userManager.getUser(player).save();
 
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
-            if (!vanishManager.isVanished(uuid)) e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", e.getPlayer()));
+            if (!vanishManager.isVanished(uuid)) e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", player));
         }
 
         if (vanishManager.isVanished(uuid)) vanishManager.getOnlineVanishedPlayers().remove(uuid);
@@ -116,18 +120,18 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        User attackerUser = userManager.getUser(e.getDamager().getUniqueId());
+        User attackerUser = userManager.getUser((Player) e.getDamager());
         if (attackerUser.isGod()) {
             e.setCancelled(true);
         } else if (e.getEntity() instanceof Player) {
             Player victim = (Player) e.getEntity();
-            User user = userManager.getUser(victim.getUniqueId());
-            if (userManager.isTeleporting(user)) {
-                User.State state = user.getState();
-                e.setCancelled(getCancelState(user, state));
+            User victimUser = userManager.getUser(victim);
+            if (userManager.isTeleporting(victimUser)) {
+                User.State state = victimUser.getState();
+                e.setCancelled(getCancelState(victimUser, state));
             }
         } else if (e.getDamager() instanceof Player) {
-            User damager = userManager.getUser(e.getDamager().getUniqueId());
+            User damager = userManager.getUser((Player) e.getDamager());
             e.setCancelled(getCancelState(damager, damager.getState()));
         }
     }
@@ -135,7 +139,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
-            User user = userManager.getUser(e.getEntity().getUniqueId());
+            User user = userManager.getUser((Player) e.getEntity());
             if (user.isGod()) {
                 e.setCancelled(true);
             }

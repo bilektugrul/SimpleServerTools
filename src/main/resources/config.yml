@@ -223,6 +223,12 @@ other-messages:
     went-wrong: '%tpaprefix% &cThat player didn''t send you a TPA request or something went wrong.'
     not-found: '%tpaprefix% &cYou can''t send TPA request to that user.'
     usage: '%tpaprefix% &c/tpa <player>'
+    not-now: '%tpaprefix% &cYou can not send a TPA request.'
+    not-now-2: '%tpaprefix% &cYou can not send a TPA request to that player for now. Try again later.'
+    toggled: '%tpaprefix% &cArtık TPA isteklerini %newmode%.'
+    modes:
+      true: alıyorsun
+      false: almıyorsun
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |

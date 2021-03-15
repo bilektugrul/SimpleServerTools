@@ -29,7 +29,7 @@ public class TPAAcceptCommand implements CommandExecutor {
             Player p = (Player) sender;
             if (args.length == 1 && tpaManager.isPresent(p)) {
                 Player reqSender = Bukkit.getPlayer(args[0]);
-                if (reqSender != null && !reqSender.equals(sender) && tpaManager.isPresent(p, reqSender) && userManager.getUser(reqSender.getUniqueId()).isAvailable()) {
+                if (reqSender != null && !reqSender.equals(sender) && tpaManager.isPresent(p, reqSender) && userManager.getUser(reqSender).isAvailable()) {
                     TPAInfo info = new TPAInfo(reqSender, p);
                     TeleportMode mode = new TeleportMode(TeleportMode.Mode.TPA, null, null, info);
                     reqSender.sendMessage(Utils.getString("other-messages.tpa.request-accepted", reqSender)

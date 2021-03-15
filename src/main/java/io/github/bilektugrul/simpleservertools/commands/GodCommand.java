@@ -32,7 +32,7 @@ public class GodCommand implements CommandExecutor {
             }
             if (godPlayer == null && sender instanceof Player) godPlayer = (Player) sender;
             if (godPlayer != null) {
-                User godUser = userManager.getUser(godPlayer.getUniqueId());
+                User godUser = userManager.getUser(godPlayer);
                 if (argGodMode) {
                     boolean newMode = Utils.matchMode(args[1]);
                     change(sender, godPlayer, godUser, newMode);

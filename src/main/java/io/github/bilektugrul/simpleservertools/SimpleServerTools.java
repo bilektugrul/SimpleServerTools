@@ -6,6 +6,7 @@ import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPAAcceptCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPACommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPADenyCommand;
+import io.github.bilektugrul.simpleservertools.commands.tpa.TPAToggleCommand;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
@@ -15,14 +16,17 @@ import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
 import io.github.bilektugrul.simpleservertools.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
+import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-//TODO: Add /tpaccept and /tpadeny
+import java.io.IOException;
+
 public class SimpleServerTools extends JavaPlugin {
 
     private CustomPlaceholderManager placeholderManager;
@@ -43,7 +47,7 @@ public class SimpleServerTools extends JavaPlugin {
         teleportManager = new TeleportManager(this);
         warpManager = new WarpManager(this);
         spawnManager = new SpawnManager(this);
-        userManager = new UserManager();
+        userManager = new UserManager(this);
         joinMessageManager = new JoinMessageManager(this);
         vanishManager = new VanishManager();
         tpaManager = new TPAManager(this);
@@ -57,9 +61,11 @@ public class SimpleServerTools extends JavaPlugin {
         } else {
             getLogger().warning("Vault couldn't found. Permission based features probably will not work.");
         }
+        for (Player looped : Bukkit.getOnlinePlayers()) {
+            userManager.getUser(looped);
+        }
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getCommand("simpleservertools").setExecutor(new SSTCommand());
-        getCommand("vanish").setExecutor(new VanishCommand(vanishManager));
         getCommand("gamemode").setExecutor(new GamemodeCommand());
         getCommand("fly").setExecutor(new FlyCommand());
         getCommand("broadcast").setExecutor(new BroadcastCommand());
@@ -69,6 +75,7 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("heal").setExecutor(new HealCommand());
         getCommand("invsee").setExecutor(new InvSeeCommand());
         getCommand("kick").setExecutor(new KickCommand());
+        getCommand("vanish").setExecutor(new VanishCommand(this));
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
@@ -76,14 +83,30 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("tpa").setExecutor(new TPACommand(this));
         getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
         getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
+        getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
         reload(true);
+        getLogger().info("Activating async user save task...");
+        int i = getConfig().getInt("auto-save-interval");
+        getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+            try {
+                userManager.saveUsers();
+                getLogger().info("Users have been saved.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, 2400, (i * 60L) * 20);
     }
 
     @Override
     public void onDisable() {
+        try {
+            userManager.saveUsers();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         warpManager.saveWarps();
         spawnManager.saveSpawn();
-        getLogger().info("Warps and spawn saved.");
+        getLogger().info("Warps, users and spawn saved.");
     }
 
     public CustomPlaceholderManager getPlaceholderManager() {

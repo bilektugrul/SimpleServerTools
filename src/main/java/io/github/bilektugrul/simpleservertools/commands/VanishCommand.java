@@ -1,5 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
+import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
@@ -13,8 +14,8 @@ public class VanishCommand implements CommandExecutor {
 
     private final VanishManager vanishManager;
 
-    public VanishCommand(VanishManager vanishManager) {
-        this.vanishManager = vanishManager;
+    public VanishCommand(SimpleServerTools plugin) {
+        this.vanishManager = plugin.getVanishManager();
     }
 
     @Override

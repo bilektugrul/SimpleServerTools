@@ -2,10 +2,6 @@ package io.github.bilektugrul.simpleservertools.utils;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
-import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
-import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
-import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
-import io.github.bilektugrul.simpleservertools.users.UserManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commonsbox.compat.Titles;
 import net.md_5.bungee.api.ChatColor;
@@ -21,10 +17,6 @@ public class Utils {
 
     private static final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
-    private static final WarpManager warpManager = plugin.getWarpManager();
-    private static final UserManager userManager = plugin.getUserManager();
-    private static final SpawnManager spawnManager = plugin.getSpawnManager();
-    private static final TPAManager tpaManager = plugin.getTPAManager();
 
     public static String getString(String string, CommandSender from) {
         return replacePlaceholders(plugin.getConfig().getString(string), from, false);

@@ -16,9 +16,8 @@ import java.util.UUID;
 
 public class TeleportTask extends BukkitRunnable {
 
-    private static final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
-    private static final UserManager userManager = plugin.getUserManager();
-    private static final TeleportManager teleportManager = plugin.getTeleportManager();
+    private final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
+    private final TeleportManager teleportManager = plugin.getTeleportManager();
 
     private final Player p;
 
@@ -66,7 +65,8 @@ public class TeleportTask extends BukkitRunnable {
 
         cancelMoveMode = settings.getCancelMoveMode();
         cancelDamageMode = settings.getCancelDamageMode();
-        user = userManager.getUser(uuid);
+        UserManager userManager = plugin.getUserManager();
+        user = userManager.getUser(player);
 
         final TeleportMode.Mode mode = teleportMode.getMode();
 
