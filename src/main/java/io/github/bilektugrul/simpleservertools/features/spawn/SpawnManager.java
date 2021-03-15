@@ -6,7 +6,7 @@ import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
-import me.despical.commonsbox.configuration.ConfigUtils;
+import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;

@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.utils;
 
-import me.despical.commonsbox.ReflectionUtils;
+import me.despical.commons.ReflectionUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;

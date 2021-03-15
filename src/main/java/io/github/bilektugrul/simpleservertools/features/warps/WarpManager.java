@@ -4,8 +4,8 @@ import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
-import me.despical.commonsbox.configuration.ConfigUtils;
-import me.despical.commonsbox.serializer.LocationSerializer;
+import me.despical.commons.configuration.ConfigUtils;
+import me.despical.commons.serializer.LocationSerializer;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 

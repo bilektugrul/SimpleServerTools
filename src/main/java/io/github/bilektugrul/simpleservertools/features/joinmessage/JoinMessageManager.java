@@ -1,7 +1,7 @@
 package io.github.bilektugrul.simpleservertools.features.joinmessage;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
-import me.despical.commonsbox.configuration.ConfigUtils;
+import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;

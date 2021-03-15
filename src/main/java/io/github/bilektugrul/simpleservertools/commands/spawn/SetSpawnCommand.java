@@ -3,7 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands.spawn;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
-import me.despical.commonsbox.serializer.LocationSerializer;
+import me.despical.commons.serializer.LocationSerializer;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
