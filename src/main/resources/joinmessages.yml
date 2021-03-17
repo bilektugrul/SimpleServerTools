@@ -4,13 +4,13 @@ join-message:
     enabled: false
     groups:
       default: |
-        default group message
+        varsayılan grup mesajı
   per-permission:
     enabled: false
     permissions:
-      default: | #sst.joinmessages.default - you cannot use "." in these options.
-        default permission message
+      default: | #sst.joinmessages.default - bu ayarlarda "." kullanamazsınız.
+        varsayılan giriş mesajı
   everyone:
     enabled: true
     message: |
-      %prefix% &9Welcome to our server %player%!
+      %prefix% &9Sunucumuza hoş geldin %player%!

@@ -1,92 +1,92 @@
-# You should install PlaceholderAPI for placeholders.
-# You have to install ProtocolLib for editing client-side max player and player count in server list.
+# SST, PlaceholderAPI'yi destekler. Binlerce placeholderi kullanmak için onu kurmanız önerilir.
+# Oyuncuların clientlerindeki sunucu listesindeki oyuncu listesini düzenlemek için ProtocolLib kurmalısınız.
 
-custom-placeholders: # You can use these placeholders everywhere. You can create new ones too. (%prefix%, %warpprefix%, %spawnprefix%)
+custom-placeholders: # Burada oluşturduğunuz placeholderleri her yerde kullanabilirsiniz. (%prefix%, %warpprefix%, %spawnprefix%)
   prefix: '&8[&6SST&8]&r'
   warpprefix: '&8[&6Warps&8]&r'
   spawnprefix: '&8[&6Spawn&8]&r'
   tpaprefix: '&8[&6TPA&8]&r'
-  #name: value
+  #isim: değer - şeklinde yazarak siz de kendi placeholderinizi oluşturabilirsiniz.
 
-no-permission: '%prefix% &cI''m sorry %player% but you don''t have enough permission to do that!'
-main-command-perm-required: true # if true, player must have 'sst.maincmd' permission for using '/sst' command
+no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'
+main-command-perm-required: true # Eğer true ise '/sst' komutunu kullanmak için 'sst.maincmd' yetkisine sahip olmalısınız.
 
 join-quit-messages:
   enabled: true
-  first-join-message: '&9[+] &b&l%player% &7has joined to server for the first time'
-  join-message: '&9[+] &b&l%player% &7has joined to server'
-  quit-message: '&9[-] &b&l%player% &7has left from server'
+  first-join-message: '&9[+] &b&l%player% &7adlı oyuncu sunucumuza ilk kez katıldı.'
+  join-message: '&9[+] &b&l%player% &7sunucuya giriş yaptı.'
+  quit-message: '&9[-] &b&l%player% &7sunucudan ayrıldı.'
 
 one-more-slot:
-  enabled: true # Requires ProtocolLib
-  # Changes maximum player amount to player count + 1 (fake)
+  enabled: true # ProtocolLib gerektirir.
+  # Sunucu listesinde oyuncu sayısını (oyuncu sayısı + 1) olarak değiştirir (fake)
 
 remove-vanished-players:
-  enabled: true # Removes vanished players from client-side server list.
-  # Requires ProtocolLib and won't work on BungeeCord (you won't need tho).
+  enabled: true # Vanishteki oyuncuları client üzerindeki sunucu listesinde bulunan oyuncu listesinden siler.
+  # ProtocolLib gerektirir.
 
-MOTD: # MOTD requires ProtocolLib when its enabled.
+MOTD: # ProtocolLib gerektirir.
   enabled: false
   value: |
-    %prefix% &aThis server is using &b&lSST&a!
-    %prefix% &b&lSST&a is awesome!
+    %prefix% &aBu sunucu &b&lSST&a kullanıyor!
+    %prefix% &b&lSST&a aşırı iyi!
 
 auto-respawn:
-  enabled: true # Removes respawn screen
+  enabled: true # Yeniden doğma ekranını kaldırır
   permission-required: false # sst.autorespawn
 
 warps:
-  tab-complete: true # sends warp list to client when tab button is clicked if true
-  teleport-time: 5 # in second
-  staff-bypass-time: true # if true, makes staff teleport immediately
+  tab-complete: true # Oyuncu tab tuşuna basınca warp oyuncuya listesini gönderir.
+  teleport-time: 5 # saniye biçiminde
+  staff-bypass-time: true # Eğer true ise, yetkililer direkt olarak ışınlanır (bekleme süresini bypasslar)
   cancel-when-move:
     settings:
-      block-move: true # if true, player cannot move when teleporting
-      cancel-teleport: false # if true, teleport process will be cancelled when player moves
+      block-move: true # Eğer true ise, oyuncu ışınlanırken yürüyemez.
+      cancel-teleport: false # Eğer true ise, oyuncu yürüdüğünde ışınlanma işlemi iptal edilir.
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
+    # Modlar: EVERYONE, STAFF, EXCEPT_STAFF
   cancel-damage:
     settings:
       block-damage: true
       cancel-teleport: false
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF
-    # EVERYONE: blocks damage for everyone when teleporting to warp
-    # STAFF: blocks damage for staff when teleporting to warp
-    # EXCEPT_STAFF: block damage for everyone except staff
+    # Modlar: EVERYONE, STAFF, EXCEPT_STAFF
+    # EVERYONE: herkesi kapsar
+    # STAFF: sadece yetkilileri kapsar
+    # EXCEPT_STAFF: yetkililer dışındaki herkesi kapsar
 
 tpa:
   accept-time: 10
   teleport-time: 5
-  staff-bypass-time: true # if true, makes staff teleport immediately
+  staff-bypass-time: true # Eğer true ise, yetkililer direkt olarak ışınlanır (bekleme süresini bypasslar)
   cancel-when-move:
     settings:
-      block-move: true # if true, player cannot move when teleporting
-      cancel-teleport: false # if true, teleport process will be cancelled when player moves
+      block-move: true # Eğer true ise, oyuncu ışınlanırken yürüyemez.
+      cancel-teleport: false # Eğer true ise, oyuncu yürüdüğünde ışınlanma işlemi iptal edilir.
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
+    # Modlar: EVERYONE, STAFF, EXCEPT_STAFF
   cancel-damage:
     settings:
       block-damage: true
       cancel-teleport: false
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF
-    # EVERYONE: blocks damage for everyone when teleporting to warp
-    # STAFF: blocks damage for staff when teleporting to warp
-    # EXCEPT_STAFF: block damage for everyone except staff
+    # Modlar: EVERYONE, STAFF, EXCEPT_STAFF
+    # EVERYONE: herkesi kapsar
+    # STAFF: sadece yetkilileri kapsar
+    # EXCEPT_STAFF: yetkililer dışındaki herkesi kapsar
 
 other-messages:
   help-message:
     beginning: |
       %prefix%
-      &6Arguments with [] are optional
+      &6İçinde [] bulunan argümanlar opsiyoneldir.
     only-staff: |
-      &9/sst reload &f- &6Reloads config.
-      &9/vanish [<another player>] &f- &6Hides you (or given player) from non-staff players. Use again to disable vanish mode.
+      &9/sst reload &f- &6Ayar dosyasını yeniler.
+      &9/vanish [<bir oyuncu>] &f- &6Sizi veya girdiğiniz oyuncuyu, yetkili olmayan kişilerden gizler. Yeniden görünür olmak için komutu tekrar kullanın.
     everyone: |
-      &9/warp <name> [<arguments>] &f- &6Teleports you to given warp. For help about arguments, type /sst help warpArgs.
+      &9/warp <isim> [<argümanlar>] &f- &6Sizi yazdığınız warpa ışınlar. Warp komutunun argümanları hakkında bilgi almak için: /sst help warpArgs.
     ending: |
-      &6Arguments with [] are optional
+      &6İçinde [] bulunan argümanlar opsiyoneldir.
       %prefix%
     other:
       warpArgs:
@@ -94,72 +94,72 @@ other-messages:
           beginning: |
             %warpprefix%
           only-staff: |
-            &9/warp <name> --del &f- &6Deletes given warp.
-            &9/warp <name> --force &f- &6Overwrites (if exists) given warp.
-            &9/warp <name> --info &f- &6Sends information of given warp.
+            &9/warp <isim> --del &f- &6Yazdığınız warpı siler.
+            &9/warp <isim> --force &f- &6Yazdığınız warpı bulunduğunuz lokasyona göre tekrar oluşturur (eskisi yok olur)
+            &9/warp <isim> --info &f- &6Yazdığınız warpın bilgilerini yollar.
           everyone: |
 
           ending: |
             %warpprefix%
-  config-reloaded: '%prefix% &eConfig has been reloaded %player%!'
-  wrong-usage: '%prefix% &cWrong usage. /sst help'
+  config-reloaded: '%prefix% &eAyar dosyası başarıyla yenilendi %player%!'
+  wrong-usage: '%prefix% &cHatalı kullanım. /sst help'
   vanish:
-    activated: '%prefix% &eVanish mode: &bON'
-    disabled: '%prefix% &eVanish mode: &cOFF'
-    toggled: '%prefix% &eVanish mode toggled for &b%other%&e.'
-    player-not-found: '%prefix% &cSorry, I couldn''t find that player.'
+    activated: '%prefix% &eVanish modu: &bAktif'
+    disabled: '%prefix% &eVanish modu: &cKapalı'
+    toggled: '%prefix% &eVanish modu &b%other% &eadlı oyuncu için değiştirildi.'
+    player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
   warps:
-    created: '%warpprefix% &eYou have created a warp named &b%warp%&e!'
-    deleting: '%warpprefix% &eDeleting warp &b%warp%&e...'
-    deleted: '%warpprefix% &eYou have deleted the warp &b%warp%&e!'
+    created: '%warpprefix% &b%warp% &eadında bir warp oluşturdun!'
+    deleting: '%warpprefix% &b%warp% &eadındaki warp siliniyor...'
+    deleted: '%warpprefix% &b%warp% &eadındaki warp silindi!'
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT
       message: |
         %warpprefix%
-        &eTeleporting to &b%warp% &ein &b%time%...
+        &e&b%warp% &eadlı warpa ışınlanılıyor... &b%time%
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT
       message: |
         %warpprefix%
-        &eYou have teleported to &b%warp%
-    teleport-cancelled: '%warpprefix% &cTeleport cancelled.'
-    list: '%warpprefix% &eWarp list (%warpamount%): %warps%'
-    no-warp: '&cThere is no warp.'
-    saved: '%warpprefix% &eAll of the warps are saved into warps.yml.'
-    no-permission: '%warpprefix% &cI''m sorry but you can not go to this warp.'
+        &b%warp% &eadlı warpa başarıyla ışınlandın!
+    teleport-cancelled: '%warpprefix% &cIşınlanma iptal edildi.'
+    list: '%warpprefix% &eWarp listesi (%warpamount%): %warps%'
+    no-warp: '&cHiç warp yok.'
+    saved: '%warpprefix% &eTüm warplar "warps.yml" dosyasına kaydedildi.'
+    no-permission: '%warpprefix% &cÜzgünüm ancak bu warpa gitme yetkin yok.'
     info: |
       %warpprefix%
-      &eInfo of warp &b%warp%
-      &eLocation: &b%warpLoc%
-      &ePermission: &b%warpPerm%
+      &b%warp% &ehakkında
+      &eLokasyon: &b%warpLoc%
+      &eYetki: &b%warpPerm%
       %warpprefix%
   spawn:
     created: |
-      %spawnprefix% &eSpawn created!
+      %spawnprefix% &eSpawn oluşturuldu!
       %spawnprefix% &eLocation: &b%spawnlocation%
     changed: |
-      %spawnprefix% &eSpawn location changed.
-      %spawnprefix% &eNew location: &b%spawnlocation%
+      %spawnprefix% &eSpawn lokasyonu değiştirildi.
+      %spawnprefix% &eYeni lokasyon: &b%spawnlocation%
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
         %spawnprefix%
-        &eTeleporting to &bSpawn &ein &b%time%...
+        &bSpawn'a &eışınlanılıyor... &b%time%
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
         %spawnprefix%
-        &eYou have teleported to &bSpawn
-    teleport-cancelled: '%spawnprefix% &cTeleport cancelled.'
-    player-not-found: '%spawnprefix% &cSorry, I couldn''t find that player.'
-    spawn-not-set: '%spawnprefix% &cSorry, spawn doesn''t exist.'
-    not-enabled: '%spawnprefix% &cSpawn feature is not enabled.'
+        &bSpawn'a &eışınlandın!
+    teleport-cancelled: '%spawnprefix% &cIşınlanma iptal edildi.'
+    player-not-found: '%spawnprefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
+    spawn-not-set: '%spawnprefix% &cHenüz bir spawn bulunmuyor.'
+    not-enabled: '%spawnprefix% &cSpawn aktif değil.'
   gamemode:
-    changed: '%prefix% &eYou have changed your gamemode to %gamemode%'
-    changed-other: '%prefix% &eYou have changed %other%''s gamemode to %gamemode%'
+    changed: '%prefix% &eYeni oyun modun: &b%gamemode%'
+    changed-other: '%prefix% &b%other% &eadlı oyuncunun yeni oyun modu: &b%gamemode%'
     changed-other-2: '%prefix% &eOyun modun artık %gamemode%.'
-    not-found: '%prefix% &cI couldn''t found that gamemode.'
-    player-not-found: '%prefix% &cSorry, I couldn''t find that player.'
+    not-found: '%prefix% &cO oyun modunu bulamadım.'
+    player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
     wrong-arguments: '%prefix% &cKomutu hatalı kullandınız.'
     CREATIVE: Yaratıcı #permission: sst.gamemode.creative
     SURVIVAL: Hayatta Kalma #permission: sst.gamemode.survival
@@ -209,22 +209,22 @@ other-messages:
     kicked: '%prefix% &e%kicked% &3adlı oyuncuyu attın.'
     went-wrong: '%prefix% &cBir şeyler ters gitti.'
   tpa:
-    request-sent: '%tpaprefix% &6You have sent a TPA request to &3%teleporting%'
-    new-request: '%tpaprefix% &3%requester% &6have sent a TPA request to you'
-    click-to-accept: '%tpaprefix% &6&nClick here to accept'
-    click-to-deny: '%tpaprefix% &c&nClick here to deny'
-    request-accepted: '%tpaprefix% &3%teleporting% &6have accepted your TPA request.'
-    request-accepted-2: '%tpaprefix% &6You have accepted &3%requester%''s TPA request.'
-    request-denied: '%tpaprefix% &3%teleporting% &6have denied your TPA request.'
-    request-denied-2: '%tpaprefix% &6You have denied &3%requester%''s TPA request.'
-    request-cancelled: '%tpaprefix% &6TPA request from &3%requester% &6cancelled by server.'
-    request-cancelled-2: '%tpaprefix% &6Your TPA request that sent to &3%teleporting% &6cancelled by server.'
-    no-request: '%tpaprefix% &cYou don''t have any TPA request or command was wrong.'
-    went-wrong: '%tpaprefix% &cThat player didn''t send you a TPA request or something went wrong.'
-    not-found: '%tpaprefix% &cYou can''t send TPA request to that user.'
-    usage: '%tpaprefix% &c/tpa <player>'
-    not-now: '%tpaprefix% &cYou can not send a TPA request.'
-    not-now-2: '%tpaprefix% &cYou can not send a TPA request to that player for now. Try again later.'
+    request-sent: '%tpaprefix% &b%teleporting% &eadlı oyuncuya bir TPA isteği yolladın.'
+    new-request: '%tpaprefix% &b%requester% &eadlı oyuncu sana bir TPA isteği yolladı.'
+    click-to-accept: '%tpaprefix% &6&nKabul etmek için buraya tıkla'
+    click-to-deny: '%tpaprefix% &c&nReddetmek için buraya tıkla'
+    request-accepted: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini kabul etti.'
+    request-accepted-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini kabul ettin..'
+    request-denied: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini reddetti.'
+    request-denied-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini reddettin. '
+    request-cancelled: '%tpaprefix% &b%requester% &eadlı oyuncunun sana yolladığı TPA isteği iptal edildi.'
+    request-cancelled-2: '%tpaprefix% &b%teleporting% &eadlı oyuncuya yolladığın TPA isteği iptal edildi..'
+    no-request: '%tpaprefix% &cHiç TPA isteğin yok veya komutu hatalı kullandın.'
+    went-wrong: '%tpaprefix% &cO oyuncu sana TPA isteği yollamamış veya bir şeyler ters gitti.'
+    not-found: '%tpaprefix% &cO oyuncuya TPA isteği yollayamazsın.'
+    usage: '%tpaprefix% &c/tpa <oyuncu>'
+    not-now: '%tpaprefix% &cŞu an TPA isteği yollayamazsın..'
+    not-now-2: '%tpaprefix% &cO oyuncuya şu an TPA isteği yollayamazsın. Daha sonra tekrar dene.'
     toggled: '%tpaprefix% &cArtık TPA isteklerini %newmode%.'
     modes:
       true: alıyorsun
@@ -233,10 +233,10 @@ other-messages:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
         %tpaprefix%
-        &eTeleporting to &b%teleporting% &ein &b%time%...
+        &b%teleporting% &eadlı oyuncuya ışınlanılıyor... &b%time%
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
       message: |
         %tpaprefix%
-        &eYou have teleported to &b%teleporting%
-    teleport-cancelled: '%tpaprefix% &cTeleport cancelled.'
+        &b%teleporting% &eadlı oyuncuya ışınlanıldı.
+    teleport-cancelled: '%tpaprefix% &cIşınlanma iptal edildi.'

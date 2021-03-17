@@ -7,8 +7,8 @@ softdepend:
   - PlaceholderAPI
   - ProtocolLib
   - Vault
-authors: [ bilektugrul ]
-description: Simple tools for your server.
+authors: [ bilektugrul, Despical ]
+description: Sunucunuz için temel sistemler ve komutlar.
 commands:
   simpleservertools:
     usage: /simpleservertools reload
