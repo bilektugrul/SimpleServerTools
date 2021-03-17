@@ -26,4 +26,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: SimpleServerTools
-        path: out/**
+        path: target/**
