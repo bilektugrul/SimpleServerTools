@@ -16,7 +16,7 @@ public class PLibManager {
                 manager.removePacketListeners(plugin);
                 manager.addPacketListener(new PacketListener(plugin));
             } else {
-                plugin.getLogger().warning("SimpleVanish requires ProtocolLib for removing players from client player " +
+                plugin.getLogger().warning("SimpleServerTools requires ProtocolLib for removing players from client player " +
                         "list and changing max player - player count but you don't have ProtocolLib.");
             }
         }

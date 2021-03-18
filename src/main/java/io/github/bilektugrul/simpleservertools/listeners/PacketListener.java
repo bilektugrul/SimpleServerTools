@@ -46,4 +46,5 @@ public class PacketListener extends PacketAdapter {
         }
         ping.setMotD(Utils.getString("MOTD.value", null));
     }
+
 }
