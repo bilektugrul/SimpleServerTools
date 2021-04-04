@@ -59,6 +59,13 @@ commands:
   tpatoggle:
     usage: /tpatoggle
     aliases: [tptoggle]
+  tpall:
+    usage: /tpall
+  msg:
+    usage: /msg
+    aliases: [r, reply, w, whisper, message, msj, yanıt]
+  msgtoggle:
+    usage: /msgtoggle
 permissions:
   sst.*:
     default: op
@@ -102,4 +109,10 @@ permissions:
       sst.tpa:
         default: op
       sst.tpatoggle:
+        default: op
+      sst.tpall:
+        default: op
+      sst.msg:
+        default: op
+      sst.msgtoggle:
         default: op

@@ -66,13 +66,13 @@ public class PlayerListener implements Listener {
                 JoinMessage.JoinMessageType type = msg.getType();
                 String content = msg.getContent();
                 if (type == JoinMessage.JoinMessageType.EVERYONE) {
-                    player.sendMessage(Utils.replacePlaceholders(content, player, false));
+                    player.sendMessage(Utils.replacePlaceholders(content, player));
                 } else if (plugin.isPermManagerReady() && type == JoinMessage.JoinMessageType.GROUP) {
                     if ((Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.getGroup()::equalsIgnoreCase))) {
-                        player.sendMessage(Utils.replacePlaceholders(content, player, false));
+                        player.sendMessage(Utils.replacePlaceholders(content, player));
                     }
                 } else if (type == JoinMessage.JoinMessageType.PERMISSION && player.hasPermission(msg.getPermission())) {
-                    player.sendMessage(Utils.replacePlaceholders(content, player, false));
+                    player.sendMessage(Utils.replacePlaceholders(content, player));
                 }
             }
         }

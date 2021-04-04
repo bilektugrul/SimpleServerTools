@@ -19,20 +19,23 @@ public class Utils {
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
 
     public static String getString(String string, CommandSender from) {
-        return replacePlaceholders(plugin.getConfig().getString(string), from, false);
+        return replacePlaceholders(plugin.getConfig().getString(string) , from);
     }
 
-    public static String replacePlaceholders(String msg, CommandSender from, boolean direct) {
+    public static String replacePlaceholders(String msg, CommandSender from) {
         boolean isPlayer = from instanceof Player;
-        msg = colorMessage(msg).replace("%player%", isPlayer ? from.getName() : "CONSOLE");
-        if (direct || Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        msg = placeholderManager.replacePlaceholders(ChatColor.translateAlternateColorCodes('&', msg))
+                .replace("%player%", matchName(from));
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(isPlayer ? (Player) from : null, msg);
         }
         return msg;
     }
 
-    public static String colorMessage(String msg) {
-        return placeholderManager.replacePlaceholders(ChatColor.translateAlternateColorCodes('&', msg));
+    public static String matchName(CommandSender entity) {
+        boolean isPlayer = entity instanceof Player;
+        return isPlayer ? entity.getName() : "CONSOLE";
+
     }
 
     public static boolean getBoolean(String string, boolean def) {

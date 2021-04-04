@@ -241,3 +241,14 @@ other-messages:
         %tpaprefix%
         &b%teleporting% &eadlı oyuncuya ışınlanıldı.
     teleport-cancelled: '%tpaprefix% &cIşınlanma iptal edildi.'
+  tpall:
+    teleported: '%prefix% &6Toplam &3%size% &6kişi size teleportlandı.'
+  msg:
+    format: '&b[%from%] &3-> &b[%to%]&3: &e%msg%'
+    wrong-usage: '%prefix% &cMesajın gitmesi gereken oyuncuyu ve mesajınızı girmelisiniz.'
+    toggled: '%prefix% &6Artık mesajları %newmode%.'
+    closed-self: '%prefix% &cMesaj almayı kapattığın için mesaj yollayamazsın.'
+    closed: '%prefix% &3%to% &cadlı oyuncu mesaj almayı kapattığı için mesaj yollayamazsın.'
+    modes:
+      false: '&calmıyorsun'
+      true: '&aalıyorsun'

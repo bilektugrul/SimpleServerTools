@@ -72,6 +72,14 @@ public class User {
         data.set("accepting-tpa", acceptingTPA);
     }
 
+    public boolean isAcceptingMsg() {
+        return data.getBoolean("accepting-msg");
+    }
+
+    public void setAcceptingMsg(boolean acceptingMsg) {
+        data.set("accepting-msg", acceptingMsg);
+    }
+
     public void save() throws IOException {
         data.save(new File(plugin.getDataFolder() + "/players/" + name + ".yml"));
     }

@@ -21,9 +21,10 @@ public class KickCommand implements CommandExecutor {
                     String kickString = null;
                     if (args.length >= 2) {
                         String[] kickMsg = Arrays.copyOfRange(args, 1, args.length);
-                        kickString = Utils.colorMessage(String.join(" ", kickMsg));
+                        kickString = Utils.replacePlaceholders(String.join(" ", kickMsg), kickPlayer);
                     }
-                    if (kickString == null) kickString = Utils.getString("other-messages.kick.kick-message", kickPlayer)
+                    if (kickString == null)
+                        kickString = Utils.getString("other-messages.kick.kick-message", kickPlayer)
                             .replace("%kicker%", sender.getName());
                     kickPlayer.kickPlayer(kickString);
                     if (Utils.getBoolean("other-messages.kick.broadcast.enabled")) {

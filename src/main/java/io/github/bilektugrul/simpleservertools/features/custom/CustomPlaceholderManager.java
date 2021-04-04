@@ -1,6 +1,8 @@
 package io.github.bilektugrul.simpleservertools.features.custom;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashSet;
@@ -20,7 +22,7 @@ public class CustomPlaceholderManager {
         placeholderList.clear();
         FileConfiguration config = plugin.getConfig();
         for (String key : config.getConfigurationSection("custom-placeholders").getKeys(false)) {
-            CustomPlaceholder placeholder = new CustomPlaceholder(key, config.getString("custom-placeholders." + key));
+            CustomPlaceholder placeholder = new CustomPlaceholder(key, colored(config.getString("custom-placeholders." + key)));
             placeholderList.add(placeholder);
         }
     }
@@ -30,6 +32,10 @@ public class CustomPlaceholderManager {
             in = in.replace("%" + placeholder.getName() + "%", placeholder.getValue());
         }
         return in;
+    }
+
+    public String colored(String str) {
+        return ChatColor.translateAlternateColorCodes('&', str);
     }
 
     public Set<CustomPlaceholder> getPlaceholderList() {

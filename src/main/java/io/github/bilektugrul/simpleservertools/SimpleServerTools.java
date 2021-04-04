@@ -1,6 +1,8 @@
 package io.github.bilektugrul.simpleservertools;
 
 import io.github.bilektugrul.simpleservertools.commands.*;
+import io.github.bilektugrul.simpleservertools.commands.msg.MessageCommand;
+import io.github.bilektugrul.simpleservertools.commands.msg.MessageToggleCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SetSpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPAAcceptCommand;
@@ -16,11 +18,9 @@ import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
 import io.github.bilektugrul.simpleservertools.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
-import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
-import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,15 +42,14 @@ public class SimpleServerTools extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        PaperLib.suggestPaper(this);
         placeholderManager = new CustomPlaceholderManager(this);
         teleportManager = new TeleportManager(this);
         warpManager = new WarpManager(this);
         spawnManager = new SpawnManager(this);
         userManager = new UserManager(this);
         joinMessageManager = new JoinMessageManager(this);
-        vanishManager = new VanishManager();
         tpaManager = new TPAManager(this);
+        vanishManager = new VanishManager();
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
@@ -75,6 +74,9 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("heal").setExecutor(new HealCommand());
         getCommand("invsee").setExecutor(new InvSeeCommand());
         getCommand("kick").setExecutor(new KickCommand());
+        getCommand("tpall").setExecutor(new TPAllCommand());
+        getCommand("msg").setExecutor(new MessageCommand(this));
+        getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this));
         getCommand("warp").setExecutor(new WarpCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
