@@ -255,3 +255,10 @@ other-messages:
     modes:
       false: '&calmıyorsun'
       true: '&aalıyorsun'
+  speed:
+    wrong-usage: '%prefix% &cKomutu hatalı kullandın. Doğru kullanım: &b/speed [walk/fly] <hız> [<oyuncu>]'
+    changed: '%prefix% &b%mode% &3modunda hızın değiştirildi. Yeni hızın: &b%newSpeed%'
+    not-found: '%prefix% &cBu oyuncuyu bulamadım.'
+    modes:
+      WALK: Yürüme
+      FLY: Uçma
