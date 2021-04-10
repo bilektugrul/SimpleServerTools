@@ -48,6 +48,8 @@ public class TPACommand implements CommandExecutor {
                             baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny " + pName));
                             component.addExtra(baseComponent);
                             toTeleport.sendMessage(component);
+                            p.sendMessage(Utils.getString("other-messages.tpa.extra-messages", p));
+                            toTeleport.sendMessage(Utils.getString("other-messages.tpa.extra-messages", toTeleport));
                         } else {
                             p.sendMessage(Utils.getString("other-messages.tpa.not-now-2", p));
                         }

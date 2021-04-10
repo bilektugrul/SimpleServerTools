@@ -103,10 +103,10 @@ public class SpawnManager {
     public void teleport(Player player, boolean direct) {
         if (isEnabled() && isPresent()) {
             Location loc = spawn.getLocation();
-            TeleportMode mode = new TeleportMode(TeleportMode.Mode.SPAWN, null, spawn, null);
-            if (!direct) {
+            if (direct) {
                 Bukkit.getScheduler().runTask(plugin, () -> player.teleport(loc));
             } else {
+                TeleportMode mode = new TeleportMode(TeleportMode.Mode.SPAWN, null, spawn, null);
                 teleportManager.teleport(player, loc, mode, getSettings());
             }
         }

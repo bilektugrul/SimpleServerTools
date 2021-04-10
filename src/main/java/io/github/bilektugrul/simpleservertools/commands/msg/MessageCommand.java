@@ -62,11 +62,15 @@ public class MessageCommand implements CommandExecutor {
                             sender.sendMessage(Utils.getString("other-messages.msg.closed", sender)
                                 .replace("%to%", toPlayerName));
                         }
+                    } else {
+                        sender.sendMessage(Utils.getString("other-messages.msg.not-found", sender));
                     }
                 }
             } else {
                 sender.sendMessage(Utils.getString("other-messages.msg.wrong-usage", sender));
             }
+        } else {
+            sender.sendMessage(Utils.getString("no-permission", sender));
         }
         return true;
     }

@@ -5,6 +5,7 @@ import io.github.bilektugrul.simpleservertools.commands.msg.MessageCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageToggleCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SetSpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
+import io.github.bilektugrul.simpleservertools.commands.speed.SpeedCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPAAcceptCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPACommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPADenyCommand;
@@ -75,6 +76,7 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("invsee").setExecutor(new InvSeeCommand());
         getCommand("kick").setExecutor(new KickCommand());
         getCommand("tpall").setExecutor(new TPAllCommand());
+        getCommand("speed").setExecutor(new SpeedCommand());
         getCommand("msg").setExecutor(new MessageCommand(this));
         getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this));
@@ -163,8 +165,10 @@ public class SimpleServerTools extends JavaPlugin {
         placeholderManager.load();
         if (!first) {
             warpManager.reloadWarps();
+            warpManager.loadSettings();
             spawnManager.reloadSpawn();
             joinMessageManager.reload();
+            tpaManager.loadSettings();
         }
     }
 

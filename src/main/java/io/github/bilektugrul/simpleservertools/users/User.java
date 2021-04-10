@@ -29,6 +29,7 @@ public class User {
         this.isGod = isGod;
         this.data = data;
         if (!data.contains("accepting-tpa")) data.set("accepting-tpa", true);
+        if (!data.contains("accepting-msg")) data.set("accepting-msg", true);
         this.name = name;
     }
 

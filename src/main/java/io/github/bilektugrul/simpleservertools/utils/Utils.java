@@ -57,7 +57,7 @@ public class Utils {
 
     public static void sendMessage(Player p, String mode, String msg, String subtitle, String time) {
         msg = msg.replace("%time%", time);
-        subtitle = subtitle.replace("%time%", time);
+        subtitle = subtitle.replace("%time%", time) ;
         switch (mode) {
             case "CHAT":
                 p.sendMessage(msg);
@@ -66,7 +66,7 @@ public class Utils {
                 Titles.sendTitle(p, msg, subtitle);
                 break;
             case "ACTIONBAR":
-                ActionBar.sendActionBar(p, msg);
+                ActionBar.sendActionBar(p, msg.replace('\n', ' '));
                 break;
         }
     }

@@ -19,6 +19,7 @@ commands:
     description: Vanish command.
     aliases: [v]
   warp:
+    aliases: setwarp, delwarp
     usage: /warp <name> [<arguments>]
     description: Warp command.
   setspawn:
@@ -66,6 +67,8 @@ commands:
     aliases: [r, reply, w, whisper, message, msj, yanıt]
   msgtoggle:
     usage: /msgtoggle
+  speed:
+    usage: /speed <speed>
 permissions:
   sst.*:
     default: op
@@ -115,4 +118,10 @@ permissions:
       sst.msg:
         default: op
       sst.msgtoggle:
+        default: op
+      sst.setwarp:
+        default: op
+      sst.delwarp:
+        default: op
+      sst.speed:
         default: op

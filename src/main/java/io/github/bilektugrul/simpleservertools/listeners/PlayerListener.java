@@ -15,6 +15,7 @@ import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -84,11 +85,11 @@ public class PlayerListener implements Listener {
         UUID uuid = player.getUniqueId();
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
             if (!vanishManager.isVanished(uuid)) {
-                if (player.hasPlayedBefore())
+                if (player.hasPlayedBefore()) {
                     e.setJoinMessage(Utils.getString("join-quit-messages.join-message", player));
-                else
+                    } else {
                     e.setJoinMessage(Utils.getString("join-quit-messages.first-join-message", player));
-
+                }
             } else {
                 e.setJoinMessage("");
             }
@@ -120,42 +121,58 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        User attackerUser = userManager.getUser((Player) e.getDamager());
-        if (attackerUser.isGod()) {
-            e.setCancelled(true);
-        } else if (e.getEntity() instanceof Player) {
-            Player victim = (Player) e.getEntity();
-            User victimUser = userManager.getUser(victim);
-            if (userManager.isTeleporting(victimUser)) {
-                User.State state = victimUser.getState();
-                e.setCancelled(getCancelState(victimUser, state));
+        Entity attackerEntity = e.getDamager();
+        Entity victimEntity = e.getEntity();
+
+        boolean isVictimPlayer = victimEntity instanceof Player;
+
+        if (attackerEntity instanceof Player) {
+            User attackerUser = userManager.getUser((Player) attackerEntity);
+            if (!isVictimPlayer) {
+                e.setCancelled(attackerUser.isGod() || getCancelState(attackerUser));
             }
-        } else if (e.getDamager() instanceof Player) {
-            User damager = userManager.getUser((Player) e.getDamager());
-            e.setCancelled(getCancelState(damager, damager.getState()));
+            return;
         }
+
+        if (!e.isCancelled() && isVictimPlayer) {
+            Player victim = (Player) victimEntity;
+            if (victim.isOnline()) { // NPC check
+                User victimUser = userManager.getUser(victim);
+                if (userManager.isTeleporting(victimUser)) {
+                    e.setCancelled(getCancelState(victimUser));
+                }
+            }
+        }
+
     }
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player) {
-            User user = userManager.getUser((Player) e.getEntity());
-            if (user.isGod()) {
-                e.setCancelled(true);
+        Entity victim = e.getEntity();
+        if (victim instanceof Player) {
+            Player victimPlayer = (Player) victim;
+            if (victimPlayer.isOnline()) { // NPC check
+                User user = userManager.getUser(victimPlayer);
+                e.setCancelled(user.isGod());
             }
         }
     }
 
-    public boolean getCancelState(User user, User.State state) {
+    private boolean getCancelState(User user) {
+        User.State state = user.getState();
         TeleportSettings settings;
-        if (state == User.State.TELEPORTING) {
-            settings = warpManager.getSettings();
-        } else if (state == User.State.TELEPORTING_SPAWN) {
-            settings = spawnManager.getSettings();
-        } else if (state == User.State.TELEPORTING_PLAYER) {
-            settings = tpaManager.getSettings();
-        } else {
-            return false;
+        switch (state) {
+            case TELEPORTING:
+                settings = warpManager.getSettings();
+                break;
+            case TELEPORTING_SPAWN:
+                settings = spawnManager.getSettings();
+                break;
+            case TELEPORTING_PLAYER:
+                settings = tpaManager.getSettings();
+                break;
+            default:
+                return false;
         }
         final boolean isStaff = user.getPlayer().hasPermission("sst.staff");
         final CancelMode damageCancelMode = settings.getCancelDamageMode();
@@ -169,14 +186,13 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDeath(PlayerDeathEvent e) {
         Player victim = e.getEntity();
-        if (Utils.getBoolean("auto-respawn.enabled")) {
-            if (Utils.getBoolean("auto-respawn.permission-required") && !victim.hasPermission("sst.autorespawn")) {
-                return;
-            }
-            Bukkit.getScheduler().runTask(plugin, () -> victim.spigot().respawn());
-        }
         if (spawnManager.getSpawnFile().getBoolean("spawn.teleport-when-die")) {
             spawnManager.teleport(victim, true);
+        }
+        if (Utils.getBoolean("auto-respawn.enabled")) {
+            if (!Utils.getBoolean("auto-respawn.permission-required") || victim.hasPermission("sst.autorespawn")) {
+                Bukkit.getScheduler().runTask(plugin, () -> victim.spigot().respawn());
+            }
         }
     }
 

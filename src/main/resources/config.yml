@@ -214,6 +214,8 @@ other-messages:
     new-request: '%tpaprefix% &b%requester% &eadlı oyuncu sana bir TPA isteği yolladı.'
     click-to-accept: '%tpaprefix% &6&nKabul etmek için buraya tıkla'
     click-to-deny: '%tpaprefix% &c&nReddetmek için buraya tıkla'
+    extra-messages: |
+      %prefix% &6Bu TPA isteği 10 saniye sonra iptal olacak.
     request-accepted: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini kabul etti.'
     request-accepted-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini kabul ettin..'
     request-denied: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini reddetti.'
@@ -249,6 +251,7 @@ other-messages:
     toggled: '%prefix% &6Artık mesajları %newmode%.'
     closed-self: '%prefix% &cMesaj almayı kapattığın için mesaj yollayamazsın.'
     closed: '%prefix% &3%to% &cadlı oyuncu mesaj almayı kapattığı için mesaj yollayamazsın.'
+    not-found: '%prefix% &cBu oyuncu aktif değil.'
     modes:
       false: '&calmıyorsun'
       true: '&aalıyorsun'

@@ -23,6 +23,7 @@ public class WarpManager {
     public WarpManager(SimpleServerTools plugin) {
         this.plugin = plugin;
         reloadWarps();
+        loadSettings();
     }
 
     public boolean registerWarp(String name, Location loc) {
@@ -75,17 +76,21 @@ public class WarpManager {
         return false;
     }
 
+    public void loadSettings() {
+        final int time = Utils.getInt("warps.teleport-time");
+        final boolean blockMove = Utils.getBoolean("warps.cancel-when-move.settings.block-move");
+        final boolean cancelTeleportOnMove = Utils.getBoolean("warps.cancel-when-move.settings.cancel-teleport");
+        final CancelMode cancelMoveMode = CancelMode.valueOf(Utils.getString("warps.cancel-when-move.mode", null));
+        final boolean blockDamage = Utils.getBoolean("warps.cancel-damage.settings.block-damage");
+        final boolean cancelTeleportOnDamage = Utils.getBoolean("warps.cancel-damage.settings.cancel-teleport");
+        final CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("warps.cancel-damage.mode", null));
+        final boolean staffBypassTime = Utils.getBoolean("warps.staff-bypass-time");
+        settings = new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
+    }
+
     public TeleportSettings getSettings() {
         if (settings == null) {
-            final int time = Utils.getInt("warps.teleport-time");
-            final boolean blockMove = Utils.getBoolean("warps.cancel-when-move.settings.block-move");
-            final boolean cancelTeleportOnMove = Utils.getBoolean("warps.cancel-when-move.settings.cancel-teleport");
-            final CancelMode cancelMoveMode = CancelMode.valueOf(Utils.getString("warps.cancel-when-move.mode", null));
-            final boolean blockDamage = Utils.getBoolean("warps.cancel-damage.settings.block-damage");
-            final boolean cancelTeleportOnDamage = Utils.getBoolean("warps.cancel-damage.settings.cancel-teleport");
-            final CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("warps.cancel-damage.mode", null));
-            final boolean staffBypassTime = Utils.getBoolean("warps.staff-bypass-time");
-            settings = new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
+           loadSettings();
         }
         return settings;
     }

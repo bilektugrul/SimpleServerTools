@@ -129,7 +129,6 @@ public class TeleportTask extends BukkitRunnable {
             user.setState(User.State.PLAYING);
             PaperLib.teleportAsync(p, finalLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
             Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
-            teleportManager.getTeleportTasks().remove(this);
             cancelTeleport(false);
             return;
         }
