@@ -87,7 +87,7 @@ public class PlayerListener implements Listener {
             if (!vanishManager.isVanished(uuid)) {
                 if (player.hasPlayedBefore()) {
                     e.setJoinMessage(Utils.getString("join-quit-messages.join-message", player));
-                    } else {
+                } else {
                     e.setJoinMessage(Utils.getString("join-quit-messages.first-join-message", player));
                 }
             } else {
