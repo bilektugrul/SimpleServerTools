@@ -27,11 +27,11 @@ public class SetSpawnCommand implements CommandExecutor {
             if (spawnManager.getSpawn() == null) {
                 spawnManager.setSpawn(newLoc);
                 p.sendMessage(Utils.getString("other-messages.spawn.created", p)
-                        .replace("%spawnlocation%", LocationSerializer.locationToString(newLoc)));
+                        .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
             } else {
                 spawnManager.getSpawn().setLocation(newLoc);
                 p.sendMessage(Utils.getString("other-messages.spawn.changed", p)
-                        .replace("%spawnlocation%", LocationSerializer.locationToString(newLoc)));
+                        .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
                 spawnManager.saveSpawn();
             }
         }

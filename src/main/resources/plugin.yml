@@ -68,7 +68,9 @@ commands:
   msgtoggle:
     usage: /msgtoggle
   speed:
-    usage: /speed <speed>
+    usage: /speed [walk/fly] <hız> [<oyuncu>]
+  skull:
+    usage: /skull <oyuncu>
 permissions:
   sst.*:
     default: op
@@ -125,3 +127,8 @@ permissions:
         default: op
       sst.speed:
         default: op
+      sst.skull:
+        default: op
+        children:
+          sst.skull.others:
+            default: op

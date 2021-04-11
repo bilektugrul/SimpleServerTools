@@ -90,6 +90,7 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
         getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
         getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
+        getCommand("skull").setExecutor(new SkullCommand(this));
         reload(true);
         if (Utils.getBoolean("auto-save-users")) {
             startSaveThread();

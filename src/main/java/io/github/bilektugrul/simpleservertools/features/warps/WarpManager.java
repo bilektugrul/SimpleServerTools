@@ -133,11 +133,11 @@ public class WarpManager {
     }
 
     public String readableWarpLoc(String warp) {
-        return LocationSerializer.locationToString(getWarp(warp).getLocation());
+        return LocationSerializer.toString(getWarp(warp).getLocation());
     }
 
     public String readableWarpLoc(Warp warp) {
-        return LocationSerializer.locationToString(warp.getLocation());
+        return LocationSerializer.toString(warp.getLocation());
     }
 
     public void loadWarps() {

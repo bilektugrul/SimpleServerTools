@@ -102,8 +102,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.Despical</groupId>
-            <artifactId>commons</artifactId>
-            <version>1.2.3</version>
+            <artifactId>Commons</artifactId>
+            <version>1.2.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
