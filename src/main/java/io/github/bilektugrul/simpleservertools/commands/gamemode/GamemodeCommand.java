@@ -1,6 +1,5 @@
-package io.github.bilektugrul.simpleservertools.commands;
+package io.github.bilektugrul.simpleservertools.commands.gamemode;
 
-import io.github.bilektugrul.simpleservertools.stuff.objects.GamemodeInfo;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools;
 
 import io.github.bilektugrul.simpleservertools.commands.*;
+import io.github.bilektugrul.simpleservertools.commands.gamemode.GamemodeCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageToggleCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SetSpawnCommand;
@@ -21,6 +22,7 @@ import io.github.bilektugrul.simpleservertools.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
+import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -89,16 +91,9 @@ public class SimpleServerTools extends JavaPlugin {
         getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
         getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
         reload(true);
-        getLogger().info("Activating async user save task...");
-        int i = getConfig().getInt("auto-save-interval");
-        getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-            try {
-                userManager.saveUsers();
-                getLogger().info("Users have been saved.");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }, 2400, (i * 60L) * 20);
+        if (Utils.getBoolean("auto-save-users")) {
+            startSaveThread();
+        }
     }
 
     @Override
@@ -111,6 +106,19 @@ public class SimpleServerTools extends JavaPlugin {
         warpManager.saveWarps();
         spawnManager.saveSpawn();
         getLogger().info("Warps, users and spawn saved.");
+    }
+
+    private void startSaveThread() {
+        getLogger().info("Activating async user save task...");
+        int i = getConfig().getInt("auto-save-interval");
+        getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+            try {
+                userManager.saveUsers();
+                getLogger().info("Users have been saved.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, 2400, (i * 60L) * 20);
     }
 
     public CustomPlaceholderManager getPlaceholderManager() {

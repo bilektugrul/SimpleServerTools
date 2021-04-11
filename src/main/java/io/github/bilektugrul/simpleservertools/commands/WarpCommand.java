@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -73,7 +74,7 @@ public class WarpCommand implements CommandExecutor {
                                     }
                                     return true;
                                 case "--info":
-                                    if (warp.getPermRequire() && !sender.hasPermission(warp.getPermission())) return true;
+                                    if (!p.hasPermission("sst.warpinfo")) return true;
                                     p.sendMessage(Utils.getString("other-messages.warps.info", sender)
                                             .replace("%warp%", arg)
                                             .replace("%warploc%", warpManager.readableWarpLoc(warp))
@@ -118,17 +119,28 @@ public class WarpCommand implements CommandExecutor {
         @Override
         public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
             if (Utils.getBoolean("warps.tab-complete")) {
+                boolean isAdmin = sender.hasPermission("sst.admin");
                 switch (args.length) {
                     case 1:
                         return warpManager.getWarpList().stream()
-                                .filter(warp -> !warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission()))
-                                .map(Warp::getName).collect(Collectors.toList());
+                                .filter(warp -> isAdmin || !warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission()))
+                                .map(Warp::getName)
+                                .collect(Collectors.toList());
                     case 2:
-                        return Arrays.asList("--del", "--force", "--info");
+                        List<String> list = new ArrayList<>();
+                        if (isAdmin) {
+                            list.add("--del");
+                            list.add("--force");
+                            list.add("--info");
+                        } else if (sender.hasPermission("sst.warpinfo")) {
+                            list.add("--info");
+                        }
+                        return list;
                 }
             }
             return Collections.emptyList();
         }
+
     }
 
 }
