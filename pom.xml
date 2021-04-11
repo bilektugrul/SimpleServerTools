@@ -43,7 +43,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>io.papermc.lib</pattern>
-                                    <shadedPattern>io.papermc.lib</shadedPattern>
+                                    <shadedPattern>io.github.bilektugrul.simpleservertools.internal.paperlib</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
