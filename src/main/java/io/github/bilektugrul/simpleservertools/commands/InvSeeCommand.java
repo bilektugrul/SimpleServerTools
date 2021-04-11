@@ -39,6 +39,8 @@ public class InvSeeCommand implements CommandExecutor {
                     senderPlayer.sendMessage(Utils.getString("other-messages.invsee.not-found", senderPlayer));
                 }
             }
+        } else {
+            sender.sendMessage(Utils.getString("no-permission", sender));
         }
         return true;
     }

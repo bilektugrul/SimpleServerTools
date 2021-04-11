@@ -130,5 +130,4 @@ permissions:
       sst.skull:
         default: op
         children:
-          sst.skull.others:
-            default: op
+          sst.skull.others: false

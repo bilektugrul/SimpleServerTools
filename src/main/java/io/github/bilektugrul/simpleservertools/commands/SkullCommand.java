@@ -32,12 +32,21 @@ public class SkullCommand implements CommandExecutor {
             Player player = (Player) sender;
             Player toGive = player;
             final String skullOwner;
-            if (args.length >= 1 && player.hasPermission("sst.skull.others") && NAME_PATTERN.matcher(args[0]).matches()) {
+            if (args.length >= 1) {
+                if (!NAME_PATTERN.matcher(args[0]).matches()) {
+                    player.sendMessage(Utils.getString("other-messages.skull.wrong-usage", player));
+                    return true;
+                }
                 skullOwner = args[0];
                 if (args.length >= 2) {
-                    toGive = Bukkit.getPlayer(args[1]);
-                    if (toGive == null) {
-                        player.sendMessage(Utils.getString("other-messages.skull.not-found", player));
+                    if (player.hasPermission("sst.skull.others")) {
+                        toGive = Bukkit.getPlayer(args[1]);
+                        if (toGive == null) {
+                            player.sendMessage(Utils.getString("other-messages.skull.not-found", player));
+                            return true;
+                        }
+                    } else {
+                        player.sendMessage(Utils.getString("no-permission", player));
                         return true;
                     }
                 }
