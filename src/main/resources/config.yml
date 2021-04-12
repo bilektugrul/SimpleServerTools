@@ -1,6 +1,8 @@
 # SST, PlaceholderAPI'yi destekler. Binlerce placeholderi kullanmak için onu kurmanız önerilir.
 # Oyuncuların clientlerindeki sunucu listesindeki oyuncu listesini düzenlemek için ProtocolLib kurmalısınız.
 
+lisans: ''
+
 custom-placeholders: # Burada oluşturduğunuz placeholderleri her yerde kullanabilirsiniz. (%prefix%, %warpprefix%, %spawnprefix%)
   prefix: '&8[&6SST&8]&r'
   warpprefix: '&8[&6Warps&8]&r'

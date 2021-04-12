@@ -25,6 +25,7 @@ import io.github.bilektugrul.simpleservertools.utils.PLibManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,71 +43,90 @@ public class SimpleServerTools extends JavaPlugin {
     private TPAManager tpaManager;
     private TeleportManager teleportManager;
 
+    private boolean forceDisabled = false;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        placeholderManager = new CustomPlaceholderManager(this);
-        teleportManager = new TeleportManager(this);
-        warpManager = new WarpManager(this);
-        spawnManager = new SpawnManager(this);
-        userManager = new UserManager(this);
-        joinMessageManager = new JoinMessageManager(this);
-        tpaManager = new TPAManager(this);
-        vanishManager = new VanishManager();
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PAPIPlaceholders(this).register();
+        ConsoleCommandSender console = getServer().getConsoleSender();
+        if (checkLicence()) {
+            console.sendMessage("Lisans geçerli. Satın alımınız için teşekkürler");
+            placeholderManager = new CustomPlaceholderManager(this);
+            teleportManager = new TeleportManager(this);
+            warpManager = new WarpManager(this);
+            spawnManager = new SpawnManager(this);
+            userManager = new UserManager(this);
+            joinMessageManager = new JoinMessageManager(this);
+            tpaManager = new TPAManager(this);
+            vanishManager = new VanishManager();
+            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                new PAPIPlaceholders(this).register();
+            } else {
+                getLogger().warning("PlaceholderAPI couldn't found. You should check it out.");
+            }
+            if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+                vaultManager = new VaultManager(this);
+            } else {
+                getLogger().warning("Vault couldn't found. Permission based features probably will not work.");
+            }
+            for (Player looped : Bukkit.getOnlinePlayers()) {
+                userManager.getUser(looped);
+            }
+            getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+            getCommand("simpleservertools").setExecutor(new SSTCommand());
+            getCommand("gamemode").setExecutor(new GamemodeCommand());
+            getCommand("fly").setExecutor(new FlyCommand());
+            getCommand("broadcast").setExecutor(new BroadcastCommand());
+            getCommand("disposal").setExecutor(new DisposalCommand());
+            getCommand("ping").setExecutor(new PingCommand());
+            getCommand("feed").setExecutor(new FeedCommand());
+            getCommand("heal").setExecutor(new HealCommand());
+            getCommand("invsee").setExecutor(new InvSeeCommand());
+            getCommand("kick").setExecutor(new KickCommand());
+            getCommand("tpall").setExecutor(new TPAllCommand());
+            getCommand("speed").setExecutor(new SpeedCommand());
+            getCommand("msg").setExecutor(new MessageCommand(this));
+            getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
+            getCommand("vanish").setExecutor(new VanishCommand(this));
+            getCommand("warp").setExecutor(new WarpCommand(this));
+            getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
+            getCommand("spawn").setExecutor(new SpawnCommand(this));
+            getCommand("god").setExecutor(new GodCommand(this));
+            getCommand("tpa").setExecutor(new TPACommand(this));
+            getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
+            getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
+            getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
+            getCommand("skull").setExecutor(new SkullCommand(this));
+            reload(true);
+            if (Utils.getBoolean("auto-save-users")) {
+                startSaveThread();
+            }
         } else {
-            getLogger().warning("PlaceholderAPI couldn't found. You should check it out.");
+            console.sendMessage("Lisans geçersiz.");
+            forceDisabled = true;
+            getServer().shutdown();
         }
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            vaultManager = new VaultManager(this);
-        } else {
-            getLogger().warning("Vault couldn't found. Permission based features probably will not work.");
-        }
-        for (Player looped : Bukkit.getOnlinePlayers()) {
-            userManager.getUser(looped);
-        }
-        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        getCommand("simpleservertools").setExecutor(new SSTCommand());
-        getCommand("gamemode").setExecutor(new GamemodeCommand());
-        getCommand("fly").setExecutor(new FlyCommand());
-        getCommand("broadcast").setExecutor(new BroadcastCommand());
-        getCommand("disposal").setExecutor(new DisposalCommand());
-        getCommand("ping").setExecutor(new PingCommand());
-        getCommand("feed").setExecutor(new FeedCommand());
-        getCommand("heal").setExecutor(new HealCommand());
-        getCommand("invsee").setExecutor(new InvSeeCommand());
-        getCommand("kick").setExecutor(new KickCommand());
-        getCommand("tpall").setExecutor(new TPAllCommand());
-        getCommand("speed").setExecutor(new SpeedCommand());
-        getCommand("msg").setExecutor(new MessageCommand(this));
-        getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
-        getCommand("vanish").setExecutor(new VanishCommand(this));
-        getCommand("warp").setExecutor(new WarpCommand(this));
-        getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
-        getCommand("spawn").setExecutor(new SpawnCommand(this));
-        getCommand("god").setExecutor(new GodCommand(this));
-        getCommand("tpa").setExecutor(new TPACommand(this));
-        getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
-        getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
-        getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
-        getCommand("skull").setExecutor(new SkullCommand(this));
-        reload(true);
-        if (Utils.getBoolean("auto-save-users")) {
-            startSaveThread();
-        }
+    }
+
+    private boolean checkLicence() {
+        License license = new License(getConfig().getString("lisans"), "http://vantoxicdesign.com/", this);
+        license.request();
+        Bukkit.getServer().getConsoleSender().sendMessage("Lisans kontrol ediliyor: " + license.getLicense());
+        return license.isValid();
     }
 
     @Override
     public void onDisable() {
-        try {
-            userManager.saveUsers();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!forceDisabled) {
+            try {
+                userManager.saveUsers();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            warpManager.saveWarps();
+            spawnManager.saveSpawn();
+            getLogger().info("Warps, users and spawn saved.");
         }
-        warpManager.saveWarps();
-        spawnManager.saveSpawn();
-        getLogger().info("Warps, users and spawn saved.");
     }
 
     private void startSaveThread() {

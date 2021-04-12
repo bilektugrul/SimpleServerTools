@@ -15,6 +15,8 @@ import java.util.Locale;
 
 public class Utils {
 
+    private Utils() {}
+
     private static final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
 
