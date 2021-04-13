@@ -49,12 +49,10 @@ public class SpawnManager {
             plugin.getLogger().log(Level.WARNING, "Spawn location doesn't exist, spawn will not be created.");
         }
         if (loc != null) {
-            if (!force) {
-                setSpawn(loc);
-            } else {
+            if (force) {
                 spawn = null;
-                setSpawn(loc);
             }
+            setSpawn(loc);
         }
     }
 

@@ -30,7 +30,7 @@ public class MessageCommand implements CommandExecutor {
             if (args.length >= 1) {
                 String format = Utils.getString("other-messages.msg.format", sender)
                         .replace("%from%", Utils.matchName(sender));
-                String to = "";
+                String to;
                 boolean reply = false;
                 if (label.startsWith("r") || label.equalsIgnoreCase("yanıt")) {
                     reply = true;

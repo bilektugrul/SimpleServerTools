@@ -12,8 +12,6 @@ public class License {
     private final String license;
     private final String server;
     private final Plugin plugin;
-    // This MUST be the same as the REQUEST_KEY defined in config.php
-    private final String requestKey = "vmLAyzmppLLDgvqMPFyHLSkWdyHYqRImNueC1OLK";
     private boolean debug = false;
 
     private boolean valid = false;
@@ -42,6 +40,8 @@ public class License {
 
             connection.setRequestProperty("License-Key", license);
             connection.setRequestProperty("Plugin-Name", plugin.getDescription().getName());
+            // This MUST be the same as the REQUEST_KEY defined in config.php
+            String requestKey = "vmLAyzmppLLDgvqMPFyHLSkWdyHYqRImNueC1OLK";
             connection.setRequestProperty("Request-Key", requestKey);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -104,7 +104,7 @@ public class License {
     }
 
     public enum ReturnType {
-        LICENSE_NOT_FOUND, PLUGIN_NAME_NOT_FOUND, REQUEST_KEY_NOT_FOUND, INVALID_REQUEST_KEY, INVALID_LICENSE, TOO_MANY_IPS, VALID;
+        LICENSE_NOT_FOUND, PLUGIN_NAME_NOT_FOUND, REQUEST_KEY_NOT_FOUND, INVALID_REQUEST_KEY, INVALID_LICENSE, TOO_MANY_IPS, VALID
     }
 
 }

@@ -20,6 +20,8 @@ public class Utils {
     private static final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
 
+    private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+
     public static String getString(String string, CommandSender from) {
         return replacePlaceholders(plugin.getConfig().getString(string) , from);
     }
@@ -28,16 +30,14 @@ public class Utils {
         boolean isPlayer = from instanceof Player;
         msg = placeholderManager.replacePlaceholders(ChatColor.translateAlternateColorCodes('&', msg))
                 .replace("%player%", matchName(from));
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if (isPAPIEnabled) {
             return PlaceholderAPI.setPlaceholders(isPlayer ? (Player) from : null, msg);
         }
         return msg;
     }
 
     public static String matchName(CommandSender entity) {
-        boolean isPlayer = entity instanceof Player;
-        return isPlayer ? entity.getName() : "CONSOLE";
-
+        return entity instanceof Player ? entity.getName() : "CONSOLE";
     }
 
     public static boolean getBoolean(String string, boolean def) {
@@ -55,7 +55,6 @@ public class Utils {
     public static boolean isSameLoc(Location loc1, Location loc2) {
         return (loc1.getBlockX() == loc2.getBlockX()) && (loc1.getBlockY() == loc2.getBlockY()) && (loc1.getBlockZ() == loc2.getBlockZ());
     }
-
 
     public static void sendMessage(Player p, String mode, String msg, String subtitle, String time) {
         msg = msg.replace("%time%", time);

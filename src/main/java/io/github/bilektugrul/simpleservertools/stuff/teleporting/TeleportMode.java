@@ -9,7 +9,7 @@ import java.util.Locale;
 public class TeleportMode {
 
     public enum Mode {
-        SPAWN, WARPS, TPA;
+        SPAWN, WARPS, TPA
     }
 
     private final Mode mode;

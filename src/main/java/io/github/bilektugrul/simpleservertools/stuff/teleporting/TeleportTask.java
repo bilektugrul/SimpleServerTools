@@ -22,7 +22,7 @@ public class TeleportTask extends BukkitRunnable {
     private final Player p;
 
     private final TeleportSettings settings;
-    boolean isStaff;
+    private final boolean isStaff;
     private int time;
     private String teleportingMsg;
     private final String teleportingMode;
