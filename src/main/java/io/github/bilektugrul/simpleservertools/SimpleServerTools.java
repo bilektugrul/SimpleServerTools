@@ -188,7 +188,11 @@ public class SimpleServerTools extends JavaPlugin {
             spawnManager.reloadSpawn();
             joinMessageManager.reload();
             tpaManager.loadSettings();
-            if (Utils.getBoolean("auto-save-users")) asyncUserSaveThread.restart();
+            if (Utils.getBoolean("auto-save-users")) {
+                asyncUserSaveThread.restart();
+            } else if (asyncUserSaveThread != null) {
+                asyncUserSaveThread.cancel();
+            }
         }
     }
 

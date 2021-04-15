@@ -33,11 +33,7 @@ public class SpawnManager {
     }
 
     public void setSpawn(Location loc) {
-        if (!isPresent()) {
-            spawn = new Spawn(loc, getPermRequired(), getSettings());
-        } else {
-            spawn = new Spawn(loc, spawn.getPermRequire(), spawn.getSettings());
-        }
+        spawn = new Spawn(loc, getPermRequired(), getSettings());
         saveSpawn();
     }
 
@@ -46,7 +42,7 @@ public class SpawnManager {
         try {
             loc = (Location) spawnFile.get("spawn.location");
         } catch (NullPointerException ignored) {
-            plugin.getLogger().log(Level.WARNING, "Spawn location doesn't exist, spawn will not be created.");
+            plugin.getLogger().log(Level.WARNING, "Spawn lokasyonu bulunamadı, spawn oluşuturulmayacak.");
         }
         if (loc != null) {
             if (force) {
@@ -78,7 +74,7 @@ public class SpawnManager {
 
     public void saveSpawn() {
         if (spawn != null) {
-            plugin.getLogger().info("Saving spawn location.");
+            plugin.getLogger().info("Spawn kaydediliyor...");
             spawnFile.set("spawn.location", spawn.getLocation());
             ConfigUtils.saveConfig(plugin, spawnFile, "spawn");
         }
