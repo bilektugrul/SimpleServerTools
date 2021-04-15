@@ -45,6 +45,8 @@ public class SimpleServerTools extends JavaPlugin {
 
     private boolean forceDisabled = false;
 
+    private AsyncUserSaveThread asyncUserSaveThread;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -62,12 +64,12 @@ public class SimpleServerTools extends JavaPlugin {
             if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 new PAPIPlaceholders(this).register();
             } else {
-                getLogger().warning("PlaceholderAPI couldn't found. You should check it out.");
+                getLogger().warning("PlaceholderAPI bulunamadı. Binlerce placeholderi rahatça kullanabilmek için indirmenizi öneririz.");
             }
             if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
                 vaultManager = new VaultManager(this);
             } else {
-                getLogger().warning("Vault couldn't found. Permission based features probably will not work.");
+                getLogger().warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
             }
             for (Player looped : Bukkit.getOnlinePlayers()) {
                 userManager.getUser(looped);
@@ -99,7 +101,7 @@ public class SimpleServerTools extends JavaPlugin {
             getCommand("skull").setExecutor(new SkullCommand(this));
             reload(true);
             if (Utils.getBoolean("auto-save-users")) {
-                startSaveThread();
+                asyncUserSaveThread = new AsyncUserSaveThread(this);
             }
         } else {
             console.sendMessage("Lisans geçersiz.");
@@ -118,6 +120,7 @@ public class SimpleServerTools extends JavaPlugin {
     @Override
     public void onDisable() {
         if (!forceDisabled) {
+            asyncUserSaveThread.cancel();
             try {
                 userManager.saveUsers();
             } catch (IOException e) {
@@ -127,19 +130,6 @@ public class SimpleServerTools extends JavaPlugin {
             spawnManager.saveSpawn();
             getLogger().info("Warps, users and spawn saved.");
         }
-    }
-
-    private void startSaveThread() {
-        getLogger().info("Activating async user save task...");
-        int i = getConfig().getInt("auto-save-interval");
-        getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-            try {
-                userManager.saveUsers();
-                getLogger().info("Users have been saved.");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }, 2400, (i * 60L) * 20);
     }
 
     public CustomPlaceholderManager getPlaceholderManager() {
@@ -198,6 +188,7 @@ public class SimpleServerTools extends JavaPlugin {
             spawnManager.reloadSpawn();
             joinMessageManager.reload();
             tpaManager.loadSettings();
+            if (Utils.getBoolean("auto-save-users")) asyncUserSaveThread.restart();
         }
     }
 
