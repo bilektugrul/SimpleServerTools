@@ -143,7 +143,6 @@ public class PlayerListener implements Listener {
                 }
             }
         }
-
     }
 
     @EventHandler

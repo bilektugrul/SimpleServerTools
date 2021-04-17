@@ -272,3 +272,6 @@ other-messages:
     wrong-usage: |
       %prefix% &cKomutu hatalı kullandınız. Doğru kullanım: &b/skull <kafa ismi> [<verilecek oyuncu>]
       %prefix% &cKafa ismi Türkçe karakter içeremez.
+  clear-chat:
+    lines: 100
+    cleared: '%prefix% &3Sohbet &b%executor% &3tarafından temizlendi.' # '' yaparsanız mesaj yollanmaz.

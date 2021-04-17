@@ -71,6 +71,9 @@ commands:
     usage: /speed [walk/fly] <hız> [<oyuncu>]
   skull:
     usage: /skull <oyuncu>
+  clearchat:
+    usage: /clearchat
+    aliases: [cc, sohbetitemizle, sohbettemizle, st]
 permissions:
   sst.*:
     default: op
@@ -131,3 +134,5 @@ permissions:
         default: op
         children:
           sst.skull.others: false
+      sst.clearchat:
+        default: op
