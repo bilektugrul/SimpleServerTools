@@ -51,39 +51,36 @@ public class WarpCommand implements CommandExecutor {
                 Player p = (Player) sender;
                 String arg = args[0];
                 if (warpManager.isPresent(arg)) {
+                    Warp warp = warpManager.getWarp(arg);
                     if (args.length == 2) {
-                        if (warpManager.isPresent(arg)) {
-                            Warp warp = warpManager.getWarp(arg);
-                            switch (args[1]) {
-                                case "--del":
-                                    if (isAdmin) {
-                                        p.performCommand("warp " + arg + " --info");
-                                        p.sendMessage(Utils.getString("other-messages.warps.deleting", p)
-                                                .replace("%warp%", arg));
-                                        warpManager.deleteWarp(arg);
-                                        p.sendMessage(Utils.getString("other-messages.warps.deleted", p)
-                                                .replace("%warp%", arg));
-                                    }
-                                    return true;
-                                case "--force":
-                                    if (isAdmin) {
-                                        warpManager.forceRegisterWarp(arg, p.getLocation());
-                                        p.sendMessage(Utils.getString("other-messages.warps.created", p)
-                                                .replace("%warp%", arg));
-                                    }
-                                    return true;
-                                case "--info":
-                                    if (!p.hasPermission("sst.warpinfo")) return true;
-                                    p.sendMessage(Utils.getString("other-messages.warps.info", sender)
-                                            .replace("%warp%", arg)
-                                            .replace("%warploc%", warpManager.readableWarpLoc(warp))
-                                            .replace("%warpperm%", warp.getPermRequire() ? warp.getPermission() : "yok"));
-                                    return true;
-                            }
+                        switch (args[1]) {
+                            case "--del":
+                                if (isAdmin) {
+                                    p.performCommand("warp " + arg + " --info");
+                                    p.sendMessage(Utils.getString("other-messages.warps.deleting", p)
+                                            .replace("%warp%", arg));
+                                    warpManager.deleteWarp(arg);
+                                    p.sendMessage(Utils.getString("other-messages.warps.deleted", p)
+                                            .replace("%warp%", arg));
+                                }
+                                return true;
+                            case "--force":
+                                if (isAdmin) {
+                                    warpManager.forceRegisterWarp(arg, p.getLocation());
+                                    p.sendMessage(Utils.getString("other-messages.warps.created", p)
+                                            .replace("%warp%", arg));
+                                }
+                                return true;
+                            case "--info":
+                                if (!p.hasPermission("sst.warpinfo")) return true;
+                                p.sendMessage(Utils.getString("other-messages.warps.info", sender)
+                                        .replace("%warp%", arg)
+                                        .replace("%warploc%", warpManager.readableWarpLoc(warp))
+                                        .replace("%warpperm%", warp.getPermRequire() ? warp.getPermission() : "yok"));
+                                return true;
                         }
 
                     } else if (args.length == 1) {
-                        Warp warp = warpManager.getWarp(arg);
                         Location loc = warp.getLocation();
                         TeleportMode mode = new TeleportMode(TeleportMode.Mode.WARPS, warp, null, null);
                         if (!warp.getPermRequire() || warp.getPermRequire() && p.hasPermission(warp.getPermission())) {

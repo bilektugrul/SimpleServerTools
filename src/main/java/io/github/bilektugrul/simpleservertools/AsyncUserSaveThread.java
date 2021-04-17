@@ -20,7 +20,7 @@ public class AsyncUserSaveThread extends BukkitRunnable {
     }
 
     public void start() {
-        logger.info("Activating async user save task...");
+        logger.info("Async oyuncu kayıt süreci başlatılıyor...");
         int i = plugin.getConfig().getInt("auto-save-interval");
         runTaskTimerAsynchronously(plugin, 2400, (i * 60L) * 20);
     }
@@ -32,11 +32,6 @@ public class AsyncUserSaveThread extends BukkitRunnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void restart() {
-        cancel();
-        start();
     }
 
 }

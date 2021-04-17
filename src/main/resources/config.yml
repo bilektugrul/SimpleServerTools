@@ -134,8 +134,8 @@ other-messages:
     info: |
       %warpprefix%
       &b%warp% &ehakkında
-      &eLokasyon: &b%warpLoc%
-      &eYetki: &b%warpPerm%
+      &eLokasyon: &b%warploc%
+      &eYetki: &b%warpperm%
       %warpprefix%
   spawn:
     created: |
