@@ -1,14 +1,14 @@
-# SST, PlaceholderAPI'yi destekler. Binlerce placeholderi kullanmak için onu kurmanız önerilir.
+# SST, PlaceholderAPI'yi destekler. Binlerce placeholderı kullanmak için onu kurmanız önerilir.
 # Oyuncuların clientlerindeki sunucu listesindeki oyuncu listesini düzenlemek için ProtocolLib kurmalısınız.
 
 lisans: ''
 
-custom-placeholders: # Burada oluşturduğunuz placeholderleri her yerde kullanabilirsiniz. (%prefix%, %warpprefix%, %spawnprefix%)
+custom-placeholders: # Burada oluşturduğunuz placeholderlerı her yerde kullanabilirsiniz. (%prefix%, %warpprefix%, %spawnprefix%)
   prefix: '&8[&6SST&8]&r'
   warpprefix: '&8[&6Warps&8]&r'
   spawnprefix: '&8[&6Spawn&8]&r'
   tpaprefix: '&8[&6TPA&8]&r'
-  #isim: değer - şeklinde yazarak siz de kendi placeholderinizi oluşturabilirsiniz.
+  #isim: değer - şeklinde yazarak siz de kendi placeholderınızı oluşturabilirsiniz.
 
 no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'
 main-command-perm-required: true # Eğer true ise '/sst' komutunu kullanmak için 'sst.maincmd' yetkisine sahip olmalısınız.

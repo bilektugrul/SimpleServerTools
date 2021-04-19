@@ -64,7 +64,7 @@ public class SimpleServerTools extends JavaPlugin {
             if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 new PAPIPlaceholders(this).register();
             } else {
-                getLogger().warning("PlaceholderAPI bulunamadı. Binlerce placeholderi rahatça kullanabilmek için indirmenizi öneririz.");
+                getLogger().warning("PlaceholderAPI bulunamadı. Binlerce placeholderı rahatça kullanabilmek için indirmenizi öneririz.");
             }
             if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
                 vaultManager = new VaultManager(this);
@@ -112,7 +112,7 @@ public class SimpleServerTools extends JavaPlugin {
     }
 
     private boolean checkLicence() {
-        License license = new License(getConfig().getString("lisans"), "http://vantoxicdesign.com/", this);
+        License license = new License(getConfig().getString("lisans"), "https://vantoxicdesign.com/", this);
         license.request();
         Bukkit.getServer().getConsoleSender().sendMessage("Lisans kontrol ediliyor: " + license.getLicense());
         return license.isValid();
