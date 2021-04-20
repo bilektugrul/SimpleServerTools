@@ -56,19 +56,19 @@ public class License {
             String response = builder.toString();
             if (debug) System.out.println("[DEBUG] Converted");
 
-            String[] responseSplited = response.split(";");
-            if (responseSplited[0].equals("VALID")) {
+            String[] responseSplit = response.split(";");
+            if (responseSplit[0].equals("VALID")) {
                 if (debug) System.out.println("[DEBUG] VALID LICENSE");
                 valid = true;
-                returnType = ReturnType.valueOf(responseSplited[0]);
+                returnType = ReturnType.valueOf(responseSplit[0]);
 
-                generatedBy = responseSplited[2];
-                generatedIn = responseSplited[3];
-                licensedTo = responseSplited[1];
+                generatedBy = responseSplit[2];
+                generatedIn = responseSplit[3];
+                licensedTo = responseSplit[1];
             } else {
                 if (debug) System.out.println("[DEBUG] FAILED VALIDATION");
                 valid = false;
-                returnType = ReturnType.valueOf(responseSplited[0]);
+                returnType = ReturnType.valueOf(responseSplit[0]);
 
                 if (debug) System.out.println("[DEBUG] FAILED WITH RESULT: " + returnType);
             }

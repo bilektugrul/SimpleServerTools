@@ -42,7 +42,7 @@ public class SpawnManager {
         try {
             loc = (Location) spawnFile.get("spawn.location");
         } catch (NullPointerException ignored) {
-            plugin.getLogger().log(Level.WARNING, "Spawn lokasyonu bulunamadı, spawn oluşuturulmayacak.");
+            plugin.getLogger().log(Level.WARNING, "Spawn lokasyonu bulunamadı, spawn oluşturulmayacak.");
         }
         if (loc != null) {
             if (force) {

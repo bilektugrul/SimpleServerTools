@@ -34,9 +34,9 @@ public class GamemodeCommand implements CommandExecutor {
     }
 
     private GamemodeInfo matchInfo(String fullCommand, CommandSender sender) {
-        String[] splitted = fullCommand.split(" ");
+        String[] split = fullCommand.split(" ");
         GamemodeInfo gamemodeInfo = new GamemodeInfo();
-        for (String s : splitted) {
+        for (String s : split) {
             GameMode gamemode = matchGameMode(s);
             if (gamemode != null) {
                 gamemodeInfo.setGameMode(gamemode);
