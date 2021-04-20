@@ -19,6 +19,15 @@ public class UserManager {
         this.plugin = plugin;
     }
 
+    public User loadUser(Player p) {
+        String name = p.getName();
+        UUID uuid = p.getUniqueId();
+        YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + name + ".yml"));
+        User user = new User(dataFile, uuid, User.State.PLAYING, false, name);
+        userList.add(user);
+        return user;
+    }
+
     public User getUser(Player p) {
         UUID uuid = p.getUniqueId();
         for (User user : userList) {
@@ -26,11 +35,7 @@ public class UserManager {
                 return user;
             }
         }
-        String name = p.getName();
-        YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + name + ".yml"));
-        User user = new User(dataFile, uuid, User.State.PLAYING, false, name);
-        userList.add(user);
-        return user;
+        return loadUser(p);
     }
 
     public boolean isTeleporting(User user) {

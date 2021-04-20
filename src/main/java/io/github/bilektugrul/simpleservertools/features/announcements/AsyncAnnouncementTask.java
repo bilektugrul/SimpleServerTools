@@ -57,7 +57,6 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
         }
     }
 
-
     public void announce(Announcement announcement) {
         String content = announcement.getContent();
         AnnouncementType type = announcement.getType();

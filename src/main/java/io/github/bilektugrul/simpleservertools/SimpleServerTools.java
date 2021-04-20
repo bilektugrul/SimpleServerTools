@@ -75,7 +75,7 @@ public class SimpleServerTools extends JavaPlugin {
             }
             announcementManager = new AnnouncementManager(this);
             for (Player looped : Bukkit.getOnlinePlayers()) {
-                userManager.getUser(looped);
+                userManager.loadUser(looped);
             }
             getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
             getCommand("simpleservertools").setExecutor(new SSTCommand());

@@ -54,7 +54,7 @@ public class AnnouncementManager {
         boolean enabled = announcementsFile.getBoolean("announcements.enabled");
         if (enabled) {
             announcementTask = new AsyncAnnouncementTask(this, plugin, matchMode());
-            start();
+            announcementTask.start();
         } else if (announcementTask != null && announcementTask.hasStarted) {
             announcementTask.cancel();
             announcementTask = null;
@@ -63,10 +63,6 @@ public class AnnouncementManager {
 
     public AnnouncementMode matchMode() {
         return (announcementsFile.getBoolean("announcements.random")) ? AnnouncementMode.RANDOM : AnnouncementMode.ORDERED;
-    }
-
-    public void start() {
-        announcementTask.start();
     }
 
     public List<Announcement> getAnnouncements() {

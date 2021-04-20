@@ -59,7 +59,9 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
 
         Player player = e.getPlayer();
-        userManager.getUser(player); // This will load user's data into RAM
+        UUID uuid = player.getUniqueId();
+
+        userManager.loadUser(player); // This will load user's data into RAM
 
         ArrayList<JoinMessage> msgList = joinMessageManager.getList();
 
@@ -83,7 +85,6 @@ public class PlayerListener implements Listener {
             PaperLib.teleportAsync(player, spawnManager.getSpawn().getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
 
-        UUID uuid = player.getUniqueId();
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
             if (!vanishManager.isVanished(uuid)) {
                 if (player.hasPlayedBefore()) {
@@ -110,7 +111,9 @@ public class PlayerListener implements Listener {
 
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-        userManager.getUser(player).save();
+        User user = userManager.getUser(player);
+        user.save();
+        userManager.getUserList().remove(user);
 
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
             if (!vanishManager.isVanished(uuid)) e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", player));
