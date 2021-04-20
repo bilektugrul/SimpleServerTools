@@ -8,6 +8,7 @@ custom-placeholders: # Burada oluşturduğunuz placeholderleri her yerde kullana
   warpprefix: '&8[&6Warps&8]&r'
   spawnprefix: '&8[&6Spawn&8]&r'
   tpaprefix: '&8[&6TPA&8]&r'
+  duyuruprefix: '&8[&6Duyuru&8]'
   #isim: değer - şeklinde yazarak siz de kendi placeholderinizi oluşturabilirsiniz.
 
 no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'
@@ -275,3 +276,5 @@ other-messages:
   clear-chat:
     lines: 100
     cleared: '%prefix% &3Sohbet &b%executor% &3tarafından temizlendi.' # '' yaparsanız mesaj yollanmaz.
+    for-staffs:
+      enabled: true # true ise "sst.staff" yetkisi olanların sohbeti de silinir, false ise silinmez.

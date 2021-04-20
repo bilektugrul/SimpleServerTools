@@ -18,8 +18,13 @@ public class ClearChatCommand implements CommandExecutor {
             int limit = Utils.getInt("other-messages.clear-chat.lines");
 
             String lines = StringUtils.repeat(" \n", limit);
+            
+            boolean effectsStaff = Utils.getBoolean("other-messages.clear-chat.for-staffs.enabled");
 
             for (Player player : Bukkit.getOnlinePlayers()) { // broadcast will effect logs so sending to players is better
+                if (player.hasPermission("sst.staff") && !effectsStaff) {
+                    continue;
+                }
                 player.sendMessage(lines);
             }
 

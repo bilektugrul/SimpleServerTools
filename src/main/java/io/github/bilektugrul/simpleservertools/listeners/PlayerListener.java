@@ -3,6 +3,7 @@ package io.github.bilektugrul.simpleservertools.listeners;
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessage;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
+import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageType;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
@@ -64,15 +65,15 @@ public class PlayerListener implements Listener {
 
         if (!msgList.isEmpty()) {
             for (JoinMessage msg : msgList) {
-                JoinMessage.JoinMessageType type = msg.getType();
+                JoinMessageType type = msg.getType();
                 String content = msg.getContent();
-                if (type == JoinMessage.JoinMessageType.EVERYONE) {
+                if (type == JoinMessageType.EVERYONE) {
                     player.sendMessage(Utils.replacePlaceholders(content, player));
-                } else if (plugin.isPermManagerReady() && type == JoinMessage.JoinMessageType.GROUP) {
-                    if ((Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.getGroup()::equalsIgnoreCase))) {
+                } else if (plugin.isPermManagerReady() && type == JoinMessageType.GROUP) {
+                    if (Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.getGroup()::equalsIgnoreCase)) {
                         player.sendMessage(Utils.replacePlaceholders(content, player));
                     }
-                } else if (type == JoinMessage.JoinMessageType.PERMISSION && player.hasPermission(msg.getPermission())) {
+                } else if (type == JoinMessageType.PERMISSION && player.hasPermission(msg.getPermission())) {
                     player.sendMessage(Utils.replacePlaceholders(content, player));
                 }
             }

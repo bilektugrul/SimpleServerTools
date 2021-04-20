@@ -2,12 +2,6 @@ package io.github.bilektugrul.simpleservertools.features.joinmessage;
 
 public class JoinMessage {
 
-    public enum JoinMessageType {
-
-        GROUP, PERMISSION, EVERYONE
-
-    }
-
     private final String content;
     private final JoinMessageType type;
     private final String group;

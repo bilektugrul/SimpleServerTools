@@ -11,6 +11,7 @@ import io.github.bilektugrul.simpleservertools.commands.tpa.TPAAcceptCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPACommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPADenyCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPAToggleCommand;
+import io.github.bilektugrul.simpleservertools.features.announcements.AnnouncementManager;
 import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
@@ -42,6 +43,7 @@ public class SimpleServerTools extends JavaPlugin {
     private VanishManager vanishManager;
     private TPAManager tpaManager;
     private TeleportManager teleportManager;
+    private AnnouncementManager announcementManager;
 
     private boolean forceDisabled = false;
 
@@ -71,6 +73,7 @@ public class SimpleServerTools extends JavaPlugin {
             } else {
                 getLogger().warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
             }
+            announcementManager = new AnnouncementManager(this);
             for (Player looped : Bukkit.getOnlinePlayers()) {
                 userManager.getUser(looped);
             }
@@ -121,7 +124,7 @@ public class SimpleServerTools extends JavaPlugin {
     @Override
     public void onDisable() {
         if (!forceDisabled) {
-            asyncUserSaveThread.cancel();
+            Bukkit.getScheduler().cancelTasks(this);
             try {
                 userManager.saveUsers();
             } catch (IOException e) {
@@ -173,6 +176,10 @@ public class SimpleServerTools extends JavaPlugin {
         return teleportManager;
     }
 
+    public AnnouncementManager getAnnouncementManager() {
+        return announcementManager;
+    }
+
     public void checkAndLoadPacketListener() {
         if (getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
             PLibManager.loadPacketListener(this);
@@ -184,6 +191,7 @@ public class SimpleServerTools extends JavaPlugin {
         checkAndLoadPacketListener();
         placeholderManager.load();
         if (!first) {
+            announcementManager.reload();
             warpManager.reloadWarps();
             warpManager.loadSettings();
             spawnManager.reloadSpawn();
