@@ -1,7 +1,6 @@
-package io.github.bilektugrul.simpleservertools.placeholders;
+package io.github.bilektugrul.simpleservertools.features.placeholders;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
-import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;

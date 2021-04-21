@@ -2,6 +2,7 @@ package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
+import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -71,14 +72,14 @@ public class TeleportTask extends BukkitRunnable {
         final TeleportMode.Mode mode = teleportMode.getMode();
 
         if (mode == TeleportMode.Mode.WARPS) {
-            user.setState(User.State.TELEPORTING);
+            user.setState(UserState.TELEPORTING);
             String name = teleportMode.getWarp().getName();
             teleportedMsg = teleportedMsg.replace("%warp%", name);
             teleportingMsg = teleportingMsg.replace("%warp%", name);
         } else if (mode == TeleportMode.Mode.SPAWN) {
-            user.setState(User.State.TELEPORTING_SPAWN);
+            user.setState(UserState.TELEPORTING_SPAWN);
         } else {
-            user.setState(User.State.TELEPORTING_PLAYER);
+            user.setState(UserState.TELEPORTING_PLAYER);
             String teleportingTo = teleportMode.getTPAInfo().getToTeleport().getName();
             teleportedMsg = teleportedMsg.replace("%teleporting%", teleportingTo);
             teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo);
@@ -126,7 +127,7 @@ public class TeleportTask extends BukkitRunnable {
         }
 
         if (time == 0) {
-            user.setState(User.State.PLAYING);
+            user.setState(UserState.PLAYING);
             PaperLib.teleportAsync(p, finalLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
             Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
             cancelTeleport(false);
@@ -138,7 +139,7 @@ public class TeleportTask extends BukkitRunnable {
     }
 
     public void cancelTeleport(boolean msg) {
-        user.setState(User.State.PLAYING);
+        user.setState(UserState.PLAYING);
         if (msg) p.sendMessage(Utils.getString("other-messages." + mode + ".teleport-cancelled", p));
         teleportManager.getTeleportTasks().remove(this);
         super.cancel();

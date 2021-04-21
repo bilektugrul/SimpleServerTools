@@ -1,4 +1,4 @@
-package io.github.bilektugrul.simpleservertools.features.custom;
+package io.github.bilektugrul.simpleservertools.features.placeholders;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import org.bukkit.ChatColor;

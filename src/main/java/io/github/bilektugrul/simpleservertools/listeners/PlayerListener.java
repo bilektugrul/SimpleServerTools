@@ -1,15 +1,17 @@
 package io.github.bilektugrul.simpleservertools.listeners;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
-import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessage;
-import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
-import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageType;
+import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessage;
+import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
+import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageType;
+import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
+import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -25,6 +27,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -43,6 +46,7 @@ public class PlayerListener implements Listener {
     private final VaultManager vaultManager;
     private final VanishManager vanishManager;
     private final TPAManager tpaManager;
+    private final MaintenanceManager maintenanceManager;
 
     public PlayerListener(SimpleServerTools plugin) {
         this.plugin = plugin;
@@ -53,6 +57,16 @@ public class PlayerListener implements Listener {
         this.vaultManager = plugin.getVaultManager();
         this.vanishManager = plugin.getVanishManager();
         this.tpaManager = plugin.getTPAManager();
+        this.maintenanceManager = plugin.getMaintenanceManager();
+    }
+
+    @EventHandler
+    public void onConnect(PlayerLoginEvent e) {
+        Player p = e.getPlayer();
+        if (maintenanceManager.inMaintenance && !p.hasPermission("sst.maintenance.join")) {
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Utils.getString("maintenance.in-maintenance-message", p)
+                    .replace("%reason%", maintenanceManager.getReason()));
+        }
     }
 
     @EventHandler
@@ -162,7 +176,7 @@ public class PlayerListener implements Listener {
     }
 
     private boolean getCancelState(User user) {
-        User.State state = user.getState();
+        UserState state = user.getState();
         TeleportSettings settings;
         switch (state) {
             case TELEPORTING:

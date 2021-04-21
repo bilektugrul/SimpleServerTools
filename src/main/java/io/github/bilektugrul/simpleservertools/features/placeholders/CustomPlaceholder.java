@@ -1,4 +1,4 @@
-package io.github.bilektugrul.simpleservertools.features.custom;
+package io.github.bilektugrul.simpleservertools.features.placeholders;
 
 public class CustomPlaceholder {
 

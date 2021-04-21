@@ -23,7 +23,7 @@ public class UserManager {
         String name = p.getName();
         UUID uuid = p.getUniqueId();
         YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + name + ".yml"));
-        User user = new User(dataFile, uuid, User.State.PLAYING, false, name);
+        User user = new User(dataFile, uuid, UserState.PLAYING, false, name);
         userList.add(user);
         return user;
     }
@@ -39,8 +39,8 @@ public class UserManager {
     }
 
     public boolean isTeleporting(User user) {
-        User.State state = user.getState();
-        return state == User.State.TELEPORTING || state == User.State.TELEPORTING_SPAWN || state == User.State.TELEPORTING_PLAYER;
+        UserState state = user.getState();
+        return state == UserState.TELEPORTING || state == UserState.TELEPORTING_SPAWN || state == UserState.TELEPORTING_PLAYER;
     }
 
     public boolean isTeleporting(Player player) {

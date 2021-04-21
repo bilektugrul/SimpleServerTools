@@ -1,7 +1,7 @@
 package io.github.bilektugrul.simpleservertools.utils;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
-import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
+import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commons.compat.Titles;
 import net.md_5.bungee.api.ChatColor;

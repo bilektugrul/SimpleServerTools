@@ -12,18 +12,14 @@ import java.util.UUID;
 
 public class User {
 
-    public enum State {
-        TELEPORTING, TELEPORTING_SPAWN, TELEPORTING_PLAYER, PLAYING
-    }
-
     private final static SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
     private final UUID uuid;
-    private State state;
+    private UserState state;
     private boolean isGod;
     private final YamlConfiguration data;
     private final String name;
 
-    public User(YamlConfiguration data, UUID uuid, State state, boolean isGod, String name) {
+    public User(YamlConfiguration data, UUID uuid, UserState state, boolean isGod, String name) {
         this.uuid = uuid;
         this.state = state;
         this.isGod = isGod;
@@ -37,11 +33,11 @@ public class User {
         return uuid;
     }
 
-    public State getState() {
+    public UserState getState() {
         return state;
     }
 
-    public void setState(State newState) {
+    public void setState(UserState newState) {
         state = newState;
     }
 
@@ -50,7 +46,7 @@ public class User {
     }
 
     public String getName() {
-        return getPlayer().getName();
+        return name;
     }
 
     public boolean isGod() {
@@ -62,7 +58,7 @@ public class User {
     }
 
     public boolean isAvailable() {
-        return state == State.PLAYING;
+        return state == UserState.PLAYING;
     }
 
     public boolean isAcceptingTPA() {

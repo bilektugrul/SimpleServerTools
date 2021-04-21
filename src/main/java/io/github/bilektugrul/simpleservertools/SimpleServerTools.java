@@ -12,14 +12,15 @@ import io.github.bilektugrul.simpleservertools.commands.tpa.TPACommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPADenyCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPAToggleCommand;
 import io.github.bilektugrul.simpleservertools.features.announcements.AnnouncementManager;
-import io.github.bilektugrul.simpleservertools.features.custom.CustomPlaceholderManager;
-import io.github.bilektugrul.simpleservertools.features.joinmessage.JoinMessageManager;
+import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
+import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
+import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
+import io.github.bilektugrul.simpleservertools.features.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
-import io.github.bilektugrul.simpleservertools.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
@@ -28,6 +29,7 @@ import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -44,15 +46,19 @@ public class SimpleServerTools extends JavaPlugin {
     private TPAManager tpaManager;
     private TeleportManager teleportManager;
     private AnnouncementManager announcementManager;
+    private MaintenanceManager maintenanceManager;
 
     private boolean forceDisabled = false;
 
     private AsyncUserSaveThread asyncUserSaveThread;
 
+    private PluginManager pluginManager;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
         ConsoleCommandSender console = getServer().getConsoleSender();
+        pluginManager = getServer().getPluginManager();
         if (checkLicence()) {
             console.sendMessage("Lisans geçerli. Satın alımınız için teşekkürler");
             placeholderManager = new CustomPlaceholderManager(this);
@@ -62,13 +68,14 @@ public class SimpleServerTools extends JavaPlugin {
             userManager = new UserManager(this);
             joinMessageManager = new JoinMessageManager(this);
             tpaManager = new TPAManager(this);
+            maintenanceManager = new MaintenanceManager(this);
             vanishManager = new VanishManager();
-            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
                 new PAPIPlaceholders(this).register();
             } else {
                 getLogger().warning("PlaceholderAPI bulunamadı. Binlerce placeholderı rahatça kullanabilmek için indirmenizi öneririz.");
             }
-            if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            if (pluginManager.isPluginEnabled("Vault")) {
                 vaultManager = new VaultManager(this);
             } else {
                 getLogger().warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
@@ -77,7 +84,7 @@ public class SimpleServerTools extends JavaPlugin {
             for (Player looped : Bukkit.getOnlinePlayers()) {
                 userManager.loadUser(looped);
             }
-            getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+            pluginManager.registerEvents(new PlayerListener(this), this);
             getCommand("simpleservertools").setExecutor(new SSTCommand());
             getCommand("gamemode").setExecutor(new GamemodeCommand());
             getCommand("fly").setExecutor(new FlyCommand());
@@ -103,6 +110,7 @@ public class SimpleServerTools extends JavaPlugin {
             getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
             getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
             getCommand("skull").setExecutor(new SkullCommand(this));
+            getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
             reload(true);
             if (Utils.getBoolean("auto-save-users")) {
                 asyncUserSaveThread = new AsyncUserSaveThread(this);
@@ -117,14 +125,14 @@ public class SimpleServerTools extends JavaPlugin {
     private boolean checkLicence() {
         License license = new License(getConfig().getString("lisans"), "https://vantoxicdesign.com/", this);
         license.request();
-        Bukkit.getServer().getConsoleSender().sendMessage("Lisans kontrol ediliyor: " + license.getLicense());
+        getServer().getConsoleSender().sendMessage("Lisans kontrol ediliyor: " + license.getLicense());
         return license.isValid();
     }
 
     @Override
     public void onDisable() {
         if (!forceDisabled) {
-            Bukkit.getScheduler().cancelTasks(this);
+            getServer().getScheduler().cancelTasks(this);
             try {
                 userManager.saveUsers();
             } catch (IOException e) {
@@ -132,6 +140,7 @@ public class SimpleServerTools extends JavaPlugin {
             }
             warpManager.saveWarps();
             spawnManager.saveSpawn();
+            maintenanceManager.save();
             getLogger().info("Warps, users and spawn saved.");
         }
     }
@@ -180,8 +189,12 @@ public class SimpleServerTools extends JavaPlugin {
         return announcementManager;
     }
 
+    public MaintenanceManager getMaintenanceManager() {
+        return maintenanceManager;
+    }
+
     public void checkAndLoadPacketListener() {
-        if (getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
+        if (pluginManager.isPluginEnabled("ProtocolLib")) {
             PLibManager.loadPacketListener(this);
         }
     }
@@ -197,6 +210,7 @@ public class SimpleServerTools extends JavaPlugin {
             spawnManager.reloadSpawn();
             joinMessageManager.reload();
             tpaManager.loadSettings();
+            maintenanceManager.reload();
             if (Utils.getBoolean("auto-save-users")) {
                 asyncUserSaveThread = new AsyncUserSaveThread(this);
             } else if (asyncUserSaveThread != null) {

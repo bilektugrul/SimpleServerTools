@@ -80,6 +80,18 @@ tpa:
     # STAFF: sadece yetkilileri kapsar
     # EXCEPT_STAFF: yetkililer dışındaki herkesi kapsar
 
+maintenance:
+  in-maintenance: false
+  in-maintenance-message: |
+    %prefix% &cSunucumuz şu an bakımda.
+    %prefix% Bakım sebebi: %reason%
+  default-reason: '&cSizlere daha iyi bir oyun keyfi sunmak için çalışıyoruz.'
+  last-reason: ''
+  changed: '%prefix% &bBakım modu artık %newMode%'
+  modes:
+    true: '&aaktif'
+    false: '&caktif değil'
+
 other-messages:
   help-message:
     beginning: |

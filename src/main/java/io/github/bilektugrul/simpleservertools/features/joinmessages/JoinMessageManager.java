@@ -1,4 +1,4 @@
-package io.github.bilektugrul.simpleservertools.features.joinmessage;
+package io.github.bilektugrul.simpleservertools.features.joinmessages;
 
 import io.github.bilektugrul.simpleservertools.SimpleServerTools;
 import me.despical.commons.configuration.ConfigUtils;

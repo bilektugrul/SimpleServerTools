@@ -74,6 +74,9 @@ commands:
   clearchat:
     usage: /clearchat
     aliases: [cc, sohbetitemizle, sohbettemizle, st]
+  maintenance:
+    aliases: [bakım, bakımmodu, bakim]
+    usage: /maintenance
 permissions:
   sst.*:
     default: op
@@ -136,3 +139,8 @@ permissions:
           sst.skull.others: false
       sst.clearchat:
         default: op
+      sst.maintenance.*:
+        default: op
+        children:
+          sst.maintenance.join: true
+          sst.maintenance.command: true
