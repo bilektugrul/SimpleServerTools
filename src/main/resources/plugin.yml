@@ -1,6 +1,6 @@
 name: SimpleServerTools
 version: ${project.version}
-main: io.github.bilektugrul.simpleservertools.SimpleServerTools
+main: io.github.bilektugrul.simpleservertools.SST
 api-version: '1.16'
 prefix: SimpleServerTools
 softdepend:
