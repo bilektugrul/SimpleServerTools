@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands.spawn;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.despical.commons.serializer.LocationSerializer;
@@ -15,7 +15,7 @@ public class SetSpawnCommand implements CommandExecutor {
 
     private final SpawnManager spawnManager;
 
-    public SetSpawnCommand(SimpleServerTools plugin) {
+    public SetSpawnCommand(SST plugin) {
         this.spawnManager = plugin.getSpawnManager();
     }
 

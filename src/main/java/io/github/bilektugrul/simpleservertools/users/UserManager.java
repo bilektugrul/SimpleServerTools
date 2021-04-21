@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.users;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -12,10 +12,10 @@ import java.util.UUID;
 
 public class UserManager {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final Set<User> userList = new HashSet<>();
 
-    public UserManager(SimpleServerTools plugin) {
+    public UserManager(SST plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.utils;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commons.compat.Titles;
@@ -17,7 +17,7 @@ public class Utils {
 
     private Utils() {}
 
-    private static final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
+    private static final SST plugin = JavaPlugin.getPlugin(SST.class);
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
 
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");

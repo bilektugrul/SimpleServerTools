@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands.tpa;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
@@ -20,7 +20,7 @@ public class TPACommand implements CommandExecutor {
     private final TPAManager tpaManager;
     private final UserManager userManager;
 
-    public TPACommand(SimpleServerTools plugin) {
+    public TPACommand(SST plugin) {
         this.tpaManager = plugin.getTPAManager();
         this.userManager = plugin.getUserManager();
     }

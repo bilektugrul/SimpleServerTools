@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
@@ -25,7 +25,7 @@ public class WarpCommand implements CommandExecutor {
     private final WarpManager warpManager;
     private final TeleportManager teleportManager;
 
-    public WarpCommand(SimpleServerTools plugin) {
+    public WarpCommand(SST plugin) {
         this.warpManager = plugin.getWarpManager();
         this.teleportManager = plugin.getTeleportManager();
         plugin.getCommand("warp").setTabCompleter(new WarpTabCompleter());

@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.command.Command;
@@ -12,7 +12,7 @@ public class MaintenanceCommand implements CommandExecutor {
 
     private final MaintenanceManager maintenanceManager;
 
-    public MaintenanceCommand(SimpleServerTools plugin) {
+    public MaintenanceCommand(SST plugin) {
         this.maintenanceManager = plugin.getMaintenanceManager();
     }
 

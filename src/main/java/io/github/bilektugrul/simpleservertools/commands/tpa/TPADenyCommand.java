@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands.tpa;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
@@ -14,7 +14,7 @@ public class TPADenyCommand implements CommandExecutor {
 
     private final TPAManager tpaManager;
 
-    public TPADenyCommand(SimpleServerTools plugin) {
+    public TPADenyCommand(SST plugin) {
         this.tpaManager = plugin.getTPAManager();
     }
 

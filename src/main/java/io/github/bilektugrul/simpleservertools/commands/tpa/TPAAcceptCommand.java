@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands.tpa;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAInfo;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
@@ -18,7 +18,7 @@ public class TPAAcceptCommand implements CommandExecutor {
     private final TPAManager tpaManager;
     private final UserManager userManager;
 
-    public TPAAcceptCommand(SimpleServerTools plugin) {
+    public TPAAcceptCommand(SST plugin) {
         this.tpaManager = plugin.getTPAManager();
         this.userManager = plugin.getUserManager();
     }

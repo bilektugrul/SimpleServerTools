@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.listeners;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessage;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageType;
@@ -38,7 +38,7 @@ import java.util.UUID;
 
 public class PlayerListener implements Listener {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final UserManager userManager;
     private final SpawnManager spawnManager;
     private final WarpManager warpManager;
@@ -48,7 +48,7 @@ public class PlayerListener implements Listener {
     private final TPAManager tpaManager;
     private final MaintenanceManager maintenanceManager;
 
-    public PlayerListener(SimpleServerTools plugin) {
+    public PlayerListener(SST plugin) {
         this.plugin = plugin;
         this.userManager = plugin.getUserManager();
         this.spawnManager = plugin.getSpawnManager();

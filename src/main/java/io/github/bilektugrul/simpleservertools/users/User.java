@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.users;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class User {
 
-    private final static SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
+    private final static SST plugin = JavaPlugin.getPlugin(SST.class);
     private final UUID uuid;
     private UserState state;
     private boolean isGod;

@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.warps;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 public class WarpManager {
 
     private final ArrayList<Warp> warpList = new ArrayList<>();
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private FileConfiguration warpsFile;
     private TeleportSettings settings;
 
-    public WarpManager(SimpleServerTools plugin) {
+    public WarpManager(SST plugin) {
         this.plugin = plugin;
         reloadWarps();
         loadSettings();

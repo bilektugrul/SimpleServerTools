@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.announcements;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import net.milkbowl.vault.permission.Permission;
@@ -16,7 +16,7 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
 
     private final AnnouncementManager announcementManager;
     private VaultManager vaultManager = null;
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final AnnouncementMode mode;
     private int next = 0;
 
@@ -24,7 +24,7 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
 
     private final List<Announcement> list;
 
-    public AsyncAnnouncementTask(AnnouncementManager announcementManager, SimpleServerTools plugin, AnnouncementMode mode) {
+    public AsyncAnnouncementTask(AnnouncementManager announcementManager, SST plugin, AnnouncementMode mode) {
         this.announcementManager = announcementManager;
         if (plugin.isPermManagerReady()) {
             this.vaultManager = plugin.getVaultManager();

@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -15,7 +15,7 @@ public class GodCommand implements CommandExecutor {
 
     private final UserManager userManager;
 
-    public GodCommand(SimpleServerTools plugin) {
+    public GodCommand(SST plugin) {
         this.userManager = plugin.getUserManager();
     }
 

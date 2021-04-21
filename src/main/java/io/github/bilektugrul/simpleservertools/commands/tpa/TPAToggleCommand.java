@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands.tpa;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -14,7 +14,7 @@ public class TPAToggleCommand implements CommandExecutor {
 
     private final UserManager userManager;
 
-    public TPAToggleCommand(SimpleServerTools plugin) {
+    public TPAToggleCommand(SST plugin) {
         this.userManager = plugin.getUserManager();
     }
 

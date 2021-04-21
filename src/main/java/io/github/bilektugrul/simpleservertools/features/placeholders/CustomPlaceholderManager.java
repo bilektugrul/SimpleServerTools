@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.placeholders;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -9,10 +9,10 @@ import java.util.Set;
 
 public class CustomPlaceholderManager {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final Set<CustomPlaceholder> placeholderList = new HashSet<>();
 
-    public CustomPlaceholderManager(SimpleServerTools plugin) {
+    public CustomPlaceholderManager(SST plugin) {
         this.plugin = plugin;
         load();
     }

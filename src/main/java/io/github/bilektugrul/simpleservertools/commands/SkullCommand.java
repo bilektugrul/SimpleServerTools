@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.despical.commons.item.ItemUtils;
 import org.bukkit.Bukkit;
@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
 
 public class SkullCommand implements CommandExecutor {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
 
-    public SkullCommand(SimpleServerTools plugin) {
+    public SkullCommand(SST plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.placeholders;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
@@ -9,11 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class PAPIPlaceholders extends PlaceholderExpansion {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final CustomPlaceholderManager placeholderManager;
     private final VanishManager vanishManager;
 
-    public PAPIPlaceholders(SimpleServerTools plugin) {
+    public PAPIPlaceholders(SST plugin) {
         this.plugin = plugin;
         this.placeholderManager = plugin.getPlaceholderManager();
         this.vanishManager = plugin.getVanishManager();

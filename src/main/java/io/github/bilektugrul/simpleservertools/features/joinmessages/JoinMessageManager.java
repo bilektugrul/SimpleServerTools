@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.joinmessages;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 public class JoinMessageManager {
 
     private FileConfiguration msgFile;
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final ArrayList<JoinMessage> joinMessageList = new ArrayList<>();
 
-    public JoinMessageManager(SimpleServerTools plugin) {
+    public JoinMessageManager(SST plugin) {
         this.plugin = plugin;
         reload();
     }

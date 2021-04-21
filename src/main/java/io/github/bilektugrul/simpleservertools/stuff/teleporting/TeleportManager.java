@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -9,9 +9,9 @@ import java.util.Set;
 
 public class TeleportManager {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
 
-    public TeleportManager(SimpleServerTools plugin) {
+    public TeleportManager(SST plugin) {
         this.plugin = plugin;
     }
 

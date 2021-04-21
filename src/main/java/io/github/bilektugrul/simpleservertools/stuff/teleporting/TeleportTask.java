@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.users.User;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class TeleportTask extends BukkitRunnable {
 
-    private final SimpleServerTools plugin = JavaPlugin.getPlugin(SimpleServerTools.class);
+    private final SST plugin = JavaPlugin.getPlugin(SST.class);
     private final TeleportManager teleportManager = plugin.getTeleportManager();
 
     private final Player p;

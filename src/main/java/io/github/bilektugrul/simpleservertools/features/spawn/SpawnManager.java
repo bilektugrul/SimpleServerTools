@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.spawn;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
@@ -18,11 +18,11 @@ import java.util.logging.Level;
 public class SpawnManager {
 
     private Spawn spawn;
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private FileConfiguration spawnFile;
     private final TeleportManager teleportManager;
 
-    public SpawnManager(SimpleServerTools plugin) {
+    public SpawnManager(SST plugin) {
         this.plugin = plugin;
         this.teleportManager = plugin.getTeleportManager();
         reloadSpawn();

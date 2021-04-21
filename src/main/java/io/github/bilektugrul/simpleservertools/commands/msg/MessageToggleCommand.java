@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands.msg;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -14,7 +14,7 @@ public class MessageToggleCommand implements CommandExecutor {
 
     private final UserManager userManager;
 
-    public MessageToggleCommand(SimpleServerTools plugin) {
+    public MessageToggleCommand(SST plugin) {
         userManager = plugin.getUserManager();
     }
 

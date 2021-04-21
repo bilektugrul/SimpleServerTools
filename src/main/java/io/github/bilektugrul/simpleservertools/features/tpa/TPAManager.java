@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.tpa;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
@@ -20,9 +20,9 @@ public class TPAManager {
     private TeleportSettings settings;
     private final Map<Player, Set<Player>> tpaList = new HashMap<>();
     private final TeleportManager teleportManager;
-    private final SimpleServerTools plugin;
+    private final SST plugin;
 
-    public TPAManager(SimpleServerTools plugin) {
+    public TPAManager(SST plugin) {
         this.teleportManager = plugin.getTeleportManager();
         this.plugin = plugin;
         loadSettings();

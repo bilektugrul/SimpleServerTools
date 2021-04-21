@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.maintenance;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -11,7 +11,7 @@ public class MaintenanceManager {
 
     private final FileConfiguration config;
 
-    public MaintenanceManager(SimpleServerTools plugin) {
+    public MaintenanceManager(SST plugin) {
         this.config = plugin.getConfig();
         reload();
     }

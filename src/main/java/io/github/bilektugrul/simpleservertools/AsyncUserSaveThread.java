@@ -8,11 +8,11 @@ import java.util.logging.Logger;
 
 public class AsyncUserSaveThread extends BukkitRunnable {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final Logger logger;
     private final UserManager userManager;
 
-    public AsyncUserSaveThread(SimpleServerTools plugin) {
+    public AsyncUserSaveThread(SST plugin) {
         this.plugin = plugin;
         this.logger = plugin.getLogger();
         this.userManager = plugin.getUserManager();

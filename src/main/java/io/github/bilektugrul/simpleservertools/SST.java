@@ -34,7 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 
-public class SimpleServerTools extends JavaPlugin {
+public class SST extends JavaPlugin {
 
     private CustomPlaceholderManager placeholderManager;
     private WarpManager warpManager;

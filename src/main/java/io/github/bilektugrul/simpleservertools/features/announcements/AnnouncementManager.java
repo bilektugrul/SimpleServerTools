@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.announcements;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -9,12 +9,12 @@ import java.util.List;
 
 public class AnnouncementManager {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private AsyncAnnouncementTask announcementTask;
     private FileConfiguration announcementsFile;
     private final List<Announcement> announcements = new ArrayList<>();
 
-    public AnnouncementManager(SimpleServerTools plugin) {
+    public AnnouncementManager(SST plugin) {
         this.plugin = plugin;
         reload();
     }

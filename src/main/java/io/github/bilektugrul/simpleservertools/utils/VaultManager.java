@@ -1,15 +1,15 @@
 package io.github.bilektugrul.simpleservertools.utils;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultManager {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private Permission permissionProvider;
 
-    public VaultManager(SimpleServerTools plugin) {
+    public VaultManager(SST plugin) {
         this.plugin = plugin;
         setupPermissions();
     }

@@ -1,6 +1,6 @@
 package io.github.bilektugrul.simpleservertools.commands.spawn;
 
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.spawn.Spawn;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
@@ -19,7 +19,7 @@ public class SpawnCommand implements CommandExecutor {
     private final SpawnManager spawnManager;
     private final TeleportManager teleportManager;
 
-    public SpawnCommand(SimpleServerTools plugin) {
+    public SpawnCommand(SST plugin) {
         this.spawnManager = plugin.getSpawnManager();
         this.teleportManager = plugin.getTeleportManager();
     }

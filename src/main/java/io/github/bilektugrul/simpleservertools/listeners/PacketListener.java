@@ -6,7 +6,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
-import io.github.bilektugrul.simpleservertools.SimpleServerTools;
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 
@@ -17,10 +17,10 @@ import java.util.UUID;
 
 public class PacketListener extends PacketAdapter {
 
-    private final SimpleServerTools plugin;
+    private final SST plugin;
     private final VanishManager vanishManager;
 
-    public PacketListener(SimpleServerTools plugin) {
+    public PacketListener(SST plugin) {
         super(plugin, ListenerPriority.LOWEST, PacketType.Status.Server.SERVER_INFO);
         this.plugin = plugin;
         this.vanishManager = plugin.getVanishManager();
