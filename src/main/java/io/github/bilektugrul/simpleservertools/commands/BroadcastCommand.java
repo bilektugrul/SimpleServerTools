@@ -15,10 +15,8 @@ public class BroadcastCommand implements CommandExecutor {
             if (args.length >= 1) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(Utils.getString("other-messages.broadcast.prefix", sender)).append(" ");
-                for (String arg : args) {
-                    builder.append(arg).append(" ");
-                }
-                Bukkit.broadcastMessage(Utils.replacePlaceholders(builder.toString(), sender));
+                builder.append(Utils.arrayToString(args, sender, true, true));
+                Bukkit.broadcastMessage(Utils.replacePlaceholders(builder.toString(), sender, true));
             } else {
                 sender.sendMessage(Utils.getString("other-messages.broadcast.not-enough", sender));
             }

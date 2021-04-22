@@ -23,17 +23,27 @@ public class Utils {
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
 
     public static String getString(String string, CommandSender from) {
-        return replacePlaceholders(plugin.getConfig().getString(string) , from);
+        return replacePlaceholders(plugin.getConfig().getString(string), from, true);
     }
 
-    public static String replacePlaceholders(String msg, CommandSender from) {
+    public static String getString(String string, CommandSender from, boolean replacePersonalPlaceholders) {
+        return replacePlaceholders(plugin.getConfig().getString(string), from, replacePersonalPlaceholders);
+    }
+
+    public static String replacePlaceholders(String msg, CommandSender from, boolean replacePersonalPlaceholders, boolean replacePAPI) {
         boolean isPlayer = from instanceof Player;
-        msg = placeholderManager.replacePlaceholders(ChatColor.translateAlternateColorCodes('&', msg))
-                .replace("%player%", matchName(from));
-        if (isPAPIEnabled) {
+        msg = placeholderManager.replacePlaceholders(ChatColor.translateAlternateColorCodes('&', msg));
+        if (replacePersonalPlaceholders) {
+            msg = msg.replace("%player%", matchName(from));
+        }
+        if (isPAPIEnabled && replacePAPI) {
             return PlaceholderAPI.setPlaceholders(isPlayer ? (Player) from : null, msg);
         }
         return msg;
+    }
+
+    public static String replacePlaceholders(String msg, CommandSender from, boolean replacePersonalPlaceholders) {
+        return replacePlaceholders(msg, from, replacePersonalPlaceholders, true);
     }
 
     public static String matchName(CommandSender entity) {
@@ -89,6 +99,11 @@ public class Utils {
             return false;
         }
         return false;
+    }
+
+    public static String arrayToString(String[] array, CommandSender sender, boolean replacePersonalPlaceholders, boolean replacePAPI) {
+        String str = String.join(" ", array);
+        return replacePlaceholders(str, sender, replacePersonalPlaceholders, replacePAPI);
     }
 
 }

@@ -82,12 +82,15 @@ tpa:
 
 maintenance:
   in-maintenance: false
+  kick-players:
+    enabled: true # true ise bakım modu aktif olunca 'sst.maintenance.join' yetkisi olmayan oyuncuları sunucudan atar.
+    kick-message: '&cSunucu &a%reason% &csebebiyle bakıma girdi. Kısa bir süre sonra tekrar sizinle olucaz.'
   in-maintenance-message: |
-    %prefix% &cSunucumuz şu an bakımda.
-    %prefix% Bakım sebebi: %reason%
+    &cSunucumuz şu an bakımda.
+    Bakım sebebi: %reason%
   default-reason: '&cSizlere daha iyi bir oyun keyfi sunmak için çalışıyoruz.'
   last-reason: ''
-  changed: '%prefix% &bBakım modu artık %newMode%'
+  changed: '%prefix% &bBakım modu artık %newmode%&b.'
   modes:
     true: '&aaktif'
     false: '&caktif değil'

@@ -9,10 +9,10 @@ public class MaintenanceManager {
     private String reason;
     public boolean inMaintenance;
 
-    private final FileConfiguration config;
+    private final SST plugin;
 
     public MaintenanceManager(SST plugin) {
-        this.config = plugin.getConfig();
+        this.plugin = plugin;
         reload();
     }
 
@@ -29,14 +29,15 @@ public class MaintenanceManager {
     }
 
     public void reload() {
-        inMaintenance = config.getBoolean("maintenance.in-maintenance");
-        String lastReason = Utils.getString("maintenance.last-reason", null);
+        inMaintenance = plugin.getConfig().getBoolean("maintenance.in-maintenance");
+        String lastReason = Utils.getString("maintenance.last-reason", null, false);
         reason = lastReason.isEmpty()
                 ? Utils.getString("maintenance.default-reason", null)
                 : lastReason;
     }
 
     public void save() {
+        FileConfiguration config = plugin.getConfig();
         config.set("maintenance.last-reason", reason);
         config.set("maintenance.in-maintenance", inMaintenance);
     }

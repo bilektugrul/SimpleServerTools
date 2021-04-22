@@ -65,7 +65,7 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         if (maintenanceManager.inMaintenance && !p.hasPermission("sst.maintenance.join")) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Utils.getString("maintenance.in-maintenance-message", p)
-                    .replace("%reason%", maintenanceManager.getReason()));
+                    .replace("%reason%", Utils.replacePlaceholders(maintenanceManager.getReason(), p, true)));
         }
     }
 
@@ -75,7 +75,7 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        userManager.loadUser(player); // This will load user's data into RAM
+        userManager.loadUser(player);
 
         ArrayList<JoinMessage> msgList = joinMessageManager.getList();
 
@@ -84,13 +84,13 @@ public class PlayerListener implements Listener {
                 JoinMessageType type = msg.getType();
                 String content = msg.getContent();
                 if (type == JoinMessageType.EVERYONE) {
-                    player.sendMessage(Utils.replacePlaceholders(content, player));
+                    player.sendMessage(Utils.replacePlaceholders(content, player, true));
                 } else if (plugin.isPermManagerReady() && type == JoinMessageType.GROUP) {
                     if (Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.getGroup()::equalsIgnoreCase)) {
-                        player.sendMessage(Utils.replacePlaceholders(content, player));
+                        player.sendMessage(Utils.replacePlaceholders(content, player, true));
                     }
                 } else if (type == JoinMessageType.PERMISSION && player.hasPermission(msg.getPermission())) {
-                    player.sendMessage(Utils.replacePlaceholders(content, player));
+                    player.sendMessage(Utils.replacePlaceholders(content, player, true));
                 }
             }
         }

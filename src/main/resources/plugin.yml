@@ -76,7 +76,7 @@ commands:
     aliases: [cc, sohbetitemizle, sohbettemizle, st]
   maintenance:
     aliases: [bakım, bakımmodu, bakim]
-    usage: /maintenance
+    usage: /maintenance <bakım sebebi>
 permissions:
   sst.*:
     default: op
