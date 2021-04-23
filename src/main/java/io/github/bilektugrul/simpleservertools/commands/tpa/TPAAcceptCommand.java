@@ -3,6 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands.tpa;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAInfo;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.Mode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -31,7 +32,7 @@ public class TPAAcceptCommand implements CommandExecutor {
                 Player reqSender = Bukkit.getPlayer(args[0]);
                 if (reqSender != null && !reqSender.equals(sender) && tpaManager.isPresent(p, reqSender) && userManager.getUser(reqSender).isAvailable()) {
                     TPAInfo info = new TPAInfo(reqSender, p);
-                    TeleportMode mode = new TeleportMode(TeleportMode.Mode.TPA, null, null, info);
+                    TeleportMode mode = new TeleportMode(Mode.TPA, null, null, info);
                     reqSender.sendMessage(Utils.getString("other-messages.tpa.request-accepted", reqSender)
                             .replace("%teleporting%", p.getName()));
                     p.sendMessage(Utils.getString("other-messages.tpa.request-accepted-2", p)

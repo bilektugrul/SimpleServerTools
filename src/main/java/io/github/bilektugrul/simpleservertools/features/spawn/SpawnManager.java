@@ -2,6 +2,7 @@ package io.github.bilektugrul.simpleservertools.features.spawn;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.Mode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
@@ -100,7 +101,7 @@ public class SpawnManager {
             if (direct) {
                 Bukkit.getScheduler().runTask(plugin, () -> player.teleport(loc));
             } else {
-                TeleportMode mode = new TeleportMode(TeleportMode.Mode.SPAWN, null, spawn, null);
+                TeleportMode mode = new TeleportMode(Mode.SPAWN, null, spawn, null);
                 teleportManager.teleport(player, loc, mode, getSettings());
             }
         }

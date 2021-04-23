@@ -8,10 +8,6 @@ import java.util.Locale;
 
 public class TeleportMode {
 
-    public enum Mode {
-        SPAWN, WARPS, TPA
-    }
-
     private final Mode mode;
     private final Warp warp;
     private final Spawn spawn;

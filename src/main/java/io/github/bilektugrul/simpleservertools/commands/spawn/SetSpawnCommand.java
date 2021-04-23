@@ -34,6 +34,8 @@ public class SetSpawnCommand implements CommandExecutor {
                         .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
                 spawnManager.saveSpawn();
             }
+        } else {
+            sender.sendMessage(Utils.getString("no-permission", sender));
         }
         return true;
     }

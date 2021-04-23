@@ -69,14 +69,14 @@ public class TeleportTask extends BukkitRunnable {
         UserManager userManager = plugin.getUserManager();
         user = userManager.getUser(player);
 
-        final TeleportMode.Mode mode = teleportMode.getMode();
+        final Mode mode = teleportMode.getMode();
 
-        if (mode == TeleportMode.Mode.WARPS) {
+        if (mode == Mode.WARPS) {
             user.setState(UserState.TELEPORTING);
             String name = teleportMode.getWarp().getName();
             teleportedMsg = teleportedMsg.replace("%warp%", name);
             teleportingMsg = teleportingMsg.replace("%warp%", name);
-        } else if (mode == TeleportMode.Mode.SPAWN) {
+        } else if (mode == Mode.SPAWN) {
             user.setState(UserState.TELEPORTING_SPAWN);
         } else {
             user.setState(UserState.TELEPORTING_PLAYER);

@@ -63,10 +63,10 @@ public class SST extends JavaPlugin {
         if (checkLicence()) {
             console.sendMessage("Lisans geçerli. Satın alımınız için teşekkürler");
             placeholderManager = new CustomPlaceholderManager(this);
+            userManager = new UserManager(this);
             teleportManager = new TeleportManager(this);
             warpManager = new WarpManager(this);
             spawnManager = new SpawnManager(this);
-            userManager = new UserManager(this);
             joinMessageManager = new JoinMessageManager(this);
             tpaManager = new TPAManager(this);
             maintenanceManager = new MaintenanceManager(this);

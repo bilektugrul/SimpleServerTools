@@ -3,6 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands.spawn;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.spawn.Spawn;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.Mode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -26,23 +27,32 @@ public class SpawnCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (spawnManager.isEnabled()) {
-            if (spawnManager.isPresent()) {
-                Spawn spawn = spawnManager.getSpawn();
-                TeleportMode mode = new TeleportMode(TeleportMode.Mode.SPAWN, null, spawn, null);
-                final Location loc = spawn.getLocation();
-                if (args.length == 1) {
-                    Player toTeleport = Bukkit.getPlayer(args[0]);
-                    if (toTeleport != null) teleportManager.teleport(toTeleport, loc, mode, spawnManager.getSettings());
-                    else sender.sendMessage(Utils.getString("other-messages.spawn.player-not-found", sender));
-                } else if (args.length == 0 && sender instanceof Player) {
-                    teleportManager.teleport((Player) sender, loc, mode, spawnManager.getSettings());
+        if (sender.hasPermission("sst.spawn")) {
+            if (spawnManager.isEnabled()) {
+                if (spawnManager.isPresent()) {
+                    Spawn spawn = spawnManager.getSpawn();
+                    TeleportMode mode = new TeleportMode(Mode.SPAWN, null, spawn, null);
+                    final Location loc = spawn.getLocation();
+                    if (args.length == 1 && sender.hasPermission("sst.spawn.others")) {
+                        Player toTeleport = Bukkit.getPlayer(args[0]);
+                        if (toTeleport != null) {
+                            teleportManager.teleport(toTeleport, loc, mode, spawnManager.getSettings());
+                        } else {
+                            sender.sendMessage(Utils.getString("other-messages.spawn.player-not-found", sender));
+                        }
+                    } else if (args.length == 0 && sender instanceof Player) {
+                        teleportManager.teleport((Player) sender, loc, mode, spawnManager.getSettings());
+                    } else {
+                        sender.sendMessage(Utils.getString("no-permission", sender));
+                    }
+                } else {
+                    sender.sendMessage(Utils.getString("other-messages.spawn.spawn-not-set", sender));
                 }
             } else {
-                sender.sendMessage(Utils.getString("other-messages.spawn.spawn-not-set", sender));
+                spawnManager.sendWarnIfEnabled(sender);
             }
         } else {
-            spawnManager.sendWarnIfEnabled(sender);
+            sender.sendMessage(Utils.getString("no-permission", sender));
         }
         return true;
     }

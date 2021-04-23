@@ -17,9 +17,7 @@ public class GamemodeCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         StringBuilder builder = new StringBuilder();
         builder.append(label).append(" ");
-        for (String arg : args) {
-            builder.append(arg).append(" ");
-        }
+        builder.append(Utils.arrayToString(args, sender, false, false));
         GamemodeInfo gamemodeInfo = matchInfo(builder.toString(), sender);
         if (gamemodeInfo.isCompleted()) {
             if (canChange(sender, gamemodeInfo.gameMode)) {

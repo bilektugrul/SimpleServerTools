@@ -3,6 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.Mode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -82,7 +83,7 @@ public class WarpCommand implements CommandExecutor {
 
                     } else if (args.length == 1) {
                         Location loc = warp.getLocation();
-                        TeleportMode mode = new TeleportMode(TeleportMode.Mode.WARPS, warp, null, null);
+                        TeleportMode mode = new TeleportMode(Mode.WARPS, warp, null, null);
                         if (!warp.getPermRequire() || warp.getPermRequire() && p.hasPermission(warp.getPermission())) {
                             teleportManager.teleport(p, loc, mode, warpManager.getSettings());
                         } else {
