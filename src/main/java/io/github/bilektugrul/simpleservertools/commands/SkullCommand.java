@@ -74,10 +74,10 @@ public class SkullCommand implements CommandExecutor {
                         skull.setItemMeta(skullMeta);
                         toGive.getInventory().addItem(skull);
                         toGive.sendMessage(Utils.getString("other-messages.skull.added", toGive)
-                                .replace("%headOwner%", owner));
+                                .replace("%headowner%", owner));
                         if (!toGive.equals(executor)) {
                             executor.sendMessage(Utils.getString("other-messages.skull.added-other", executor)
-                                    .replace("%headOwner%", owner)
+                                    .replace("%headowner%", owner)
                                     .replace("%other%", toGive.getName()));
                         }
                     }

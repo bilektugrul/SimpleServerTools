@@ -282,8 +282,8 @@ other-messages:
       WALK: Yürüme
       FLY: Uçma
   skull:
-    added: '%prefix% &b%headOwner% &3adlı oyuncunun kafası envanterinize eklendi.'
-    added-other: '%prefix% &b%headOwner% &3adlı oyuncunun kafası &b%other% &3adlı oyuncunun envanterine eklendi.'
+    added: '%prefix% &b%headowner% &3adlı oyuncunun kafası envanterinize eklendi.'
+    added-other: '%prefix% &b%headowner% &3adlı oyuncunun kafası &b%other% &3adlı oyuncunun envanterine eklendi.'
     not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
     wrong-usage: |
       %prefix% &cKomutu hatalı kullandınız. Doğru kullanım: &b/skull <kafa ismi> [<verilecek oyuncu>]
