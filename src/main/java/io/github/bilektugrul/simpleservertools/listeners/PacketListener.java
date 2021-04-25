@@ -30,22 +30,29 @@ public class PacketListener extends PacketAdapter {
     public void onPacketSending(PacketEvent event) {
         WrappedServerPing ping = event.getPacket().getServerPings().read(0);
         Collection<UUID> vanishedPlayers = vanishManager.getVanishedPlayers();
+
         int size = plugin.getServer().getOnlinePlayers().size();
         int vanishedSize = vanishedPlayers.size();
-        if (Utils.getBoolean("remove-vanished-players.enabled")) {
+        boolean removeVanished = Utils.getBoolean("vanish.remove-vanished-players");
+
+        if (removeVanished) {
             List<WrappedGameProfile> wrappedGameProfiles = new ArrayList<>(ping.getPlayers());
             wrappedGameProfiles.removeIf(wrappedGameProfile -> vanishedPlayers.contains(wrappedGameProfile.getUUID()));
             ping.setPlayers(wrappedGameProfiles);
             ping.setPlayersOnline(size - vanishedSize);
         }
+
         if (Utils.getBoolean("one-more-slot.enabled")) {
-            if (Utils.getBoolean("remove-vanished-players.enabled"))
+            if (removeVanished)
                 ping.setPlayersMaximum((size - vanishedSize) + 1);
             else
                 ping.setPlayersMaximum(size + 1);
-        } if (Utils.getBoolean("motd.enabled")) {
+        }
+
+        if (Utils.getBoolean("motd.enabled")) {
             ping.setMotD(Utils.getString("MOTD.value", null));
         }
+
     }
 
 }

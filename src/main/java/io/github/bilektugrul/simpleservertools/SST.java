@@ -98,7 +98,9 @@ public class SST extends JavaPlugin {
             getCommand("kick").setExecutor(new KickCommand());
             getCommand("tpall").setExecutor(new TPAllCommand());
             getCommand("speed").setExecutor(new SpeedCommand());
+            getCommand("enderchest").setExecutor(new EnderChestCommand());
             getCommand("clearchat").setExecutor(new ClearChatCommand());
+            getCommand("craft").setExecutor(new CraftCommand());
             getCommand("msg").setExecutor(new MessageCommand(this));
             getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
             getCommand("vanish").setExecutor(new VanishCommand(this));

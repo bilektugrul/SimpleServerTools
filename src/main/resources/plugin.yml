@@ -77,6 +77,11 @@ commands:
   maintenance:
     aliases: [bakım, bakımmodu, bakim]
     usage: /maintenance <bakım sebebi>
+  enderchest:
+    aliases: [ec, endersandık, endersandığı]
+    usage: /enderchest <oyuncu ismi>
+  craft:
+    aliases: [craftingtable, workbench, crafttable, çalışmamasası]
 permissions:
   sst.*:
     default: op
@@ -144,3 +149,7 @@ permissions:
         children:
           sst.maintenance.join: true
           sst.maintenance.command: true
+      sst.enderchest:
+        default: op
+      sst.craft:
+        default: op

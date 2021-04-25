@@ -26,9 +26,10 @@ one-more-slot:
   enabled: true # ProtocolLib gerektirir.
   # Sunucu listesinde oyuncu sayısını (oyuncu sayısı + 1) olarak değiştirir (fake)
 
-remove-vanished-players:
-  enabled: true # Vanishteki oyuncuları client üzerindeki sunucu listesinde bulunan oyuncu listesinden siler.
-  # ProtocolLib gerektirir.
+vanish:
+  remove-vanished-players: true # Vanishteki oyuncuları client üzerindeki sunucu listesinde bulunan oyuncu listesinden siler.
+                                # ProtocolLib gerektirir.
+  messages-to-vanished-players: false # true yaparsanız diğer oyuncular vanish modundaki yetkililere /msg ile mesaj gönderebilir.
 
 MOTD: # ProtocolLib gerektirir.
   enabled: false
@@ -293,3 +294,5 @@ other-messages:
     cleared: '%prefix% &3Sohbet &b%executor% &3tarafından temizlendi.' # '' yaparsanız mesaj yollanmaz.
     for-staffs:
       enabled: true # true ise "sst.staff" yetkisi olanların sohbeti de silinir, false ise silinmez.
+  ender-chest:
+    not-found: '%prefix% &cÜzgünüm ancak bu oyuncuyu bulamadım.'
