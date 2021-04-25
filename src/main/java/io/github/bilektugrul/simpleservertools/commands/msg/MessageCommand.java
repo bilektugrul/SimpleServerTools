@@ -58,13 +58,11 @@ public class MessageCommand implements CommandExecutor {
         }
 
         String toPlayerName = toPlayer.getName();
-        boolean senderAcceptMessages;
+        boolean senderAcceptMessages = true;
 
         if (sender instanceof Player) {
             User senderUser = userManager.getUser((Player) sender);
             senderAcceptMessages = senderUser.isAcceptingMsg();
-        } else {
-            senderAcceptMessages = true;
         }
 
         User toUser = userManager.getUser(toPlayer);
