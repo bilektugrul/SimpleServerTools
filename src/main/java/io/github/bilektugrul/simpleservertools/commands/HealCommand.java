@@ -13,26 +13,28 @@ public class HealCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.heal")) {
-            Player healPlayer = null;
-            if (args.length >= 1) {
-                healPlayer = Bukkit.getPlayer(args[0]);
-            } else if (sender instanceof Player) {
-                healPlayer = (Player) sender;
-            }
-            if (healPlayer != null) {
-                heal(healPlayer);
-                if (healPlayer.equals(sender)) {
-                    healPlayer.sendMessage(Utils.getString("other-messages.heal.message", healPlayer));
-                } else {
-                    sender.sendMessage(Utils.getString("other-messages.heal.message-other", sender)
-                            .replace("%other%", healPlayer.getName()));
-                }
-            } else {
-                sender.sendMessage(Utils.getString("other-messages.heal.not-found", sender));
-            }
-        } else {
+        if (!sender.hasPermission("sst.heal")) {
             sender.sendMessage(Utils.getString("no-permission", sender));
+            return true;
+        }
+
+        Player healPlayer = null;
+
+        if (args.length >= 1) {
+            healPlayer = Bukkit.getPlayer(args[0]);
+        } else if (sender instanceof Player) {
+            healPlayer = (Player) sender;
+        } else {
+            sender.sendMessage(Utils.getString("other-messages.heal.not-found", sender));
+            return true;
+        }
+
+        heal(healPlayer);
+        if (healPlayer.equals(sender)) {
+            healPlayer.sendMessage(Utils.getString("other-messages.heal.message", healPlayer));
+        } else {
+            sender.sendMessage(Utils.getString("other-messages.heal.message-other", sender)
+                    .replace("%other%", healPlayer.getName()));
         }
         return true;
     }

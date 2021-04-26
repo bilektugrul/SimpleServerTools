@@ -13,26 +13,29 @@ public class FeedCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.feed")) {
-            Player feedPlayer = null;
-            if (args.length >= 1) {
-                feedPlayer = Bukkit.getPlayer(args[0]);
-            } else if (sender instanceof Player) {
-                feedPlayer = (Player) sender;
-            }
-            if (feedPlayer != null) {
-                feed(feedPlayer);
-                if (feedPlayer.equals(sender)) {
-                    feedPlayer.sendMessage(Utils.getString("other-messages.feed.message", feedPlayer));
-                } else {
-                    sender.sendMessage(Utils.getString("other-messages.feed.message-other", sender)
-                            .replace("%other%", feedPlayer.getName()));
-                }
-            } else {
-                sender.sendMessage(Utils.getString("other-messages.feed.not-found", sender));
-            }
-        } else {
+        if (!sender.hasPermission("sst.feed")) {
             sender.sendMessage(Utils.getString("no-permission", sender));
+            return true;
+        }
+
+        Player feedPlayer;
+
+        if (args.length >= 1) {
+            feedPlayer = Bukkit.getPlayer(args[0]);
+        } else if (sender instanceof Player) {
+            feedPlayer = (Player) sender;
+        } else {
+            sender.sendMessage(Utils.getString("other-messages.feed.not-found", sender));
+            return true;
+        }
+
+        feed(feedPlayer);
+
+        if (feedPlayer.equals(sender)) {
+            feedPlayer.sendMessage(Utils.getString("other-messages.feed.message", feedPlayer));
+        } else {
+            sender.sendMessage(Utils.getString("other-messages.feed.message-other", sender)
+                    .replace("%other%", feedPlayer.getName()));
         }
         return true;
     }

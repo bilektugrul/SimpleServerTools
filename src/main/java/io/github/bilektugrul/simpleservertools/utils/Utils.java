@@ -8,6 +8,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,6 +29,14 @@ public class Utils {
 
     public static String getString(String string, CommandSender from, boolean replacePersonalPlaceholders) {
         return replacePlaceholders(plugin.getConfig().getString(string), from, replacePersonalPlaceholders);
+    }
+
+    public static String getString(FileConfiguration file, String string, CommandSender from) {
+        return replacePlaceholders(file.getString(string), from, true);
+    }
+
+    public static String getString(FileConfiguration file, String string, CommandSender from, boolean replacePersonalPlaceholders) {
+        return replacePlaceholders(file.getString(string), from, replacePersonalPlaceholders);
     }
 
     public static String replacePlaceholders(String msg, CommandSender from, boolean replacePersonalPlaceholders, boolean replacePAPI) {
@@ -59,6 +68,18 @@ public class Utils {
     }
 
     public static int getInt(String path) {
+        return plugin.getConfig().getInt(path);
+    }
+
+    public static boolean getBoolean(FileConfiguration file, String string, boolean def) {
+        return plugin.getConfig().getBoolean(string, def);
+    }
+
+    public static boolean getBoolean(FileConfiguration file, String string) {
+        return plugin.getConfig().getBoolean(string);
+    }
+
+    public static int getInt(FileConfiguration file, String path) {
         return plugin.getConfig().getInt(path);
     }
 

@@ -17,7 +17,7 @@ public class TPAllCommand implements CommandExecutor {
         if (sender instanceof Player && sender.hasPermission("sst.tpall")) {
             Player p = (Player) sender;
             Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-            for (Player player : Bukkit.getOnlinePlayers()) {
+            for (Player player : players) {
                 player.teleport(p);
             }
             p.sendMessage(Utils.getString("other-messages.tpall.teleported", p)

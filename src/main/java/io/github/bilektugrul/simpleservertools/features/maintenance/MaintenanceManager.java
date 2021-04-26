@@ -2,9 +2,12 @@ package io.github.bilektugrul.simpleservertools.features.maintenance;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class MaintenanceManager {
+
+    private FileConfiguration maintenanceFile;
 
     private String reason;
     public boolean inMaintenance;
@@ -29,17 +32,22 @@ public class MaintenanceManager {
     }
 
     public void reload() {
-        inMaintenance = plugin.getConfig().getBoolean("maintenance.in-maintenance");
-        String lastReason = Utils.getString("maintenance.last-reason", null, false);
+        maintenanceFile = ConfigUtils.getConfig(plugin, "maintenance");
+        inMaintenance = maintenanceFile.getBoolean("maintenance.in-maintenance");
+        String lastReason = Utils.getString(maintenanceFile, "maintenance.last-reason", null, false);
         reason = lastReason.isEmpty()
-                ? Utils.getString("maintenance.default-reason", null)
+                ? Utils.getString(maintenanceFile, "maintenance.default-reason", null)
                 : lastReason;
     }
 
     public void save() {
-        FileConfiguration config = plugin.getConfig();
-        config.set("maintenance.last-reason", reason);
-        config.set("maintenance.in-maintenance", inMaintenance);
+        maintenanceFile.set("maintenance.last-reason", reason);
+        maintenanceFile.set("maintenance.in-maintenance", inMaintenance);
+        ConfigUtils.saveConfig(plugin, maintenanceFile, "maintenance");
+    }
+
+    public FileConfiguration getMaintenanceFile() {
+        return maintenanceFile;
     }
 
 }

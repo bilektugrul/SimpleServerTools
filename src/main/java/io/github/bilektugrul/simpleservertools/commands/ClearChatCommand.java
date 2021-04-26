@@ -13,27 +13,25 @@ public class ClearChatCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.clearchat")) {
-
-            int limit = Utils.getInt("other-messages.clear-chat.lines");
-
-            String lines = StringUtils.repeat(" \n", limit);
-            
-            boolean effectsStaff = Utils.getBoolean("other-messages.clear-chat.for-staffs.enabled");
-
-            for (Player player : Bukkit.getOnlinePlayers()) { // broadcast will effect logs so sending to players is better
-                if (player.hasPermission("sst.staff") && !effectsStaff) {
-                    continue;
-                }
-                player.sendMessage(lines);
-            }
-
-            String cleared = Utils.getString("other-messages.clear-chat.cleared", sender);
-            if (!cleared.isEmpty()) Bukkit.broadcastMessage(cleared.replace("%executor%", Utils.matchName(sender)));
-
-        } else {
+        if (!sender.hasPermission("sst.clearchat")) {
             sender.sendMessage(Utils.getString("no-permission", sender));
+            return true;
         }
+
+        int limit = Utils.getInt("other-messages.clear-chat.lines");
+        String lines = StringUtils.repeat(" \n", limit);
+        boolean effectsStaff = Utils.getBoolean("other-messages.clear-chat.for-staffs.enabled");
+
+        for (Player player : Bukkit.getOnlinePlayers()) { // broadcast will effect logs so sending to players is better
+            if (player.hasPermission("sst.staff") && !effectsStaff) {
+                continue;
+            }
+            player.sendMessage(lines);
+        }
+
+        String cleared = Utils.getString("other-messages.clear-chat.cleared", sender);
+        if (!cleared.isEmpty()) Bukkit.broadcastMessage(cleared.replace("%executor%", Utils.matchName(sender)));
+
         return true;
     }
 

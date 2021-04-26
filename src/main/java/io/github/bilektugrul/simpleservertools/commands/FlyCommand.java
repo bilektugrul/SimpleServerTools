@@ -12,28 +12,31 @@ public class FlyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("stt.fly")) {
-            Player flightPlayer = null;
-            boolean argFlightMode = false;
-            if (args.length >= 1) {
-                flightPlayer = Bukkit.getPlayer(args[0]);
-                if (args.length >= 2) {
-                    argFlightMode = true;
-                }
+        if (!sender.hasPermission("stt.fly")) {
+            sender.sendMessage(Utils.getString("no-permission", sender));
+            return true;
+        }
+
+        Player flightPlayer = null;
+        boolean argFlightMode = false;
+
+        if (args.length >= 1) {
+            flightPlayer = Bukkit.getPlayer(args[0]);
+            if (args.length >= 2) {
+                argFlightMode = true;
             }
-            if (flightPlayer == null && sender instanceof Player) flightPlayer = (Player) sender;
-            if (flightPlayer != null) {
-                if (argFlightMode) {
-                    boolean newMode = Utils.matchMode(args[1]);
-                    change(sender, flightPlayer, newMode);
-                } else {
-                    change(sender, flightPlayer, !flightPlayer.getAllowFlight());
-                }
+        }
+
+        if (flightPlayer == null && sender instanceof Player) flightPlayer = (Player) sender;
+        if (flightPlayer != null) {
+            if (argFlightMode) {
+                boolean newMode = Utils.matchMode(args[1]);
+                change(sender, flightPlayer, newMode);
             } else {
-                sender.sendMessage(Utils.getString("other-messages.fly.type-player", sender));
+                change(sender, flightPlayer, !flightPlayer.getAllowFlight());
             }
         } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getString("other-messages.fly.type-player", sender));
         }
         return true;
     }

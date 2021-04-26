@@ -144,7 +144,6 @@ public class SST extends JavaPlugin {
             warpManager.saveWarps();
             spawnManager.saveSpawn();
             maintenanceManager.save();
-            ConfigUtils.saveConfig(this, getConfig(), "config"); // Sadly, all of the comments will be gone after this. Maybe using custom YAML library would fix this.
             getLogger().info("Tüm veriler kaydedildi.");
         }
     }

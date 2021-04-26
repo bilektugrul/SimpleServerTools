@@ -81,21 +81,6 @@ tpa:
     # STAFF: sadece yetkilileri kapsar
     # EXCEPT_STAFF: yetkililer dışındaki herkesi kapsar
 
-maintenance:
-  in-maintenance: false
-  kick-players:
-    enabled: true # true ise bakım modu aktif olunca 'sst.maintenance.join' yetkisi olmayan oyuncuları sunucudan atar.
-    kick-message: '&cSunucu &a%reason% &csebebiyle bakıma girdi. Kısa bir süre sonra tekrar sizinle olucaz.'
-  in-maintenance-message: |
-    &cSunucumuz şu an bakımda.
-    Bakım sebebi: %reason%
-  default-reason: '&cSizlere daha iyi bir oyun keyfi sunmak için çalışıyoruz.'
-  last-reason: ''
-  changed: '%prefix% &bBakım modu artık %newmode%&b.'
-  modes:
-    true: '&aaktif'
-    false: '&caktif değil'
-
 other-messages:
   help-message:
     beginning: |
@@ -229,6 +214,7 @@ other-messages:
     kick-message: '%prefix% &c%kicker% adlı yetkili tarafından atıldın.'
     kicked: '%prefix% &e%kicked% &3adlı oyuncuyu attın.'
     went-wrong: '%prefix% &cBir şeyler ters gitti.'
+    wrong-usage: '%prefix% &cKomutu hatalı kullandın. Kicklenecek oyuncuyu ve opsiyonel olarak da kick mesajını girmelisin. '
   tpa:
     request-sent: '%tpaprefix% &b%teleporting% &eadlı oyuncuya bir TPA isteği yolladın.'
     new-request: '%tpaprefix% &b%requester% &eadlı oyuncu sana bir TPA isteği yolladı.'

@@ -11,17 +11,18 @@ public class BroadcastCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.broadcast")) {
-            if (args.length >= 1) {
-                StringBuilder builder = new StringBuilder();
-                builder.append(Utils.getString("other-messages.broadcast.prefix", sender)).append(" ");
-                builder.append(Utils.arrayToString(args, sender, true, true));
-                Bukkit.broadcastMessage(Utils.replacePlaceholders(builder.toString(), sender, true));
-            } else {
-                sender.sendMessage(Utils.getString("other-messages.broadcast.not-enough", sender));
-            }
-        } else {
+        if (!sender.hasPermission("sst.broadcast")) {
             sender.sendMessage(Utils.getString("no-permission", sender));
+            return true;
+        }
+
+        if (args.length >= 1) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(Utils.getString("other-messages.broadcast.prefix", sender)).append(" ");
+            builder.append(Utils.arrayToString(args, sender, true, true));
+            Bukkit.broadcastMessage(Utils.replacePlaceholders(builder.toString(), sender, true));
+        } else {
+            sender.sendMessage(Utils.getString("other-messages.broadcast.not-enough", sender));
         }
         return true;
     }
