@@ -2,9 +2,9 @@ package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
-import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
+import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Location;

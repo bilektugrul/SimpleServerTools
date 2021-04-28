@@ -1,9 +1,7 @@
 package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
 import io.github.bilektugrul.simpleservertools.SST;
-import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
-import io.github.bilektugrul.simpleservertools.users.UserState;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

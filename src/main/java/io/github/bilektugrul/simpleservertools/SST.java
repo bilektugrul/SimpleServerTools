@@ -26,9 +26,7 @@ import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
-import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -58,78 +56,63 @@ public class SST extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        ConsoleCommandSender console = getServer().getConsoleSender();
         pluginManager = getServer().getPluginManager();
-        if (checkLicence()) {
-            console.sendMessage("Lisans geçerli. Satın alımınız için teşekkürler");
-            placeholderManager = new CustomPlaceholderManager(this);
-            userManager = new UserManager(this);
-            teleportManager = new TeleportManager(this);
-            warpManager = new WarpManager(this);
-            spawnManager = new SpawnManager(this);
-            joinMessageManager = new JoinMessageManager(this);
-            tpaManager = new TPAManager(this);
-            maintenanceManager = new MaintenanceManager(this);
-            vanishManager = new VanishManager();
-            if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
-                new PAPIPlaceholders(this).register();
-            } else {
-                getLogger().warning("PlaceholderAPI bulunamadı. Binlerce placeholderı rahatça kullanabilmek için indirmenizi öneririz.");
-            }
-            if (pluginManager.isPluginEnabled("Vault")) {
-                vaultManager = new VaultManager(this);
-            } else {
-                getLogger().warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
-            }
-            announcementManager = new AnnouncementManager(this);
-            for (Player looped : Bukkit.getOnlinePlayers()) {
-                userManager.loadUser(looped);
-            }
-            pluginManager.registerEvents(new PlayerListener(this), this);
-            getCommand("simpleservertools").setExecutor(new SSTCommand());
-            getCommand("gamemode").setExecutor(new GamemodeCommand());
-            getCommand("fly").setExecutor(new FlyCommand());
-            getCommand("broadcast").setExecutor(new BroadcastCommand());
-            getCommand("disposal").setExecutor(new DisposalCommand());
-            getCommand("ping").setExecutor(new PingCommand());
-            getCommand("feed").setExecutor(new FeedCommand());
-            getCommand("heal").setExecutor(new HealCommand());
-            getCommand("invsee").setExecutor(new InvSeeCommand());
-            getCommand("kick").setExecutor(new KickCommand());
-            getCommand("tpall").setExecutor(new TPAllCommand());
-            getCommand("speed").setExecutor(new SpeedCommand());
-            getCommand("enderchest").setExecutor(new EnderChestCommand());
-            getCommand("clearchat").setExecutor(new ClearChatCommand());
-            getCommand("craft").setExecutor(new CraftCommand());
-            getCommand("msg").setExecutor(new MessageCommand(this));
-            getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
-            getCommand("vanish").setExecutor(new VanishCommand(this));
-            getCommand("warp").setExecutor(new WarpCommand(this));
-            getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
-            getCommand("spawn").setExecutor(new SpawnCommand(this));
-            getCommand("god").setExecutor(new GodCommand(this));
-            getCommand("tpa").setExecutor(new TPACommand(this));
-            getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
-            getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
-            getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
-            getCommand("skull").setExecutor(new SkullCommand(this));
-            getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
-            reload(true);
-            if (Utils.getBoolean("auto-save-users")) {
-                asyncUserSaveThread = new AsyncUserSaveThread(this);
-            }
+        placeholderManager = new CustomPlaceholderManager(this);
+        userManager = new UserManager(this);
+        teleportManager = new TeleportManager(this);
+        warpManager = new WarpManager(this);
+        spawnManager = new SpawnManager(this);
+        joinMessageManager = new JoinMessageManager(this);
+        tpaManager = new TPAManager(this);
+        maintenanceManager = new MaintenanceManager(this);
+        vanishManager = new VanishManager();
+        if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
+            new PAPIPlaceholders(this).register();
         } else {
-            console.sendMessage("Lisans geçersiz.");
-            forceDisabled = true;
-            getServer().shutdown();
+            getLogger().warning("PlaceholderAPI bulunamadı. Binlerce placeholderı rahatça kullanabilmek için indirmenizi öneririz.");
         }
-    }
-
-    private boolean checkLicence() {
-        License license = new License(getConfig().getString("lisans"), "https://vantoxicdesign.com/", this);
-        license.request();
-        getServer().getConsoleSender().sendMessage("Lisans kontrol ediliyor: " + license.getLicense());
-        return license.isValid();
+        if (pluginManager.isPluginEnabled("Vault")) {
+            vaultManager = new VaultManager(this);
+        } else {
+            getLogger().warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
+        }
+        announcementManager = new AnnouncementManager(this);
+        for (Player looped : Bukkit.getOnlinePlayers()) {
+            userManager.loadUser(looped);
+        }
+        pluginManager.registerEvents(new PlayerListener(this), this);
+        getCommand("simpleservertools").setExecutor(new SSTCommand());
+        getCommand("gamemode").setExecutor(new GamemodeCommand());
+        getCommand("fly").setExecutor(new FlyCommand());
+        getCommand("broadcast").setExecutor(new BroadcastCommand());
+        getCommand("disposal").setExecutor(new DisposalCommand());
+        getCommand("ping").setExecutor(new PingCommand());
+        getCommand("feed").setExecutor(new FeedCommand());
+        getCommand("heal").setExecutor(new HealCommand());
+        getCommand("invsee").setExecutor(new InvSeeCommand());
+        getCommand("kick").setExecutor(new KickCommand());
+        getCommand("tpall").setExecutor(new TPAllCommand());
+        getCommand("speed").setExecutor(new SpeedCommand());
+        getCommand("enderchest").setExecutor(new EnderChestCommand());
+        getCommand("clearchat").setExecutor(new ClearChatCommand());
+        getCommand("craft").setExecutor(new CraftCommand());
+        getCommand("msg").setExecutor(new MessageCommand(this));
+        getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
+        getCommand("vanish").setExecutor(new VanishCommand(this));
+        getCommand("warp").setExecutor(new WarpCommand(this));
+        getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
+        getCommand("spawn").setExecutor(new SpawnCommand(this));
+        getCommand("god").setExecutor(new GodCommand(this));
+        getCommand("tpa").setExecutor(new TPACommand(this));
+        getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
+        getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
+        getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
+        getCommand("skull").setExecutor(new SkullCommand(this));
+        getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
+        reload(true);
+        if (Utils.getBoolean("auto-save-users")) {
+            asyncUserSaveThread = new AsyncUserSaveThread(this);
+        }
     }
 
     @Override
