@@ -210,6 +210,9 @@ public class PlayerListener implements Listener {
                 Bukkit.getScheduler().runTask(plugin, () -> victim.spigot().respawn());
             }
         }
+        if (Utils.getBoolean("disable-death-messages")) {
+            e.setDeathMessage("");
+        }
     }
 
 }

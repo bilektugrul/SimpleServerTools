@@ -79,6 +79,8 @@ tpa:
     # STAFF: sadece yetkilileri kapsar
     # EXCEPT_STAFF: yetkililer dışındaki herkesi kapsar
 
+disable-death-messages: false
+
 other-messages:
   help-message:
     beginning: |
