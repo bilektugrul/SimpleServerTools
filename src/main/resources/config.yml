@@ -115,9 +115,14 @@ other-messages:
     toggled: '%prefix% &eVanish modu &b%other% &eadlı oyuncu için değiştirildi.'
     player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
   warps:
+    not-enough-arguments: '%warpprefix% &cYeterli sayıda argüman girmediniz.'
     created: '%warpprefix% &b%warp% &eadında bir warp oluşturdun!'
     deleting: '%warpprefix% &b%warp% &eadındaki warp siliniyor...'
     deleted: '%warpprefix% &b%warp% &eadındaki warp silindi!'
+    do-not-exist: '%warpprefix% &bBöyle bir warp bulunmuyor.'
+    already-exists: '%warpprefix% &bBöyle bir warp zaten bulunuyor. Komutu 5 saniye içinde tekrar
+                    girersen var olan warpı otomatik olarak silip yeni lokasyonuyla oluşturabilirsin.'
+    wrong-usage: '%warpprefix% &cKomutu hatalı kullandınız.'
     teleporting:
       mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT
       message: |

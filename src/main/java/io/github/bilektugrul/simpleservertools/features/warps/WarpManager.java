@@ -7,6 +7,7 @@ import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.despical.commons.configuration.ConfigUtils;
 import me.despical.commons.serializer.LocationSerializer;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -126,6 +127,14 @@ public class WarpManager {
         } else {
             return Utils.getString("other-messages.warps.no-warp", null);
         }
+    }
+
+    public void sendWarpInfo(Warp warp, CommandSender sender) {
+        if (!sender.hasPermission("sst.warpinfo")) return;
+        sender.sendMessage(Utils.getString("other-messages.warps.info", sender)
+                .replace("%warp%", warp.getName())
+                .replace("%warploc%", readableWarpLoc(warp))
+                .replace("%warpperm%", warp.getPermRequire() ? warp.getPermission() : "yok"));
     }
 
     public ArrayList<Warp> getWarpList() {

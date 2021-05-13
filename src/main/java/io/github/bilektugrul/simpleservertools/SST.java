@@ -11,6 +11,9 @@ import io.github.bilektugrul.simpleservertools.commands.tpa.TPAAcceptCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPACommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPADenyCommand;
 import io.github.bilektugrul.simpleservertools.commands.tpa.TPAToggleCommand;
+import io.github.bilektugrul.simpleservertools.commands.warp.DelWarpCommand;
+import io.github.bilektugrul.simpleservertools.commands.warp.SetWarpCommand;
+import io.github.bilektugrul.simpleservertools.commands.warp.WarpCommand;
 import io.github.bilektugrul.simpleservertools.features.announcements.AnnouncementManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
@@ -100,6 +103,8 @@ public class SST extends JavaPlugin {
         getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
         getCommand("vanish").setExecutor(new VanishCommand(this));
         getCommand("warp").setExecutor(new WarpCommand(this));
+        getCommand("setwarp").setExecutor(new SetWarpCommand(this));
+        getCommand("delwarp").setExecutor(new DelWarpCommand(this));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
         getCommand("god").setExecutor(new GodCommand(this));

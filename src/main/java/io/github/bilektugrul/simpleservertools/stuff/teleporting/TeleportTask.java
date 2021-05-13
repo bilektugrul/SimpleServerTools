@@ -62,8 +62,6 @@ public class TeleportTask extends BukkitRunnable {
         finalLoc = loc;
         firstHealth = player.getHealth();
 
-        UUID uuid = player.getUniqueId();
-
         cancelMoveMode = settings.getCancelMoveMode();
         cancelDamageMode = settings.getCancelDamageMode();
         UserManager userManager = plugin.getUserManager();

@@ -22,6 +22,10 @@ commands:
     aliases: setwarp, delwarp
     usage: /warp <name> [<arguments>]
     description: Warp command.
+  setwarp:
+    usage: /setwarp <warp name>
+  delwarp:
+    usage: /delwarp <warp name>
   setspawn:
     usage: /setspawn
   spawn:
