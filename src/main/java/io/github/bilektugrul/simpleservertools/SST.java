@@ -50,8 +50,6 @@ public class SST extends JavaPlugin {
     private AnnouncementManager announcementManager;
     private MaintenanceManager maintenanceManager;
 
-    private boolean forceDisabled = false;
-
     private AsyncUserSaveThread asyncUserSaveThread;
 
     private PluginManager pluginManager;
@@ -122,18 +120,16 @@ public class SST extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (!forceDisabled) {
-            getServer().getScheduler().cancelTasks(this);
-            try {
-                userManager.saveUsers();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            warpManager.saveWarps();
-            spawnManager.saveSpawn();
-            maintenanceManager.save();
-            getLogger().info("Tüm veriler kaydedildi.");
+        getServer().getScheduler().cancelTasks(this);
+        try {
+            userManager.saveUsers();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        warpManager.saveWarps();
+        spawnManager.saveSpawn();
+        maintenanceManager.save();
+        getLogger().info("Tüm veriler kaydedildi.");
     }
 
     public CustomPlaceholderManager getPlaceholderManager() {

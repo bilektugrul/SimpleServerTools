@@ -142,7 +142,7 @@ public class WarpManager {
     }
 
     public String readableWarpLoc(String warp) {
-        return LocationSerializer.toString(getWarp(warp).getLocation());
+        return readableWarpLoc(getWarp(warp));
     }
 
     public String readableWarpLoc(Warp warp) {
