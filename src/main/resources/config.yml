@@ -80,6 +80,8 @@ tpa:
     # EXCEPT_STAFF: yetkililer dışındaki herkesi kapsar
 
 disable-death-messages: false
+metrics-enabled: true # bstats.org adresine basit kullanım verileri gönderir. Eklentiyi kaç sunucunun hangi sürümlerde kullandığını görmeyi kolaylaştırır.
+                      # Performansa etkisi yoktur ancak isterseniz false yaparak kapatabilirsiniz. Sunucu kapalıyken false yapıp yeniden başlatmanız gerekir.
 
 other-messages:
   help-message:

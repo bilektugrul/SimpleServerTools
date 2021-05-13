@@ -24,6 +24,7 @@ import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
+import io.github.bilektugrul.simpleservertools.metrics.Metrics;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
@@ -35,6 +36,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class SST extends JavaPlugin {
 
@@ -57,6 +59,7 @@ public class SST extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        Logger logger = getLogger();
         pluginManager = getServer().getPluginManager();
         placeholderManager = new CustomPlaceholderManager(this);
         userManager = new UserManager(this);
@@ -70,12 +73,12 @@ public class SST extends JavaPlugin {
         if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
-            getLogger().warning("PlaceholderAPI bulunamadı. Binlerce placeholderı rahatça kullanabilmek için indirmenizi öneririz.");
+            logger.warning("PlaceholderAPI bulunamadı. Binlerce placeholderı rahatça kullanabilmek için indirmenizi öneririz.");
         }
         if (pluginManager.isPluginEnabled("Vault")) {
             vaultManager = new VaultManager(this);
         } else {
-            getLogger().warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
+            logger.warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
         }
         announcementManager = new AnnouncementManager(this);
         for (Player looped : Bukkit.getOnlinePlayers()) {
@@ -115,6 +118,10 @@ public class SST extends JavaPlugin {
         reload(true);
         if (Utils.getBoolean("auto-save-users")) {
             asyncUserSaveThread = new AsyncUserSaveThread(this);
+        }
+        if (Utils.getBoolean("metrics-enabled")) {
+            logger.info("Metrics aktif ediliyor...");
+            new Metrics(this, 11344);
         }
     }
 

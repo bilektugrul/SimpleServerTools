@@ -76,4 +76,5 @@ public class AnnouncementManager {
     public AsyncAnnouncementTask getAnnouncementTask() {
         return announcementTask;
     }
+
 }
