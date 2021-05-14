@@ -20,7 +20,7 @@ public class AsyncUserSaveThread extends BukkitRunnable {
     }
 
     public void start() {
-        logger.info("Async user saving thread is starting...");
+        logger.info("§aAsync user saving thread is starting...");
         int i = plugin.getConfig().getInt("auto-save-interval");
         runTaskTimerAsynchronously(plugin, 2400, (i * 60L) * 20);
     }

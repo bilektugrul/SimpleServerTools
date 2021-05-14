@@ -1,3 +1,5 @@
+language: English
+
 messages:
 
   no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'

@@ -1,10 +1,10 @@
-package io.github.bilektugrul.simpleservertools.language;
+package io.github.bilektugrul.simpleservertools.features.language;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.io.*;
+import java.io.File;
 import java.util.Locale;
 
 public class LanguageManager {
@@ -22,7 +22,13 @@ public class LanguageManager {
     public void loadLanguage() {
         languageString = plugin.getConfig().getString("language").toLowerCase(Locale.ROOT);
         String s = File.separator;
-        language = ConfigUtils.getConfig(plugin, "language" + s + "messages_" + languageString);
+        try {
+            language = ConfigUtils.getConfig(plugin, "language" + s + "messages_" + languageString);
+        } catch (IllegalArgumentException ignored){
+            plugin.getLogger().warning("§cYou have chosen a non-existent language. Please check our Spigot page and use one of available languages. Plugin will use EN language.");
+            languageString = "en";
+            language = ConfigUtils.getConfig(plugin, "language" + s + "messages_" + languageString);
+        }
     }
 
     public FileConfiguration getLanguage() {
@@ -31,6 +37,10 @@ public class LanguageManager {
 
     public String getLanguageString() {
         return languageString;
+    }
+
+    public String getLanguageName() {
+        return getString("language");
     }
 
     public String getString(String string) {

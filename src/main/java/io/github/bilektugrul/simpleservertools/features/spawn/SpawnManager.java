@@ -75,7 +75,7 @@ public class SpawnManager {
 
     public void saveSpawn() {
         if (spawn != null) {
-            plugin.getLogger().info("Spawn kaydediliyor...");
+            plugin.getLogger().info("§aSaving spawn...");
             spawnFile.set("spawn.location", spawn.getLocation());
             ConfigUtils.saveConfig(plugin, spawnFile, "spawn");
         }

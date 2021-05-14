@@ -1,8 +1,8 @@
 name: SimpleServerTools
 version: ${project.version}
 main: io.github.bilektugrul.simpleservertools.SST
-api-version: '1.16'
-prefix: SimpleServerTools
+api-version: '1.13'
+prefix: '§6SimpleServerTools§r'
 softdepend:
   - PlaceholderAPI
   - ProtocolLib
