@@ -1,14 +1,14 @@
 maintenance:
   in-maintenance: false
   kick-players:
-    enabled: true # true ise bakım modu aktif olunca 'sst.maintenance.join' yetkisi olmayan oyuncuları sunucudan atar.
-    kick-message: '&cSunucu &a%reason% &csebebiyle bakıma girdi. Kısa bir süre sonra tekrar sizinle olucaz.'
+    enabled: true # if true, players whose don't have the permission 'sst.maintenance.join' will be kicked when maintenance starts.
+    kick-message: '&cThe server is in maintenance now because of &a%reason%.'
   in-maintenance-message: |
-    &cSunucumuz şu an bakımda.
-    Bakım sebebi: %reason%
-  default-reason: '&cSizlere daha iyi bir oyun keyfi sunmak için çalışıyoruz.'
+    &cWe're in maintenance.
+    Reason: %reason%
+  default-reason: '&cWe''re working on some fixes and gameplay changes.'
   last-reason: ''
-  changed: '%prefix% &bBakım modu artık %newmode%&b.'
+  changed: '%prefix% &bMaintenance mode is now %newmode%&b.'
   modes:
-    true: '&aaktif'
-    false: '&caktif değil'
+    true: '&aenabled'
+    false: '&cdisabled'

@@ -120,18 +120,22 @@ public class WarpManager {
         loadWarps();
     }
 
-    public String readableWarpList() {
+    public String readableWarpList(CommandSender sender) {
+        boolean isAdmin = sender.hasPermission("sst.admin");
         if (!warpList.isEmpty()) {
-            List<String> warps = warpList.stream().map(Warp::getName).collect(Collectors.toList());
+            List<String> warps = warpList.stream()
+                    .filter(warp -> isAdmin || !warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission()))
+                    .map(Warp::getName)
+                    .collect(Collectors.toList());
             return String.join(", ", warps);
         } else {
-            return Utils.getString("other-messages.warps.no-warp", null);
+            return Utils.getMessage("messages.warps.no-warp", null);
         }
     }
 
     public void sendWarpInfo(Warp warp, CommandSender sender) {
         if (!sender.hasPermission("sst.warpinfo")) return;
-        sender.sendMessage(Utils.getString("other-messages.warps.info", sender)
+        sender.sendMessage(Utils.getMessage("messages.warps.info", sender)
                 .replace("%warp%", warp.getName())
                 .replace("%warploc%", readableWarpLoc(warp))
                 .replace("%warpperm%", warp.getPermRequire() ? warp.getPermission() : "yok"));

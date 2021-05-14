@@ -14,7 +14,7 @@ public class HealCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("sst.heal")) {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             return true;
         }
 
@@ -25,15 +25,15 @@ public class HealCommand implements CommandExecutor {
         } else if (sender instanceof Player) {
             healPlayer = (Player) sender;
         } else {
-            sender.sendMessage(Utils.getString("other-messages.heal.not-found", sender));
+            sender.sendMessage(Utils.getMessage("messages.heal.not-found", sender));
             return true;
         }
 
         heal(healPlayer);
         if (healPlayer.equals(sender)) {
-            healPlayer.sendMessage(Utils.getString("other-messages.heal.message", healPlayer));
+            healPlayer.sendMessage(Utils.getMessage("messages.heal.message", healPlayer));
         } else {
-            sender.sendMessage(Utils.getString("other-messages.heal.message-other", sender)
+            sender.sendMessage(Utils.getMessage("messages.heal.message-other", sender)
                     .replace("%other%", healPlayer.getName()));
         }
         return true;

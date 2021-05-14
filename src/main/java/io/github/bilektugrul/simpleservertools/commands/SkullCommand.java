@@ -34,7 +34,7 @@ public class SkullCommand implements CommandExecutor {
             final String skullOwner;
             if (args.length >= 1) {
                 if (!NAME_PATTERN.matcher(args[0]).matches()) {
-                    player.sendMessage(Utils.getString("other-messages.skull.wrong-usage", player));
+                    player.sendMessage(Utils.getMessage("messages.skull.wrong-usage", player));
                     return true;
                 }
                 skullOwner = args[0];
@@ -42,11 +42,11 @@ public class SkullCommand implements CommandExecutor {
                     if (player.hasPermission("sst.skull.others")) {
                         toGive = Bukkit.getPlayer(args[1]);
                         if (toGive == null) {
-                            player.sendMessage(Utils.getString("other-messages.skull.not-found", player));
+                            player.sendMessage(Utils.getMessage("messages.skull.not-found", player));
                             return true;
                         }
                     } else {
-                        player.sendMessage(Utils.getString("no-permission", player));
+                        player.sendMessage(Utils.getMessage("messages.no-permission", player));
                         return true;
                     }
                 }
@@ -55,7 +55,7 @@ public class SkullCommand implements CommandExecutor {
             }
             giveSkull(player, toGive, skullOwner);
         } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
         }
         return true;
     }
@@ -73,10 +73,10 @@ public class SkullCommand implements CommandExecutor {
                     public void run() {
                         skull.setItemMeta(skullMeta);
                         toGive.getInventory().addItem(skull);
-                        toGive.sendMessage(Utils.getString("other-messages.skull.added", toGive)
+                        toGive.sendMessage(Utils.getMessage("messages.skull.added", toGive)
                                 .replace("%headowner%", owner));
                         if (!toGive.equals(executor)) {
-                            executor.sendMessage(Utils.getString("other-messages.skull.added-other", executor)
+                            executor.sendMessage(Utils.getMessage("messages.skull.added-other", executor)
                                     .replace("%headowner%", owner)
                                     .replace("%other%", toGive.getName()));
                         }

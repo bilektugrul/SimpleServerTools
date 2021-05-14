@@ -29,7 +29,7 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
         if (plugin.isPermManagerReady()) {
             this.vaultManager = plugin.getVaultManager();
         } else {
-            plugin.getLogger().warning("Vault bulunamadı. Grup bazlı duyurular çalışmayacak.");
+            plugin.getLogger().warning("Vault is not installed. Group based announcements will not work.");
         }
         this.plugin = plugin;
         this.mode = mode;
@@ -37,7 +37,7 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
     }
 
     public void start() {
-        plugin.getLogger().info("Async duyuru süreci başlatılıyor...");
+        plugin.getLogger().info("Async announcement thread starting...");
         hasStarted = true;
         int i = announcementManager.getAnnouncementsFile().getInt("announcements.time");
         long time = i * 20L;

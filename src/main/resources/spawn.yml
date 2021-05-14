@@ -1,25 +1,22 @@
 spawn:
   enabled: true
-  send-warning-if-not-enabled: true # Eğer true ise, spawn özelliği kapalıyken oyuncu bir uyarı mesajı alır.
-  teleport-on-join: false # Eğer true ise, oyuncu giriş yapınca spawna ışınlanır.
-  teleport-when-die: true # Eğer true ise, oyuncu ölünce spawna ışınlanır.
+  send-warning-if-not-enabled: true
+  teleport-on-join: false # if true, players will be teleported to spawn when they join.
+  teleport-when-die: true # if true, players will be teleported to spawn when they die.
   command:
     permission-required: true # sst.spawn
     teleport:
-      time: 5 # saniye biçiminde
-      staff-bypass-time: true # Eğer true ise, yetkililer ışınlanırken beklemezler.
+      time: 5 # in seconds
+      staff-bypass-time: true
       cancel-when-move:
         settings:
-          block-move: true # Eğer true ise, oyuncu ışınlanırken yürüyemez.
-          cancel-teleport: false # Eğer true ise, oyuncu yürüdüğünde ışınlanma işlemi iptal edilir.
+          block-move: true
+          cancel-teleport: false
         mode: EVERYONE
-        # Modlar: EVERYONE, STAFF, EXCEPT_STAFF
+        # Modes: EVERYONE, STAFF, EXCEPT_STAFF
       cancel-damage:
         settings:
           block-damage: true
           cancel-teleport: false
         mode: EVERYONE
-        # Modlar: EVERYONE, STAFF, EXCEPT_STAFF
-        # EVERYONE: herkesi kapsar
-        # STAFF: sadece yetkilileri kapsar
-        # EXCEPT_STAFF: yetkililer dışındaki herkesi kapsar
+        # Modes: EVERYONE, STAFF, EXCEPT_STAFF

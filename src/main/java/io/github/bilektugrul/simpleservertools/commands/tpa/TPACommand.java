@@ -30,7 +30,7 @@ public class TPACommand implements CommandExecutor {
         if (sender instanceof Player) {
 
             if (!sender.hasPermission("sst.tpa")) {
-                sender.sendMessage(Utils.getString("no-permission", sender));
+                sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
                 return true;
             }
 
@@ -38,19 +38,19 @@ public class TPACommand implements CommandExecutor {
             User playerUser = userManager.getUser(p);
 
             if (!playerUser.isAvailable() || !playerUser.isAcceptingTPA()) {
-                p.sendMessage(Utils.getString("other-messages.tpa.not-now", p));
+                p.sendMessage(Utils.getMessage("messages.tpa.not-now", p));
                 return true;
             }
 
             if (args.length == 0) {
-                p.sendMessage(Utils.getString("other-messages.tpa.usage", p));
+                p.sendMessage(Utils.getMessage("messages.tpa.usage", p));
                 return true;
             }
 
             Player toTeleport = Bukkit.getPlayer(args[0]);
 
             if (tpaManager.isPresent(toTeleport, p)) {
-                p.sendMessage(Utils.getString("other-messages.tpa.not-now", p));
+                p.sendMessage(Utils.getMessage("messages.tpa.not-now", p));
                 return true;
             }
 
@@ -59,23 +59,23 @@ public class TPACommand implements CommandExecutor {
                 if (toTeleportUser.isAcceptingTPA() && toTeleportUser.isAvailable()) {
                     tpaManager.startWaitTask(p, toTeleport);
                     String pName = p.getName();
-                    p.sendMessage(Utils.getString("other-messages.tpa.request-sent", p)
+                    p.sendMessage(Utils.getMessage("messages.tpa.request-sent", p)
                             .replace("%teleporting%", toTeleport.getName()));
-                    toTeleport.sendMessage(Utils.getString("other-messages.tpa.new-request", toTeleport)
+                    toTeleport.sendMessage(Utils.getMessage("messages.tpa.new-request", toTeleport)
                             .replace("%requester%", pName));
-                    TextComponent component = new TextComponent(Utils.getString("other-messages.tpa.click-to-accept", toTeleport));
+                    TextComponent component = new TextComponent(Utils.getMessage("messages.tpa.click-to-accept", toTeleport));
                     component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaaccept " + pName));
-                    BaseComponent baseComponent = new TextComponent("\n" + Utils.getString("other-messages.tpa.click-to-deny", toTeleport));
+                    BaseComponent baseComponent = new TextComponent("\n" + Utils.getMessage("messages.tpa.click-to-deny", toTeleport));
                     baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny " + pName));
                     component.addExtra(baseComponent);
                     toTeleport.sendMessage(component);
-                    p.sendMessage(Utils.getString("other-messages.tpa.extra-messages", p));
-                    toTeleport.sendMessage(Utils.getString("other-messages.tpa.extra-messages", toTeleport));
+                    p.sendMessage(Utils.getMessage("messages.tpa.extra-messages", p));
+                    toTeleport.sendMessage(Utils.getMessage("messages.tpa.extra-messages", toTeleport));
                 } else {
-                    p.sendMessage(Utils.getString("other-messages.tpa.not-now-2", p));
+                    p.sendMessage(Utils.getMessage("messages.tpa.not-now-2", p));
                 }
             } else {
-                p.sendMessage(Utils.getString("other-messages.tpa.not-found", p));
+                p.sendMessage(Utils.getMessage("messages.tpa.not-found", p));
             }
         }
         return true;

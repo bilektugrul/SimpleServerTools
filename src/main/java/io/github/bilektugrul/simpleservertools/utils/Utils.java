@@ -2,6 +2,7 @@ package io.github.bilektugrul.simpleservertools.utils;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
+import io.github.bilektugrul.simpleservertools.language.LanguageManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commons.compat.Titles;
 import net.md_5.bungee.api.ChatColor;
@@ -20,8 +21,17 @@ public class Utils {
 
     private static final SST plugin = JavaPlugin.getPlugin(SST.class);
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+    private static final LanguageManager languageManager = plugin.getLanguageManager();
 
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+
+    public static String getMessage(String string, CommandSender from) {
+        return getString(languageManager.getLanguage(), string, from);
+    }
+
+    public static String getMessage(String string, CommandSender from, boolean replacePersonalPlaceholders) {
+        return getString(languageManager.getLanguage(), string, from, replacePersonalPlaceholders);
+    }
 
     public static String getString(String string, CommandSender from) {
         return replacePlaceholders(plugin.getConfig().getString(string), from, true);
@@ -67,6 +77,10 @@ public class Utils {
         return plugin.getConfig().getBoolean(string);
     }
 
+    public static boolean getLanguageBoolean(String string) {
+        return languageManager.getBoolean(string);
+    }
+
     public static int getInt(String path) {
         return plugin.getConfig().getInt(path);
     }
@@ -81,6 +95,10 @@ public class Utils {
 
     public static int getInt(FileConfiguration file, String path) {
         return plugin.getConfig().getInt(path);
+    }
+
+    public static int getLanguageInt(String path) {
+        return languageManager.getLanguage().getInt(path);
     }
 
     public static boolean isSameLoc(Location loc1, Location loc2) {
@@ -104,12 +122,12 @@ public class Utils {
     }
 
     public static void sendMessage(CommandSender sender, String msg) {
-        sender.sendMessage(getString("other-messages." + msg + ".beginning", sender));
+        sender.sendMessage(getMessage("messages." + msg + ".beginning", sender));
         if (sender.hasPermission("sst.staff")) {
-            sender.sendMessage(getString("other-messages." + msg + ".only-staff", sender));
+            sender.sendMessage(getMessage("messages." + msg + ".only-staff", sender));
         }
-        sender.sendMessage(getString("other-messages." + msg + ".everyone", sender));
-        sender.sendMessage(getString("other-messages." + msg + ".ending", sender));
+        sender.sendMessage(getMessage("messages." + msg + ".everyone", sender));
+        sender.sendMessage(getMessage("messages." + msg + ".ending", sender));
     }
 
     public static boolean matchMode(String mode) {

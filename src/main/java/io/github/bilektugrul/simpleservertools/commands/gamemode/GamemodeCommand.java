@@ -23,10 +23,10 @@ public class GamemodeCommand implements CommandExecutor {
             if (canChange(sender, gamemodeInfo.gameMode)) {
                 gamemodeInfo.apply(sender);
             } else {
-                sender.sendMessage(Utils.getString("no-permission", sender));
+                sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             }
         } else {
-            sender.sendMessage(Utils.getString("other-messages.gamemode.wrong-arguments", sender));
+            sender.sendMessage(Utils.getMessage("messages.gamemode.wrong-arguments", sender));
         }
         return true;
     }

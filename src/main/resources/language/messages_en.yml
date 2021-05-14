@@ -1,0 +1,216 @@
+messages:
+
+  no-permission: '%prefix% &cI''m sorry %player% but you can not do that.'
+
+  help-message:
+    beginning: |
+      %prefix%
+      &6Arguments that contains [] are optional.
+    only-staff: |
+      &9/sst reload &f- &6Reloads everything.
+    everyone: |
+
+    ending: |
+      &6Arguments that contains [] are optional.
+      %prefix%
+
+  config-reloaded: '%prefix% &eEverything has been reloaded, %player%!'
+  wrong-usage: '%prefix% &cWrong usage. /sst help'
+
+  vanish:
+    activated: '%prefix% &eVanish mode: &bENABLED'
+    disabled: '%prefix% &eVanish mode: &cDISABLED'
+    toggled: '%prefix% &eVanish mode of &b%other% &ehas been changed.'
+    player-not-found: '%prefix% &cThat player is not online.'
+
+  warps:
+    not-enough-arguments: '%warpprefix% &cWrong usage.'
+    created: '%warpprefix% &eThe warp &b%warp% &ehas been created.'
+    deleting: '%warpprefix% &eDeleting the warp &b%warp%&e...'
+    deleted: '%warpprefix% &eThe warp &b%warp% &ehas been deleted.'
+    do-not-exist: '%warpprefix% &bThere is no such warp.'
+    already-exists: '%warpprefix% &bThis warp already exists. Type the command again in 5 seconds and the warp will be overwritten with new location.'
+    wrong-usage: '%warpprefix% &cWrong usage.'
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %warpprefix%
+        &eTeleporting to &b%warp%&e... &b%time%
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %warpprefix%
+        &eYou have been teleported to &b%warp%&e.
+    teleport-cancelled: '%warpprefix% &cTeleportation process has been cancelled.'
+    list: '%warpprefix% &eWarp list (%warpamount%): %warps%'
+    no-warp: '&cThere is no warp.'
+    saved: '%warpprefix% &eAll warps has been saved.'
+    messages.no-permission: '%warpprefix% &cI''m sorry but you don''t have the permission for that warp .'
+    info: |
+      %warpprefix%
+      &eAbout &b%warp%
+      &eLocation: &b%warploc%
+      &ePermission: &b%warpperm%
+      %warpprefix%
+
+  spawn:
+    created: |
+      %spawnprefix% &eSpawn has been created.
+      %spawnprefix% &eLocation: &b%spawnlocation%
+    changed: |
+      %spawnprefix% &eSpawn's location has been changed.
+      %spawnprefix% &eNew location: &b%spawnlocation%
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %spawnprefix%
+        &eTeleporting to spawn... &b%time%
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %spawnprefix%
+        &bYou have been teleported to spawn.
+
+    teleport-cancelled: '%spawnprefix% &cTeleportation process has been cancelled.'
+    player-not-found: '%spawnprefix% &cThat player is not online.'
+    spawn-not-set: '%spawnprefix% &cSpawn is not created yet.'
+    not-enabled: '%spawnprefix% &cSpawn is not enabled.'
+
+  gamemode:
+    changed: '%prefix% &eNew gamemode: &b%gamemode%'
+    changed-other: '%prefix% &b%other%''s &enew gamemode: &b%gamemode%'
+    changed-other-2: '%prefix% &eYour gamemode is now %gamemode%.'
+    not-found: '%prefix% &cThere is no such gamemode.'
+    player-not-found: '%prefix% &cThat player is not online.'
+    wrong-arguments: '%prefix% &cWrong usage.'
+    CREATIVE: CREATIVE #permission: sst.gamemode.creative
+    SURVIVAL: SURVIVAL #permission: sst.gamemode.survival
+    SPECTATOR: SPECTATOR #permission: sst.gamemode.spectator
+    ADVENTURE: ADVENTURE #permission: sst.gamemode.adventure
+
+  fly:
+    modes:
+      true: enabled
+      false: disabled
+    toggled: '%prefix% &6Your new fly mode: &3%flymode%.'
+    toggled-other: '%prefix% &3%other%''s &6new flight mode: &3%flymode%.'
+    type-player: '%prefix% &cPlease type a player.'
+
+  god:
+    modes:
+      true: enabled
+      false: disabled
+    toggled: '%prefix% &6Your new god mode: &3%godmode%.'
+    toggled-other: '%prefix% &3%other%''s &6new god mode: &3%godmode%.'
+    type-player: '%prefix% &cPlease type a player.'
+
+  broadcast:
+    prefix: '&7[&6Brodcast&7]&r'
+    not-enough: '%prefix% &cPlease type a message to broadcast.'
+
+  disposal:
+    title: 'Disposal'
+
+  ping:
+    message-other: '%prefix% &6%other%''s &bping: &6%ping%'
+    message: '%prefix% &3Your ping: &6%ping%'
+    not-found: '%prefix% &cPlease type a player.'
+
+  feed:
+    message-other: '%prefix% &6%other% &eare full now.'
+    message: '%prefix% &3You''re full now.'
+    not-found: '%prefix% &cPlease type a player.'
+
+  heal:
+    message-other: '%prefix% &6%other% &eare healed.'
+    message: '%prefix% &3You''re healed.'
+    not-found: '%prefix% &cPlease type a player.'
+
+  invsee:
+    title: 'Armors'
+    not-found: '%prefix% &cThat player is not online.'
+    wrong-usage: '%prefix% &cWrong usage.'
+    armor-empty: '%prefix% &cThat player is not wearing any armor.'
+
+  kick:
+    broadcast:
+      enabled: true
+      message: '%prefix% &e%kicked% &6has been kicked by &e%kicker%.'
+    kick-message: '%prefix% &c%kicker% &6has been kicked you.'
+    kicked: '%prefix% &cYou have kicked &e%kicked%.'
+    went-wrong: '%prefix% &cSomething went wrong.'
+    wrong-usage: '%prefix% &cWrong usage.'
+
+  tpa:
+    request-sent: '%tpaprefix% &6You have sent a TPA request to &3%teleporting%'
+    new-request: '%tpaprefix% &3%requester% &6have sent a TPA request to you'
+    click-to-accept: '%tpaprefix% &6&nClick here to accept'
+    click-to-deny: '%tpaprefix% &c&nClick here to deny'
+    extra-messages: |
+      %prefix% &6Request will be cancelled in 10 seconds.
+    request-accepted: '%tpaprefix% &3%teleporting% &6have accepted your TPA request.'
+    request-accepted-2: '%tpaprefix% &6You have accepted &3%requester%''s TPA request.'
+    request-denied: '%tpaprefix% &3%teleporting% &6have denied your TPA request.'
+    request-denied-2: '%tpaprefix% &6You have denied &3%requester%''s TPA request.'
+    request-cancelled: '%tpaprefix% &6TPA request from &3%requester% &6cancelled by server.'
+    request-cancelled-2: '%tpaprefix% &6Your TPA request that sent to &3%teleporting% &6cancelled by server.'
+    no-request: '%tpaprefix% &cYou don''t have any TPA request or command was wrong.'
+    went-wrong: '%tpaprefix% &cThat player didn''t send you a TPA request or something went wrong.'
+    not-found: '%tpaprefix% &cYou can''t send TPA request to that user.'
+    usage: '%tpaprefix% &c/tpa <player>'
+    not-now: '%tpaprefix% &cYou can not send a TPA request.'
+    not-now-2: '%tpaprefix% &cYou can not send a TPA request to that player for now. Try again later.'
+    toggled: '%tpaprefix% &cYou %newmode% TPA request from now on.'
+    modes:
+      true: will receive
+      false: won't receive
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %tpaprefix%
+        &eTeleporting to &b%teleporting% &ein &b%time%...
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %tpaprefix%
+        &eYou have teleported to &b%teleporting%
+    teleport-cancelled: '%tpaprefix% &cTeleport cancelled.'
+
+  tpall:
+    teleported: '%prefix% &3%size% &6people teleported to you.'
+
+  msg:
+    format: '&b[%from%] &3-> &b[%to%]&3: &e%msg%'
+    wrong-usage: '%prefix% &cWrong usage. Type a message and a player.'
+    toggled: '%prefix% &6You %newmode%.'
+    closed-self: '%prefix% &cYou can not send messages, you have closed incoming messages.'
+    closed: '%prefix% &3%to% &cdoes not accept incoming messages.'
+    not-found: '%prefix% &cThat player is not online.'
+    modes:
+      false: '&cwill not receieve any messages'
+      true: '&awill receive every message'
+
+  speed:
+    wrong-usage: '%prefix% &cWrong usage. Correct usage: &b/speed [walk/fly] <speed> [<player>]'
+    changed: '%prefix% &b%mode% &3speed has been changed. New speed: &b%newspeed%'
+    not-found: '%prefix% &cThat player is not online.'
+    modes:
+      WALK: WALK
+      FLY: FLY
+
+  skull:
+    added: '%prefix% &b%headowner%''s &3skull has been added to your inventory.'
+    added-other: '%prefix% &b%headowner%''s &3skull has been added to &b%other%''s &3inventory.'
+    not-found: '%prefix% &cThat player is not online.'
+    wrong-usage: |
+      %prefix% &cWrong usage. Correct usage: &b/skull <skull name> [<player>]
+      %prefix% &cSkull name can not contain special characters.
+
+  clear-chat:
+    lines: 100
+    cleared: '%prefix% &3Chat has been cleaned by &b%executor% &3.' # if you set this message to '', it won't be broadcasted.
+    for-staffs:
+      enabled: true # true = staffs' chat won't be cleaned.
+
+  ender-chest:
+    not-found: '%prefix% &cThat player is not online.'

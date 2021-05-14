@@ -26,18 +26,18 @@ public class TPADenyCommand implements CommandExecutor {
                 Player reqSender = Bukkit.getPlayer(args[0]);
                 if (reqSender != null && !reqSender.equals(sender) && tpaManager.isPresent(p, reqSender)) {
                     tpaManager.remove(reqSender, p);
-                    reqSender.sendMessage(Utils.getString("other-messages.tpa.request-denied", reqSender)
+                    reqSender.sendMessage(Utils.getMessage("messages.tpa.request-denied", reqSender)
                             .replace("%teleporting%", p.getName()));
-                    p.sendMessage(Utils.getString("other-messages.tpa.request-denied-2", p)
+                    p.sendMessage(Utils.getMessage("messages.tpa.request-denied-2", p)
                             .replace("%requester%", reqSender.getName()));
                 } else {
-                    p.sendMessage(Utils.getString("other-messages.tpa.went-wrong", p));
+                    p.sendMessage(Utils.getMessage("messages.tpa.went-wrong", p));
                 }
             } else {
-                p.sendMessage(Utils.getString("other-messages.tpa.no-request", p));
+                p.sendMessage(Utils.getMessage("messages.tpa.no-request", p));
             }
         } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
         }
         return true;
     }

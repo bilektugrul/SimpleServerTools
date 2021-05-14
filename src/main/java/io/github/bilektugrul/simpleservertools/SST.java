@@ -23,6 +23,7 @@ import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
+import io.github.bilektugrul.simpleservertools.language.LanguageManager;
 import io.github.bilektugrul.simpleservertools.listeners.PlayerListener;
 import io.github.bilektugrul.simpleservertools.metrics.Metrics;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
@@ -41,6 +42,7 @@ import java.util.logging.Logger;
 public class SST extends JavaPlugin {
 
     private CustomPlaceholderManager placeholderManager;
+    private LanguageManager languageManager;
     private WarpManager warpManager;
     private UserManager userManager;
     private SpawnManager spawnManager;
@@ -62,6 +64,7 @@ public class SST extends JavaPlugin {
         Logger logger = getLogger();
         pluginManager = getServer().getPluginManager();
         placeholderManager = new CustomPlaceholderManager(this);
+        languageManager = new LanguageManager(this);
         userManager = new UserManager(this);
         teleportManager = new TeleportManager(this);
         warpManager = new WarpManager(this);
@@ -73,12 +76,12 @@ public class SST extends JavaPlugin {
         if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
-            logger.warning("PlaceholderAPI bulunamadı. Binlerce placeholderı rahatça kullanabilmek için indirmenizi öneririz.");
+            logger.warning("PlaceholderAPI is not installed. You should check it out.");
         }
         if (pluginManager.isPluginEnabled("Vault")) {
             vaultManager = new VaultManager(this);
         } else {
-            logger.warning("Vault bulunamadı. Gruplara ve permissionlara özel bazı özellikler çalışmayabilir.");
+            logger.warning("Vault is not installed. Some features may not work.");
         }
         announcementManager = new AnnouncementManager(this);
         for (Player looped : Bukkit.getOnlinePlayers()) {
@@ -120,7 +123,7 @@ public class SST extends JavaPlugin {
             asyncUserSaveThread = new AsyncUserSaveThread(this);
         }
         if (Utils.getBoolean("metrics-enabled")) {
-            logger.info("Metrics aktif ediliyor...");
+            logger.info("Enabling metrics...");
             new Metrics(this, 11344);
         }
     }
@@ -136,7 +139,7 @@ public class SST extends JavaPlugin {
         warpManager.saveWarps();
         spawnManager.saveSpawn();
         maintenanceManager.save();
-        getLogger().info("Tüm veriler kaydedildi.");
+        getLogger().info("Everything has been saved.");
     }
 
     public CustomPlaceholderManager getPlaceholderManager() {
@@ -198,6 +201,7 @@ public class SST extends JavaPlugin {
         checkAndLoadPacketListener();
         placeholderManager.load();
         if (!first) {
+            languageManager.loadLanguage();
             announcementManager.reload();
             warpManager.reloadWarps();
             warpManager.loadSettings();
@@ -211,6 +215,10 @@ public class SST extends JavaPlugin {
                 asyncUserSaveThread.cancel();
             }
         }
+    }
+
+    public LanguageManager getLanguageManager() {
+        return languageManager;
     }
 
 }

@@ -3,6 +3,7 @@ package io.github.bilektugrul.simpleservertools.commands.warp;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,9 +15,11 @@ import java.util.WeakHashMap;
 
 public class SetWarpCommand implements CommandExecutor {
 
+    private final SST plugin;
     private final WarpManager warpManager;
 
     public SetWarpCommand(SST plugin) {
+        this.plugin = plugin;
         this.warpManager = plugin.getWarpManager();
     }
 
@@ -26,15 +29,16 @@ public class SetWarpCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player) || !sender.hasPermission("sst.admin")) {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             return true;
         }
 
         Player p = (Player) sender;
+        String name = p.getName();
         Location loc = p.getLocation();
 
         if (args.length == 0) {
-            p.sendMessage(Utils.getString("other-messages.warps.not-enough-arguments", p));
+            p.sendMessage(Utils.getMessage("messages.warps.not-enough-arguments", p));
             return true;
         }
 
@@ -42,8 +46,9 @@ public class SetWarpCommand implements CommandExecutor {
         boolean force = forceCreateList.containsValue(arg);
 
         if (!force && warpManager.isPresent(arg)) {
-            sender.sendMessage(Utils.getString("other-messages.warps.already-exists", sender));
-            forceCreateList.put(sender.getName(), arg);
+            sender.sendMessage(Utils.getMessage("messages.warps.already-exists", sender));
+            forceCreateList.put(name, arg);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> forceCreateList.remove(name), 100);
             return true;
         }
 
@@ -51,13 +56,14 @@ public class SetWarpCommand implements CommandExecutor {
 
         if (force) {
             warpManager.forceRegisterWarp(arg, loc, permRequired);
-            p.sendMessage(Utils.getString("other-messages.warps.created", p)
+            p.sendMessage(Utils.getMessage("messages.warps.created", p)
                     .replace("%warp%", arg));
+            forceCreateList.remove(name);
         } else if (warpManager.registerWarp(arg, loc, permRequired)) {
-            p.sendMessage(Utils.getString("other-messages.warps.created", p)
+            p.sendMessage(Utils.getMessage("messages.warps.created", p)
                     .replace("%warp%", arg));
         } else {
-            p.sendMessage(Utils.getString("other-messages.wrong-usage", p));
+            p.sendMessage(Utils.getMessage("messages.wrong-usage", p));
         }
         return true;
     }

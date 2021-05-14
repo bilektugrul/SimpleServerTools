@@ -20,10 +20,10 @@ public class TPAllCommand implements CommandExecutor {
             for (Player player : players) {
                 player.teleport(p);
             }
-            p.sendMessage(Utils.getString("other-messages.tpall.teleported", p)
+            p.sendMessage(Utils.getMessage("messages.tpall.teleported", p)
                     .replace("%size%", String.valueOf(players.size())));
         } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
         }
         return true;
     }

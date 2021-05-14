@@ -31,16 +31,16 @@ public class MessageCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("sst.msg")) {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             return true;
         }
 
         if (args.length == 0) {
-            sender.sendMessage(Utils.getString("other-messages.msg.wrong-usage", sender));
+            sender.sendMessage(Utils.getMessage("messages.msg.wrong-usage", sender));
             return true;
         }
 
-        String format = Utils.getString("other-messages.msg.format", sender)
+        String format = Utils.getMessage("messages.msg.format", sender)
                 .replace("%from%", Utils.matchName(sender));
 
         String to = args[0];
@@ -53,7 +53,7 @@ public class MessageCommand implements CommandExecutor {
 
         Player toPlayer = Bukkit.getPlayer(to);
         if (toPlayer == null) {
-            sender.sendMessage(Utils.getString("other-messages.msg.not-found", sender));
+            sender.sendMessage(Utils.getMessage("messages.msg.not-found", sender));
             return true;
         }
 
@@ -70,23 +70,23 @@ public class MessageCommand implements CommandExecutor {
         boolean vanishMsgState = Utils.getBoolean("vanish.messages-to-vanished-players", false);
 
         if (!vanishMsgState && vanishManager.isVanished(toUserUUID)) {
-            sender.sendMessage(Utils.getString("other-messages.msg.not-found", sender));
+            sender.sendMessage(Utils.getMessage("messages.msg.not-found", sender));
             return true;
         }
 
         if (!toUser.isAcceptingMsg()) {
-            sender.sendMessage(Utils.getString("other-messages.msg.closed", sender)
+            sender.sendMessage(Utils.getMessage("messages.msg.closed", sender)
                     .replace("%to%", toPlayerName));
             return true;
         }
 
         if (!senderAcceptMessages) {
-            sender.sendMessage(Utils.getString("other-messages.msg.closed-self", sender));
+            sender.sendMessage(Utils.getMessage("messages.msg.closed-self", sender));
             return true;
         }
 
         if (!reply && args.length == 1) {
-            sender.sendMessage(Utils.getString("other-messages.msg.wrong-usage", sender));
+            sender.sendMessage(Utils.getMessage("messages.msg.wrong-usage", sender));
         } else {
             format = format.replace("%to%", toPlayerName)
                     .replace("%msg%", String.join(" ", Arrays.copyOfRange(args, reply ? 0 : 1, args.length)));

@@ -16,7 +16,7 @@ public class SpeedCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player && sender.hasPermission("sst.speed")) {
             Player player = (Player) sender;
-            String wrongUsage = Utils.getString("other-messages.speed.wrong-usage", player);
+            String wrongUsage = Utils.getMessage("messages.speed.wrong-usage", player);
             if (args.length >= 1) {
                 SpeedInfo info = new SpeedInfo(player);
                 if (args.length == 1) {
@@ -35,7 +35,7 @@ public class SpeedCommand implements CommandExecutor {
                             Player otherPlayer = Bukkit.getPlayer(args[2]);
                             if (otherPlayer != null) info.setPlayer(otherPlayer);
                             else {
-                                player.sendMessage(Utils.getString("other-messages.speed.not-found", player));
+                                player.sendMessage(Utils.getMessage("messages.speed.not-found", player));
                                 return true;
                             }
                         }
@@ -54,7 +54,7 @@ public class SpeedCommand implements CommandExecutor {
                 player.sendMessage(wrongUsage);
             }
         } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
         }
         return true;
     }

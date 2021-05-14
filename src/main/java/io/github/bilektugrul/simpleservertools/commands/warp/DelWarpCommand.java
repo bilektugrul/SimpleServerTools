@@ -21,29 +21,29 @@ public class DelWarpCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!sender.hasPermission("sst.admin")) {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             return true;
         }
 
         if (args.length == 0) {
-            sender.sendMessage(Utils.getString("other-messages.warps.not-enough-arguments", sender));
+            sender.sendMessage(Utils.getMessage("messages.warps.not-enough-arguments", sender));
             return true;
         }
 
         Warp warp = warpManager.getWarp(args[0]);
 
         if (warp == null) {
-            sender.sendMessage(Utils.getString("other-messages.warps.do-not-exist", sender));
+            sender.sendMessage(Utils.getMessage("messages.warps.do-not-exist", sender));
             return true;
         }
 
         String warpName = warp.getName();
 
         warpManager.sendWarpInfo(warp, sender);
-        sender.sendMessage(Utils.getString("other-messages.warps.deleting", sender)
+        sender.sendMessage(Utils.getMessage("messages.warps.deleting", sender)
                 .replace("%warp%", warpName));
         warpManager.deleteWarp(warp);
-        sender.sendMessage(Utils.getString("other-messages.warps.deleted", sender)
+        sender.sendMessage(Utils.getMessage("messages.warps.deleted", sender)
                 .replace("%warp%", warpName));
         return true;
     }

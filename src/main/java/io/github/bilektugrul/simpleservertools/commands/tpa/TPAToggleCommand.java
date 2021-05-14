@@ -25,10 +25,10 @@ public class TPAToggleCommand implements CommandExecutor {
             User user = userManager.getUser(p);
             boolean newMode = !user.isAcceptingTPA();
             user.setAcceptingTPA(newMode);
-            p.sendMessage(Utils.getString("other-messages.tpa.toggled", p)
-                    .replace("%newmode%", Utils.getString("other-messages.tpa.modes." + newMode, p)));
+            p.sendMessage(Utils.getMessage("messages.tpa.toggled", p)
+                    .replace("%newmode%", Utils.getMessage("messages.tpa.modes." + newMode, p)));
          } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
         }
         return true;
     }

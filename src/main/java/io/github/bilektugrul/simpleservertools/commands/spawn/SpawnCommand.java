@@ -28,7 +28,7 @@ public class SpawnCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!sender.hasPermission("sst.spawn")) {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             return true;
         }
 
@@ -38,7 +38,7 @@ public class SpawnCommand implements CommandExecutor {
         }
 
         if (!spawnManager.isPresent()) {
-            sender.sendMessage(Utils.getString("other-messages.spawn.spawn-not-set", sender));
+            sender.sendMessage(Utils.getMessage("messages.spawn.spawn-not-set", sender));
             return true;
         }
 
@@ -51,12 +51,12 @@ public class SpawnCommand implements CommandExecutor {
             if (toTeleport != null) {
                 teleportManager.teleport(toTeleport, loc, mode, spawnManager.getSettings());
             } else {
-                sender.sendMessage(Utils.getString("other-messages.spawn.player-not-found", sender));
+                sender.sendMessage(Utils.getMessage("messages.spawn.player-not-found", sender));
             }
         } else if (args.length == 0 && sender instanceof Player) {
             teleportManager.teleport((Player) sender, loc, mode, spawnManager.getSettings());
         } else {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
         }
         return true;
     }

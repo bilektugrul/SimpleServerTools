@@ -12,8 +12,8 @@ public class FlyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission("stt.fly")) {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+        if (!sender.hasPermission("sst.fly")) {
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             return true;
         }
 
@@ -36,7 +36,7 @@ public class FlyCommand implements CommandExecutor {
                 change(sender, flightPlayer, !flightPlayer.getAllowFlight());
             }
         } else {
-            sender.sendMessage(Utils.getString("other-messages.fly.type-player", sender));
+            sender.sendMessage(Utils.getMessage("messages.fly.type-player", sender));
         }
         return true;
     }
@@ -44,12 +44,12 @@ public class FlyCommand implements CommandExecutor {
     public void change(CommandSender from, Player flightPlayer, boolean newMode) {
         flightPlayer.setAllowFlight(newMode);
         flightPlayer.setFlying(newMode);
-        flightPlayer.sendMessage(Utils.getString("other-messages.fly.toggled", flightPlayer)
-                .replace("%flymode%", Utils.getString("other-messages.fly.modes." + newMode, from)));
+        flightPlayer.sendMessage(Utils.getMessage("messages.fly.toggled", flightPlayer)
+                .replace("%flymode%", Utils.getMessage("messages.fly.modes." + newMode, from)));
         if (!from.equals(flightPlayer)) {
-            from.sendMessage(Utils.getString("other-messages.fly.toggled-other", from)
+            from.sendMessage(Utils.getMessage("messages.fly.toggled-other", from)
                     .replace("%other%", flightPlayer.getName())
-                    .replace("%flymode%", Utils.getString("other-messages.fly.modes." + newMode, from)));
+                    .replace("%flymode%", Utils.getMessage("messages.fly.modes." + newMode, from)));
         }
     }
 

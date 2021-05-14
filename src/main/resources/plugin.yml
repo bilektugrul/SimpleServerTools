@@ -16,12 +16,10 @@ commands:
     aliases: [sst]
   vanish:
     usage: /vanish [<another player>]
-    description: Vanish command.
     aliases: [v]
   warp:
     aliases: setwarp, delwarp
     usage: /warp <name> [<arguments>]
-    description: Warp command.
   setwarp:
     usage: /setwarp <warp name>
   delwarp:
@@ -50,7 +48,7 @@ commands:
   heal:
     usage: /heal [<player>]
   invsee:
-    usage: /invsee <player>
+    usage: /invsee <player> [armor]
   kick:
     usage: /kick <player> [<message>]
   tpa:
@@ -74,16 +72,16 @@ commands:
   speed:
     usage: /speed [walk/fly] <hız> [<oyuncu>]
   skull:
-    usage: /skull <oyuncu>
+    usage: /skull <player>
   clearchat:
     usage: /clearchat
     aliases: [cc, sohbetitemizle, sohbettemizle, st]
   maintenance:
     aliases: [bakım, bakımmodu, bakim]
-    usage: /maintenance <bakım sebebi>
+    usage: /maintenance <reason>
   enderchest:
     aliases: [ec, endersandık, endersandığı]
-    usage: /enderchest <oyuncu ismi>
+    usage: /enderchest <player>
   craft:
     aliases: [craftingtable, workbench, crafttable, çalışmamasası]
 permissions:

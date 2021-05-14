@@ -14,7 +14,7 @@ public class DisposalCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player && sender.hasPermission("sst.disposal")) {
             Player player = (Player) sender;
-            player.openInventory(Bukkit.getServer().createInventory(player, 54, Utils.getString("other-messages.disposal.title", player)));
+            player.openInventory(Bukkit.getServer().createInventory(player, 54, Utils.getMessage("messages.disposal.title", player)));
         }
         return true;
     }

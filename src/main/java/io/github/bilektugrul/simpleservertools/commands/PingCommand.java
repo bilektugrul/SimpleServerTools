@@ -13,7 +13,7 @@ public class PingCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("sst.ping")) {
-            sender.sendMessage(Utils.getString("no-permission", sender));
+            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
             return true;
         }
 
@@ -24,15 +24,15 @@ public class PingCommand implements CommandExecutor {
         } else if (sender instanceof Player) {
             pingPlayer = (Player) sender;
         } else {
-            sender.sendMessage(Utils.getString("other-messages.ping.not-found", sender));
+            sender.sendMessage(Utils.getMessage("messages.ping.not-found", sender));
             return true;
         }
 
         if (pingPlayer.equals(sender)) {
-            pingPlayer.sendMessage(Utils.getString("other-messages.ping.message", pingPlayer)
+            pingPlayer.sendMessage(Utils.getMessage("messages.ping.message", pingPlayer)
                     .replace("%ping%", Integer.toString(pingPlayer.spigot().getPing())));
         } else {
-            sender.sendMessage(Utils.getString("other-messages.ping.message-other", sender)
+            sender.sendMessage(Utils.getMessage("messages.ping.message-other", sender)
                     .replace("%ping%", Integer.toString(pingPlayer.spigot().getPing())));
         }
         return true;

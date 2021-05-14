@@ -43,7 +43,7 @@ public class SpawnManager {
         try {
             loc = (Location) spawnFile.get("spawn.location");
         } catch (NullPointerException ignored) {
-            plugin.getLogger().log(Level.WARNING, "Spawn lokasyonu bulunamadı, spawn oluşturulmayacak.");
+            plugin.getLogger().log(Level.WARNING, "Spawn location does not exist. Spawn will not be created.");
         }
         if (loc != null) {
             if (force) {
@@ -109,7 +109,7 @@ public class SpawnManager {
 
     public void sendWarnIfEnabled(CommandSender sender) {
         if (spawnFile.getBoolean("spawn.send-warning-if-not-enabled"))
-            sender.sendMessage(Utils.getString("other-messages.spawn.not-enabled", sender));
+            sender.sendMessage(Utils.getMessage("messages.spawn.not-enabled", sender));
     }
 
     public FileConfiguration getSpawnFile() {

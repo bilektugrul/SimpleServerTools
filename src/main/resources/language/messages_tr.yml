@@ -1,0 +1,230 @@
+messages:
+
+  no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'
+
+  help-message:
+    beginning: |
+      %prefix%
+      &6İçinde [] bulunan argümanlar opsiyoneldir.
+    only-staff: |
+      &9/sst reload &f- &6Ayar dosyasını yeniler.
+      &9/vanish [<bir oyuncu>] &f- &6Sizi veya girdiğiniz oyuncuyu, yetkili olmayan kişilerden gizler. Yeniden görünür olmak için komutu tekrar kullanın.
+    everyone: |
+      &9/warp <isim> [<argümanlar>] &f- &6Sizi yazdığınız warpa ışınlar. Warp komutunun argümanları hakkında bilgi almak için: /sst help warpArgs.
+    ending: |
+      &6İçinde [] bulunan argümanlar opsiyoneldir.
+      %prefix%
+    other:
+      warpArgs:
+        list:
+          beginning: |
+            %warpprefix%
+          only-staff: |
+            &9/warp <isim> --del &f- &6Yazdığınız warpı siler.
+            &9/warp <isim> --force &f- &6Yazdığınız warpı bulunduğunuz lokasyona göre tekrar oluşturur (eskisi yok olur)
+            &9/warp <isim> --info &f- &6Yazdığınız warpın bilgilerini yollar.
+          everyone: |
+
+          ending: |
+            %warpprefix%
+
+  config-reloaded: '%prefix% &eAyar dosyası başarıyla yenilendi %player%!'
+  wrong-usage: '%prefix% &cHatalı kullanım. /sst help'
+
+  vanish:
+    activated: '%prefix% &eVanish modu: &bAktif'
+    disabled: '%prefix% &eVanish modu: &cKapalı'
+    toggled: '%prefix% &eVanish modu &b%other% &eadlı oyuncu için değiştirildi.'
+    player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
+
+  warps:
+    not-enough-arguments: '%warpprefix% &cYeterli sayıda argüman girmediniz.'
+    created: '%warpprefix% &b%warp% &eadında bir warp oluşturdun!'
+    deleting: '%warpprefix% &b%warp% &eadındaki warp siliniyor...'
+    deleted: '%warpprefix% &b%warp% &eadındaki warp silindi!'
+    do-not-exist: '%warpprefix% &bBöyle bir warp bulunmuyor.'
+    already-exists: '%warpprefix% &bBöyle bir warp zaten bulunuyor. Komutu 5 saniye içinde tekrar
+                    girersen var olan warpı otomatik olarak silip yeni lokasyonuyla oluşturabilirsin.'
+    wrong-usage: '%warpprefix% &cKomutu hatalı kullandınız.'
+    teleporting:
+      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT
+      message: |
+        %warpprefix%
+        &e&b%warp% &eadlı warpa ışınlanılıyor... &b%time%
+    teleported:
+      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT
+      message: |
+        %warpprefix%
+        &b%warp% &eadlı warpa başarıyla ışınlandın!
+    teleport-cancelled: '%warpprefix% &cIşınlanma iptal edildi.'
+    list: '%warpprefix% &eWarp listesi (%warpamount%): %warps%'
+    no-warp: '&cHiç warp yok.'
+    saved: '%warpprefix% &eTüm warplar "warps.yml" dosyasına kaydedildi.'
+    messages.no-permission: '%warpprefix% &cÜzgünüm ancak bu warpa gitme yetkin yok.'
+    info: |
+      %warpprefix%
+      &b%warp% &ehakkında
+      &eLokasyon: &b%warploc%
+      &eYetki: &b%warpperm%
+      %warpprefix%
+
+  spawn:
+    created: |
+      %spawnprefix% &eSpawn oluşturuldu!
+      %spawnprefix% &eLocation: &b%spawnlocation%
+    changed: |
+      %spawnprefix% &eSpawn lokasyonu değiştirildi.
+      %spawnprefix% &eYeni lokasyon: &b%spawnlocation%
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %spawnprefix%
+        &bSpawn'a &eışınlanılıyor... &b%time%
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %spawnprefix%
+        &bSpawn'a &eışınlandın!
+    teleport-cancelled: '%spawnprefix% &cIşınlanma iptal edildi.'
+    player-not-found: '%spawnprefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
+    spawn-not-set: '%spawnprefix% &cHenüz bir spawn bulunmuyor.'
+    not-enabled: '%spawnprefix% &cSpawn aktif değil.'
+
+  gamemode:
+    changed: '%prefix% &eYeni oyun modun: &b%gamemode%'
+    changed-other: '%prefix% &b%other% &eadlı oyuncunun yeni oyun modu: &b%gamemode%'
+    changed-other-2: '%prefix% &eOyun modun artık %gamemode%.'
+    not-found: '%prefix% &cO oyun modunu bulamadım.'
+    player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
+    wrong-arguments: '%prefix% &cKomutu hatalı kullandınız.'
+    CREATIVE: Yaratıcı #permission: sst.gamemode.creative
+    SURVIVAL: Hayatta Kalma #permission: sst.gamemode.survival
+    SPECTATOR: Izleyici #permission: sst.gamemode.spectator
+    ADVENTURE: Macera #permission: sst.gamemode.adventure
+
+  fly:
+    modes:
+      true: aktif
+      false: deaktif
+    toggled: '%prefix% &6Uçuş modun artık &3%flymode%.'
+    toggled-other: '%prefix% &3%other% &6adlı oyuncunun uçuş modu artık &3%flymode%.'
+    type-player: '%prefix% &cBir oyuncu girmelisin.'
+
+  god:
+    modes:
+      true: aktif
+      false: deaktif
+    toggled: '%prefix% &6Ölümsüzlük modun artık &3%godmode%.'
+    toggled-other: '%prefix% &3%other% &6adlı oyuncunun ölümsüzlük modu artık &3%godmode%.'
+    type-player: '%prefix% &cBir oyuncu girmelisin.'
+
+  broadcast:
+    prefix: '&7[&6Duyuru&7]&r'
+    not-enough: '%prefix% &cYeterli sayıda argüman girmedin.'
+
+  disposal:
+    title: 'Çöplük'
+
+  ping:
+    message-other: '%prefix% &6%other% &eadlı oyuncunun pingi: &6%ping%'
+    message: '%prefix% &3Pingin: &6%ping%'
+    not-found: '%prefix% &cBir oyuncu girmelisin.'
+
+  feed:
+    message-other: '%prefix% &6%other% &eadlı oyuncunun açlığını giderdin.'
+    message: '%prefix% &3Açlığını giderdin.'
+    not-found: '%prefix% &cBir oyuncu girmelisin.'
+
+  heal:
+    message-other: '%prefix% &6%other% &eadlı oyuncunun canını doldurdun.'
+    message: '%prefix% &3Canını doldurdun.'
+    not-found: '%prefix% &cBir oyuncu girmelisin.'
+
+  invsee:
+    title: 'Zırhlar' # Sadece zırhları görüntülerken gözükür.
+    not-found: '%prefix% &cGirdiğiniz oyuncu bulunamadı.'
+    wrong-usage: '%prefix% &cKomutu hatalı kullandınız.'
+    armor-empty: '%prefix% &cBu oyuncu hiç zırh giymiyor.'
+
+  kick:
+    broadcast:
+      enabled: true
+      message: '%prefix% &e%kicked% &6adlı oyuncu &e%kicker% &6tarafından sunucudan atıldı.'
+    kick-message: '%prefix% &c%kicker% adlı yetkili tarafından atıldın.'
+    kicked: '%prefix% &e%kicked% &3adlı oyuncuyu attın.'
+    went-wrong: '%prefix% &cBir şeyler ters gitti.'
+    wrong-usage: '%prefix% &cKomutu hatalı kullandın. Kicklenecek oyuncuyu ve opsiyonel olarak da kick mesajını girmelisin. '
+
+  tpa:
+    request-sent: '%tpaprefix% &b%teleporting% &eadlı oyuncuya bir TPA isteği yolladın.'
+    new-request: '%tpaprefix% &b%requester% &eadlı oyuncu sana bir TPA isteği yolladı.'
+    click-to-accept: '%tpaprefix% &6&nKabul etmek için buraya tıkla'
+    click-to-deny: '%tpaprefix% &c&nReddetmek için buraya tıkla'
+    extra-messages: |
+      %prefix% &6Bu TPA isteği 10 saniye sonra iptal olacak.
+    request-accepted: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini kabul etti.'
+    request-accepted-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini kabul ettin..'
+    request-denied: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini reddetti.'
+    request-denied-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini reddettin. '
+    request-cancelled: '%tpaprefix% &b%requester% &eadlı oyuncunun sana yolladığı TPA isteği iptal edildi.'
+    request-cancelled-2: '%tpaprefix% &b%teleporting% &eadlı oyuncuya yolladığın TPA isteği iptal edildi..'
+    no-request: '%tpaprefix% &cHiç TPA isteğin yok veya komutu hatalı kullandın.'
+    went-wrong: '%tpaprefix% &cO oyuncu sana TPA isteği yollamamış veya bir şeyler ters gitti.'
+    not-found: '%tpaprefix% &cO oyuncuya TPA isteği yollayamazsın.'
+    usage: '%tpaprefix% &c/tpa <oyuncu>'
+    not-now: '%tpaprefix% &cŞu an TPA isteği yollayamazsın..'
+    not-now-2: '%tpaprefix% &cO oyuncuya şu an TPA isteği yollayamazsın. Daha sonra tekrar dene.'
+    toggled: '%tpaprefix% &cArtık TPA isteklerini %newmode%.'
+    modes:
+      true: alıyorsun
+      false: almıyorsun
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %tpaprefix%
+        &b%teleporting% &eadlı oyuncuya ışınlanılıyor... &b%time%
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %tpaprefix%
+        &b%teleporting% &eadlı oyuncuya ışınlanıldı.
+    teleport-cancelled: '%tpaprefix% &cIşınlanma iptal edildi.'
+
+  tpall:
+    teleported: '%prefix% &6Toplam &3%size% &6kişi size teleportlandı.'
+
+  msg:
+    format: '&b[%from%] &3-> &b[%to%]&3: &e%msg%'
+    wrong-usage: '%prefix% &cMesajın gitmesi gereken oyuncuyu ve mesajınızı girmelisiniz.'
+    toggled: '%prefix% &6Artık mesajları %newmode%.'
+    closed-self: '%prefix% &cMesaj almayı kapattığın için mesaj yollayamazsın.'
+    closed: '%prefix% &3%to% &cadlı oyuncu mesaj almayı kapattığı için mesaj yollayamazsın.'
+    not-found: '%prefix% &cBu oyuncu aktif değil.'
+    modes:
+      false: '&calmıyorsun'
+      true: '&aalıyorsun'
+
+  speed:
+    wrong-usage: '%prefix% &cKomutu hatalı kullandın. Doğru kullanım: &b/speed [walk/fly] <hız> [<oyuncu>]'
+    changed: '%prefix% &b%mode% &3modunda hızın değiştirildi. Yeni hızın: &b%newSpeed%'
+    not-found: '%prefix% &cBu oyuncuyu bulamadım.'
+    modes:
+      WALK: Yürüme
+      FLY: Uçma
+
+  skull:
+    added: '%prefix% &b%headowner% &3adlı oyuncunun kafası envanterinize eklendi.'
+    added-other: '%prefix% &b%headowner% &3adlı oyuncunun kafası &b%other% &3adlı oyuncunun envanterine eklendi.'
+    not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
+    wrong-usage: |
+      %prefix% &cKomutu hatalı kullandınız. Doğru kullanım: &b/skull <kafa ismi> [<verilecek oyuncu>]
+      %prefix% &cKafa ismi Türkçe karakter içeremez.
+
+  clear-chat:
+    lines: 100
+    cleared: '%prefix% &3Sohbet &b%executor% &3tarafından temizlendi.' # '' yaparsanız mesaj yollanmaz.
+    for-staffs:
+      enabled: true # true ise "sst.staff" yetkisi olanların sohbeti de silinir, false ise silinmez.
+
+  ender-chest:
+    not-found: '%prefix% &cÜzgünüm ancak bu oyuncuyu bulamadım.'

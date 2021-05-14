@@ -1,22 +1,21 @@
 announcements:
   enabled: false
-  time: 50 # saniye biçiminde
-  random: false # true ise duyurular arasından rastgele biri, değil ise tüm duyurular sırayla yapılır. son duyurudan sonra tekrar başa gelir.
+  time: 50 # in seconds
+  random: false # if true, a random announcement will be broadcasted.
   announcements:
     announcement-0:
       filter:
         type: PERMISSION
-        permission: 'sst.vip' # boş olursa kimseye gitmez
-                              # OP olan oyuncular da bu duyuruyu alacaktır.
-                              # bu durumu engellemek için PERMISSION yerine GROUP tipini kullanıp
-                              # VIP grubunu (veya sizin grup adınız ne olarak kayıtlıysa) kullanabilirsiniz.
-      content: 'Bu viplere özel bir duyuru %player%!'
+        permission: 'sst.vip' # if its empty, no one will see it.
+                              # OP players will see this announcement too.
+                              # you can use GROUP type if you don't want OPs to see this announcement.
+      content: 'This announcement is only for VIPs %player%!'
     announcement-1:
       filter:
         type: GROUP
-        group: 'admin' # boş olursa kimseye gitmez
-      content: 'Bu adminlere özel bir duyuru %player%!'
+        group: 'admin'
+      content: 'This announcement is only for admins %player%!'
     announcement-2:
       filter:
-        type: NONE # herkese gider
-      content: 'Bu herkese yollanan bir duyuru %player%!'
+        type: NONE
+      content: 'Everyone sees this announcement %player%!'
