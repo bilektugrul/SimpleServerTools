@@ -83,12 +83,20 @@ public class TeleportTask extends BukkitRunnable {
 
         if ((teleportingMode.equalsIgnoreCase("TITLE") && teleportingMsg.contains("\n"))) {
             int index = teleportingMsg.indexOf("\n");
-            teleportingSub = teleportingMsg.split("\n")[1];
+            try {
+                teleportingSub = teleportingMsg.split("\n")[1];
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+                teleportingSub = "";
+            }
             teleportingMsg = teleportingMsg.substring(0, index);
         }
         if (teleportedMode.equalsIgnoreCase("TITLE") && teleportedMsg.contains("\n")) {
             int index = teleportedMsg.indexOf("\n");
-            teleportedSub  = teleportedMsg.split("\n")[1];
+            try {
+                teleportedSub = teleportedMsg.split("\n")[1];
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+                teleportedSub = "";
+            }
             teleportedMsg = teleportedMsg.substring(0, index);
         }
 

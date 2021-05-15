@@ -122,12 +122,12 @@ public class Utils {
     }
 
     public static void sendMessage(CommandSender sender, String msg) {
-        sender.sendMessage(getMessage("messages." + msg + ".beginning", sender));
+        sender.sendMessage(getMessage( msg + ".beginning", sender));
         if (sender.hasPermission("sst.staff")) {
-            sender.sendMessage(getMessage("messages." + msg + ".only-staff", sender));
+            sender.sendMessage(getMessage(msg + ".only-staff", sender));
         }
-        sender.sendMessage(getMessage("messages." + msg + ".everyone", sender));
-        sender.sendMessage(getMessage("messages." + msg + ".ending", sender));
+        sender.sendMessage(getMessage(msg + ".everyone", sender));
+        sender.sendMessage(getMessage(msg + ".ending", sender));
     }
 
     public static boolean matchMode(String mode) {
