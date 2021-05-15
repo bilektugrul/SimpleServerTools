@@ -109,7 +109,7 @@ public class SpawnManager {
 
     public void sendWarnIfEnabled(CommandSender sender) {
         if (spawnFile.getBoolean("spawn.send-warning-if-not-enabled"))
-            sender.sendMessage(Utils.getMessage("messages.spawn.not-enabled", sender));
+            sender.sendMessage(Utils.getMessage("spawn.not-enabled", sender));
     }
 
     public FileConfiguration getSpawnFile() {

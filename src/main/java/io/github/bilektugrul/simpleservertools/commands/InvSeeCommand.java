@@ -26,21 +26,21 @@ public class InvSeeCommand implements CommandExecutor {
                     if (args.length == 1) {
                         senderPlayer.openInventory(invPlayer.getInventory());
                     } else if (args[1].contains("zırh") || args[1].contains("armor") ) {
-                        Inventory armorInventory = Bukkit.getServer().createInventory(senderPlayer, 9, Utils.getMessage("messages.invsee.title", senderPlayer)) ;
+                        Inventory armorInventory = Bukkit.getServer().createInventory(senderPlayer, 9, Utils.getMessage("invsee.title", senderPlayer)) ;
                         List<ItemStack> list = Arrays.asList(invPlayer.getInventory().getArmorContents());
                         Collections.reverse(list);
                         armorInventory.setContents(list.toArray(new ItemStack[0]));
                         if (armorInventory.getContents().length > 0) senderPlayer.openInventory(armorInventory);
-                        else senderPlayer.sendMessage(Utils.getMessage("messages.invsee.armor-empty", senderPlayer));
+                        else senderPlayer.sendMessage(Utils.getMessage("invsee.armor-empty", senderPlayer));
                     } else {
-                        senderPlayer.sendMessage(Utils.getMessage("messages.invsee.wrong-usage", senderPlayer));
+                        senderPlayer.sendMessage(Utils.getMessage("invsee.wrong-usage", senderPlayer));
                     }
                 } else {
-                    senderPlayer.sendMessage(Utils.getMessage("messages.invsee.not-found", senderPlayer));
+                    senderPlayer.sendMessage(Utils.getMessage("invsee.not-found", senderPlayer));
                 }
             }
         } else {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

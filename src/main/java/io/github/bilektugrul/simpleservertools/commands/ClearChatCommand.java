@@ -14,7 +14,7 @@ public class ClearChatCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("sst.clearchat")) {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
             return true;
         }
 
@@ -29,7 +29,7 @@ public class ClearChatCommand implements CommandExecutor {
             player.sendMessage(lines);
         }
 
-        String cleared = Utils.getMessage("messages.clear-chat.cleared", sender);
+        String cleared = Utils.getMessage("clear-chat.cleared", sender);
         if (!cleared.isEmpty()) Bukkit.broadcastMessage(cleared.replace("%executor%", Utils.matchName(sender)));
 
         return true;

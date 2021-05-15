@@ -24,7 +24,7 @@ public class LanguageManager {
         String s = File.separator;
         try {
             language = ConfigUtils.getConfig(plugin, "language" + s + "messages_" + languageString);
-        } catch (IllegalArgumentException ignored){
+        } catch (IllegalArgumentException ignored) {
             plugin.getLogger().warning("§cYou have chosen a non-existent language. Please check our Spigot page and use one of available languages. Plugin will use EN language.");
             languageString = "en";
             language = ConfigUtils.getConfig(plugin, "language" + s + "messages_" + languageString);

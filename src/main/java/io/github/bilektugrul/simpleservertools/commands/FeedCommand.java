@@ -14,7 +14,7 @@ public class FeedCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("sst.feed")) {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
             return true;
         }
 
@@ -25,16 +25,16 @@ public class FeedCommand implements CommandExecutor {
         } else if (sender instanceof Player) {
             feedPlayer = (Player) sender;
         } else {
-            sender.sendMessage(Utils.getMessage("messages.feed.not-found", sender));
+            sender.sendMessage(Utils.getMessage("feed.not-found", sender));
             return true;
         }
 
         feed(feedPlayer);
 
         if (feedPlayer.equals(sender)) {
-            feedPlayer.sendMessage(Utils.getMessage("messages.feed.message", feedPlayer));
+            feedPlayer.sendMessage(Utils.getMessage("feed.message", feedPlayer));
         } else {
-            sender.sendMessage(Utils.getMessage("messages.feed.message-other", sender)
+            sender.sendMessage(Utils.getMessage("feed.message-other", sender)
                     .replace("%other%", feedPlayer.getName()));
         }
         return true;

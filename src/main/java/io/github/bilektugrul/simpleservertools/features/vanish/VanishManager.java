@@ -30,7 +30,7 @@ public class VanishManager {
                 p.hidePlayer(player);
             }
         }
-        player.sendMessage(Utils.getMessage("messages.vanish.activated", player));
+        player.sendMessage(Utils.getMessage("vanish.activated", player));
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
             if (!silent) Bukkit.broadcastMessage(Utils.getString("join-quit-messages.quit-message", player));
         }
@@ -41,7 +41,7 @@ public class VanishManager {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.showPlayer(player);
         }
-        player.sendMessage(Utils.getMessage("messages.vanish.disabled", player));
+        player.sendMessage(Utils.getMessage("vanish.disabled", player));
         getVanishedPlayers().remove(uuid);
         getOnlineVanishedPlayers().remove(uuid);
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {

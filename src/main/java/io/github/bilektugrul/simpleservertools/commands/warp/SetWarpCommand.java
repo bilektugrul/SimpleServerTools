@@ -29,7 +29,7 @@ public class SetWarpCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player) || !sender.hasPermission("sst.admin")) {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
             return true;
         }
 
@@ -38,7 +38,7 @@ public class SetWarpCommand implements CommandExecutor {
         Location loc = p.getLocation();
 
         if (args.length == 0) {
-            p.sendMessage(Utils.getMessage("messages.warps.not-enough-arguments", p));
+            p.sendMessage(Utils.getMessage("warps.not-enough-arguments", p));
             return true;
         }
 
@@ -46,7 +46,7 @@ public class SetWarpCommand implements CommandExecutor {
         boolean force = forceCreateList.containsValue(arg);
 
         if (!force && warpManager.isPresent(arg)) {
-            sender.sendMessage(Utils.getMessage("messages.warps.already-exists", sender));
+            sender.sendMessage(Utils.getMessage("warps.already-exists", sender));
             forceCreateList.put(name, arg);
             Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> forceCreateList.remove(name), 100);
             return true;
@@ -56,14 +56,14 @@ public class SetWarpCommand implements CommandExecutor {
 
         if (force) {
             warpManager.forceRegisterWarp(arg, loc, permRequired);
-            p.sendMessage(Utils.getMessage("messages.warps.created", p)
+            p.sendMessage(Utils.getMessage("warps.created", p)
                     .replace("%warp%", arg));
             forceCreateList.remove(name);
         } else if (warpManager.registerWarp(arg, loc, permRequired)) {
-            p.sendMessage(Utils.getMessage("messages.warps.created", p)
+            p.sendMessage(Utils.getMessage("warps.created", p)
                     .replace("%warp%", arg));
         } else {
-            p.sendMessage(Utils.getMessage("messages.wrong-usage", p));
+            p.sendMessage(Utils.getMessage("wrong-usage", p));
         }
         return true;
     }

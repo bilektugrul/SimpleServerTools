@@ -40,7 +40,7 @@ public class GodCommand implements CommandExecutor {
                     change(sender, godPlayer, godUser, !godUser.isGod());
                 }
             } else {
-                sender.sendMessage(Utils.getMessage("messages.god.type-player", sender));
+                sender.sendMessage(Utils.getMessage("god.type-player", sender));
             }
         }
         return true;
@@ -48,12 +48,12 @@ public class GodCommand implements CommandExecutor {
 
     public void change(CommandSender from, Player godPlayer, User godUser, boolean newMode) {
         godUser.setGod(newMode);
-        godPlayer.sendMessage(Utils.getMessage("messages.god.toggled", godPlayer)
-                .replace("%godmode%", Utils.getMessage("messages.god.modes." + newMode, from)));
+        godPlayer.sendMessage(Utils.getMessage("god.toggled", godPlayer)
+                .replace("%godmode%", Utils.getMessage("god.modes." + newMode, from)));
         if (!from.equals(godPlayer)) {
-            from.sendMessage(Utils.getMessage("messages.god.toggled-other", from)
+            from.sendMessage(Utils.getMessage("god.toggled-other", from)
                     .replace("%other%", godPlayer.getName())
-                    .replace("%godmode%", Utils.getMessage("messages.god.modes." + newMode, from)));
+                    .replace("%godmode%", Utils.getMessage("god.modes." + newMode, from)));
         }
     }
 

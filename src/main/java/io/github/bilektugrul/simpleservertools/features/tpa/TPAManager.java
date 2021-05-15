@@ -65,9 +65,9 @@ public class TPAManager {
                 i++;
                 if (isPresent(to, p) && i == max) {
                     remove(p, to);
-                    p.sendMessage(Utils.getMessage("messages.tpa.request-cancelled-2", p)
+                    p.sendMessage(Utils.getMessage("tpa.request-cancelled-2", p)
                             .replace("%teleporting%", to.getName()));
-                    to.sendMessage(Utils.getMessage("messages.tpa.request-cancelled", to)
+                    to.sendMessage(Utils.getMessage("tpa.request-cancelled", to)
                             .replace("%requester%", p.getName()));
                     cancel();
                 }

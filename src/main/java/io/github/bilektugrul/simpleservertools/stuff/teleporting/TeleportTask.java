@@ -48,12 +48,12 @@ public class TeleportTask extends BukkitRunnable {
                 ? 0
                 : settings.getTime();
 
-        teleportingMsg = Utils.getMessage("messages." + mode + ".teleporting.message", player);
-        teleportingMode = Utils.getMessage("messages." + mode + ".teleporting.mode", player);
+        teleportingMsg = Utils.getMessage("" + mode + ".teleporting.message", player);
+        teleportingMode = Utils.getMessage("" + mode + ".teleporting.mode", player);
         teleportingSub = "";
 
-        teleportedMsg = Utils.getMessage("messages." + mode + ".teleported.message", player);
-        teleportedMode = Utils.getMessage("messages." + mode +".teleported.mode", player);
+        teleportedMsg = Utils.getMessage("" + mode + ".teleported.message", player);
+        teleportedMode = Utils.getMessage("" + mode +".teleported.mode", player);
         teleportedSub = "";
 
         firstLoc = player.getLocation();
@@ -136,7 +136,7 @@ public class TeleportTask extends BukkitRunnable {
 
     public void cancelTeleport(boolean msg) {
         user.setState(UserState.PLAYING);
-        if (msg) p.sendMessage(Utils.getMessage("messages." + mode + ".teleport-cancelled", p));
+        if (msg) p.sendMessage(Utils.getMessage("" + mode + ".teleport-cancelled", p));
         teleportManager.getTeleportTasks().remove(this);
         super.cancel();
     }

@@ -24,10 +24,10 @@ public class EnderChestCommand implements CommandExecutor {
                 p.closeInventory();
                 p.openInventory(holder.getEnderChest());
             } else {
-                p.sendMessage(Utils.getMessage("messages.ender-chest.not-found", p));
+                p.sendMessage(Utils.getMessage("ender-chest.not-found", p));
             }
         } else {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

@@ -43,7 +43,7 @@ public class WarpCommand implements CommandExecutor {
             if (canSeeList) {
                 sendWarpList(sender);
             } else {
-                sender.sendMessage(Utils.getMessage("messages.warps.wrong-usage", sender));
+                sender.sendMessage(Utils.getMessage("warps.wrong-usage", sender));
             }
             return true;
         }
@@ -53,11 +53,11 @@ public class WarpCommand implements CommandExecutor {
         if (arg.equalsIgnoreCase("list")) {
 
             if (canSeeList) sendWarpList(sender);
-            else sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            else sender.sendMessage(Utils.getMessage("no-permission", sender));
 
         } else if (arg.equalsIgnoreCase("save") && isAdmin) {
             warpManager.saveWarps();
-            sender.sendMessage(Utils.getMessage("messages.warps.saved", sender));
+            sender.sendMessage(Utils.getMessage("warps.saved", sender));
 
         } else if (isPlayer) {
             Player p = (Player) sender;
@@ -68,19 +68,19 @@ public class WarpCommand implements CommandExecutor {
                 if (!warp.getPermRequire() || warp.getPermRequire() && p.hasPermission(warp.getPermission())) {
                     teleportManager.teleport(p, loc, mode, warpManager.getSettings());
                 } else {
-                    p.sendMessage(Utils.getMessage("messages.warps.messages.no-permission", p));
+                    p.sendMessage(Utils.getMessage("warps.messages.no-permission", p));
                 }
             } else {
-                p.sendMessage(Utils.getMessage("messages.warps.do-not-exist", p));
+                p.sendMessage(Utils.getMessage("warps.do-not-exist", p));
             }
         } else {
-            sender.sendMessage(Utils.getMessage("messages.warps.wrong-usage", sender));
+            sender.sendMessage(Utils.getMessage("warps.wrong-usage", sender));
         }
         return true;
     }
 
     private void sendWarpList(CommandSender sender) {
-        sender.sendMessage(Utils.getMessage("messages.warps.list", sender)
+        sender.sendMessage(Utils.getMessage("warps.list", sender)
                 .replace("%warpamount%", String.valueOf(warpManager.getWarpList().size()))
                 .replace("%warps%", warpManager.readableWarpList(sender)));
     }

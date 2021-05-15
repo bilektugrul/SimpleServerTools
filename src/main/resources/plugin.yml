@@ -84,6 +84,8 @@ commands:
     usage: /enderchest <player>
   craft:
     aliases: [craftingtable, workbench, crafttable, çalışmamasası]
+  top:
+    aliases: [highestblock, topblock, enyüksekblok]
 permissions:
   sst.*:
     default: op
@@ -154,4 +156,6 @@ permissions:
       sst.enderchest:
         default: op
       sst.craft:
+        default: op
+      sst.top:
         default: op

@@ -26,11 +26,11 @@ public class Utils {
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
 
     public static String getMessage(String string, CommandSender from) {
-        return getString(languageManager.getLanguage(), string, from);
+        return getString(languageManager.getLanguage(), "messages." + string, from);
     }
 
     public static String getMessage(String string, CommandSender from, boolean replacePersonalPlaceholders) {
-        return getString(languageManager.getLanguage(), string, from, replacePersonalPlaceholders);
+        return getString(languageManager.getLanguage(), "messages." + string, from, replacePersonalPlaceholders);
     }
 
     public static String getString(String string, CommandSender from) {

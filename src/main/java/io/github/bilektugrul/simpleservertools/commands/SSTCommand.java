@@ -17,7 +17,7 @@ public class SSTCommand implements CommandExecutor {
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("sst.admin")) {
                     plugin.reload(false);
-                    sender.sendMessage(Utils.getMessage("messages.config-reloaded", sender));
+                    sender.sendMessage(Utils.getMessage("config-reloaded", sender));
                 } else if (args.length >= 2 && args[1].equalsIgnoreCase("warpArgs")) {
                     Utils.sendMessage(sender, "help-message.other.warpArgs.list");
                 } else if (args[0].equalsIgnoreCase("help")) {
@@ -27,7 +27,7 @@ public class SSTCommand implements CommandExecutor {
                 Utils.sendMessage(sender, "help-message");
             }
         } else {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

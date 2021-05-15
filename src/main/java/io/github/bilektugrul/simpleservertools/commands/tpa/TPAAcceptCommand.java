@@ -33,19 +33,19 @@ public class TPAAcceptCommand implements CommandExecutor {
                 if (reqSender != null && !reqSender.equals(sender) && tpaManager.isPresent(p, reqSender) && userManager.getUser(reqSender).isAvailable()) {
                     TPAInfo info = new TPAInfo(reqSender, p);
                     TeleportMode mode = new TeleportMode(Mode.TPA, null, null, info);
-                    reqSender.sendMessage(Utils.getMessage("messages.tpa.request-accepted", reqSender)
+                    reqSender.sendMessage(Utils.getMessage("tpa.request-accepted", reqSender)
                             .replace("%teleporting%", p.getName()));
-                    p.sendMessage(Utils.getMessage("messages.tpa.request-accepted-2", p)
+                    p.sendMessage(Utils.getMessage("tpa.request-accepted-2", p)
                             .replace("%requester%", reqSender.getName()));
                     tpaManager.teleport(reqSender, p, p.getLocation(), mode);
                 } else {
-                    p.sendMessage(Utils.getMessage("messages.tpa.went-wrong", p));
+                    p.sendMessage(Utils.getMessage("tpa.went-wrong", p));
                 }
             } else {
-                p.sendMessage(Utils.getMessage("messages.tpa.no-request", p));
+                p.sendMessage(Utils.getMessage("tpa.no-request", p));
             }
         } else {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

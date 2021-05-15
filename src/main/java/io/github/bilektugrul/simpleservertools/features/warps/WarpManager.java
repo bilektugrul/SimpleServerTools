@@ -129,13 +129,13 @@ public class WarpManager {
                     .collect(Collectors.toList());
             return String.join(", ", warps);
         } else {
-            return Utils.getMessage("messages.warps.no-warp", null);
+            return Utils.getMessage("warps.no-warp", null);
         }
     }
 
     public void sendWarpInfo(Warp warp, CommandSender sender) {
         if (!sender.hasPermission("sst.warpinfo")) return;
-        sender.sendMessage(Utils.getMessage("messages.warps.info", sender)
+        sender.sendMessage(Utils.getMessage("warps.info", sender)
                 .replace("%warp%", warp.getName())
                 .replace("%warploc%", readableWarpLoc(warp))
                 .replace("%warpperm%", warp.getPermRequire() ? warp.getPermission() : "yok"));

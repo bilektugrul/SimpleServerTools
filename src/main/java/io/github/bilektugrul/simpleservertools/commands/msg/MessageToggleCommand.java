@@ -25,10 +25,10 @@ public class MessageToggleCommand implements CommandExecutor {
             User user = userManager.getUser(p);
             boolean newMode = !user.isAcceptingMsg();
             user.setAcceptingMsg(newMode);
-            p.sendMessage(Utils.getMessage("messages.msg.toggled", p)
-                    .replace("%newmode%", Utils.getMessage("messages.msg.modes." + newMode, p)));
+            p.sendMessage(Utils.getMessage("msg.toggled", p)
+                    .replace("%newmode%", Utils.getMessage("msg.modes." + newMode, p)));
         } else {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

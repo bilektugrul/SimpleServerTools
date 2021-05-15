@@ -26,16 +26,16 @@ public class SetSpawnCommand implements CommandExecutor {
             Location newLoc = p.getLocation();
             if (spawnManager.getSpawn() == null) {
                 spawnManager.setSpawn(newLoc);
-                p.sendMessage(Utils.getMessage("messages.spawn.created", p)
+                p.sendMessage(Utils.getMessage("spawn.created", p)
                         .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
             } else {
                 spawnManager.getSpawn().setLocation(newLoc);
-                p.sendMessage(Utils.getMessage("messages.spawn.changed", p)
+                p.sendMessage(Utils.getMessage("spawn.changed", p)
                         .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
                 spawnManager.saveSpawn();
             }
         } else {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

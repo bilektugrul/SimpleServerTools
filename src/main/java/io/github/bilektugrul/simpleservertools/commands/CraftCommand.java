@@ -16,7 +16,7 @@ public class CraftCommand implements CommandExecutor {
             p.closeInventory();
             p.openWorkbench(p.getLocation(), true);
         } else {
-            sender.sendMessage(Utils.getMessage("messages.no-permission", sender));
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

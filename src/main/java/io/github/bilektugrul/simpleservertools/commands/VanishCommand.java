@@ -26,17 +26,17 @@ public class VanishCommand implements CommandExecutor {
                 if (!vanishManager.isVanished(player.getUniqueId())) vanishManager.hidePlayer(player, false);
                 else vanishManager.showPlayer(player, false);
             } else {
-                player.sendMessage(Utils.getMessage("messages.no-permission", player));
+                player.sendMessage(Utils.getMessage("no-permission", player));
             }
         } else if (args.length >= 1 && sender.hasPermission("sst.vanish.others")) {
             Player toVanish = Bukkit.getPlayer(args[0]);
             if (toVanish != null) {
                 if (!vanishManager.isVanished(toVanish.getUniqueId())) vanishManager.hidePlayer(toVanish, false);
                 else vanishManager.showPlayer(toVanish, false);
-                sender.sendMessage(Utils.getMessage("messages.vanish.toggled", sender)
+                sender.sendMessage(Utils.getMessage("vanish.toggled", sender)
                         .replace("%other%", toVanish.getName()));
             } else {
-                sender.sendMessage(Utils.getMessage("messages.vanish.player-not-found", sender)
+                sender.sendMessage(Utils.getMessage("vanish.player-not-found", sender)
                         .replace("%other%", args[0]));
             }
         }
