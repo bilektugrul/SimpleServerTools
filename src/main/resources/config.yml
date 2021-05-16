@@ -16,6 +16,10 @@ main-command-perm-required: true # if true, players will need "sst.maincmd" perm
 auto-save-users: true
 auto-save-interval: 30 # in minutes
 
+updates:
+  notify: true
+  notify-beta-versions: true
+
 join-quit-messages:
   enabled: true
   first-join-message: '&9[+] &b&l%player% &7has joined or server for the first time..'

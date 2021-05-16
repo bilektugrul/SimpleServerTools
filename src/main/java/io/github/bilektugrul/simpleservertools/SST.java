@@ -29,9 +29,11 @@ import io.github.bilektugrul.simpleservertools.metrics.Metrics;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.PLibManager;
+import io.github.bilektugrul.simpleservertools.utils.UpdateChecker;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -58,10 +60,12 @@ public class SST extends JavaPlugin {
 
     private PluginManager pluginManager;
 
+    private Logger logger;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        Logger logger = getLogger();
+        logger = getLogger();
         logger.info("§aSimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
         pluginManager = getServer().getPluginManager();
         placeholderManager = new CustomPlaceholderManager(this);
@@ -128,6 +132,7 @@ public class SST extends JavaPlugin {
             logger.info("§aEnabling metrics...");
             new Metrics(this, 11344);
         }
+        checkUpdate();
         logger.info("§aEnabling process is done, enjoy!");
     }
 
@@ -142,7 +147,37 @@ public class SST extends JavaPlugin {
         warpManager.saveWarps();
         spawnManager.saveSpawn();
         maintenanceManager.save();
-        getLogger().info("§aEverything has been saved.");
+        logger.info("§aEverything has been saved.");
+    }
+
+    public void checkUpdate() {
+
+        if (!getConfig().getBoolean("updates.notify", true)) {
+            return;
+        }
+
+        UpdateChecker.init(this, 92388).requestUpdateCheck().whenComplete((result, exception) -> {
+
+            if (!result.requiresUpdate()) {
+                return;
+            }
+
+
+            if (result.getNewestVersion().contains("b")) {
+                if (getConfig().getBoolean("updates.notify-beta-versions", true)) {
+                    logger.info("§aFound a new beta version available: v" + result.getNewestVersion());
+                    logger.info("§aDownload it on SpigotMC:");
+                    logger.info("§b https://www.spigotmc.org/resources/simpleservertools-1-8-8-1-16-5.92388/");
+                }
+                return;
+            }
+
+            logger.info("§aFound a new version available: v" + result.getNewestVersion());
+            logger.info("§aDownload it SpigotMC:");
+            logger.info("§ahttps://www.spigotmc.org/resources/simpleservertools-1-8-8-1-16-5.92388/");
+
+        });
+
     }
 
     public CustomPlaceholderManager getPlaceholderManager() {
@@ -200,7 +235,7 @@ public class SST extends JavaPlugin {
     }
 
     public void reload(boolean first) {
-        getLogger().info("§aReloading configurations from disk...");
+        logger.info("§aReloading configurations from disk...");
         reloadConfig();
         checkAndLoadPacketListener();
         placeholderManager.load();
