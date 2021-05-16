@@ -17,7 +17,13 @@ public class EnderChestCommand implements CommandExecutor {
             Player holder = p;
 
             if (args.length >= 1) {
-                holder = Bukkit.getPlayer(args[0]);
+                if (sender.hasPermission("sst.enderchest.others")) {
+                    holder = Bukkit.getPlayer(args[0]);
+                } else {
+                    sender.sendMessage(Utils.getMessage("no-permission", sender));
+                    return true;
+                }
+                
             }
 
             if (holder != null) {
