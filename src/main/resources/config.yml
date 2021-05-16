@@ -83,6 +83,27 @@ tpa:
     mode: EVERYONE
     # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
+sounds:
+  teleports:
+    spawn:
+      enabled: true
+      countdown-sound: NOTE_PLING # Play sound every second in the countdown time.
+      cancel-move-sound: VILLAGER_NO # Play sound when cancelled teleport because of any move.
+      cancel-damage-sound: VILLAGER_NO # Play sound when cancelled teleport because of any damage.
+      finish-sound: LEVEL_UP # Play sound when player teleported.
+    warps:
+      enabled: true
+      countdown-sound: NOTE_PLING # Play sound every second in the countdown time.
+      cancel-move-sound: VILLAGER_NO # Play sound when cancelled teleport because of any move.
+      cancel-damage-sound: VILLAGER_NO # Play sound when cancelled teleport because of any damage.
+      finish-sound: LEVEL_UP # Play sound when player teleported.
+    tpa:
+      enabled: true
+      countdown-sound: NOTE_PLING # Play sound every second in the countdown time.
+      cancel-move-sound: VILLAGER_NO # Play sound when cancelled teleport because of any move.
+      cancel-damage-sound: VILLAGER_NO # Play sound when cancelled teleport because of any damage.
+      finish-sound: LEVEL_UP # Play sound when player teleported.
+
 disable-death-messages: false
 metrics-enabled: true # Sends some basic information about your server to bstats.org.
                       # Won't effect the performance but you can turn it off if you want. You must restart the server after changing the setting.

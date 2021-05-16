@@ -9,6 +9,7 @@ import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +40,12 @@ public class TeleportTask extends BukkitRunnable {
     private final User user;
     private final String mode;
 
+    private Sound countdownSound;
+    private Sound teleportSound;
+    private Sound cancelMoveSound;
+    private Sound cancelDamageSound;
+    private boolean soundsEnabled = false;
+
     public TeleportTask(Player player, Location loc, TeleportMode teleportMode, TeleportSettings teleportSettings) {
         p = player;
         settings = teleportSettings;
@@ -60,6 +67,15 @@ public class TeleportTask extends BukkitRunnable {
         firstLoc = player.getLocation();
         finalLoc = loc;
         firstHealth = player.getHealth();
+
+        if(Utils.getBoolean("sounds.teleports." + mode + ".enabled")){
+            countdownSound = Sound.valueOf(Utils.getString("sounds.teleports." + mode + ".countdown-sound", player));
+            teleportSound = Sound.valueOf(Utils.getString("sounds.teleports." + mode + ".finish-sound", player));
+            cancelMoveSound = Sound.valueOf(Utils.getString("sounds.teleports." + mode + ".cancel-move-sound", player));
+            cancelDamageSound = Sound.valueOf(Utils.getString("sounds.teleports." + mode + ".cancel-damage-sound", player));
+            soundsEnabled = true;
+        }
+
 
         cancelMoveMode = settings.getCancelMoveMode();
         cancelDamageMode = settings.getCancelDamageMode();
@@ -112,6 +128,7 @@ public class TeleportTask extends BukkitRunnable {
             if (cancel) {
                 if (settings.getCancelTeleportOnMove()) {
                     cancelTeleport(true);
+                    if(soundsEnabled) p.playSound(p.getLocation(), cancelMoveSound, 1,0);
                     return;
                 }
                 if (settings.getBlockMove()) p.teleport(firstLoc);
@@ -127,7 +144,10 @@ public class TeleportTask extends BukkitRunnable {
                     p.setHealth(firstHealth);
                     return;
                 }
-                if (settings.getCancelTeleportOnDamage()) cancelTeleport(true);
+                if (settings.getCancelTeleportOnDamage()) {
+                    cancelTeleport(true);
+                    if(soundsEnabled) p.playSound(p.getLocation(), cancelDamageSound, 1,0);
+                }
             }
         }
 
@@ -135,11 +155,13 @@ public class TeleportTask extends BukkitRunnable {
             user.setState(UserState.PLAYING);
             PaperLib.teleportAsync(p, finalLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
             Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
+            if(soundsEnabled) p.playSound(p.getLocation(), teleportSound, 1,0);
             cancelTeleport(false);
             return;
         }
 
         Utils.sendMessage(p, teleportingMode, teleportingMsg, teleportingSub, String.valueOf(time));
+        if(soundsEnabled) p.playSound(p.getLocation(), countdownSound, 1,0);
         time--;
     }
 
