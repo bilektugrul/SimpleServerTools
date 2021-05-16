@@ -33,7 +33,7 @@ import io.github.bilektugrul.simpleservertools.utils.UpdateChecker;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,7 +66,7 @@ public class SST extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         logger = getLogger();
-        logger.info("§aSimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
+        logger.info(ChatColor.GREEN + "SimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
         pluginManager = getServer().getPluginManager();
         placeholderManager = new CustomPlaceholderManager(this);
         languageManager = new LanguageManager(this);
@@ -81,12 +81,12 @@ public class SST extends JavaPlugin {
         if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
-            logger.warning("§cPlaceholderAPI is not installed. You should check it out.");
+            logger.warning(ChatColor.RED + "PlaceholderAPI is not installed. You should check it out.");
         }
         if (pluginManager.isPluginEnabled("Vault")) {
             vaultManager = new VaultManager(this);
         } else {
-            logger.warning("§cVault is not installed. Some features may not work.");
+            logger.warning(ChatColor.RED + "Vault is not installed. Some features may not work.");
         }
         announcementManager = new AnnouncementManager(this);
         for (Player looped : Bukkit.getOnlinePlayers()) {
@@ -129,11 +129,11 @@ public class SST extends JavaPlugin {
             asyncUserSaveThread = new AsyncUserSaveThread(this);
         }
         if (Utils.getBoolean("metrics-enabled")) {
-            logger.info("§aEnabling metrics...");
+            logger.info(ChatColor.GREEN + "Enabling metrics...");
             new Metrics(this, 11344);
         }
         checkUpdate();
-        logger.info("§aEnabling process is done, enjoy!");
+        logger.info(ChatColor.GREEN + "Enabling process is done, enjoy!");
     }
 
     @Override
@@ -147,7 +147,7 @@ public class SST extends JavaPlugin {
         warpManager.saveWarps();
         spawnManager.saveSpawn();
         maintenanceManager.save();
-        logger.info("§aEverything has been saved.");
+        logger.info(ChatColor.GREEN + "Everything has been saved.");
     }
 
     public void checkUpdate() {
@@ -165,16 +165,16 @@ public class SST extends JavaPlugin {
 
             if (result.getNewestVersion().contains("b")) {
                 if (getConfig().getBoolean("updates.notify-beta-versions", true)) {
-                    logger.info("§aFound a new beta version available: v" + result.getNewestVersion());
-                    logger.info("§aDownload it on SpigotMC:");
-                    logger.info("§b https://www.spigotmc.org/resources/simpleservertools-1-8-8-1-16-5.92388/");
+                    logger.info(ChatColor.GREEN + "Found a new beta version available: v" + result.getNewestVersion());
+                    logger.info(ChatColor.GREEN + "Download it on SpigotMC:");
+                    logger.info(ChatColor.BLUE + "https://www.spigotmc.org/resources/simpleservertools-1-8-8-1-16-5.92388/");
                 }
                 return;
             }
 
-            logger.info("§aFound a new version available: v" + result.getNewestVersion());
-            logger.info("§aDownload it SpigotMC:");
-            logger.info("§ahttps://www.spigotmc.org/resources/simpleservertools-1-8-8-1-16-5.92388/");
+            logger.info(ChatColor.GREEN + "Found a new version available: v" + result.getNewestVersion());
+            logger.info(ChatColor.GREEN + "Download it SpigotMC:");
+            logger.info(ChatColor.BLUE + "https://www.spigotmc.org/resources/simpleservertools-1-8-8-1-16-5.92388/");
 
         });
 
@@ -235,7 +235,7 @@ public class SST extends JavaPlugin {
     }
 
     public void reload(boolean first) {
-        logger.info("§aReloading configurations from disk...");
+        logger.info(ChatColor.GREEN + "Reloading configurations from disk...");
         reloadConfig();
         checkAndLoadPacketListener();
         placeholderManager.load();

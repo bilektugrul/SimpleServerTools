@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools;
 
 import io.github.bilektugrul.simpleservertools.users.UserManager;
+import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class AsyncUserSaveThread extends BukkitRunnable {
     }
 
     public void start() {
-        logger.info("§aAsync user saving thread is starting...");
+        logger.info(ChatColor.GREEN + "Async user saving thread is starting...");
         int i = plugin.getConfig().getInt("auto-save-interval");
         runTaskTimerAsynchronously(plugin, 2400, (i * 60L) * 20);
     }

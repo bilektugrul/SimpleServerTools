@@ -9,6 +9,7 @@ import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSetting
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -75,7 +76,7 @@ public class SpawnManager {
 
     public void saveSpawn() {
         if (spawn != null) {
-            plugin.getLogger().info("§aSaving spawn...");
+            plugin.getLogger().info(ChatColor.GREEN + "Saving spawn...");
             spawnFile.set("spawn.location", spawn.getLocation());
             ConfigUtils.saveConfig(plugin, spawnFile, "spawn");
         }

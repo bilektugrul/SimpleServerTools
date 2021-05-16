@@ -12,6 +12,7 @@ public class PingCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         if (!sender.hasPermission("sst.ping")) {
             sender.sendMessage(Utils.getMessage("no-permission", sender));
             return true;
@@ -23,7 +24,9 @@ public class PingCommand implements CommandExecutor {
             pingPlayer = Bukkit.getPlayer(args[0]);
         } else if (sender instanceof Player) {
             pingPlayer = (Player) sender;
-        } else {
+        }
+
+        if (pingPlayer == null) {
             sender.sendMessage(Utils.getMessage("ping.not-found", sender));
             return true;
         }

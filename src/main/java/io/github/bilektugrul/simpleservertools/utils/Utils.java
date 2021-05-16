@@ -61,7 +61,7 @@ public class Utils {
     public static String replacePlaceholders(String msg, CommandSender from, boolean replacePersonalPlaceholders, boolean replacePAPI) {
         boolean isPlayer = from instanceof Player;
         if (msg == null) {
-            plugin.getLogger().warning("§cYour language file[s] is/are corrupted or old. Please reset or update them.");
+            plugin.getLogger().warning(org.bukkit.ChatColor.RED + "Your language file[s] is/are corrupted or old. Please reset or update them.");
             return "";
         }
         msg = placeholderManager.replacePlaceholders(ChatColor.translateAlternateColorCodes('&', msg));

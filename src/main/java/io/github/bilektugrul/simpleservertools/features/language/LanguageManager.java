@@ -2,6 +2,7 @@ package io.github.bilektugrul.simpleservertools.features.language;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import me.despical.commons.configuration.ConfigUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
@@ -25,7 +26,7 @@ public class LanguageManager {
         try {
             language = ConfigUtils.getConfig(plugin, "language" + s + "messages_" + languageString);
         } catch (IllegalArgumentException ignored) {
-            plugin.getLogger().warning("§cYou have chosen a non-existent language. Please check our Spigot page and use one of available languages. Plugin will use EN language.");
+            plugin.getLogger().warning(ChatColor.RED + "You have chosen a non-existent language. Please check our Spigot page and use one of available languages. Plugin will use EN language.");
             languageString = "en";
             language = ConfigUtils.getConfig(plugin, "language" + s + "messages_" + languageString);
         }
