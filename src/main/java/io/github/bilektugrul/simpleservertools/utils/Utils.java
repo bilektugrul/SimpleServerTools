@@ -3,6 +3,7 @@ package io.github.bilektugrul.simpleservertools.utils;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.language.LanguageManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
+import io.github.bilektugrul.simpleservertools.stuff.MessageType;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commons.compat.Titles;
 import net.md_5.bungee.api.ChatColor;
@@ -25,6 +26,10 @@ public class Utils {
 
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
 
+    public static String getMessage(String string) {
+        return getString(languageManager.getLanguage(), "messages." + string, null, false, false);
+    }
+
     public static String getMessage(String string, CommandSender from) {
         return getString(languageManager.getLanguage(), "messages." + string, from);
     }
@@ -46,6 +51,10 @@ public class Utils {
     }
 
     public static String getString(FileConfiguration file, String string, CommandSender from, boolean replacePersonalPlaceholders) {
+        return replacePlaceholders(file.getString(string), from, replacePersonalPlaceholders);
+    }
+
+    public static String getString(FileConfiguration file, String string, CommandSender from, boolean replacePersonalPlaceholders, boolean replacePAPI) {
         return replacePlaceholders(file.getString(string), from, replacePersonalPlaceholders);
     }
 
@@ -105,17 +114,17 @@ public class Utils {
         return (loc1.getBlockX() == loc2.getBlockX()) && (loc1.getBlockY() == loc2.getBlockY()) && (loc1.getBlockZ() == loc2.getBlockZ());
     }
 
-    public static void sendMessage(Player p, String mode, String msg, String subtitle, String time) {
+    public static void sendMessage(Player p, MessageType mode, String msg, String subtitle, String time) {
         msg = msg.replace("%time%", time);
         subtitle = subtitle.replace("%time%", time) ;
         switch (mode) {
-            case "CHAT":
+            case CHAT:
                 p.sendMessage(msg);
                 break;
-            case "TITLE":
-                Titles.sendTitle(p, msg, subtitle);
+            case TITLE:
+                Titles.sendTitle(p, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"), msg, subtitle);
                 break;
-            case "ACTIONBAR":
+            case ACTIONBAR:
                 ActionBar.sendActionBar(p, msg.replace('\n', ' '));
                 break;
         }

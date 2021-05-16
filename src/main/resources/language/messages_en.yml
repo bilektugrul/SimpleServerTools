@@ -19,6 +19,14 @@ messages:
   config-reloaded: '%prefix% &eEverything has been reloaded, %player%!'
   wrong-usage: '%prefix% &cWrong usage. /sst help'
 
+  user-statuses:
+    tpa:
+      true: ACCEPTS
+      false: NOT ACCEPTS
+    msg:
+      true: ACCEPTS
+      false: NOT ACCEPTS
+
   vanish:
     activated: '%prefix% &eVanish mode: &bENABLED'
     disabled: '%prefix% &eVanish mode: &cDISABLED'

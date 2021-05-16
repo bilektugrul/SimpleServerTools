@@ -40,6 +40,11 @@ auto-respawn:
   enabled: true # removes respawn screen
   permission-required: false # sst.autorespawn
 
+titles: # Settings for title messages that are used in language files.
+  fade-in: 0
+  stay: 30
+  fade-out: 0
+
 warps:
   tab-complete: true # warp list will be sent to players when they click TAB. (they can not see warps with permissions if they don't have the permission.)
   teleport-time: 5 # in seconds

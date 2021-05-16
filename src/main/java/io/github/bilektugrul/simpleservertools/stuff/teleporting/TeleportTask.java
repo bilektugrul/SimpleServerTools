@@ -2,6 +2,7 @@ package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
+import io.github.bilektugrul.simpleservertools.stuff.MessageType;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.users.UserState;
@@ -24,10 +25,10 @@ public class TeleportTask extends BukkitRunnable {
     private final boolean isStaff;
     private int time;
     private String teleportingMsg;
-    private final String teleportingMode;
+    private final MessageType teleportingMode;
     private String teleportingSub;
     private String teleportedMsg;
-    private final String teleportedMode;
+    private final MessageType teleportedMode;
     private String teleportedSub;
     private final Location firstLoc;
     private final Location finalLoc;
@@ -49,11 +50,11 @@ public class TeleportTask extends BukkitRunnable {
                 : settings.getTime();
 
         teleportingMsg = Utils.getMessage("" + mode + ".teleporting.message", player);
-        teleportingMode = Utils.getMessage("" + mode + ".teleporting.mode", player);
+        teleportingMode = MessageType.valueOf(Utils.getMessage("" + mode + ".teleporting.mode", player));
         teleportingSub = "";
 
         teleportedMsg = Utils.getMessage("" + mode + ".teleported.message", player);
-        teleportedMode = Utils.getMessage("" + mode +".teleported.mode", player);
+        teleportedMode = MessageType.valueOf(Utils.getMessage("" + mode +".teleported.mode", player));
         teleportedSub = "";
 
         firstLoc = player.getLocation();
@@ -81,7 +82,7 @@ public class TeleportTask extends BukkitRunnable {
             teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo);
         }
 
-        if ((teleportingMode.equalsIgnoreCase("TITLE") && teleportingMsg.contains("\n"))) {
+        if ((teleportingMode == MessageType.TITLE && teleportingMsg.contains("\n"))) {
             int index = teleportingMsg.indexOf("\n");
             try {
                 teleportingSub = teleportingMsg.split("\n")[1];
@@ -90,7 +91,7 @@ public class TeleportTask extends BukkitRunnable {
             }
             teleportingMsg = teleportingMsg.substring(0, index);
         }
-        if (teleportedMode.equalsIgnoreCase("TITLE") && teleportedMsg.contains("\n")) {
+        if (teleportedMode == MessageType.TITLE && teleportedMsg.contains("\n")) {
             int index = teleportedMsg.indexOf("\n");
             try {
                 teleportedSub = teleportedMsg.split("\n")[1];

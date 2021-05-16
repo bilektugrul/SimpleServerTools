@@ -33,6 +33,14 @@ messages:
   config-reloaded: '%prefix% &eAyar dosyası başarıyla yenilendi %player%!'
   wrong-usage: '%prefix% &cHatalı kullanım. /sst help'
 
+  user-statuses:
+    tpa:
+      true: KABUL EDIYOR
+      false: KABUL ETMIYOR
+    msg:
+      true: KABUL EDIYOR
+      false: KABUL ETMIYOR
+
   vanish:
     activated: '%prefix% &eVanish modu: &bAktif'
     disabled: '%prefix% &eVanish modu: &cKapalı'
