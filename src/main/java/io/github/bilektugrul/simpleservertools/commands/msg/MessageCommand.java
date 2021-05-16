@@ -49,6 +49,10 @@ public class MessageCommand implements CommandExecutor {
         if (label.startsWith("r") || label.equalsIgnoreCase("yanıt")) {
             reply = true;
             to = replyList.get(sender.getName());
+            if (to == null) {
+                sender.sendMessage(Utils.getMessage("msg.no-reply-player", sender));
+                return true;
+            }
         }
 
         Player toPlayer = Bukkit.getPlayer(to);

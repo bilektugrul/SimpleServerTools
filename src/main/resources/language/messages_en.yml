@@ -196,6 +196,7 @@ messages:
     closed-self: '%prefix% &cYou can not send messages, you have closed incoming messages.'
     closed: '%prefix% &3%to% &cdoes not accept incoming messages.'
     not-found: '%prefix% &cThat player is not online.'
+    no-reply-player: '%prefix% &cYou did not send any message to any player in this session.'
     modes:
       false: '&cwill not receieve any messages'
       true: '&awill receive every message'

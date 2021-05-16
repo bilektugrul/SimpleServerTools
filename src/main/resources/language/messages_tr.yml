@@ -210,6 +210,7 @@ messages:
     closed-self: '%prefix% &cMesaj almayı kapattığın için mesaj yollayamazsın.'
     closed: '%prefix% &3%to% &cadlı oyuncu mesaj almayı kapattığı için mesaj yollayamazsın.'
     not-found: '%prefix% &cBu oyuncu aktif değil.'
+    no-reply-player: '%prefix% &cBu oturumda kimseye mesaj yollamamışsınız.'
     modes:
       false: '&calmıyorsun'
       true: '&aalıyorsun'
