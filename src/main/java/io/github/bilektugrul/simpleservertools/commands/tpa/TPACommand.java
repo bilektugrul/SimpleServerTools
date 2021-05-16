@@ -77,6 +77,8 @@ public class TPACommand implements CommandExecutor {
             } else {
                 p.sendMessage(Utils.getMessage("tpa.not-found", p));
             }
+        } else {
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
     }

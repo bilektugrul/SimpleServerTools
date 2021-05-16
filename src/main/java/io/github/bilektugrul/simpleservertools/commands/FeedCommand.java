@@ -18,7 +18,7 @@ public class FeedCommand implements CommandExecutor {
             return true;
         }
 
-        Player feedPlayer;
+        Player feedPlayer = null;
 
         if (args.length >= 1) {
             if (sender.hasPermission("sst.feed.others")) {
@@ -29,7 +29,9 @@ public class FeedCommand implements CommandExecutor {
             }
         } else if (sender instanceof Player) {
             feedPlayer = (Player) sender;
-        } else {
+        }
+
+        if (feedPlayer == null) {
             sender.sendMessage(Utils.getMessage("feed.not-found", sender));
             return true;
         }

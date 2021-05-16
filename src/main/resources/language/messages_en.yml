@@ -219,7 +219,7 @@ messages:
 
   clear-chat:
     lines: 100
-    cleared: '%prefix% &3Chat has been cleaned by &b%executor% &3.' # if you set this message to '', it won't be broadcasted.
+    cleared: '%prefix% &3Chat has been cleaned by &b%executor%&3.' # if you set this message to '', it won't be broadcasted.
     for-staffs:
       enabled: true # true = staffs' chat won't be cleaned.
 

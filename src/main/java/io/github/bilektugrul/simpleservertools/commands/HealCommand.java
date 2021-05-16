@@ -18,7 +18,7 @@ public class HealCommand implements CommandExecutor {
             return true;
         }
 
-        Player healPlayer;
+        Player healPlayer = null;
 
         if (args.length >= 1) {
             if (sender.hasPermission("sst.heal.others")) {
@@ -29,7 +29,9 @@ public class HealCommand implements CommandExecutor {
             }
         } else if (sender instanceof Player) {
             healPlayer = (Player) sender;
-        } else {
+        }
+
+        if (healPlayer == null) {
             sender.sendMessage(Utils.getMessage("heal.not-found", sender));
             return true;
         }
