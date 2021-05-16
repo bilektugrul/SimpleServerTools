@@ -42,11 +42,19 @@ public class FlyCommand implements CommandExecutor {
     }
 
     public void change(CommandSender from, Player flightPlayer, boolean newMode) {
+
+        boolean isSame = from.equals(flightPlayer);
+
+        if (!isSame && !from.hasPermission("sst.fly.others")) {
+            from.sendMessage(Utils.getMessage("no-permission", from));
+            return;
+        }
+
         flightPlayer.setAllowFlight(newMode);
         flightPlayer.setFlying(newMode);
         flightPlayer.sendMessage(Utils.getMessage("fly.toggled", flightPlayer)
                 .replace("%flymode%", Utils.getMessage("fly.modes." + newMode, from)));
-        if (!from.equals(flightPlayer)) {
+        if (!isSame) {
             from.sendMessage(Utils.getMessage("fly.toggled-other", from)
                     .replace("%other%", flightPlayer.getName())
                     .replace("%flymode%", Utils.getMessage("fly.modes." + newMode, from)));

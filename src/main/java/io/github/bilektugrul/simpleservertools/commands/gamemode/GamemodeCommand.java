@@ -65,7 +65,7 @@ public class GamemodeCommand implements CommandExecutor {
     }
 
     private boolean canChange(CommandSender sender, GameMode gamemode) {
-        return sender.hasPermission("sst.gamemode.*") || sender.hasPermission("sst.gamemode." + gamemode.name().toLowerCase(Locale.ROOT));
+        return sender.hasPermission("sst.gamemode.all") || sender.hasPermission("sst.gamemode.*") || sender.hasPermission("sst.gamemode." + gamemode.name().toLowerCase(Locale.ROOT));
     }
 
 }

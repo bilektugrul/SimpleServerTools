@@ -18,10 +18,15 @@ public class HealCommand implements CommandExecutor {
             return true;
         }
 
-        Player healPlayer = null;
+        Player healPlayer;
 
         if (args.length >= 1) {
-            healPlayer = Bukkit.getPlayer(args[0]);
+            if (sender.hasPermission("sst.heal.others")) {
+                healPlayer = Bukkit.getPlayer(args[0]);
+            } else {
+                sender.sendMessage(Utils.getMessage("no-permission", sender));
+                return true;
+            }
         } else if (sender instanceof Player) {
             healPlayer = (Player) sender;
         } else {

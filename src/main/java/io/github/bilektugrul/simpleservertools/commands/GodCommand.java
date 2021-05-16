@@ -47,6 +47,14 @@ public class GodCommand implements CommandExecutor {
     }
 
     public void change(CommandSender from, Player godPlayer, User godUser, boolean newMode) {
+
+        boolean isSame = from.equals(godPlayer);
+
+        if (!isSame && !from.hasPermission("sst.god.others")) {
+            from.sendMessage(Utils.getMessage("no-permission", from));
+            return;
+        }
+
         godUser.setGod(newMode);
         godPlayer.sendMessage(Utils.getMessage("god.toggled", godPlayer)
                 .replace("%godmode%", Utils.getMessage("god.modes." + newMode, from)));

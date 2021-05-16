@@ -21,7 +21,12 @@ public class FeedCommand implements CommandExecutor {
         Player feedPlayer;
 
         if (args.length >= 1) {
-            feedPlayer = Bukkit.getPlayer(args[0]);
+            if (sender.hasPermission("sst.feed.others")) {
+                feedPlayer = Bukkit.getPlayer(args[0]);
+            } else {
+                sender.sendMessage(Utils.getMessage("no-permission", sender));
+                return true;
+            }
         } else if (sender instanceof Player) {
             feedPlayer = (Player) sender;
         } else {
