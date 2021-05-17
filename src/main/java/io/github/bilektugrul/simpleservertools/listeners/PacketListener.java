@@ -9,6 +9,7 @@ import com.comphenix.protocol.wrappers.WrappedServerPing;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,12 +25,13 @@ public class PacketListener extends PacketAdapter {
         super(plugin, ListenerPriority.LOWEST, PacketType.Status.Server.SERVER_INFO);
         this.plugin = plugin;
         this.vanishManager = plugin.getVanishManager();
+        plugin.getLogger().info(ChatColor.GREEN + "PacketListener enabled!");
     }
 
     @Override
     public void onPacketSending(PacketEvent event) {
         WrappedServerPing ping = event.getPacket().getServerPings().read(0);
-        Collection<UUID> vanishedPlayers = vanishManager.getVanishedPlayers();
+        Collection<UUID> vanishedPlayers = vanishManager.getOnlineVanishedPlayers();
 
         int size = plugin.getServer().getOnlinePlayers().size();
         int vanishedSize = vanishedPlayers.size();

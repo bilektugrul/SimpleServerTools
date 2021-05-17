@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolManager;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.listeners.PacketListener;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 public class PLibManager {
 
@@ -16,7 +17,7 @@ public class PLibManager {
                 manager.removePacketListeners(plugin);
                 manager.addPacketListener(new PacketListener(plugin));
             } else {
-                plugin.getLogger().warning("SimpleServerTools requires ProtocolLib for removing players from client player " +
+                plugin.getLogger().warning(ChatColor.RED + "SimpleServerTools requires ProtocolLib for removing players from client player " +
                         "list and changing max player - player count but you don't have ProtocolLib.");
             }
         }

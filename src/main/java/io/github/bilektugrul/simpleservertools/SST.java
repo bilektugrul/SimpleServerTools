@@ -39,6 +39,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SST extends JavaPlugin {
@@ -64,6 +65,7 @@ public class SST extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        float start = System.currentTimeMillis();
         saveDefaultConfig();
         logger = getLogger();
         logger.info(ChatColor.GREEN + "SimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
@@ -133,7 +135,7 @@ public class SST extends JavaPlugin {
             new Metrics(this, 11344);
         }
         checkUpdate();
-        logger.info(ChatColor.GREEN + "Enabling process is done, enjoy!");
+        logger.log(Level.INFO, ChatColor.GREEN + "Enabling process is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
     }
 
     @Override
