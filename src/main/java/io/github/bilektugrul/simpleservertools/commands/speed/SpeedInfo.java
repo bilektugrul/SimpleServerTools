@@ -54,7 +54,7 @@ public class SpeedInfo {
     }
 
     public void apply() {
-        if (matchMode() == SpeedMode.WALK) player.setWalkSpeed(speed);
+        if (mode == SpeedMode.WALK) player.setWalkSpeed(speed);
         else player.setFlySpeed(speed);
         player.sendMessage(Utils.getMessage("speed.changed", player)
                 .replace("%mode%", Utils.getMessage("speed.modes." + mode.name(), player))
