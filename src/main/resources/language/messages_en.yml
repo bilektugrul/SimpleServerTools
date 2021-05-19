@@ -226,3 +226,14 @@ messages:
 
   ender-chest:
     not-found: '%prefix% &cThat player is not online.'
+
+  spy:
+    prefix: '&8[SPY]&r'
+    toggled: '%prefix% &3Your social spy mode is now %newmode%.'
+    toggled-other: '%prefix% &3Social spy mode of &b%other% &3is now %newmode%.'
+    list: '%prefix% &3Spy list: &b%list%'
+    no-spy: '&cThere is no spy.'
+    not-online: '%prefix% &3That player is not online.'
+    modes:
+      true: '&benabled'
+      false: '&cdisabled'

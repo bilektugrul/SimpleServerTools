@@ -86,6 +86,8 @@ commands:
     aliases: [craftingtable, workbench, crafttable, çalışmamasası]
   top:
     aliases: [highestblock, topblock, enyüksekblok]
+  spy:
+    aliases: [socialspy]
 permissions:
   sst.*:
     default: op
@@ -158,4 +160,6 @@ permissions:
       sst.craft:
         default: op
       sst.top:
+        default: op
+      sst.socialspy:
         default: op

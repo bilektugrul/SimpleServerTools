@@ -21,6 +21,7 @@ import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceM
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.PAPIPlaceholders;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
+import io.github.bilektugrul.simpleservertools.features.spy.SpyManager;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
@@ -56,6 +57,7 @@ public class SST extends JavaPlugin {
     private TeleportManager teleportManager;
     private AnnouncementManager announcementManager;
     private MaintenanceManager maintenanceManager;
+    private SpyManager spyManager;
 
     private AsyncUserSaveThread asyncUserSaveThread;
 
@@ -80,6 +82,7 @@ public class SST extends JavaPlugin {
         tpaManager = new TPAManager(this);
         maintenanceManager = new MaintenanceManager(this);
         vanishManager = new VanishManager();
+        spyManager = new SpyManager();
         if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
@@ -126,6 +129,7 @@ public class SST extends JavaPlugin {
         getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
         getCommand("skull").setExecutor(new SkullCommand(this));
         getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
+        getCommand("spy").setExecutor(new SocialSpyCommand(this));
         reload(true);
         if (Utils.getBoolean("auto-save-users")) {
             asyncUserSaveThread = new AsyncUserSaveThread(this);
@@ -230,6 +234,14 @@ public class SST extends JavaPlugin {
         return maintenanceManager;
     }
 
+    public LanguageManager getLanguageManager() {
+        return languageManager;
+    }
+
+    public SpyManager getSpyManager() {
+        return spyManager;
+    }
+
     public void checkAndLoadPacketListener() {
         if (pluginManager.isPluginEnabled("ProtocolLib")) {
             PLibManager.loadPacketListener(this);
@@ -256,10 +268,6 @@ public class SST extends JavaPlugin {
                 asyncUserSaveThread.cancel();
             }
         }
-    }
-
-    public LanguageManager getLanguageManager() {
-        return languageManager;
     }
 
 }

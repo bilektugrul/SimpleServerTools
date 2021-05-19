@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools.commands.msg;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.features.spy.SpyManager;
 import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
@@ -18,14 +19,16 @@ import java.util.UUID;
 
 public class MessageCommand implements CommandExecutor {
 
-    private final HashMap<String, String> replyList = new HashMap<>();
+    private final HashMap<String, String> replyMap = new HashMap<>();
 
     private final UserManager userManager;
     private final VanishManager vanishManager;
+    private final SpyManager spyManager;
 
     public MessageCommand(SST plugin) {
         userManager = plugin.getUserManager();
         vanishManager = plugin.getVanishManager();
+        spyManager = plugin.getSpyManager();
     }
 
     @Override
@@ -48,7 +51,7 @@ public class MessageCommand implements CommandExecutor {
 
         if (label.startsWith("r") || label.equalsIgnoreCase("yanıt")) {
             reply = true;
-            to = replyList.get(sender.getName());
+            to = replyMap.get(sender.getName());
             if (to == null) {
                 sender.sendMessage(Utils.getMessage("msg.no-reply-player", sender));
                 return true;
@@ -91,13 +94,15 @@ public class MessageCommand implements CommandExecutor {
 
         if (!reply && args.length == 1) {
             sender.sendMessage(Utils.getMessage("msg.wrong-usage", sender));
-        } else {
-            format = format.replace("%to%", toPlayerName)
-                    .replace("%msg%", String.join(" ", Arrays.copyOfRange(args, reply ? 0 : 1, args.length)));
-            toPlayer.sendMessage(format);
-            sender.sendMessage(format);
-            replyList.put(sender.getName(), toPlayerName);
+            return true;
         }
+
+        format = format.replace("%to%", toPlayerName)
+                .replace("%msg%", String.join(" ", Arrays.copyOfRange(args, reply ? 0 : 1, args.length)));
+        toPlayer.sendMessage(format);
+        sender.sendMessage(format);
+        spyManager.sendMessageToSpies(format, sender, toPlayer);
+        replyMap.put(sender.getName(), toPlayerName);
         return true;
     }
 

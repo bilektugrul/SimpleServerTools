@@ -240,3 +240,14 @@ messages:
 
   ender-chest:
     not-found: '%prefix% &cÜzgünüm ancak bu oyuncuyu bulamadım.'
+
+  spy:
+    prefix: '&8[SPY]&r'
+    toggled: '%prefix% &3Social spy modun %newmode%.'
+    toggled-other: '%prefix% &b%other% &3adlı oyuncunun social spy modu artık %newmode%.'
+    list: '%prefix% &3Spy listesi: &b%list%'
+    no-spy: '&cHiç spy yok.'
+    not-online: '%prefix% &3Bu oyuncu aktif değil.'
+    modes:
+      true: '&baktif'
+      false: '&ckapalı'

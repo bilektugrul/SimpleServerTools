@@ -11,8 +11,6 @@ public class SpeedInfo {
     private float speed;
     private SpeedMode mode;
 
-    public SpeedInfo() {}
-
     public SpeedInfo setExecutor(CommandSender executor) {
         this.executor = executor;
         return this;
