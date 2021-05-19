@@ -217,7 +217,8 @@ messages:
 
   speed:
     wrong-usage: '%prefix% &cKomutu hatalı kullandın. Doğru kullanım: &b/speed [walk/fly] <hız> [<oyuncu>]'
-    changed: '%prefix% &b%mode% &3modunda hızın değiştirildi. Yeni hızın: &b%newSpeed%'
+    changed: '%prefix% &b%mode% &3modunda hızın değiştirildi. Yeni hızın: &b%newspeed%'
+    changed-other: '%prefix% &b%other% &3adlı oyuncunun &b%mode% &3modundaki hızı değiştirildi. Yeni hızı: &b%newspeed%'
     not-found: '%prefix% &cBu oyuncuyu bulamadım.'
     modes:
       WALK: Yürüme

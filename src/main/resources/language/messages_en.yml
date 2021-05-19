@@ -204,6 +204,7 @@ messages:
   speed:
     wrong-usage: '%prefix% &cWrong usage. Correct usage: &b/speed [walk/fly] <speed> [<player>]'
     changed: '%prefix% &b%mode% &3speed has been changed. New speed: &b%newspeed%'
+    changed-other: '%prefix% &b%mode% &3speed for &b%other% &3has been changed. New speed: &b%newspeed%'
     not-found: '%prefix% &cThat player is not online.'
     modes:
       WALK: WALK

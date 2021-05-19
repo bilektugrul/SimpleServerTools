@@ -14,53 +14,41 @@ public class SpeedCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.speed")) {
-            Player player = (Player) sender;
-            String wrongUsage = Utils.getMessage("speed.wrong-usage", player);
-            if (args.length >= 1) {
-                SpeedInfo info = new SpeedInfo(player);
-                if (args.length == 1) {
-                    try {
-                        info.setSpeed(Float.parseFloat(args[0]));
-                    } catch (NumberFormatException ignored) {
-                        player.sendMessage(wrongUsage);
-                        return true;
-                    }
-                    info.apply();
-                } else {
-                    SpeedMode mode = matchMode(args[0]);
-                    if (mode != null) {
-                        info.setMode(mode);
-                        if (args.length == 3) {
-                            Player otherPlayer = Bukkit.getPlayer(args[2]);
-                            if (otherPlayer != null) info.setPlayer(otherPlayer);
-                            else {
-                                player.sendMessage(Utils.getMessage("speed.not-found", player));
-                                return true;
-                            }
-                        }
-                        try {
-                            info.setSpeed(Float.parseFloat(args[1]));
-                        } catch (NumberFormatException ignored) {
-                            player.sendMessage(wrongUsage);
-                            return true;
-                        }
-                        info.apply();
-                    } else {
-                        player.sendMessage(wrongUsage);
-                    }
-                }
-            } else {
-                player.sendMessage(wrongUsage);
-            }
-        } else {
+        if (!sender.hasPermission("sst.speed")) {
             sender.sendMessage(Utils.getMessage("no-permission", sender));
+            return true;
         }
+
+        if (args.length == 0) {
+            sender.sendMessage(Utils.getMessage("speed.wrong-usage", sender));
+            return true;
+        }
+
+        SpeedUsage usage = args.length >= 2 ? SpeedUsage.ADVANCED : SpeedUsage.BASIC;
+
+        new SpeedInfo().setExecutor(sender)
+                .setPlayer(args.length == 3 ? Bukkit.getPlayer(args[2]) : sender instanceof Player ? (Player) sender : null)
+                .setMode(matchMode(args[0])) // apply() method will take care of mode if this returns null
+                .setSpeed(usage == SpeedUsage.BASIC ? args[0] : args[1])
+                .apply();
+
         return true;
     }
 
     private SpeedMode matchMode(String s) {
-        return s.toLowerCase(Locale.ROOT).contains("walk") ? SpeedMode.WALK : SpeedMode.FLY;
+        s = s.toLowerCase(Locale.ROOT);
+        if (s.equals("walk")) {
+            return SpeedMode.WALK;
+        } else if (s.equals("fly")) {
+            return SpeedMode.FLY;
+        }
+        return null;
+    }
+
+    public enum SpeedUsage {
+
+        BASIC, ADVANCED
+
     }
 
 }
