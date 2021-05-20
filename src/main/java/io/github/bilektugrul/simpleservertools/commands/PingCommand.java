@@ -18,13 +18,7 @@ public class PingCommand implements CommandExecutor {
             return true;
         }
 
-        Player pingPlayer = null;
-
-        if (args.length >= 1) {
-            pingPlayer = Bukkit.getPlayer(args[0]);
-        } else if (sender instanceof Player) {
-            pingPlayer = (Player) sender;
-        }
+        Player pingPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
 
         if (pingPlayer == null) {
             sender.sendMessage(Utils.getMessage("ping.not-found", sender));

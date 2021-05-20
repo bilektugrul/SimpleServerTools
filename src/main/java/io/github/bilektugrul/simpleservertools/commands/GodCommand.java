@@ -21,28 +21,23 @@ public class GodCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.god")) {
-            Player godPlayer = null;
-            boolean argGodMode = false;
-            if (args.length >= 1) {
-                godPlayer = Bukkit.getPlayer(args[0]);
-                if (args.length >= 2) {
-                    argGodMode = true;
-                }
-            }
-            if (godPlayer == null && sender instanceof Player) godPlayer = (Player) sender;
-            if (godPlayer != null) {
-                User godUser = userManager.getUser(godPlayer);
-                if (argGodMode) {
-                    boolean newMode = Utils.matchMode(args[1]);
-                    change(sender, godPlayer, godUser, newMode);
-                } else {
-                    change(sender, godPlayer, godUser, !godUser.isGod());
-                }
-            } else {
-                sender.sendMessage(Utils.getMessage("god.type-player", sender));
-            }
+        if (!sender.hasPermission("sst.god")) {
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            return true;
         }
+
+        Player godPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
+
+        boolean argGodMode = args.length >= 2;
+
+        if (godPlayer == null) {
+            sender.sendMessage(Utils.getMessage("god.type-player", sender));
+            return true;
+        }
+
+        User godUser = userManager.getUser(godPlayer);
+        if (argGodMode) change(sender, godPlayer, godUser, Utils.matchMode(args[1]));
+        else change(sender, godPlayer, godUser, !godUser.isGod());
         return true;
     }
 
