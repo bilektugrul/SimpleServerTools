@@ -33,6 +33,8 @@ messages:
   config-reloaded: '%prefix% &eAyar dosyası başarıyla yenilendi %player%!'
   wrong-usage: '%prefix% &cHatalı kullanım. /sst help'
 
+  command-blocked: '%prefix% &cIşınlanıyorken komut kullanamazsın.'
+
   user-statuses:
     tpa:
       true: KABUL EDIYOR

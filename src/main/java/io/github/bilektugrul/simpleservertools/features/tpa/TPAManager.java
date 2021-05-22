@@ -82,14 +82,19 @@ public class TPAManager {
 
     public void loadSettings() {
         final int time = Utils.getInt("tpa.teleport-time");
+
         final boolean blockMove = Utils.getBoolean("tpa.cancel-when-move.settings.block-move");
+        final boolean blockCommands = Utils.getBoolean("tpa.block-commands.enabled");
         final boolean cancelTeleportOnMove = Utils.getBoolean("tpa.cancel-when-move.settings.cancel-teleport");
-        final CancelMode cancelMoveMode = CancelMode.valueOf(Utils.getString("tpa.cancel-when-move.mode", null));
         final boolean blockDamage = Utils.getBoolean("tpa.cancel-damage.settings.block-damage");
         final boolean cancelTeleportOnDamage = Utils.getBoolean("tpa.cancel-damage.settings.cancel-teleport");
-        final CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("tpa.cancel-damage.mode", null));
         final boolean staffBypassTime = Utils.getBoolean("tpa.staff-bypass-time");
-        settings = new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
+
+        final CancelMode cancelMoveMode = CancelMode.valueOf(Utils.getString("tpa.cancel-when-move.mode", null));
+        final CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("tpa.cancel-damage.mode", null));
+        final CancelMode cancelCommandsMode = CancelMode.valueOf(Utils.getString("tpa.cancel-damage.mode", null));
+
+        settings = new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime, blockCommands, cancelCommandsMode);
     }
     
     public TeleportSettings getSettings() {

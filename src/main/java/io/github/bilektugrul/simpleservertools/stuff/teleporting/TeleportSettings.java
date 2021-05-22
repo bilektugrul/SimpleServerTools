@@ -5,10 +5,10 @@ import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 public class TeleportSettings {
 
     private final int time;
-    private final CancelMode cancelMoveMode, cancelDamageMode;
-    private final boolean blockMove, cancelTeleportOnMove, blockDamage, cancelTeleportOnDamage, staffBypassTime;
+    private final CancelMode cancelMoveMode, cancelDamageMode, cancelCommandsMode;
+    private final boolean blockMove, cancelTeleportOnMove, blockDamage, cancelTeleportOnDamage, staffBypassTime, blockCommands;
 
-    public TeleportSettings(int time, boolean blockMove, boolean cancelTeleportOnMove, CancelMode cancelMoveMode, boolean blockDamage, boolean cancelTeleportOnDamage, CancelMode cancelDamageMode, boolean staffBypassTime) {
+    public TeleportSettings(int time, boolean blockMove, boolean cancelTeleportOnMove, CancelMode cancelMoveMode, boolean blockDamage, boolean cancelTeleportOnDamage, CancelMode cancelDamageMode, boolean staffBypassTime, boolean blockCommands, CancelMode cancelCommandsMode) {
         this.time = time;
         this.blockMove = blockMove;
         this.cancelTeleportOnMove = cancelTeleportOnMove;
@@ -17,6 +17,8 @@ public class TeleportSettings {
         this.cancelTeleportOnDamage = cancelTeleportOnDamage;
         this.cancelDamageMode = cancelDamageMode;
         this.staffBypassTime = staffBypassTime;
+        this.blockCommands = blockCommands;
+        this.cancelCommandsMode = cancelCommandsMode;
     }
 
     public int getTime() {
@@ -49,6 +51,14 @@ public class TeleportSettings {
 
     public boolean getStaffBypassTime() {
         return staffBypassTime;
+    }
+
+    public boolean getBlockCommands() {
+        return blockCommands;
+    }
+
+    public CancelMode getCancelCommandsMode() {
+        return cancelCommandsMode;
     }
 
 }

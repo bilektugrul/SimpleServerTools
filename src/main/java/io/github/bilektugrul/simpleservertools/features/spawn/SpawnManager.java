@@ -62,14 +62,19 @@ public class SpawnManager {
     public TeleportSettings getSettings() {
         if (!isPresent()) {
             final int time = spawnFile.getInt("spawn.command.teleport.time");
+
             final boolean blockMove = spawnFile.getBoolean("spawn.command.teleport.cancel-when-move.settings.block-move");
+            final boolean blockCommands = spawnFile.getBoolean("spawn.command.teleport.block-commands.enabled");
             final boolean cancelTeleportOnMove = spawnFile.getBoolean("spawn.command.teleport.cancel-when-move.settings.cancel-teleport");
-            final CancelMode cancelMoveMode = CancelMode.valueOf(spawnFile.getString("spawn.command.teleport.cancel-when-move.mode"));
             final boolean blockDamage = spawnFile.getBoolean("spawn.command.teleport.cancel-damage.settings.block-damage");
             final boolean cancelTeleportOnDamage = spawnFile.getBoolean("spawn.command.teleport.cancel-damage.settings.cancel-teleport");
-            final CancelMode cancelDamageMode = CancelMode.valueOf(spawnFile.getString("spawn.command.teleport.cancel-damage.mode"));
             final boolean staffBypassTime = spawnFile.getBoolean("spawn.command.teleport.staff-bypass-time");
-            return new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime);
+
+            final CancelMode cancelMoveMode = CancelMode.valueOf(spawnFile.getString("spawn.command.teleport.cancel-when-move.mode"));
+            final CancelMode cancelDamageMode = CancelMode.valueOf(spawnFile.getString("spawn.command.teleport.cancel-damage.mode"));
+            final CancelMode cancelCommandsMode = CancelMode.valueOf(spawnFile.getString("spawn.command.teleport.block-commands.mode"));
+
+            return new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime, blockCommands, cancelCommandsMode);
         }
         return spawn.getSettings();
     }

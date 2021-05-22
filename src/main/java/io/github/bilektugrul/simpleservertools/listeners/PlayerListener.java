@@ -13,7 +13,6 @@ import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
-import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
@@ -26,10 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -174,31 +170,6 @@ public class PlayerListener implements Listener {
         }
     }
 
-    private boolean getCancelState(User user) {
-        UserState state = user.getState();
-        TeleportSettings settings;
-        switch (state) {
-            case TELEPORTING:
-                settings = warpManager.getSettings();
-                break;
-            case TELEPORTING_SPAWN:
-                settings = spawnManager.getSettings();
-                break;
-            case TELEPORTING_PLAYER:
-                settings = tpaManager.getSettings();
-                break;
-            default:
-                return false;
-        }
-        final boolean isStaff = user.getPlayer().hasPermission("sst.staff");
-        final CancelMode damageCancelMode = settings.getCancelDamageMode();
-        if (damageCancelMode == CancelMode.EVERYONE || (damageCancelMode == CancelMode.EXCEPT_STAFF && !isStaff)) {
-            return true;
-        } else {
-            return damageCancelMode == CancelMode.STAFF && isStaff;
-        }
-    }
-
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDeath(PlayerDeathEvent e) {
         Player victim = e.getEntity();
@@ -212,6 +183,57 @@ public class PlayerListener implements Listener {
         }
         if (Utils.getBoolean("disable-death-messages")) {
             e.setDeathMessage("");
+        }
+    }
+
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent e) {
+        Player player = e.getPlayer();
+        User user = userManager.getUser(player);
+        TeleportSettings settings = getCurrentSettings(user);
+
+        if (settings != null && settings.getBlockCommands()) {
+
+            boolean isStaff = player.hasPermission("sst.staff");
+            CancelMode cancelCommandsMode = settings.getCancelCommandsMode();
+
+            if (cancelCommandsMode == CancelMode.EVERYONE || (cancelCommandsMode == CancelMode.EXCEPT_STAFF && !isStaff)) {
+                e.setCancelled(true);
+            } else {
+                e.setCancelled(cancelCommandsMode == CancelMode.STAFF && isStaff);
+            }
+            if (e.isCancelled()) {
+                player.sendMessage(Utils.getMessage("command-blocked", player));
+            }
+
+        }
+
+    }
+
+    private TeleportSettings getCurrentSettings(User user) {
+        switch (user.getState()) {
+            case TELEPORTING:
+                return warpManager.getSettings();
+            case TELEPORTING_SPAWN:
+                return spawnManager.getSettings();
+            case TELEPORTING_PLAYER:
+                return tpaManager.getSettings();
+            default:
+                return null;
+        }
+    }
+
+    private boolean getCancelState(User user) {
+        TeleportSettings settings = getCurrentSettings(user);
+        if (settings == null) {
+            return false;
+        }
+        final boolean isStaff = user.getPlayer().hasPermission("sst.staff");
+        final CancelMode damageCancelMode = settings.getCancelDamageMode();
+        if (damageCancelMode == CancelMode.EVERYONE || (damageCancelMode == CancelMode.EXCEPT_STAFF && !isStaff)) {
+            return true;
+        } else {
+            return damageCancelMode == CancelMode.STAFF && isStaff;
         }
     }
 

@@ -58,13 +58,15 @@ warps:
       block-move: true # if true, players can not move while teleporting.
       cancel-teleport: false # if true, teleportation process will be cancelled when they moved.
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
   cancel-damage:
     settings:
       block-damage: true
       cancel-teleport: false
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
+  block-commands:
+    enabled: true
+    mode: EVERYONE
+  # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
 tpa:
   accept-time: 10
@@ -75,13 +77,15 @@ tpa:
       block-move: true
       cancel-teleport: false
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
   cancel-damage:
     settings:
       block-damage: true
       cancel-teleport: false
     mode: EVERYONE
-    # Modes: EVERYONE, STAFF, EXCEPT_STAFF
+  block-commands:
+    enabled: true
+    mode: EVERYONE
+  # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
 disable-death-messages: false
 metrics-enabled: true # Sends some basic information about your server to bstats.org.

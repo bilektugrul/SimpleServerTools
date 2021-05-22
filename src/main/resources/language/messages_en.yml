@@ -19,6 +19,8 @@ messages:
   config-reloaded: '%prefix% &eEverything has been reloaded, %player%!'
   wrong-usage: '%prefix% &cWrong usage. /sst help'
 
+  command-blocked: '%prefix% &cYou cannot use commands while teleporting.'
+
   user-statuses:
     tpa:
       true: ACCEPTS

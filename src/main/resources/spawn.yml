@@ -13,10 +13,12 @@ spawn:
           block-move: true
           cancel-teleport: false
         mode: EVERYONE
-        # Modes: EVERYONE, STAFF, EXCEPT_STAFF
       cancel-damage:
         settings:
           block-damage: true
           cancel-teleport: false
         mode: EVERYONE
-        # Modes: EVERYONE, STAFF, EXCEPT_STAFF
+      block-commands:
+        enabled: true
+        mode: EVERYONE
+      # Modes: EVERYONE, STAFF, EXCEPT_STAFF
