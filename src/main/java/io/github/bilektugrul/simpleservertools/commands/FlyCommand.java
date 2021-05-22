@@ -17,24 +17,11 @@ public class FlyCommand implements CommandExecutor {
             return true;
         }
 
-        Player flightPlayer = null;
-        boolean argFlightMode = false;
+        Player flightPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
 
-        if (args.length >= 1) {
-            flightPlayer = Bukkit.getPlayer(args[0]);
-            if (args.length >= 2) {
-                argFlightMode = true;
-            }
-        }
-
-        if (flightPlayer == null && sender instanceof Player) flightPlayer = (Player) sender;
         if (flightPlayer != null) {
-            if (argFlightMode) {
-                boolean newMode = Utils.matchMode(args[1]);
-                change(sender, flightPlayer, newMode);
-            } else {
-                change(sender, flightPlayer, !flightPlayer.getAllowFlight());
-            }
+            boolean newFlightMode = args.length >= 2 ? Utils.matchMode(args[1]) : !flightPlayer.getAllowFlight();
+            change(sender, flightPlayer, newFlightMode);
         } else {
             sender.sendMessage(Utils.getMessage("fly.type-player", sender));
         }

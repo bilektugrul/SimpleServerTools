@@ -42,22 +42,25 @@ public class SpawnCommand implements CommandExecutor {
             return true;
         }
 
+        boolean argPresent = args.length > 0;
+
+        if (argPresent && !sender.hasPermission("sst.spawn.others")) {
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            return true;
+        }
+
         Spawn spawn = spawnManager.getSpawn();
         TeleportMode mode = new TeleportMode(Mode.SPAWN, null, spawn, null);
         final Location loc = spawn.getLocation();
 
-        if (args.length == 1 && sender.hasPermission("sst.spawn.others")) {
-            Player toTeleport = Bukkit.getPlayer(args[0]);
-            if (toTeleport != null) {
-                teleportManager.teleport(toTeleport, loc, mode, spawnManager.getSettings());
-            } else {
-                sender.sendMessage(Utils.getMessage("spawn.player-not-found", sender));
-            }
-        } else if (args.length == 0 && sender instanceof Player) {
-            teleportManager.teleport((Player) sender, loc, mode, spawnManager.getSettings());
-        } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+        Player toTeleport = argPresent ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
+
+        if (toTeleport == null) {
+            sender.sendMessage(Utils.getMessage("spawn.player-not-found", sender));
+            return true;
         }
+
+        teleportManager.teleport(toTeleport, loc, mode, spawnManager.getSettings());
         return true;
     }
 

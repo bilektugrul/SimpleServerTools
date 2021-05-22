@@ -18,35 +18,25 @@ public class HealCommand implements CommandExecutor {
             return true;
         }
 
-        Player healPlayer = null;
-
-        if (args.length >= 1) {
-            if (sender.hasPermission("sst.heal.others")) {
-                healPlayer = Bukkit.getPlayer(args[0]);
-            } else {
-                sender.sendMessage(Utils.getMessage("no-permission", sender));
-                return true;
-            }
-        } else if (sender instanceof Player) {
-            healPlayer = (Player) sender;
-        }
+        Player healPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
 
         if (healPlayer == null) {
             sender.sendMessage(Utils.getMessage("heal.not-found", sender));
             return true;
         }
 
-        heal(healPlayer);
-        if (healPlayer.equals(sender)) {
-            healPlayer.sendMessage(Utils.getMessage("heal.message", healPlayer));
-        } else {
-            sender.sendMessage(Utils.getMessage("heal.message-other", sender)
-                    .replace("%other%", healPlayer.getName()));
-        }
+        heal(healPlayer, sender);
         return true;
     }
 
-    private void heal(Player player)  {
+    private void heal(Player player, CommandSender from)  {
+
+        boolean isSame = player.equals(from);
+        if (!isSame && !from.hasPermission("sst.heal.others")) {
+            from.sendMessage(Utils.getMessage("no-permission", from));
+            return;
+        }
+
         double max = player.getMaxHealth();
         EntityRegainHealthEvent event = new EntityRegainHealthEvent(player, max, EntityRegainHealthEvent.RegainReason.CUSTOM);
         Bukkit.getServer().getPluginManager().callEvent(event);
@@ -54,6 +44,12 @@ public class HealCommand implements CommandExecutor {
             player.setFoodLevel(20);
             player.setHealth(max);
             player.setFireTicks(0);
+            if (isSame) {
+                player.sendMessage(Utils.getMessage("heal.message", player));
+            } else {
+                from.sendMessage(Utils.getMessage("heal.message-other", from)
+                        .replace("%other%", player.getName()));
+            }
         }
     }
 

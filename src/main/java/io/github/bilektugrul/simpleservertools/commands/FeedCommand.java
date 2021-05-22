@@ -18,36 +18,25 @@ public class FeedCommand implements CommandExecutor {
             return true;
         }
 
-        Player feedPlayer = null;
-
-        if (args.length >= 1) {
-            if (sender.hasPermission("sst.feed.others")) {
-                feedPlayer = Bukkit.getPlayer(args[0]);
-            } else {
-                sender.sendMessage(Utils.getMessage("no-permission", sender));
-                return true;
-            }
-        } else if (sender instanceof Player) {
-            feedPlayer = (Player) sender;
-        }
+        Player feedPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
 
         if (feedPlayer == null) {
             sender.sendMessage(Utils.getMessage("feed.not-found", sender));
             return true;
         }
 
-        feed(feedPlayer);
-
-        if (feedPlayer.equals(sender)) {
-            feedPlayer.sendMessage(Utils.getMessage("feed.message", feedPlayer));
-        } else {
-            sender.sendMessage(Utils.getMessage("feed.message-other", sender)
-                    .replace("%other%", feedPlayer.getName()));
-        }
+        feed(feedPlayer, sender);
         return true;
     }
 
-    private void feed(Player player)  {
+    private void feed(Player player, CommandSender from)  {
+
+        boolean isSame = player.equals(from);
+        if (!isSame && !from.hasPermission("sst.feed.others")) {
+            from.sendMessage(Utils.getMessage("no-permission", from));
+            return;
+        }
+
         int max = 30;
         FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, max);
         Bukkit.getServer().getPluginManager().callEvent(event);
@@ -55,6 +44,12 @@ public class FeedCommand implements CommandExecutor {
             player.setFoodLevel(Math.min(event.getFoodLevel(), 20));
             player.setSaturation(10);
             player.setExhaustion(0F);
+            if (isSame) {
+                player.sendMessage(Utils.getMessage("feed.message", player));
+            } else {
+                from.sendMessage(Utils.getMessage("feed.message-other", from)
+                        .replace("%other%", player.getName()));
+            }
         }
     }
 
