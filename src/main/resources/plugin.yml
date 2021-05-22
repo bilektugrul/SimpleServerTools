@@ -3,12 +3,15 @@ version: ${project.version}
 main: io.github.bilektugrul.simpleservertools.SST
 api-version: '1.13'
 prefix: 'SimpleServerTools'
+website: https://github.com/bilektugrul/SimpleServerTools
+
 softdepend:
   - PlaceholderAPI
   - ProtocolLib
   - Vault
 authors: [ bilektugrul, Despical ]
-description: Sunucunuz için temel sistemler ve komutlar.
+description: Basic tools and commands for your server.
+
 commands:
   simpleservertools:
     usage: /simpleservertools reload
@@ -88,6 +91,7 @@ commands:
     aliases: [highestblock, topblock, enyüksekblok]
   spy:
     aliases: [socialspy]
+
 permissions:
   sst.*:
     default: op
