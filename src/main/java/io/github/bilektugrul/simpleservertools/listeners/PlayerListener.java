@@ -26,6 +26,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -186,7 +187,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         User user = userManager.getUser(player);
@@ -203,6 +204,7 @@ public class PlayerListener implements Listener {
                 e.setCancelled(cancelCommandsMode == CancelMode.STAFF && isStaff);
             }
             if (e.isCancelled()) {
+                Bukkit.getScheduler().runTaskLater(plugin, () -> player.closeInventory(), 2); // fix stupid DeluxeMenus error - drives me crazy
                 player.sendMessage(Utils.getMessage("command-blocked", player));
             }
 
