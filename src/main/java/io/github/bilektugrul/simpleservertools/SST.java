@@ -71,6 +71,40 @@ public class SST extends JavaPlugin {
         saveDefaultConfig();
         logger = getLogger();
         logger.info(ChatColor.GREEN + "SimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
+
+        registerManagers();
+
+        pluginManager.registerEvents(new PlayerListener(this), this);
+
+        registerCommands();
+        reload(true);
+        if (Utils.getBoolean("auto-save-users")) {
+            asyncUserSaveThread = new AsyncUserSaveThread(this);
+        }
+        if (Utils.getBoolean("metrics-enabled")) {
+            logger.info(ChatColor.GREEN + "Enabling metrics...");
+            new Metrics(this, 11344);
+        }
+        checkUpdate();
+
+        logger.log(Level.INFO, ChatColor.GREEN + "Enabling process is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
+    }
+
+    @Override
+    public void onDisable() {
+        getServer().getScheduler().cancelTasks(this);
+        try {
+            userManager.saveUsers();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        warpManager.saveWarps();
+        spawnManager.saveSpawn();
+        maintenanceManager.save();
+        logger.info(ChatColor.GREEN + "Everything has been saved.");
+    }
+
+    private void registerManagers() {
         pluginManager = getServer().getPluginManager();
         placeholderManager = new CustomPlaceholderManager(this);
         languageManager = new LanguageManager(this);
@@ -83,6 +117,7 @@ public class SST extends JavaPlugin {
         maintenanceManager = new MaintenanceManager(this);
         vanishManager = new VanishManager();
         spyManager = new SpyManager();
+
         if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             new PAPIPlaceholders(this).register();
         } else {
@@ -94,10 +129,13 @@ public class SST extends JavaPlugin {
             logger.warning(ChatColor.RED + "Vault is not installed. Some features may not work.");
         }
         announcementManager = new AnnouncementManager(this);
+
         for (Player looped : Bukkit.getOnlinePlayers()) {
             userManager.loadUser(looped);
         }
-        pluginManager.registerEvents(new PlayerListener(this), this);
+    }
+
+    private void registerCommands() {
         getCommand("simpleservertools").setExecutor(new SSTCommand());
         getCommand("gamemode").setExecutor(new GamemodeCommand());
         getCommand("fly").setExecutor(new FlyCommand());
@@ -130,33 +168,9 @@ public class SST extends JavaPlugin {
         getCommand("skull").setExecutor(new SkullCommand(this));
         getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
         getCommand("spy").setExecutor(new SocialSpyCommand(this));
-        reload(true);
-        if (Utils.getBoolean("auto-save-users")) {
-            asyncUserSaveThread = new AsyncUserSaveThread(this);
-        }
-        if (Utils.getBoolean("metrics-enabled")) {
-            logger.info(ChatColor.GREEN + "Enabling metrics...");
-            new Metrics(this, 11344);
-        }
-        checkUpdate();
-        logger.log(Level.INFO, ChatColor.GREEN + "Enabling process is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
     }
 
-    @Override
-    public void onDisable() {
-        getServer().getScheduler().cancelTasks(this);
-        try {
-            userManager.saveUsers();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        warpManager.saveWarps();
-        spawnManager.saveSpawn();
-        maintenanceManager.save();
-        logger.info(ChatColor.GREEN + "Everything has been saved.");
-    }
-
-    public void checkUpdate() {
+    private void checkUpdate() {
 
         if (!getConfig().getBoolean("updates.notify", true)) {
             return;
