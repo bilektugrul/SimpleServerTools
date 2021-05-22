@@ -91,7 +91,17 @@ public class WarpManager {
         final CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("warps.cancel-damage.mode", null));
         final CancelMode cancelCommandsMode = CancelMode.valueOf(Utils.getString("warps.block-commands.mode", null));
 
-        settings = new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime, blockCommands, cancelCommandsMode);
+        settings = new TeleportSettings()
+                .setTime(time)
+                .setBlockMove(blockMove)
+                .setBlockCommands(blockCommands)
+                .setCancelTeleportOnMove(cancelTeleportOnMove)
+                .setBlockDamage(blockDamage)
+                .setCancelTeleportOnDamage(cancelTeleportOnDamage)
+                .setStaffBypassTime(staffBypassTime)
+                .setCancelMoveMode(cancelMoveMode)
+                .setCancelDamageMode(cancelDamageMode)
+                .setCancelCommandsMode(cancelCommandsMode);
     }
 
     public TeleportSettings getSettings() {

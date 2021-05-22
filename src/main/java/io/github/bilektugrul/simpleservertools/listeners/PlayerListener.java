@@ -26,7 +26,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -193,7 +192,7 @@ public class PlayerListener implements Listener {
         User user = userManager.getUser(player);
         TeleportSettings settings = getCurrentSettings(user);
 
-        if (settings != null && settings.getBlockCommands()) {
+        if (settings != null && settings.doesBlockCommands()) {
 
             boolean isStaff = player.hasPermission("sst.staff");
             CancelMode cancelCommandsMode = settings.getCancelCommandsMode();

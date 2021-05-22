@@ -45,7 +45,7 @@ public class TeleportTask extends BukkitRunnable {
         mode = teleportMode.getModeString();
         isStaff = player.hasPermission("sst.staff");
 
-        time = isStaff && settings.getStaffBypassTime()
+        time = isStaff && settings.doesStaffBypassTime()
                 ? 0
                 : settings.getTime();
 
@@ -110,11 +110,11 @@ public class TeleportTask extends BukkitRunnable {
                     || (cancelMoveMode == CancelMode.STAFF && isStaff)
                     || (cancelMoveMode == CancelMode.EXCEPT_STAFF && !isStaff);
             if (cancel) {
-                if (settings.getCancelTeleportOnMove()) {
+                if (settings.doesCancelTeleportOnMove()) {
                     cancelTeleport(true);
                     return;
                 }
-                if (settings.getBlockMove()) p.teleport(firstLoc);
+                if (settings.doesBlockMove()) p.teleport(firstLoc);
             }
         }
 
@@ -123,11 +123,11 @@ public class TeleportTask extends BukkitRunnable {
                     || (cancelDamageMode == CancelMode.STAFF && isStaff)
                     || (cancelDamageMode == CancelMode.EXCEPT_STAFF && !isStaff);
             if (cancel) {
-                if (settings.getBlockDamage()) {
+                if (settings.doesBlockDamage()) {
                     p.setHealth(firstHealth);
                     return;
                 }
-                if (settings.getCancelTeleportOnDamage()) cancelTeleport(true);
+                if (settings.doesCancelTeleportOnDamage()) cancelTeleport(true);
             }
         }
 

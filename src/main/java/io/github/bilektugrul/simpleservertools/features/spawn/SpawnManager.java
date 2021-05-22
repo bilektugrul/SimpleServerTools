@@ -74,13 +74,23 @@ public class SpawnManager {
             final CancelMode cancelDamageMode = CancelMode.valueOf(spawnFile.getString("spawn.command.teleport.cancel-damage.mode"));
             final CancelMode cancelCommandsMode = CancelMode.valueOf(spawnFile.getString("spawn.command.teleport.block-commands.mode"));
 
-            return new TeleportSettings(time, blockMove, cancelTeleportOnMove, cancelMoveMode, blockDamage, cancelTeleportOnDamage, cancelDamageMode, staffBypassTime, blockCommands, cancelCommandsMode);
+            return new TeleportSettings()
+                    .setTime(time)
+                    .setBlockMove(blockMove)
+                    .setBlockCommands(blockCommands)
+                    .setCancelTeleportOnMove(cancelTeleportOnMove)
+                    .setBlockDamage(blockDamage)
+                    .setCancelTeleportOnDamage(cancelTeleportOnDamage)
+                    .setStaffBypassTime(staffBypassTime)
+                    .setCancelMoveMode(cancelMoveMode)
+                    .setCancelDamageMode(cancelDamageMode)
+                    .setCancelCommandsMode(cancelCommandsMode);
         }
         return spawn.getSettings();
     }
 
     public void saveSpawn() {
-        if (spawn != null) {
+        if (isPresent()) {
             plugin.getLogger().info(ChatColor.GREEN + "Saving spawn...");
             spawnFile.set("spawn.location", spawn.getLocation());
             ConfigUtils.saveConfig(plugin, spawnFile, "spawn");
