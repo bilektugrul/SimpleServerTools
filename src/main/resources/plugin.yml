@@ -10,6 +10,11 @@ softdepend:
   - ProtocolLib
   - Vault
 
+  # World management plugins
+  - Multiverse-Core
+  - PlotSquared
+  - PlotMe
+
 authors: [ bilektugrul, Despical ]
 description: Basic tools and commands for your server.
 
@@ -92,7 +97,8 @@ commands:
     aliases: [highestblock, topblock, enyüksekblok]
   spy:
     aliases: [socialspy]
-
+  convert:
+    usage: /convert <converter>
 permissions:
   sst.*:
     default: op

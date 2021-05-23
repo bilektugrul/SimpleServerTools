@@ -87,6 +87,10 @@ tpa:
     mode: EVERYONE
   # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
+disabled-commands:
+  - ConvertCommand # disabled by default. if you want to use a converter, remove this then restart the server.
+  # all correct command names can be found at https://github.com/bilektugrul/SimpleServerTools/tree/master/src/main/java/io/github/bilektugrul/simpleservertools/commands
+
 disable-death-messages: false
 metrics-enabled: true # Sends some basic information about your server to bstats.org.
                       # Won't effect the performance but you can turn it off if you want. You must restart the server after changing the setting.

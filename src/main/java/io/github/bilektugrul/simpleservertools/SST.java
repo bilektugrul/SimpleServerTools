@@ -35,11 +35,14 @@ import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,16 +70,20 @@ public class SST extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        float start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         saveDefaultConfig();
         logger = getLogger();
         logger.info(ChatColor.GREEN + "SimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
 
         registerManagers();
+        for (Player looped : Bukkit.getOnlinePlayers()) {
+            userManager.loadUser(looped);
+        }
 
         pluginManager.registerEvents(new PlayerListener(this), this);
 
         registerCommands();
+
         reload(true);
         if (Utils.getBoolean("auto-save-users")) {
             asyncUserSaveThread = new AsyncUserSaveThread(this);
@@ -128,46 +135,69 @@ public class SST extends JavaPlugin {
         } else {
             logger.warning(ChatColor.RED + "Vault is not installed. Some features may not work.");
         }
-        announcementManager = new AnnouncementManager(this);
 
-        for (Player looped : Bukkit.getOnlinePlayers()) {
-            userManager.loadUser(looped);
-        }
+        announcementManager = new AnnouncementManager(this);
     }
 
     private void registerCommands() {
-        getCommand("simpleservertools").setExecutor(new SSTCommand());
-        getCommand("gamemode").setExecutor(new GamemodeCommand());
-        getCommand("fly").setExecutor(new FlyCommand());
-        getCommand("broadcast").setExecutor(new BroadcastCommand());
-        getCommand("disposal").setExecutor(new DisposalCommand());
-        getCommand("ping").setExecutor(new PingCommand());
-        getCommand("feed").setExecutor(new FeedCommand());
-        getCommand("heal").setExecutor(new HealCommand());
-        getCommand("invsee").setExecutor(new InvSeeCommand());
-        getCommand("kick").setExecutor(new KickCommand());
-        getCommand("tpall").setExecutor(new TPAllCommand());
-        getCommand("speed").setExecutor(new SpeedCommand());
-        getCommand("enderchest").setExecutor(new EnderChestCommand());
-        getCommand("clearchat").setExecutor(new ClearChatCommand());
-        getCommand("craft").setExecutor(new CraftCommand());
-        getCommand("top").setExecutor(new TopCommand());
-        getCommand("msg").setExecutor(new MessageCommand(this));
-        getCommand("msgtoggle").setExecutor(new MessageToggleCommand(this));
-        getCommand("vanish").setExecutor(new VanishCommand(this));
-        getCommand("warp").setExecutor(new WarpCommand(this));
-        getCommand("setwarp").setExecutor(new SetWarpCommand(this));
-        getCommand("delwarp").setExecutor(new DelWarpCommand(this));
-        getCommand("setspawn").setExecutor(new SetSpawnCommand(this));
-        getCommand("spawn").setExecutor(new SpawnCommand(this));
-        getCommand("god").setExecutor(new GodCommand(this));
-        getCommand("tpa").setExecutor(new TPACommand(this));
-        getCommand("tpaaccept").setExecutor(new TPAAcceptCommand(this));
-        getCommand("tpadeny").setExecutor(new TPADenyCommand(this));
-        getCommand("tpatoggle").setExecutor(new TPAToggleCommand(this));
-        getCommand("skull").setExecutor(new SkullCommand(this));
-        getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
-        getCommand("spy").setExecutor(new SocialSpyCommand(this));
+        getCommand("simpleservertools").setExecutor(new SSTCommand()); // Main command can not be disabled.
+
+        registerCommand(new GamemodeCommand(), "gamemode");
+        registerCommand(new FlyCommand(), "fly");
+        registerCommand(new BroadcastCommand(), "broadcast");
+        registerCommand(new DisposalCommand(), "disposal");
+        registerCommand(new PingCommand(), "ping");
+        registerCommand(new FeedCommand(), "feed");
+        registerCommand(new HealCommand(), "heal");
+        registerCommand(new InvSeeCommand(), "invsee");
+        registerCommand(new KickCommand(), "kick");
+        registerCommand(new TPAllCommand(), "tpall");
+        registerCommand(new SpeedCommand(), "speed");
+        registerCommand(new EnderChestCommand(), "enderchest");
+        registerCommand(new ClearChatCommand(), "clearchat");
+        registerCommand(new CraftCommand(), "craft");
+        registerCommand(new TopCommand(), "top");
+
+        registerCommand(new MessageCommand(this), "msg");
+        registerCommand(new MessageToggleCommand(this), "msgtoggle");
+        registerCommand(new VanishCommand(this), "vanish");
+        registerCommand(new WarpCommand(this), "warp");
+        registerCommand(new SetWarpCommand(this), "setwarp");
+        registerCommand(new DelWarpCommand(this), "delwarp");
+        registerCommand(new SetSpawnCommand(this), "setspawn");
+        registerCommand(new SpawnCommand(this), "spawn");
+        registerCommand(new GodCommand(this), "god");
+        registerCommand(new TPACommand(this), "tpa");
+        registerCommand(new TPAAcceptCommand(this), "tpaaccept");
+        registerCommand(new TPADenyCommand(this), "tpadeny");
+        registerCommand(new TPAToggleCommand(this), "tpatoggle");
+        registerCommand(new SkullCommand(this), "skull");
+        registerCommand(new MaintenanceCommand(this), "maintenance");
+        registerCommand(new SocialSpyCommand(this), "spy");
+        registerCommand(new ConvertCommand(this), "convert");
+
+        if (!disabledCommands.isEmpty()) {
+            logger.info(ChatColor.RED + "Some commands are disabled. You have to remove them from disabled commands list and restart the server if you want to use them. ");
+            logger.info(ChatColor.RED + "Disabled commands:");
+            disabledCommands.forEach(cmd -> logger.info(ChatColor.DARK_AQUA + "- " + cmd));
+        }
+    }
+
+    private final Set<String> disabledCommands = new HashSet<>();
+
+    public void registerCommand(CommandExecutor executor, String command) {
+        String className = executor.getClass().getName();
+        int beginIndex = className.lastIndexOf(".") + 1;
+        className = className.substring(beginIndex).trim();
+        if (!getConfig().getStringList("disabled-commands").contains(className)) {
+            getCommand(command).setExecutor(executor);
+        } else {
+            disabledCommands.add(className);
+        }
+    }
+
+    public Set<String> getDisabledCommands() {
+        return disabledCommands;
     }
 
     private void checkUpdate() {

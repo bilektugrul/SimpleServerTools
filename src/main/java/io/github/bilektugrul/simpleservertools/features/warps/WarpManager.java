@@ -27,6 +27,10 @@ public class WarpManager {
         loadSettings();
     }
 
+    public boolean registerWarp(Warp warp) {
+        return registerWarp(warp.getName(), warp.getLocation(), warp.getPermRequire());
+    }
+
     public boolean registerWarp(String name, Location loc) {
         if (!isPresent(name)) {
             warpList.add(new Warp(name, loc, false));
