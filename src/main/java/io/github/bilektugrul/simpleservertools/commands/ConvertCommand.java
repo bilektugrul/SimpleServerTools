@@ -1,5 +1,6 @@
-package io.github.bilektugrul.simpleservertools;
+package io.github.bilektugrul.simpleservertools.commands;
 
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.converters.Converter;
 import io.github.bilektugrul.simpleservertools.utils.converters.EssentialsWarpConverter;
