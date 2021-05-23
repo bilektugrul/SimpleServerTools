@@ -25,28 +25,28 @@ public class MaintenanceCommand implements CommandExecutor {
             return true;
         }
 
-        final FileConfiguration maintenanceFile = maintenanceManager.getMaintenanceFile();
+        FileConfiguration file = maintenanceManager.getMaintenanceFile();
 
-        maintenanceManager.setInMaintenance(!maintenanceManager.inMaintenance);
+        maintenanceManager.toggleMaintenance();
         String reason = maintenanceManager.getReason();
 
         if (args.length >= 1) {
             reason = Utils.arrayToString(args, sender, false, false);
         }
 
-        if (maintenanceManager.inMaintenance) {
+        if (maintenanceManager.isInMaintenance()) {
             maintenanceManager.setReason(reason);
-            if (maintenanceFile.getBoolean("maintenance.kick-players.enabled")) {
+            if (file.getBoolean("maintenance.kick-players.enabled")) {
                 String finalReason = reason.trim();
                 Bukkit.getOnlinePlayers().stream()
                         .filter(p -> !p.hasPermission("sst.maintenance.join"))
-                        .forEach(p -> p.kickPlayer(Utils.getString(maintenanceFile, "maintenance.kick-players.kick-message", p)
+                        .forEach(p -> p.kickPlayer(Utils.getString(file, "maintenance.kick-players.kick-message", p)
                                 .replace("%reason%", Utils.replacePlaceholders(finalReason, p, true))));
             }
         }
 
-        sender.sendMessage(Utils.getString(maintenanceFile, "maintenance.changed", sender)
-                .replace("%newmode%", Utils.getString(maintenanceFile, "maintenance.modes." + maintenanceManager.inMaintenance, sender))
+        sender.sendMessage(Utils.getString(file, "maintenance.changed", sender)
+                .replace("%newmode%", Utils.getString(file, "maintenance.modes." + maintenanceManager.isInMaintenance(), sender))
                 .replace("%reason%", reason));
         return true;
     }

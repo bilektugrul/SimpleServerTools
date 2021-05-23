@@ -10,7 +10,7 @@ public class MaintenanceManager {
     private FileConfiguration maintenanceFile;
 
     private String reason;
-    public boolean inMaintenance;
+    private boolean isInMaintenance;
 
     private final SST plugin;
 
@@ -19,8 +19,12 @@ public class MaintenanceManager {
         reload();
     }
 
-    public void setInMaintenance(boolean inMaintenance) {
-        this.inMaintenance = inMaintenance;
+    public boolean isInMaintenance() {
+        return isInMaintenance;
+    }
+
+    public void toggleMaintenance() {
+        isInMaintenance = !isInMaintenance;
     }
 
     public void setReason(String reason) {
@@ -33,7 +37,7 @@ public class MaintenanceManager {
 
     public void reload() {
         maintenanceFile = ConfigUtils.getConfig(plugin, "maintenance");
-        inMaintenance = maintenanceFile.getBoolean("maintenance.in-maintenance");
+        isInMaintenance = maintenanceFile.getBoolean("maintenance.in-maintenance");
         String lastReason = Utils.getString(maintenanceFile, "maintenance.last-reason", null, false);
         reason = lastReason.isEmpty()
                 ? Utils.getString(maintenanceFile, "maintenance.default-reason", null)
@@ -42,7 +46,7 @@ public class MaintenanceManager {
 
     public void save() {
         maintenanceFile.set("maintenance.last-reason", reason);
-        maintenanceFile.set("maintenance.in-maintenance", inMaintenance);
+        maintenanceFile.set("maintenance.in-maintenance", isInMaintenance);
         ConfigUtils.saveConfig(plugin, maintenanceFile, "maintenance");
     }
 
