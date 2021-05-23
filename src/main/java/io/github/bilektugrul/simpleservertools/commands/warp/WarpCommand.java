@@ -7,6 +7,7 @@ import io.github.bilektugrul.simpleservertools.stuff.teleporting.Mode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,8 +17,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,46 +34,54 @@ public class WarpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
 
-        boolean isPlayer = (sender instanceof Player);
         boolean isAdmin = sender.hasPermission("sst.admin");
         boolean canSeeList = isAdmin || sender.hasPermission("sst.warplist");
+        boolean argsNotPresent = args.length == 0;
+        boolean shouldSeeList = canSeeList && (argsNotPresent || args[0].equalsIgnoreCase("list"));
 
-        if (args.length == 0) {
-            if (canSeeList) {
-                sendWarpList(sender);
-            } else {
-                sender.sendMessage(Utils.getMessage("warps.wrong-usage", sender));
-            }
+        if (shouldSeeList) {
+            sendWarpList(sender);
+            return true;
+        }
+
+        Player toTeleport = args.length >= 2 ? Bukkit.getPlayer(args[1]) : sender instanceof Player ? (Player) sender : null;
+
+        if (argsNotPresent || toTeleport == null) {
+            sender.sendMessage(Utils.getMessage("warps.wrong-usage", sender));
+            return true;
+        }
+
+        boolean isNotSame = !toTeleport.equals(sender);
+
+        if (isNotSame && !sender.hasPermission("sst.warp.others")) {
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
             return true;
         }
 
         String arg = args[0];
 
-        if (arg.equalsIgnoreCase("list")) {
-
-            if (canSeeList) sendWarpList(sender);
-            else sender.sendMessage(Utils.getMessage("no-permission", sender));
-
-        } else if (arg.equalsIgnoreCase("save") && isAdmin) {
+        if (arg.equalsIgnoreCase("save") && isAdmin) {
             warpManager.saveWarps();
             sender.sendMessage(Utils.getMessage("warps.saved", sender));
+            return true;
+        }
 
-        } else if (isPlayer) {
-            Player p = (Player) sender;
-            if (warpManager.isPresent(arg)) {
-                Warp warp = warpManager.getWarp(arg);
-                Location loc = warp.getLocation();
-                TeleportMode mode = new TeleportMode(Mode.WARPS, warp, null, null);
-                if (!warp.getPermRequire() || warp.getPermRequire() && p.hasPermission(warp.getPermission())) {
-                    teleportManager.teleport(p, loc, mode, warpManager.getSettings());
-                } else {
-                    p.sendMessage(Utils.getMessage("warps.messages.no-permission", p));
+        if (warpManager.isPresent(arg)) {
+            Warp warp = warpManager.getWarp(arg);
+            Location loc = warp.getLocation();
+            TeleportMode mode = new TeleportMode(Mode.WARPS, warp, null, null);
+            if (!warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission())) {
+                if (isNotSame) {
+                    sender.sendMessage(Utils.getMessage("warps.teleporting-player", sender)
+                            .replace("%other%", toTeleport.getName())
+                            .replace("%warp%", arg));
                 }
+                teleportManager.teleport(toTeleport, loc, mode, warpManager.getSettings());
             } else {
-                p.sendMessage(Utils.getMessage("warps.do-not-exist", p));
+                sender.sendMessage(Utils.getMessage("warps.no-permission", sender));
             }
         } else {
-            sender.sendMessage(Utils.getMessage("warps.wrong-usage", sender));
+            sender.sendMessage(Utils.getMessage("warps.do-not-exist", sender));
         }
         return true;
     }
@@ -99,18 +106,13 @@ public class WarpCommand implements CommandExecutor {
                                 .map(Warp::getName)
                                 .collect(Collectors.toList());
                     case 2:
-                        List<String> list = new ArrayList<>();
-                        if (isAdmin) {
-                            list.add("--del");
-                            list.add("--force");
-                            list.add("--info");
-                        } else if (sender.hasPermission("sst.warpinfo")) {
-                            list.add("--info");
-                        }
-                        return list;
+                        if (sender.hasPermission("sst.warp.others"))
+                            return Bukkit.getOnlinePlayers().stream()
+                                .map(Player::getName)
+                                .collect(Collectors.toList());
                 }
             }
-            return Collections.emptyList();
+            return null;
         }
 
     }

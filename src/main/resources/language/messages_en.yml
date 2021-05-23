@@ -36,7 +36,6 @@ messages:
     player-not-found: '%prefix% &cThat player is not online.'
 
   warps:
-    not-enough-arguments: '%warpprefix% &cWrong usage.'
     created: '%warpprefix% &eThe warp &b%warp% &ehas been created.'
     deleting: '%warpprefix% &eDeleting the warp &b%warp%&e...'
     deleted: '%warpprefix% &eThe warp &b%warp% &ehas been deleted.'
@@ -54,10 +53,11 @@ messages:
         %warpprefix%
         &eYou have been teleported to &b%warp%&e.
     teleport-cancelled: '%warpprefix% &cTeleportation process has been cancelled.'
+    teleporting-player: '%warpprefix% &3Teleporting &b%other% &3to &b%warp%&3...'
     list: '%warpprefix% &eWarp list (%warpamount%): %warps%'
     no-warp: '&cThere is no warp.'
     saved: '%warpprefix% &eAll warps has been saved.'
-    messages.no-permission: '%warpprefix% &cI''m sorry but you don''t have the permission for that warp .'
+    no-permission: '%warpprefix% &cI''m sorry but you don''t have the permission for that warp.'
     info: |
       %warpprefix%
       &eAbout &b%warp%

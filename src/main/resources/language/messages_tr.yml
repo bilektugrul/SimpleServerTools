@@ -50,7 +50,6 @@ messages:
     player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
 
   warps:
-    not-enough-arguments: '%warpprefix% &cYeterli sayıda argüman girmediniz.'
     created: '%warpprefix% &b%warp% &eadında bir warp oluşturdun!'
     deleting: '%warpprefix% &b%warp% &eadındaki warp siliniyor...'
     deleted: '%warpprefix% &b%warp% &eadındaki warp silindi!'
@@ -69,10 +68,11 @@ messages:
         %warpprefix%
         &b%warp% &eadlı warpa başarıyla ışınlandın!
     teleport-cancelled: '%warpprefix% &cIşınlanma iptal edildi.'
+    teleporting-player: '%warpprefix% &b%other% &3adlı oyuncu &b%warp% &3adlı warpa ışınlanıyor...'
     list: '%warpprefix% &eWarp listesi (%warpamount%): %warps%'
     no-warp: '&cHiç warp yok.'
     saved: '%warpprefix% &eTüm warplar "warps.yml" dosyasına kaydedildi.'
-    messages.no-permission: '%warpprefix% &cÜzgünüm ancak bu warpa gitme yetkin yok.'
+    no-permission: '%warpprefix% &cÜzgünüm ancak bu warpa gitme yetkin yok.'
     info: |
       %warpprefix%
       &b%warp% &ehakkında
