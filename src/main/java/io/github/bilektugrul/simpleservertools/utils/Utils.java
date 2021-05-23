@@ -55,7 +55,7 @@ public class Utils {
     }
 
     public static String getString(FileConfiguration file, String string, CommandSender from, boolean replacePersonalPlaceholders, boolean replacePAPI) {
-        return replacePlaceholders(file.getString(string), from, replacePersonalPlaceholders);
+        return replacePlaceholders(file.getString(string), from, replacePersonalPlaceholders, replacePAPI);
     }
 
     public static String replacePlaceholders(String msg, CommandSender from, boolean replacePersonalPlaceholders, boolean replacePAPI) {
@@ -99,15 +99,15 @@ public class Utils {
     }
 
     public static boolean getBoolean(FileConfiguration file, String string, boolean def) {
-        return plugin.getConfig().getBoolean(string, def);
+        return file.getBoolean(string, def);
     }
 
     public static boolean getBoolean(FileConfiguration file, String string) {
-        return plugin.getConfig().getBoolean(string);
+        return file.getBoolean(string);
     }
 
     public static int getInt(FileConfiguration file, String path) {
-        return plugin.getConfig().getInt(path);
+        return file.getInt(path);
     }
 
     public static int getLanguageInt(String path) {

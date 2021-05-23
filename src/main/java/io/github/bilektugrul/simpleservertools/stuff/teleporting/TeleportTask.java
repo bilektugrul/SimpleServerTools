@@ -82,7 +82,7 @@ public class TeleportTask extends BukkitRunnable {
             teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo);
         }
 
-        if ((teleportingMode == MessageType.TITLE && teleportingMsg.contains("\n"))) {
+        if (teleportingMode == MessageType.TITLE && teleportingMsg.contains("\n")) {
             int index = teleportingMsg.indexOf("\n");
             try {
                 teleportingSub = teleportingMsg.split("\n")[1];

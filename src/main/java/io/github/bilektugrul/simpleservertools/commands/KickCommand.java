@@ -37,7 +37,7 @@ public class KickCommand implements CommandExecutor {
 
             kickPlayer.kickPlayer(kickString);
 
-            if (Utils.getBoolean("messages.kick.broadcast.enabled")) {
+            if (Utils.getLanguageBoolean("messages.kick.broadcast.enabled")) {
                 String kickBc = Utils.getMessage("kick.broadcast.message", kickPlayer)
                         .replace("%kicked%", kickPlayer.getName())
                         .replace("%kicker%", sender.getName());
