@@ -9,6 +9,7 @@ softdepend:
   - PlaceholderAPI
   - ProtocolLib
   - Vault
+
 authors: [ bilektugrul, Despical ]
 description: Basic tools and commands for your server.
 
@@ -73,7 +74,7 @@ commands:
   msgtoggle:
     usage: /msgtoggle
   speed:
-    usage: /speed [walk/fly] <hız> [<oyuncu>]
+    usage: /speed [walk/fly] <speed> [<player>]
   skull:
     usage: /skull <player>
   clearchat:
@@ -108,14 +109,23 @@ permissions:
           sst.gamemode.adventure: true
       sst.broadcast:
         default: op
-      sst.fly:
+      sst.fly.*:
         default: op
-      sst.spawn:
+        children:
+          sst.fly.others: true
+          sst.fly: true
+      sst.spawn.*:
         default: op
+        children:
+          sst.spawn: true
+          sst.spawn.others: true
       sst.setspawn:
         default: op
-      sst.god:
+      sst.god.*:
         default: op
+        children:
+          sst.god: true
+          sst.god.others: true
       sst.disposal:
         default: op
       sst.ping:
@@ -128,10 +138,11 @@ permissions:
         default: op
       sst.warplist:
         default: op
-      sst.kick:
+      sst.kick.*:
         default: op
         children:
-          sst.kick.admins: false
+          sst.kick.admins: true
+          sst.kick: true
       sst.tpa:
         default: op
       sst.tpatoggle:
@@ -146,12 +157,16 @@ permissions:
         default: op
       sst.delwarp:
         default: op
-      sst.speed:
-        default: op
-      sst.skull:
+      sst.speed.*:
         default: op
         children:
-          sst.skull.others: false
+          sst.speed: true
+          sst.speed.others: true
+      sst.skull.*:
+        default: op
+        children:
+          sst.skull: true
+          sst.skull.others: true
       sst.clearchat:
         default: op
       sst.maintenance.*:
@@ -165,5 +180,18 @@ permissions:
         default: op
       sst.top:
         default: op
-      sst.socialspy:
+      sst.socialspy.*:
         default: op
+        children:
+          sst.socialspy: true
+          sst.socialspy.others: true
+      sst.heal.*:
+        default: op
+        children:
+          sst.heal: true
+          sst.heal.others: true
+      sst.feed.*:
+        default: op
+        children:
+          sst.feed: true
+          sst.feed.others: true
