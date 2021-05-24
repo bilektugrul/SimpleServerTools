@@ -1,13 +1,19 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.converting.ConverterManager;
+import io.github.bilektugrul.simpleservertools.converting.FinalState;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
-import io.github.bilektugrul.simpleservertools.utils.converters.Converter;
-import io.github.bilektugrul.simpleservertools.utils.converters.EssentialsWarpConverter;
+import io.github.bilektugrul.simpleservertools.converting.Converter;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConvertCommand implements CommandExecutor {
 
@@ -17,21 +23,56 @@ public class ConvertCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    private final List<String> timer = new ArrayList<>();
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!Utils.getBoolean("convert-enabled")) {
+            return true;
+        }
+
         if (!sender.hasPermission("sst.convert")) {
             sender.sendMessage(Utils.getMessage("no-permission", sender));
             return true;
         }
 
         if (args.length == 0) {
-            sender.sendMessage(Utils.replacePlaceholders("%prefix% &cWrong usage.", sender, false, false)); // TODO: wtf is this
+            sender.sendMessage(ChatColor.RED + "Wrong usage. /convert <converter alias>");
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("esswarps")) { // TODO: I know this is not a good way to make a convert command. There is just one converter rn, so doesn't matter for me.
-            Converter converter = new EssentialsWarpConverter(plugin);
-            converter.convert();
+        if (!plugin.isConverterManagerReady()) {
+            sender.sendMessage(ChatColor.RED + "Converter Manager is not ready. Please enable it.");
+            return true;
+        }
+
+        ConverterManager converterManager = plugin.getConverterManager();
+
+        Converter converter = converterManager.findConverter(args[0]);
+        if (converter != null) {
+            String name = converter.getName();
+            if (!timer.contains(name)) {
+                sender.sendMessage(ChatColor.GREEN + "Found converter: " + name);
+                sender.sendMessage("Use the command again in 7 seconds to start converting.");
+                timer.add(name);
+                Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> timer.remove(name), 140);
+            } else {
+                timer.remove(name);
+                FinalState state = converter.convert();
+                switch (state) {
+                    case COMPLETED:
+                        sender.sendMessage(ChatColor.GREEN + "Convert successfully completed. Check console for more information.");
+                        return true;
+                    case ALMOST:
+                        sender.sendMessage(ChatColor.RED + "Convert completed with some errors. Check console for more information.");
+                        return true;
+                    case UNSUCCESSFUL:
+                        sender.sendMessage(ChatColor.RED + "Convert could not be completed. Check console for more information.");
+                        return true;
+                }
+            }
+        } else {
+            sender.sendMessage(ChatColor.RED + "There is no converter with name " + args[0]);
         }
 
         return true;

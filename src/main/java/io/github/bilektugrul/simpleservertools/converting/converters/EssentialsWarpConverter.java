@@ -1,6 +1,8 @@
-package io.github.bilektugrul.simpleservertools.utils.converters;
+package io.github.bilektugrul.simpleservertools.converting.converters;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.converting.Converter;
+import io.github.bilektugrul.simpleservertools.converting.FinalState;
 import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import org.bukkit.Bukkit;
@@ -26,14 +28,14 @@ public class EssentialsWarpConverter implements Converter {
     }
 
     @Override
-    public boolean convert() {
+    public FinalState convert() {
         Logger logger = plugin.getLogger();
         String s = File.separator;
         File[] essWarps = new File("plugins" + s + "Essentials" + s + "warps" + s).listFiles();
 
         if (essWarps == null) {
             logger.warning(ChatColor.RED + "Someone tried to convert Essentials warps into SST warps, but there is no Essentials warp. Don't mess with me.");
-            return false;
+            return FinalState.UNSUCCESSFUL;
         }
 
         List<Warp> convertedWarps = new ArrayList<>();
@@ -80,20 +82,28 @@ public class EssentialsWarpConverter implements Converter {
         }
 
         if (brokenWarps.size() == essWarps.length) {
-            logger.log(Level.WARNING, ChatColor.RED + "Everything messed up. Sorry.");
-            return false;
+            logger.log(Level.WARNING, ChatColor.RED + "Everything went wrong. Sorry. Your Essentials warps files are broken or you have already converted them.");
+            return FinalState.UNSUCCESSFUL;
         }
+
+        FinalState state = FinalState.COMPLETED;
 
         if (brokenWarps.isEmpty()) {
             logger.info(ChatColor.GREEN + "All Essentials warps has been converted. Congratulations. Never use it again.");
         } else {
             logger.warning(ChatColor.RED + "Some Essentials warps couldn't be converted. Here is the list of them:");
             brokenWarps.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp));
+            state = FinalState.ALMOST;
         }
 
         logger.info(ChatColor.GREEN + "Succesfully converted and registered warps (" + convertedWarps.size() + "):");
         convertedWarps.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp.getName()));
-        return true;
+        return state;
+    }
+
+    @Override
+    public String getName() {
+        return "EssentialsWarpConverter";
     }
 
     public float getFloat(YamlConfiguration yaml, String path) {

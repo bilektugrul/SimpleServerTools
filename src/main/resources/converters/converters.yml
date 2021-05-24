@@ -1,0 +1,14 @@
+# don't touch this file unless you want to add some aliases for converters.
+# if you are a developer, you can add your own converter with aliases to here then use /convert <some alias>
+# you should make a converter first, of course.
+# your converter should implement SST's Converter interface and must have a constructor with SST parameter.
+# use - instead of .
+converters:
+  io-github-bilektugrul-simpleservertools-converting-converters-EssentialsWarpConverter:
+    aliases:
+      - esswarps
+      - esswarp
+      - ewarp
+      - ewarps
+      - eswarp
+      - eswarps

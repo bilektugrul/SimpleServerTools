@@ -14,6 +14,7 @@ import io.github.bilektugrul.simpleservertools.commands.tpa.TPAToggleCommand;
 import io.github.bilektugrul.simpleservertools.commands.warp.DelWarpCommand;
 import io.github.bilektugrul.simpleservertools.commands.warp.SetWarpCommand;
 import io.github.bilektugrul.simpleservertools.commands.warp.WarpCommand;
+import io.github.bilektugrul.simpleservertools.converting.ConverterManager;
 import io.github.bilektugrul.simpleservertools.features.announcements.AnnouncementManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.language.LanguageManager;
@@ -61,6 +62,7 @@ public class SST extends JavaPlugin {
     private AnnouncementManager announcementManager;
     private MaintenanceManager maintenanceManager;
     private SpyManager spyManager;
+    private ConverterManager converterManager;
 
     private AsyncUserSaveThread asyncUserSaveThread;
 
@@ -286,6 +288,14 @@ public class SST extends JavaPlugin {
         return spyManager;
     }
 
+    public ConverterManager getConverterManager() {
+        return converterManager;
+    }
+
+    public boolean isConverterManagerReady() {
+        return converterManager != null;
+    }
+
     public void checkAndLoadPacketListener() {
         if (pluginManager.isPluginEnabled("ProtocolLib")) {
             PLibManager.loadPacketListener(this);
@@ -297,6 +307,11 @@ public class SST extends JavaPlugin {
         reloadConfig();
         checkAndLoadPacketListener();
         placeholderManager.load();
+        if (Utils.getBoolean("convert-enabled")) {
+            converterManager = new ConverterManager(this);
+        } else {
+            converterManager = null;
+        }
         if (!first) {
             languageManager.loadLanguage();
             announcementManager.reload();

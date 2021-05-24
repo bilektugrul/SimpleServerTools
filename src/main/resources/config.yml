@@ -87,9 +87,16 @@ tpa:
     mode: EVERYONE
   # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
+convert-enabled: false # disables /convert by default. set this to true if you want to use a converter.
+
 disabled-commands:
-  - ConvertCommand # disabled by default. if you want to use a converter, remove this then restart the server.
-  # all correct command names can be found at https://github.com/bilektugrul/SimpleServerTools/tree/master/src/main/java/io/github/bilektugrul/simpleservertools/commands
+  # examples
+  #- HealCommand
+  #- InvSeeCommand
+  #- KickCommand
+  #- <command class name>
+  # all correct command class names can be found at
+  # https://github.com/bilektugrul/SimpleServerTools/tree/master/src/main/java/io/github/bilektugrul/simpleservertools/commands
 
 disable-death-messages: false
 metrics-enabled: true # Sends some basic information about your server to bstats.org.
