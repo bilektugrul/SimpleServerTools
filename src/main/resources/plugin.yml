@@ -102,6 +102,8 @@ commands:
   tphere:
     usage: /tphere <player>
     aliases: [s]
+  rules:
+    usage: /rules
 
 permissions:
   sst.*:

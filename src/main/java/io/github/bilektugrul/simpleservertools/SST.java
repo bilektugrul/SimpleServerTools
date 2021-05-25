@@ -21,6 +21,7 @@ import io.github.bilektugrul.simpleservertools.features.language.LanguageManager
 import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.PAPIPlaceholders;
+import io.github.bilektugrul.simpleservertools.features.rules.RulesManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.spy.SpyManager;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
@@ -63,6 +64,7 @@ public class SST extends JavaPlugin {
     private MaintenanceManager maintenanceManager;
     private SpyManager spyManager;
     private ConverterManager converterManager;
+    private RulesManager rulesManager;
 
     private AsyncUserSaveThread asyncUserSaveThread;
 
@@ -78,6 +80,7 @@ public class SST extends JavaPlugin {
         logger.info(ChatColor.GREEN + "SimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
 
         registerManagers();
+
         for (Player looped : Bukkit.getOnlinePlayers()) {
             userManager.loadUser(looped);
         }
@@ -94,6 +97,7 @@ public class SST extends JavaPlugin {
             logger.info(ChatColor.GREEN + "Enabling metrics...");
             new Metrics(this, 11344);
         }
+
         checkUpdate();
 
         logger.log(Level.INFO, ChatColor.GREEN + "Enabling process is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
@@ -124,6 +128,8 @@ public class SST extends JavaPlugin {
         joinMessageManager = new JoinMessageManager(this);
         tpaManager = new TPAManager(this);
         maintenanceManager = new MaintenanceManager(this);
+        rulesManager = new RulesManager(this);
+
         vanishManager = new VanishManager();
         spyManager = new SpyManager();
 
@@ -178,6 +184,7 @@ public class SST extends JavaPlugin {
         registerCommand(new MaintenanceCommand(this), "maintenance");
         registerCommand(new SocialSpyCommand(this), "spy");
         registerCommand(new ConvertCommand(this), "convert");
+        registerCommand(new RulesCommand(this), "rules");
 
         if (!disabledCommands.isEmpty()) {
             logger.info(ChatColor.RED + "Some commands are disabled. You have to remove them from disabled commands list and restart the server if you want to use them. ");
@@ -214,7 +221,6 @@ public class SST extends JavaPlugin {
             if (!result.requiresUpdate()) {
                 return;
             }
-
 
             if (result.getNewestVersion().contains("b")) {
                 if (getConfig().getBoolean("updates.notify-beta-versions", true)) {
@@ -297,6 +303,10 @@ public class SST extends JavaPlugin {
         return converterManager != null;
     }
 
+    public RulesManager getRulesManager() {
+        return rulesManager;
+    }
+
     public void checkAndLoadPacketListener() {
         if (pluginManager.isPluginEnabled("ProtocolLib")) {
             PLibManager.loadPacketListener(this);
@@ -304,6 +314,7 @@ public class SST extends JavaPlugin {
     }
 
     public void reload(boolean first) {
+        long start = System.currentTimeMillis();
         logger.info(ChatColor.GREEN + "Reloading configurations from disk...");
         reloadConfig();
         checkAndLoadPacketListener();
@@ -322,11 +333,13 @@ public class SST extends JavaPlugin {
             joinMessageManager.reload();
             tpaManager.loadSettings();
             maintenanceManager.reload();
+            rulesManager.reloadRules();
             if (Utils.getBoolean("auto-save-users")) {
                 asyncUserSaveThread = new AsyncUserSaveThread(this);
             } else if (asyncUserSaveThread != null) {
                 asyncUserSaveThread.cancel();
             }
+            logger.log(Level.INFO, ChatColor.GREEN + "Reloading is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
         }
     }
 
