@@ -52,7 +52,7 @@ public class ConvertCommand implements CommandExecutor {
         if (converter != null) {
             String name = converter.getName();
             if (!timer.contains(name)) {
-                sender.sendMessage(ChatColor.GREEN + "Found converter: " + name);
+                sender.sendMessage(ChatColor.GREEN + "Found converter: " + name + " made by " + converter.getAuthor());
                 sender.sendMessage("Use the command again in 7 seconds to start converting.");
                 timer.add(name);
                 Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> timer.remove(name), 140);

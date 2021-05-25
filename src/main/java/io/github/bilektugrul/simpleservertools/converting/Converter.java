@@ -6,4 +6,6 @@ public interface Converter {
 
     String getName();
 
+    String getAuthor();
+
 }

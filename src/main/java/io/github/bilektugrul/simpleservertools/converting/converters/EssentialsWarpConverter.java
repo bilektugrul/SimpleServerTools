@@ -106,6 +106,11 @@ public class EssentialsWarpConverter implements Converter {
         return "EssentialsWarpConverter";
     }
 
+    @Override
+    public String getAuthor() {
+        return "bilektugrul";
+    }
+
     public float getFloat(YamlConfiguration yaml, String path) {
         return Float.parseFloat(yaml.getString(path));
     }
