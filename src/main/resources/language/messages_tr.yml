@@ -253,3 +253,7 @@ messages:
     modes:
       true: '&baktif'
       false: '&ckapalı'
+
+  tphere:
+    type-player: '%prefix% &cLütfen aktif bir oyuncu ismi gir.'
+    wrong-usage: '%prefix% &c/tphere <oyuncu>'

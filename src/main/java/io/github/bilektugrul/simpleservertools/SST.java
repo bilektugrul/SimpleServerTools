@@ -159,6 +159,7 @@ public class SST extends JavaPlugin {
         registerCommand(new ClearChatCommand(), "clearchat");
         registerCommand(new CraftCommand(), "craft");
         registerCommand(new TopCommand(), "top");
+        registerCommand(new TPHereCommand(), "tphere");
 
         registerCommand(new MessageCommand(this), "msg");
         registerCommand(new MessageToggleCommand(this), "msgtoggle");

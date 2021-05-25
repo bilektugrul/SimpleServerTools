@@ -99,6 +99,10 @@ commands:
     aliases: [socialspy]
   convert:
     usage: /convert <converter>
+  tphere:
+    usage: /tphere <player>
+    aliases: [s]
+
 permissions:
   sst.*:
     default: op
@@ -201,3 +205,5 @@ permissions:
         children:
           sst.feed: true
           sst.feed.others: true
+      sst.tphere:
+        default: op

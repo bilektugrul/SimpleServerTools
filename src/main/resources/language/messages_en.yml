@@ -239,3 +239,7 @@ messages:
     modes:
       true: '&benabled'
       false: '&cdisabled'
+
+  tphere:
+    type-player: '%prefix% &cPlease type an online player name.'
+    wrong-usage: '%prefix% &c/tphere <player>'
