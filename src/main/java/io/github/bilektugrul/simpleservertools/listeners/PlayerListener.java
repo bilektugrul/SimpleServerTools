@@ -93,8 +93,10 @@ public class PlayerListener implements Listener {
             PaperLib.teleportAsync(player, spawnManager.getSpawn().getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
 
+        boolean isVanished = vanishManager.isVanished(uuid);
+
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
-            if (!vanishManager.isVanished(uuid)) {
+            if (!isVanished) {
                 if (player.hasPlayedBefore()) {
                     e.setJoinMessage(Utils.getString("join-quit-messages.join-message", player));
                 } else {
@@ -109,10 +111,9 @@ public class PlayerListener implements Listener {
             for (UUID vanished : vanishManager.getOnlineVanishedPlayers()) {
                 player.hidePlayer(Bukkit.getPlayer(vanished));
             }
-        } else if (vanishManager.isVanished(uuid)) {
+        } else if (isVanished) {
             vanishManager.hidePlayer(player, true);
         }
-
     }
 
     @EventHandler

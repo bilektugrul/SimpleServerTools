@@ -32,8 +32,11 @@ messages:
   vanish:
     activated: '%prefix% &eVanish mode: &bENABLED'
     disabled: '%prefix% &eVanish mode: &cDISABLED'
-    toggled: '%prefix% &eVanish mode of &b%other% &ehas been changed.'
+    toggled: '%prefix% &eVanish mode of &b%other% &ehas been changed to &b%mode%&e.'
     player-not-found: '%prefix% &cThat player is not online.'
+    modes:
+      true: enabled
+      false: disabled
 
   warps:
     created: '%warpprefix% &eThe warp &b%warp% &ehas been created.'

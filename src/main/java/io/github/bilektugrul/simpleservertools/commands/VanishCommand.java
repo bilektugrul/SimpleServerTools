@@ -20,26 +20,29 @@ public class VanishCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length == 0 && sender instanceof Player) {
-            Player player = (Player) sender;
-            if (player.hasPermission("sst.vanish")) {
-                if (!vanishManager.isVanished(player.getUniqueId())) vanishManager.hidePlayer(player, false);
-                else vanishManager.showPlayer(player, false);
-            } else {
-                player.sendMessage(Utils.getMessage("no-permission", player));
-            }
-        } else if (args.length >= 1 && sender.hasPermission("sst.vanish.others")) {
-            Player toVanish = Bukkit.getPlayer(args[0]);
-            if (toVanish != null) {
-                if (!vanishManager.isVanished(toVanish.getUniqueId())) vanishManager.hidePlayer(toVanish, false);
-                else vanishManager.showPlayer(toVanish, false);
-                sender.sendMessage(Utils.getMessage("vanish.toggled", sender)
-                        .replace("%other%", toVanish.getName()));
-            } else {
-                sender.sendMessage(Utils.getMessage("vanish.player-not-found", sender)
-                        .replace("%other%", args[0]));
-            }
+        if (!sender.hasPermission("sst.vanish")) {
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            return true;
         }
+
+        Player vanishPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
+        boolean isSame = sender.equals(vanishPlayer);
+
+        if (!isSame && !sender.hasPermission("sst.vanish.others")) {
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            return true;
+        }
+
+        if (vanishPlayer == null) {
+            sender.sendMessage(Utils.getMessage("vanish.player-not-found", sender));
+            return true;
+        }
+
+        vanishManager.toggleVanish(vanishPlayer, false);
+
+        if (!isSame) sender.sendMessage(Utils.getMessage("vanish.toggled", sender)
+                    .replace("%other%", vanishPlayer.getName())
+                    .replace("%mode%", vanishManager.modeString(vanishPlayer)));
         return true;
     }
 

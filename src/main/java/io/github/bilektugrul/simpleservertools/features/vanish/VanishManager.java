@@ -39,14 +39,27 @@ public class VanishManager {
     public void showPlayer(Player player, boolean silent) {
         UUID uuid = player.getUniqueId();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.showPlayer(player);
+            if (!p.canSee(player)) { // To avoid more packets
+                p.showPlayer(player);
+            }
         }
         player.sendMessage(Utils.getMessage("vanish.disabled", player));
-        getVanishedPlayers().remove(uuid);
-        getOnlineVanishedPlayers().remove(uuid);
+        vanishedPlayers.remove(uuid);
+        onlineVanishedPlayers.remove(uuid);
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
             if (!silent) Bukkit.broadcastMessage(Utils.getString("join-quit-messages.join-message", player));
         }
+    }
+
+    public void toggleVanish(Player player, boolean silent) {
+        UUID uuid = player.getUniqueId();
+        if (isVanished(uuid)) showPlayer(player, silent);
+        else hidePlayer(player, silent);
+    }
+
+    public String modeString(Player player) {
+        boolean mode = isVanished(player.getUniqueId());
+        return Utils.getMessage("vanish.modes." + mode);
     }
 
     public boolean isVanished(UUID uuid) {

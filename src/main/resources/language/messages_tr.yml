@@ -46,8 +46,11 @@ messages:
   vanish:
     activated: '%prefix% &eVanish modu: &bAktif'
     disabled: '%prefix% &eVanish modu: &cKapalı'
-    toggled: '%prefix% &eVanish modu &b%other% &eadlı oyuncu için değiştirildi.'
+    toggled: '%prefix% &eVanish modu &b%other% &eadlı oyuncu için değiştirildi ve artık &b%mode%&e.'
     player-not-found: '%prefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
+    modes:
+      true: aktif
+      false: deaktif
 
   warps:
     created: '%warpprefix% &b%warp% &eadında bir warp oluşturdun!'
