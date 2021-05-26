@@ -28,45 +28,49 @@ public class SkullCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.skull")) {
-            Player player = (Player) sender;
-            Player toGive = player;
-            final String skullOwner;
-            if (args.length >= 1) {
-                if (!NAME_PATTERN.matcher(args[0]).matches()) {
-                    player.sendMessage(Utils.getMessage("skull.wrong-usage", player));
-                    return true;
-                }
-                skullOwner = args[0];
-                if (args.length >= 2) {
-                    if (player.hasPermission("sst.skull.others")) {
-                        toGive = Bukkit.getPlayer(args[1]);
-                        if (toGive == null) {
-                            player.sendMessage(Utils.getMessage("skull.not-found", player));
-                            return true;
-                        }
-                    } else {
-                        player.sendMessage(Utils.getMessage("no-permission", player));
-                        return true;
-                    }
-                }
-            } else {
-                skullOwner = player.getName();
-            }
-            giveSkull(player, toGive, skullOwner);
-        } else {
+        if (!sender.hasPermission("sst.skull")) {
             sender.sendMessage(Utils.getMessage("no-permission", sender));
+            return true;
         }
+
+        boolean isPlayer = sender instanceof Player;
+
+        Player toGive = args.length >= 2
+                ? Bukkit.getPlayer(args[1])
+                : isPlayer ? (Player) sender : null;
+        String skullOwner = args.length >= 1 ? args[0] : isPlayer ? sender.getName() : null;
+
+        if (skullOwner == null) {
+            sender.sendMessage(Utils.getMessage("skull.wrong-usage", sender));
+            return true;
+        }
+
+        if (toGive == null) {
+            sender.sendMessage(Utils.getMessage("skull.not-found", sender));
+            return true;
+        }
+
+        if (!NAME_PATTERN.matcher(skullOwner).matches()) {
+            sender.sendMessage(Utils.getMessage("skull.wrong-usage", sender));
+            return true;
+        }
+
+        if (!toGive.getName().equals(Utils.matchName(sender)) && !sender.hasPermission("sst.skull.others")) {
+            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            return true;
+        }
+
+        giveSkull(sender, toGive, skullOwner);
         return true;
     }
 
-    private void giveSkull(Player executor, Player toGive, String owner) {
+    private void giveSkull(CommandSender executor, Player toGive, String owner) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 ItemStack skull = new ItemStack(SKULL_ITEM);
                 SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-                skullMeta.setDisplayName(owner + " adlı oyuncunun kafası");
+                skullMeta.setDisplayName("Skull of " + owner);
                 skullMeta.setOwner(owner);
                 new BukkitRunnable() {
                     @Override
