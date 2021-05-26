@@ -28,6 +28,9 @@ messages:
     msg:
       true: ACCEPTS
       false: NOT ACCEPTS
+    afk:
+      true: AFK
+      false: NOT AFK
 
   vanish:
     activated: '%prefix% &eVanish mode: &bENABLED'
@@ -246,3 +249,9 @@ messages:
   tphere:
     type-player: '%prefix% &cPlease type an online player name.'
     wrong-usage: '%prefix% &c/tphere <player>'
+
+  afk:
+    toggled: '%prefix% &3You are now &b%mode%.'
+    modes:
+      true: AFK
+      false: not AFK

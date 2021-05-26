@@ -42,6 +42,9 @@ messages:
     msg:
       true: KABUL EDIYOR
       false: KABUL ETMIYOR
+    afk:
+      true: AFK
+      false: AFK DEGIL
 
   vanish:
     activated: '%prefix% &eVanish modu: &bAktif'
@@ -260,3 +263,9 @@ messages:
   tphere:
     type-player: '%prefix% &cLütfen aktif bir oyuncu ismi gir.'
     wrong-usage: '%prefix% &c/tphere <oyuncu>'
+
+  afk:
+    toggled: '%prefix% &3Artık &b%mode%.'
+    modes:
+      true: AFK modundasın
+      false: AFK değilsin

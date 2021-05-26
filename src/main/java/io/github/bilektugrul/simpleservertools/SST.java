@@ -185,6 +185,7 @@ public class SST extends JavaPlugin {
         registerCommand(new SocialSpyCommand(this), "spy");
         registerCommand(new ConvertCommand(this), "convert");
         registerCommand(new RulesCommand(this), "rules");
+        registerCommand(new AFKCommand(this), "afk");
 
         if (!disabledCommands.isEmpty()) {
             logger.info(ChatColor.RED + "Some commands are disabled. You have to remove them from disabled commands list and restart the server if you want to use them. ");

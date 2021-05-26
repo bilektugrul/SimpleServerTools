@@ -16,6 +16,7 @@ public class User {
     private final UUID uuid;
     private UserState state;
     private boolean isGod;
+    private boolean isAfk;
     private final YamlConfiguration data;
     private final String name;
 
@@ -53,8 +54,16 @@ public class User {
         return isGod;
     }
 
+    public boolean isAfk() {
+        return isAfk;
+    }
+
     public void setGod(boolean isGod) {
         this.isGod = isGod;
+    }
+
+    public void setAfk(boolean isAfk) {
+        this.isAfk = isAfk;
     }
 
     public boolean isAvailable() {

@@ -81,6 +81,8 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
                 return Utils.getMessage("user-statuses.msg." + user.isAcceptingMsg());
             } else if (identifier.endsWith("tpa")){
                 return Utils.getMessage("user-statuses.tpa." + user.isAcceptingTPA());
+            } else if (identifier.endsWith("afk")) {
+                return Utils.getMessage("user-statuses.afk." + user.isAfk());
             }
         }
 

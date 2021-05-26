@@ -104,6 +104,8 @@ commands:
     aliases: [s]
   rules:
     usage: /rules
+  afk:
+    usage: /afk
 
 permissions:
   sst.*:
@@ -208,4 +210,6 @@ permissions:
           sst.feed: true
           sst.feed.others: true
       sst.tphere:
+        default: op
+      sst.afk:
         default: op
