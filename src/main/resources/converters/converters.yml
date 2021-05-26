@@ -12,3 +12,11 @@ converters:
       - ewarps
       - eswarp
       - eswarps
+  io-github-bilektugrul-simpleservertools-converting-converters-CMIWarpConverter:
+    aliases:
+      - cmiwarps
+      - cmiwarp
+      - cwarp
+      - cwarps
+      - cmwarp
+      - cmwarps

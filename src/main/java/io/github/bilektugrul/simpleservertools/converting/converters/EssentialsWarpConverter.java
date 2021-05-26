@@ -62,9 +62,7 @@ public class EssentialsWarpConverter implements Converter {
                 String name = yaml.getString("name");
 
                 Location loc = new Location(world, x, y, z, yaw, pitch);
-
                 Warp converted = new Warp(name, loc, true);
-
                 convertedWarps.add(converted);
             } catch (Exception ex) {
                 logger.warning(ChatColor.RED + "Something went wrong while converting Essentials warp file " + fileName + ". Error:");
@@ -96,7 +94,7 @@ public class EssentialsWarpConverter implements Converter {
             state = FinalState.ALMOST;
         }
 
-        logger.info(ChatColor.GREEN + "Succesfully converted and registered warps (" + convertedWarps.size() + "):");
+        logger.info(ChatColor.GREEN + "Successfully converted and registered warps (" + convertedWarps.size() + "):");
         convertedWarps.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp.getName()));
         return state;
     }
