@@ -1,12 +1,10 @@
 package io.github.bilektugrul.simpleservertools.converting;
 
 import io.github.bilektugrul.simpleservertools.SST;
-import me.despical.commons.configuration.ConfigUtils;
-import org.bukkit.configuration.file.FileConfiguration;
+import io.github.bilektugrul.simpleservertools.converting.converters.CMIWarpConverter;
+import io.github.bilektugrul.simpleservertools.converting.converters.EssentialsWarpConverter;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,30 +12,14 @@ import java.util.Map;
 public class ConverterManager {
 
     private final HashMap<Converter, List<String>> converters = new HashMap<>();
-    private final FileConfiguration convertersFile;
-    private final SST plugin;
 
     public ConverterManager(SST plugin) {
-        this.plugin = plugin;
-        convertersFile = ConfigUtils.getConfig(plugin, "converters" + File.separator + "converters");
-        loadConverters();
+        registerConverter(new EssentialsWarpConverter(plugin), "esswarps", "esswarp", "ewarp", "ewarps", "eswarp", "eswarps");
+        registerConverter(new CMIWarpConverter(plugin), "cmiwarps", "cmiwarp", "cwarp", "cwarps", "cmwarp", "cmwarps");
     }
 
-    private void loadConverters() {
-        converters.clear();
-        for (String key : convertersFile.getConfigurationSection("converters").getKeys(false)) {
-            try {
-                String name = key.replace('-', '.');
-                Class<?> converterClass = Class.forName(name);
-                Constructor<?> constructor = converterClass.getConstructor(SST.class);
-                Object instance = constructor.newInstance(plugin);
-                Converter converter = (Converter) instance;
-                List<String> aliases = convertersFile.getStringList("converters." + key + ".aliases");
-                converters.put(converter, aliases);
-            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-            }
-        }
+    public void registerConverter(Converter converter, String... aliases) {
+        converters.put(converter, Arrays.asList(aliases));
     }
 
     public Converter findConverter(String alias) {
