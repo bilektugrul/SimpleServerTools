@@ -102,8 +102,6 @@ commands:
   tphere:
     usage: /tphere <player>
     aliases: [s]
-  rules:
-    usage: /rules
   afk:
     usage: /afk
 
