@@ -69,6 +69,7 @@ warps:
   # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
 tpa:
+  allow-tpa-to-others-worlds: true
   accept-time: 10
   teleport-time: 5
   staff-bypass-time: true

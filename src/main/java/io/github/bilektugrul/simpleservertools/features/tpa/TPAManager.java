@@ -53,7 +53,13 @@ public class TPAManager {
         }
     }
 
-    public void startWaitTask(Player p, Player to) {
+    public boolean startWaitTask(Player p, Player to) {
+        String toName = to.getName();
+        if (!p.getWorld().equals(to.getWorld()) && !Utils.getBoolean("tpa.allow-tpa-to-others-worlds")) {
+            p.sendMessage(Utils.getMessage("tpa.different-worlds", p)
+                    .replace("%other%", toName));
+            return false;
+        }
         add(p, to);
         new BukkitRunnable() {
 
@@ -66,13 +72,14 @@ public class TPAManager {
                 if (isPresent(to, p) && i == max) {
                     remove(p, to);
                     p.sendMessage(Utils.getMessage("tpa.request-cancelled-2", p)
-                            .replace("%teleporting%", to.getName()));
+                            .replace("%teleporting%", toName));
                     to.sendMessage(Utils.getMessage("tpa.request-cancelled", to)
                             .replace("%requester%", p.getName()));
                     cancel();
                 }
             }
         }.runTaskTimer(plugin, 20L, 20);
+        return true;
     }
 
     public void teleport(Player p, Player to, Location loc, TeleportMode teleportMode) {

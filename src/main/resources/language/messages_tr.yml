@@ -193,6 +193,7 @@ messages:
     not-now: '%tpaprefix% &cŞu an TPA isteği yollayamazsın..'
     not-now-2: '%tpaprefix% &cO oyuncuya şu an TPA isteği yollayamazsın. Daha sonra tekrar dene.'
     toggled: '%tpaprefix% &cArtık TPA isteklerini %newmode%.'
+    different-worlds: '%tpaprefix% &b%other% &cile aynı dünyada olmalısın.'
     modes:
       true: alıyorsun
       false: almıyorsun

@@ -179,6 +179,7 @@ messages:
     not-now: '%tpaprefix% &cYou can not send a TPA request.'
     not-now-2: '%tpaprefix% &cYou can not send a TPA request to that player for now. Try again later.'
     toggled: '%tpaprefix% &cYou %newmode% TPA request from now on.'
+    different-worlds: '%tpaprefix% &cYou must be in the same world with %other%.'
     modes:
       true: will receive
       false: won't receive
