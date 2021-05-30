@@ -21,6 +21,7 @@ import io.github.bilektugrul.simpleservertools.features.language.LanguageManager
 import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.PAPIPlaceholders;
+import io.github.bilektugrul.simpleservertools.features.rules.RulesManager;
 import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
 import io.github.bilektugrul.simpleservertools.features.spy.SpyManager;
 import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
@@ -63,6 +64,7 @@ public class SST extends JavaPlugin {
     private MaintenanceManager maintenanceManager;
     private SpyManager spyManager;
     private ConverterManager converterManager;
+    private RulesManager rulesManager;
 
     private AsyncUserSaveThread asyncUserSaveThread;
 
@@ -126,6 +128,7 @@ public class SST extends JavaPlugin {
         joinMessageManager = new JoinMessageManager(this);
         tpaManager = new TPAManager(this);
         maintenanceManager = new MaintenanceManager(this);
+        rulesManager = new RulesManager(this);
 
         vanishManager = new VanishManager();
         spyManager = new SpyManager();
@@ -181,6 +184,7 @@ public class SST extends JavaPlugin {
         registerCommand(new MaintenanceCommand(this), "maintenance");
         registerCommand(new SocialSpyCommand(this), "spy");
         registerCommand(new ConvertCommand(this), "convert");
+        registerCommand(new RulesCommand(this), "rules");
         registerCommand(new AFKCommand(this), "afk");
 
         if (!disabledCommands.isEmpty()) {
@@ -300,6 +304,10 @@ public class SST extends JavaPlugin {
         return converterManager != null;
     }
 
+    public RulesManager getRulesManager() {
+        return rulesManager;
+    }
+
     public void checkAndLoadPacketListener() {
         if (pluginManager.isPluginEnabled("ProtocolLib")) {
             PLibManager.loadPacketListener(this);
@@ -326,6 +334,7 @@ public class SST extends JavaPlugin {
             joinMessageManager.reload();
             tpaManager.loadSettings();
             maintenanceManager.reload();
+            rulesManager.reloadRules();
             if (Utils.getBoolean("auto-save-users")) {
                 asyncUserSaveThread = new AsyncUserSaveThread(this);
             } else if (asyncUserSaveThread != null) {

@@ -1,0 +1,13 @@
+no-rule: '%prefix% &cThere is no rule. ANARCHY!'
+split-rules-every: 2 # splits rules to pages by every given line
+prefix: '&b&b&b&b&m---&r         &1Rules        &b&m---&r'
+suffix: '&b&b&b&b&m---&r         &1Rules        &b&m---&r'
+mode: BOOK # Modes: BOOK, CHAT
+#page-selector-in-chat: true - not implemented yet
+lines:
+    - '&cDo not use any kind of hacks.'
+    - '&cDo not swear.'
+    - '&cDo not use exploits to get better items or money.'
+    - '&cDo not steal from others.'
+    - '&cDo not attempt to scam.'
+    - '&cDo not attempt to advertise your server or any kind of website/page.'
