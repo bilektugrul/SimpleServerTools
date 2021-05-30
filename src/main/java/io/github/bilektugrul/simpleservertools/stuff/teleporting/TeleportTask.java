@@ -16,8 +16,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class TeleportTask extends BukkitRunnable {
 
-    private final SST plugin = JavaPlugin.getPlugin(SST.class);
-    private final TeleportManager teleportManager = plugin.getTeleportManager();
+    private static final SST plugin = JavaPlugin.getPlugin(SST.class);
+    private static final TeleportManager teleportManager = plugin.getTeleportManager();
+    private static final UserManager userManager = plugin.getUserManager();
 
     private final Player p;
 
@@ -63,7 +64,6 @@ public class TeleportTask extends BukkitRunnable {
 
         cancelMoveMode = settings.getCancelMoveMode();
         cancelDamageMode = settings.getCancelDamageMode();
-        UserManager userManager = plugin.getUserManager();
         user = userManager.getUser(player);
 
         final Mode mode = teleportMode.getMode();

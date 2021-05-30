@@ -6,7 +6,7 @@ import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlace
 import io.github.bilektugrul.simpleservertools.stuff.MessageType;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commons.compat.Titles;
-import net.md_5.bungee.api.ChatColor;
+import me.despical.commons.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -64,7 +64,7 @@ public class Utils {
             plugin.getLogger().warning(org.bukkit.ChatColor.RED + "Your language file[s] is/are corrupted or old. Please reset or update them.");
             return "";
         }
-        msg = placeholderManager.replacePlaceholders(ChatColor.translateAlternateColorCodes('&', msg));
+        msg = placeholderManager.replacePlaceholders(Strings.format(msg));
         if (replacePersonalPlaceholders) {
             msg = msg.replace("%player%", matchName(from));
         }
