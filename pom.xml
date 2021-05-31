@@ -45,6 +45,14 @@
                                     <pattern>io.papermc.lib</pattern>
                                     <shadedPattern>io.github.bilektugrul.simpleservertools.internal.paperlib</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>xyz.upperlevel.spigot.book</pattern>
+                                    <shadedPattern>io.github.bilektugrul.simpleservertools.internal.bookapi</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>me.despical.commons</pattern>
+                                    <shadedPattern>io.github.bilektugrul.simpleservertools.internal.despical-commons</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -105,6 +113,12 @@
             <artifactId>Commons</artifactId>
             <version>1.3.3</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.zaxxer</groupId>
+                    <artifactId>HikariCP</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
