@@ -23,6 +23,9 @@ public class RulesManager {
     double pageCount;
     public List<String> rules;
     public RuleMode ruleMode;
+    public boolean pageSelectorEnabled;
+    public String prefix;
+    public String suffix;
 
     public RulesManager(SST plugin) {
         this.plugin = plugin;
@@ -36,6 +39,9 @@ public class RulesManager {
         pageCount = (double) rules.size() / splitRulesEvery;
         pageCount = Math.ceil(pageCount);
         ruleMode = RuleMode.valueOf(file.getString("mode").toUpperCase(Locale.ROOT));
+        pageSelectorEnabled = file.getBoolean("page-selector.enabled");
+        prefix = file.getString("prefix");
+        suffix = file.getString("suffix");
     }
 
     public List<List<String>> setupRulePages(CommandSender sender) {
@@ -65,19 +71,47 @@ public class RulesManager {
     }
 
     public void sendRules(CommandSender sender, int page) {
+        page = Math.max(1, page);
         if (rules.isEmpty()) {
             sender.sendMessage(Utils.getString(file, "no-rule", sender));
             return;
         }
-
         if (ruleMode == RuleMode.BOOK && sender instanceof Player) {
             openRuleBook((Player) sender);
         } else {
-            sender.sendMessage(Utils.getString(file, "prefix", sender));
+            String pageString = String.valueOf(page);
+            sendComponent(sender, page, pageString);
+
+            if (!prefix.isEmpty()) {
+                String coloredPrefix = Utils.replacePlaceholders(prefix, sender, true);
+                sender.sendMessage(coloredPrefix.replace("%page%", pageString));
+            }
             for (String s : getRulesPage(page)) {
                 sender.sendMessage(Utils.replacePlaceholders(s, sender, true));
             }
-            sender.sendMessage(Utils.getString(file, "suffix", sender));
+            if (!suffix.isEmpty()) {
+                String coloredSuffix = Utils.replacePlaceholders(suffix, sender, true);
+                sender.sendMessage(coloredSuffix.replace("%page%", pageString));
+            }
+
+            sendComponent(sender, page, pageString);
+        }
+    }
+
+    public void sendComponent(CommandSender sender, int page, String pageString) {
+        if (pageSelectorEnabled) {
+            TextComponent component = new TextComponent(Utils.getString(file, "page-selector.back", sender));
+            component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rules " + (page - 1)));
+
+            TextComponent middle = new TextComponent(Utils.getString(file, "page-selector.middle", sender)
+                    .replace("%page%", pageString));
+
+            BaseComponent next = new TextComponent(Utils.getString(file, "page-selector.next", sender));
+            next.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rules " + (page + 1)));
+
+            component.addExtra(middle);
+            component.addExtra(next);
+            sender.sendMessage(component);
         }
     }
 

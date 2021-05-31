@@ -1,13 +1,40 @@
+# Fully configured for you!
+# I recommend using BOOK mode.
+# If you switch to CHAT, you'll have to configure rules again since this configuration is for BOOK mode.
+# It will not look good as good as BOOK mode in CHAT mode.
+
 no-rule: '%prefix% &cThere is no rule. ANARCHY!'
-split-rules-every: 2 # splits rules to pages by every given line
-prefix: '&b&b&b&b&m---&r         &1Rules        &b&m---&r'
-suffix: '&b&b&b&b&m---&r         &1Rules        &b&m---&r'
+split-rules-every: 11 # splits rules to pages by every given line
+prefix: '&b&b&b&b&m---&r         &3Rules        &b&m---&r' # leave empty if you don't want to see this, also only works for chat
+suffix: '&b&b&b&b&m---&r         &3Rules        &b&m---&r' # leave empty if you don't want to see this, also only works for chat
 mode: BOOK # Modes: BOOK, CHAT
-#page-selector-in-chat: true - not implemented yet
+page-selector:
+    enabled: true
+    back: '&c&l<<< Back&r'
+    middle: ' - &ePage %page%&r - '
+    next: '&b&lNext >>>'
 lines:
-    - '&cDo not use any kind of hacks.'
-    - '&cDo not swear.'
-    - '&cDo not use exploits to get better items or money.'
-    - '&cDo not steal from others.'
-    - '&cDo not attempt to scam.'
-    - '&cDo not attempt to advertise your server or any kind of website/page.'
+    # Minecraft's font renderer can get buggy sometimes, so you should repeat color codes sometimes.
+    - '&1&lRULES'
+    - ''
+    - ''
+    - '  &b↳ &cDo not use any kind &cof hacks.'
+    - '  &b↳ &cDo not swear.'
+    - '  &b↳ &cDo not use exploits &cto get better items or &cmoney.'
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+
+    - '&1&lRULES'
+    - ''
+    - ''
+    - '  &b↳ &cDo not steal from &cothers.'
+    - '  &b↳ &cDo not attempt to &cscam.'
+    - '  &b↳ &cDo not attempt to &cadvertise your &cserver or any kind of &cwebsite/page.'
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
