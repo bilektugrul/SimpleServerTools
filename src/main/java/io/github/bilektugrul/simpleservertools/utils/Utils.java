@@ -6,6 +6,7 @@ import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlace
 import io.github.bilektugrul.simpleservertools.stuff.MessageType;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commons.compat.Titles;
+import me.despical.commons.compat.VersionResolver;
 import me.despical.commons.util.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -126,7 +127,7 @@ public class Utils {
                 p.sendMessage(msg);
                 break;
             case TITLE:
-                Titles.sendTitle(p, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"), msg, subtitle);
+                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
                 break;
             case ACTIONBAR:
                 ActionBar.sendActionBar(p, msg.replace('\n', ' '));
@@ -141,6 +142,14 @@ public class Utils {
         }
         sender.sendMessage(getMessage(msg + ".everyone", sender));
         sender.sendMessage(getMessage(msg + ".ending", sender));
+    }
+
+    public static int getPing(Player player) {
+        if (VersionResolver.isCurrentEqualOrHigher(VersionResolver.ServerVersion.v1_16_R1)) {
+            return player.getPing();
+        } else {
+            return player.spigot().getPing();
+        }
     }
 
     public static boolean matchMode(String mode) {

@@ -27,10 +27,10 @@ public class PingCommand implements CommandExecutor {
 
         if (pingPlayer.equals(sender)) {
             pingPlayer.sendMessage(Utils.getMessage("ping.message", pingPlayer)
-                    .replace("%ping%", Integer.toString(pingPlayer.spigot().getPing())));
+                    .replace("%ping%", Integer.toString(Utils.getPing(pingPlayer))));
         } else {
             sender.sendMessage(Utils.getMessage("ping.message-other", sender)
-                    .replace("%ping%", Integer.toString(pingPlayer.spigot().getPing())));
+                    .replace("%ping%", Integer.toString(Utils.getPing(pingPlayer))));
         }
         return true;
     }
