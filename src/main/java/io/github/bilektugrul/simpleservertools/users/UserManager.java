@@ -23,7 +23,7 @@ public class UserManager {
         String name = p.getName();
         UUID uuid = p.getUniqueId();
         YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + uuid + ".yml"));
-        User user = new User(dataFile, uuid, UserState.PLAYING, false, name);
+        User user = new User(dataFile, uuid, UserState.PLAYING, false, name, plugin);
         userList.add(user);
         return user;
     }

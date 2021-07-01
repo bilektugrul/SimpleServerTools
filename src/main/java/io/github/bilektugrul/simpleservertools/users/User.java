@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class User {
 
-    private final static SST plugin = JavaPlugin.getPlugin(SST.class);
+    private final SST plugin;
     private final UUID uuid;
     private UserState state;
     private boolean isGod;
@@ -20,7 +20,7 @@ public class User {
     private final YamlConfiguration data;
     private final String name;
 
-    public User(YamlConfiguration data, UUID uuid, UserState state, boolean isGod, String name) {
+    public User(YamlConfiguration data, UUID uuid, UserState state, boolean isGod, String name, SST plugin) {
         this.uuid = uuid;
         this.state = state;
         this.isGod = isGod;
@@ -28,6 +28,7 @@ public class User {
         if (!data.contains("accepting-tpa")) data.set("accepting-tpa", true);
         if (!data.contains("accepting-msg")) data.set("accepting-msg", true);
         this.name = name;
+        this.plugin = plugin;
     }
 
     public UUID getUUID() {
