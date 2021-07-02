@@ -27,14 +27,13 @@ public class TPACommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
+        if (sender instanceof Player p) {
 
             if (!sender.hasPermission("sst.tpa")) {
                 sender.sendMessage(Utils.getMessage("no-permission", sender));
                 return true;
             }
 
-            Player p = (Player) sender;
             User playerUser = userManager.getUser(p);
 
             if (!playerUser.isAvailable() || !playerUser.isAcceptingTPA()) {
@@ -55,10 +54,16 @@ public class TPACommand implements CommandExecutor {
             }
 
             if (toTeleport != null && !toTeleport.equals(sender)) {
+                String pName = p.getName();
                 User toTeleportUser = userManager.getUser(toTeleport);
+
+                if (toTeleportUser.isBlockedTPAsFrom(pName)) {
+                    p.sendMessage(Utils.getMessage("tpa.blocked"));
+                    return true;
+                }
+
                 if (toTeleportUser.isAcceptingTPA() && toTeleportUser.isAvailable()) {
                     if (tpaManager.startWaitTask(p, toTeleport)) {
-                        String pName = p.getName();
                         p.sendMessage(Utils.getMessage("tpa.request-sent", p)
                                 .replace("%teleporting%", toTeleport.getName()));
                         toTeleport.sendMessage(Utils.getMessage("tpa.new-request", toTeleport)

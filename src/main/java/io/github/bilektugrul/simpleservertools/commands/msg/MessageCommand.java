@@ -43,15 +43,16 @@ public class MessageCommand implements CommandExecutor {
             return true;
         }
 
+        String senderName = Utils.matchName(sender);
         String format = Utils.getMessage("msg.format", sender)
-                .replace("%from%", Utils.matchName(sender));
+                .replace("%from%", senderName);
 
         String to = args[0];
         boolean reply = false;
 
         if (label.startsWith("r") || label.equalsIgnoreCase("yanıt")) {
             reply = true;
-            to = replyMap.get(sender.getName());
+            to = replyMap.get(senderName);
             if (to == null) {
                 sender.sendMessage(Utils.getMessage("msg.no-reply-player", sender));
                 return true;
@@ -87,6 +88,11 @@ public class MessageCommand implements CommandExecutor {
             return true;
         }
 
+        if (toUser.isBlockedMsgsFrom(senderName)) {
+            sender.sendMessage(Utils.getMessage("msg.blocked", sender));
+            return true;
+        }
+
         if (!senderAcceptMessages) {
             sender.sendMessage(Utils.getMessage("msg.closed-self", sender));
             return true;
@@ -102,7 +108,7 @@ public class MessageCommand implements CommandExecutor {
         toPlayer.sendMessage(format);
         sender.sendMessage(format);
         spyManager.sendMessageToSpies(format, sender, toPlayer);
-        replyMap.put(sender.getName(), toPlayerName);
+        replyMap.put(senderName, toPlayerName);
         return true;
     }
 

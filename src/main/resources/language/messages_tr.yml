@@ -208,6 +208,12 @@ messages:
         %tpaprefix%
         &b%teleporting% &eadlı oyuncuya ışınlanıldı.
     teleport-cancelled: '%tpaprefix% &cIşınlanma iptal edildi.'
+    blocked: '%tpaprefix% &cBu oyuncu sizi engellemiş.'
+    block-toggled: '%tpaprefix% &b%blocked% %toggledto%'
+    block-modes:
+      true: '&cengellendi.'
+      false: '&aartık engelli değil.'
+    wrong-ignore: '%tpaprefix% &c/tpaignore <player>'
 
   tpall:
     teleported: '%prefix% &6Toplam &3%size% &6kişi size teleportlandı.'
@@ -223,6 +229,12 @@ messages:
     modes:
       false: '&calmıyorsun'
       true: '&aalıyorsun'
+    blocked: '%prefix% &cBu oyuncu sizi engellemiş.'
+    block-toggled: '%prefix% &b%blocked% %toggledto%'
+    block-modes:
+      true: '&cengellendi.'
+      false: '&aartık engelli değil.'
+    wrong-ignore: '%prefix% &c/msgignore <player>'
 
   speed:
     wrong-usage: '%prefix% &cKomutu hatalı kullandın. Doğru kullanım: &b/speed [walk/fly] <hız> [<oyuncu>]'

@@ -106,6 +106,10 @@ commands:
     usage: /rules
   afk:
     usage: /afk
+  tpaignore:
+    usage: /tpaignore <player>
+  msgignore:
+    usage: /msgignore <player>
 
 permissions:
   sst.*:
@@ -212,4 +216,8 @@ permissions:
       sst.tphere:
         default: op
       sst.afk:
+        default: op
+      sst.tpaignore:
+        default: op
+      sst.msgignore:
         default: op

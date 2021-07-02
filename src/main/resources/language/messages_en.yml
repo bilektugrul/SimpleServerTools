@@ -194,6 +194,12 @@ messages:
         %tpaprefix%
         &eYou have teleported to &b%teleporting%
     teleport-cancelled: '%tpaprefix% &cTeleport cancelled.'
+    blocked: '%tpaprefix% &cThat player have blocked you.'
+    block-toggled: '%tpaprefix% &b%blocked% %toggledto%'
+    block-modes:
+      true: '&cis blocked now.'
+      false: '&ais no longer blocked.'
+    wrong-ignore: '%tpaprefix% &c/tpaignore <player>'
 
   tpall:
     teleported: '%prefix% &3%size% &6people teleported to you.'
@@ -209,6 +215,12 @@ messages:
     modes:
       false: '&cwill not receieve any messages'
       true: '&awill receive every message'
+    blocked: '%prefix% &cThat player have blocked you.'
+    block-toggled: '%prefix% &b%blocked% %toggledto%'
+    block-modes:
+      true: '&cis blocked now'
+      false: '&ais no longer blocked'
+    wrong-ignore: '%prefix% &c/msgignore <player>'
 
   speed:
     wrong-usage: '%prefix% &cWrong usage. Correct usage: &b/speed [walk/fly] <speed> [<player>]'

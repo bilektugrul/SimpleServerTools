@@ -26,8 +26,7 @@ public class TPAAcceptCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.tpa") && sender instanceof Player) {
-            Player p = (Player) sender;
+        if (sender.hasPermission("sst.tpa") && sender instanceof Player p) {
             if (args.length == 1 && tpaManager.isPresent(p)) {
                 Player reqSender = Bukkit.getPlayer(args[0]);
                 if (reqSender != null && !reqSender.equals(sender) && tpaManager.isPresent(p, reqSender) && userManager.getUser(reqSender).isAvailable()) {

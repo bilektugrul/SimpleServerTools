@@ -3,14 +3,12 @@ package io.github.bilektugrul.simpleservertools;
 import io.github.bilektugrul.simpleservertools.commands.*;
 import io.github.bilektugrul.simpleservertools.commands.gamemode.GamemodeCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageCommand;
+import io.github.bilektugrul.simpleservertools.commands.msg.MessageIgnoreCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageToggleCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SetSpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.spawn.SpawnCommand;
 import io.github.bilektugrul.simpleservertools.commands.speed.SpeedCommand;
-import io.github.bilektugrul.simpleservertools.commands.tpa.TPAAcceptCommand;
-import io.github.bilektugrul.simpleservertools.commands.tpa.TPACommand;
-import io.github.bilektugrul.simpleservertools.commands.tpa.TPADenyCommand;
-import io.github.bilektugrul.simpleservertools.commands.tpa.TPAToggleCommand;
+import io.github.bilektugrul.simpleservertools.commands.tpa.*;
 import io.github.bilektugrul.simpleservertools.commands.warp.DelWarpCommand;
 import io.github.bilektugrul.simpleservertools.commands.warp.SetWarpCommand;
 import io.github.bilektugrul.simpleservertools.commands.warp.WarpCommand;
@@ -186,6 +184,8 @@ public class SST extends JavaPlugin {
         registerCommand(new ConvertCommand(this), "convert");
         registerCommand(new RulesCommand(this), "rules");
         registerCommand(new AFKCommand(this), "afk");
+        registerCommand(new TPAIgnoreCommand(this), "tpaignore");
+        registerCommand(new MessageIgnoreCommand(this), "msgignore");
 
         if (!disabledCommands.isEmpty()) {
             logger.info(ChatColor.RED + "Some commands are disabled. You have to remove them from disabled commands list and restart the server if you want to use them. ");

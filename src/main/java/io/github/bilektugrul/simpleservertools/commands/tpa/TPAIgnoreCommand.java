@@ -10,23 +10,31 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class TPAToggleCommand implements CommandExecutor {
+public class TPAIgnoreCommand implements CommandExecutor {
 
     private final UserManager userManager;
 
-    public TPAToggleCommand(SST plugin) {
+    public TPAIgnoreCommand(SST plugin) {
         this.userManager = plugin.getUserManager();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.tpatoggle") && sender instanceof Player p) {
+        if (sender.hasPermission("sst.tpaignore") && sender instanceof Player p) {
+
+            if (args.length == 0) {
+                sender.sendMessage(Utils.getMessage("tpa.wrong-ignore"));
+                return true;
+            }
+
+            String block = args[0];
             User user = userManager.getUser(p);
-            boolean newMode = !user.isAcceptingTPA();
-            user.setAcceptingTPA(newMode);
-            p.sendMessage(Utils.getMessage("tpa.toggled", p)
-                    .replace("%newmode%", Utils.getMessage("tpa.modes." + newMode, p)));
-         } else {
+            boolean toggledTo = user.toggleTPABlock(block);
+
+            p.sendMessage(Utils.getMessage("tpa.block-toggled", p)
+                    .replace("%blocked%", block)
+                    .replace("%toggledto%", Utils.getMessage("tpa.block-modes." + toggledTo, p)));
+        } else {
             sender.sendMessage(Utils.getMessage("no-permission", sender));
         }
         return true;
