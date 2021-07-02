@@ -65,7 +65,8 @@ public class Utils {
             plugin.getLogger().warning(org.bukkit.ChatColor.RED + "Your language file[s] is/are corrupted or old. Please reset or update them.");
             return "";
         }
-        msg = placeholderManager.replacePlaceholders(Strings.format(msg));
+        msg = placeholderManager.replacePlaceholders(Strings.format(msg))
+                .replace("%nl%", "\n");
         if (replacePersonalPlaceholders) {
             msg = msg.replace("%player%", matchName(from));
         }
