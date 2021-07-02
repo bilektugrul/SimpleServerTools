@@ -13,12 +13,11 @@ public class TopCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player) || !sender.hasPermission("sst.top")) {
+        if (!(sender instanceof Player p) || !sender.hasPermission("sst.top")) {
             sender.sendMessage(Utils.getMessage("no-permission", sender));
             return true;
         }
 
-        Player p = (Player) sender;
         Location loc = p.getLocation();
         World world = p.getWorld();
         p.teleport(world.getHighestBlockAt(loc).getLocation());

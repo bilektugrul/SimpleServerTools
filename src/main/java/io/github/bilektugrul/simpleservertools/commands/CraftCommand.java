@@ -11,8 +11,7 @@ public class CraftCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.craft")) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p && sender.hasPermission("sst.craft")) {
             p.closeInventory();
             p.openWorkbench(p.getLocation(), true);
         } else {

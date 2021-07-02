@@ -18,9 +18,8 @@ public class InvSeeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.invsee")) {
-            Player senderPlayer = (Player) sender;
-             if (args.length >= 1) {
+        if (sender instanceof Player senderPlayer && sender.hasPermission("sst.invsee")) {
+            if (args.length >= 1) {
                 Player invPlayer = Bukkit.getPlayer(args[0]);
                 if (invPlayer != null) {
                     if (args.length == 1) {

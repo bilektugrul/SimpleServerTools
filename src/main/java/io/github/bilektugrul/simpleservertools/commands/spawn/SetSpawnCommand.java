@@ -21,8 +21,7 @@ public class SetSpawnCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.setspawn")) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p && sender.hasPermission("sst.setspawn")) {
             Location newLoc = p.getLocation();
             if (spawnManager.getSpawn() == null) {
                 spawnManager.setSpawn(newLoc);

@@ -12,8 +12,7 @@ public class EnderChestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.enderchest")) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p && sender.hasPermission("sst.enderchest")) {
             Player holder = p;
 
             if (args.length >= 1) {

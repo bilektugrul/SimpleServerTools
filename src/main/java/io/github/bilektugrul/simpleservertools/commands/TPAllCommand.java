@@ -14,8 +14,7 @@ public class TPAllCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.tpall")) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p && sender.hasPermission("sst.tpall")) {
             Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             for (Player player : players) {
                 player.teleport(p);

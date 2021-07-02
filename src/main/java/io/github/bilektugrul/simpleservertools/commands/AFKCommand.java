@@ -20,8 +20,7 @@ public class AFKCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player && sender.hasPermission("sst.afk")) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player && sender.hasPermission("sst.afk")) {
             User user = userManager.getUser(player);
             user.setAfk(!user.isAfk());
             player.sendMessage(Utils.getMessage("afk.toggled", player)
