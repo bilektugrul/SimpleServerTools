@@ -1,10 +1,10 @@
 package io.github.bilektugrul.simpleservertools.commands;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.converting.Converter;
 import io.github.bilektugrul.simpleservertools.converting.ConverterManager;
 import io.github.bilektugrul.simpleservertools.converting.FinalState;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
-import io.github.bilektugrul.simpleservertools.converting.Converter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
