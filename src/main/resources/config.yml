@@ -1,6 +1,7 @@
 # SST recommends and supports PlaceholderAPI. You can install it for using thousands of placeholders.
 # You have to install ProtocolLib for editing client-side max player and player count in server list.
 
+# Check https://github.com/bilektugrul/SimpleServerTools/tree/master/src/main/resources/language for supported languages
 language: en
 
 custom-placeholders: # You can use these placeholders everywhere in SST files. (%prefix%, %warpprefix%, %spawnprefix%)
