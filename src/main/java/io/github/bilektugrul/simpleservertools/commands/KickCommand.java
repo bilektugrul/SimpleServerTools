@@ -26,7 +26,12 @@ public class KickCommand implements CommandExecutor {
 
         Player kickPlayer = Bukkit.getPlayer(args[0]);
 
-        if (kickPlayer != null && !kickPlayer.hasPermission("sst.admin") || sender.hasPermission("sst.kick.admins")) {
+        if (kickPlayer == null) {
+            sender.sendMessage(Utils.getMessage("kick.not-online", sender));
+            return true;
+        }
+
+        if (!kickPlayer.hasPermission("sst.admin") || sender.hasPermission("sst.kick.admins")) {
             String kickString = Utils.getMessage("kick.kick-message", kickPlayer)
                     .replace("%kicker%", sender.getName());
 
@@ -47,7 +52,7 @@ public class KickCommand implements CommandExecutor {
             sender.sendMessage(Utils.getMessage("kick.kicked", sender)
                     .replace("%kicked%", kickPlayer.getName()));
         } else {
-            sender.sendMessage(Utils.getMessage("kick.went-wrong", sender));
+            sender.sendMessage(Utils.getMessage("kick.no-permission", sender));
         }
         return true;
     }

@@ -170,7 +170,8 @@ messages:
       message: '%prefix% &e%kicked% &6adlı oyuncu &e%kicker% &6tarafından sunucudan atıldı.'
     kick-message: '%prefix% &c%kicker% adlı yetkili tarafından atıldın.'
     kicked: '%prefix% &e%kicked% &3adlı oyuncuyu attın.'
-    went-wrong: '%prefix% &cBir şeyler ters gitti.'
+    not-online: '%prefix% &cBu oyuncu aktif değil.'
+    no-permission: '%prefix% &cBu oyuncuyu sunucudan atamazsın.'
     wrong-usage: '%prefix% &cKomutu hatalı kullandın. Kicklenecek oyuncuyu ve opsiyonel olarak da kick mesajını girmelisin. '
 
   tpa:

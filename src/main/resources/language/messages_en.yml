@@ -156,7 +156,8 @@ messages:
       message: '%prefix% &e%kicked% &6has been kicked by &e%kicker%.'
     kick-message: '%prefix% &c%kicker% &6has been kicked you.'
     kicked: '%prefix% &cYou have kicked &e%kicked%.'
-    went-wrong: '%prefix% &cSomething went wrong.'
+    not-online: '%prefix% &cThat player is not online.'
+    no-permission: '%prefix% &cYou can not kick that player.'
     wrong-usage: '%prefix% &cWrong usage.'
 
   tpa:
