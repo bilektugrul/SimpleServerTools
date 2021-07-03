@@ -46,7 +46,7 @@ public class RulesManager {
         suffix = file.getString("suffix");
     }
 
-    public List<List<String>> setupRulePages(CommandSender sender) {
+    public List<List<String>> setupRulePages() {
         List<List<String>> pages =  new ArrayList<>();
         for (int i = 1; i <= pageCount; i++) {
             pages.add(getRulesPage(i));
@@ -118,7 +118,7 @@ public class RulesManager {
     }
 
     public void openRuleBook(Player player) {
-        List<List<String>> pages = setupRulePages(player);
+        List<List<String>> pages = setupRulePages();
         List<BaseComponent[]> pageComponents = new ArrayList<>();
         for (List<String> page : pages) {
             String pageString = Utils.replacePlaceholders(pageToString(page), player, true);
