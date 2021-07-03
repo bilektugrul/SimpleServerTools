@@ -55,7 +55,7 @@ public class TPAManager {
 
     public boolean startWaitTask(Player p, Player to) {
         String toName = to.getName();
-        if (!p.getWorld().equals(to.getWorld()) && !Utils.getBoolean("tpa.allow-tpa-to-others-worlds")) {
+        if (!p.getWorld().equals(to.getWorld()) && !Utils.getBoolean("tpa.allow-tpa-to-other-worlds")) {
             p.sendMessage(Utils.getMessage("tpa.different-worlds", p)
                     .replace("%other%", toName));
             return false;
