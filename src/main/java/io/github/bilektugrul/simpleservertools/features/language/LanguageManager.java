@@ -36,12 +36,8 @@ public class LanguageManager {
         return language;
     }
 
-    public String getLanguageString() {
-        return languageString;
-    }
-
     public String getLanguageName() {
-        return getString("language");
+        return languageString;
     }
 
     public String getString(String string) {
