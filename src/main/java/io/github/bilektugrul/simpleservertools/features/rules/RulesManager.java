@@ -78,8 +78,8 @@ public class RulesManager {
             sender.sendMessage(Utils.getString(file, "no-rule", sender));
             return;
         }
-        if (ruleMode == RuleMode.BOOK && sender instanceof Player) {
-            openRuleBook((Player) sender);
+        if (ruleMode == RuleMode.BOOK && sender instanceof Player p) {
+            openRuleBook(p);
         } else {
             String pageString = String.valueOf(page);
             sendComponent(sender, page, pageString);
