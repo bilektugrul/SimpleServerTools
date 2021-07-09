@@ -60,15 +60,18 @@ public class ConvertCommand implements CommandExecutor {
                 timer.remove(name);
                 FinalState state = converter.convert();
                 switch (state) {
-                    case COMPLETED:
+                    case COMPLETED -> {
                         sender.sendMessage(ChatColor.GREEN + "Convert successfully completed. Check console for more information.");
                         return true;
-                    case ALMOST:
+                    }
+                    case ALMOST -> {
                         sender.sendMessage(ChatColor.RED + "Convert completed with some errors. Check console for more information.");
                         return true;
-                    case UNSUCCESSFUL:
+                    }
+                    case UNSUCCESSFUL -> {
                         sender.sendMessage(ChatColor.RED + "Convert could not be completed. Check console for more information.");
                         return true;
+                    }
                 }
             }
         } else {

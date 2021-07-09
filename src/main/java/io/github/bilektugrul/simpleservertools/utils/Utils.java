@@ -124,15 +124,9 @@ public class Utils {
         msg = msg.replace("%time%", time);
         subtitle = subtitle.replace("%time%", time) ;
         switch (mode) {
-            case CHAT:
-                p.sendMessage(msg);
-                break;
-            case TITLE:
-                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
-                break;
-            case ACTIONBAR:
-                ActionBar.sendActionBar(p, msg.replace('\n', ' '));
-                break;
+            case CHAT -> p.sendMessage(msg);
+            case TITLE -> Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+            case ACTIONBAR -> ActionBar.sendActionBar(p, msg.replace('\n', ' '));
         }
     }
 

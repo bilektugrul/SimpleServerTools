@@ -162,8 +162,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
         Entity victim = e.getEntity();
-        if (victim instanceof Player) {
-            Player victimPlayer = (Player) victim;
+        if (victim instanceof Player victimPlayer) {
             if (victimPlayer.isOnline()) { // NPC check
                 User user = userManager.getUser(victimPlayer);
                 e.setCancelled(user.isGod());
@@ -213,16 +212,12 @@ public class PlayerListener implements Listener {
     }
 
     private TeleportSettings getCurrentSettings(User user) {
-        switch (user.getState()) {
-            case TELEPORTING:
-                return warpManager.getSettings();
-            case TELEPORTING_SPAWN:
-                return spawnManager.getSettings();
-            case TELEPORTING_PLAYER:
-                return tpaManager.getSettings();
-            default:
-                return null;
-        }
+        return switch (user.getState()) {
+            case TELEPORTING -> warpManager.getSettings();
+            case TELEPORTING_SPAWN -> spawnManager.getSettings();
+            case TELEPORTING_PLAYER -> tpaManager.getSettings();
+            default -> null;
+        };
     }
 
     private boolean getCancelState(User user) {

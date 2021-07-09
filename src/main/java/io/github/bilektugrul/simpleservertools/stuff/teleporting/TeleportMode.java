@@ -6,19 +6,10 @@ import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 
 import java.util.Locale;
 
-public class TeleportMode {
-
-    private final Mode mode;
-    private final Warp warp;
-    private final Spawn spawn;
-    private final TPAInfo tpaInfo;
-
-    public TeleportMode(Mode mode, Warp warp, Spawn spawn, TPAInfo tpaInfo) {
-        this.mode = mode;
-        this.warp = warp;
-        this.spawn = spawn;
-        this.tpaInfo = tpaInfo;
-    }
+public record TeleportMode(Mode mode,
+                           Warp warp,
+                           Spawn spawn,
+                           TPAInfo tpaInfo) {
 
     public Mode getMode() {
         return mode;
