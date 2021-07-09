@@ -163,6 +163,13 @@ public class PlayerListener implements Listener {
     public void onDamage(EntityDamageEvent e) {
         Entity victim = e.getEntity();
         if (victim instanceof Player victimPlayer) {
+            if (e.getCause() == EntityDamageEvent.DamageCause.VOID) {
+                if (Utils.getBoolean("falling-into-void.teleport-spawn")) {
+                    victim.teleport(spawnManager.getSpawn().getLocation());
+                    if (Utils.getBoolean("falling-into-void.cancel-damage")) e.setCancelled(true);
+                    return;
+                }
+            }
             if (victimPlayer.isOnline()) { // NPC check
                 User user = userManager.getUser(victimPlayer);
                 e.setCancelled(user.isGod());
@@ -186,7 +193,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         User user = userManager.getUser(player);

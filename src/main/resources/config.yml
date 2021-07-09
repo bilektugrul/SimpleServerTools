@@ -45,6 +45,10 @@ auto-respawn:
   enabled: true # removes respawn screen
   permission-required: false # sst.autorespawn
 
+falling-into-void:
+  teleport-spawn: false
+  cancel-damage: false
+
 titles: # Settings for title messages that are used in language files.
   fade-in: 0
   stay: 30
