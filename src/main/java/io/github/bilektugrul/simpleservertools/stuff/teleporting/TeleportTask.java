@@ -1,6 +1,5 @@
 package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
-import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.MessageType;
 import io.github.bilektugrul.simpleservertools.users.User;
@@ -11,14 +10,11 @@ import io.papermc.lib.PaperLib;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TeleportTask extends BukkitRunnable {
 
-    private static final SST plugin = JavaPlugin.getPlugin(SST.class);
-    private static final TeleportManager teleportManager = plugin.getTeleportManager();
-    private static final UserManager userManager = plugin.getUserManager();
+    private final TeleportManager teleportManager;
 
     private final Player p;
 
@@ -40,7 +36,8 @@ public class TeleportTask extends BukkitRunnable {
     private final User user;
     private final String mode;
 
-    public TeleportTask(Player player, Location loc, TeleportMode teleportMode, TeleportSettings teleportSettings) {
+    public TeleportTask(Player player, Location loc, TeleportMode teleportMode, TeleportSettings teleportSettings, TeleportManager teleportManager, UserManager userManager) {
+        this.teleportManager = teleportManager;
         p = player;
         settings = teleportSettings;
         mode = teleportMode.getModeString();
@@ -145,7 +142,7 @@ public class TeleportTask extends BukkitRunnable {
 
     public void cancelTeleport(boolean msg) {
         user.setState(UserState.PLAYING);
-        if (msg) p.sendMessage(Utils.getMessage("" + mode + ".teleport-cancelled", p));
+        if (msg) p.sendMessage(Utils.getMessage(mode + ".teleport-cancelled", p));
         teleportManager.getTeleportTasks().remove(this);
         super.cancel();
     }

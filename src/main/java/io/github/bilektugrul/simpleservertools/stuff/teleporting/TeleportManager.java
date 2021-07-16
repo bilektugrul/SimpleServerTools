@@ -27,7 +27,7 @@ public class TeleportManager {
 
     public void teleport(Player p, Location loc, TeleportMode teleportMode, TeleportSettings teleportSettings) {
         if (!userManager.isTeleporting(p)) {
-            TeleportTask task = new TeleportTask(p, loc, teleportMode, teleportSettings);
+            TeleportTask task = new TeleportTask(p, loc, teleportMode, teleportSettings, this, userManager);
             teleportTasks.add(task);
             task.runTaskTimer(plugin, 0, 20L);
         }

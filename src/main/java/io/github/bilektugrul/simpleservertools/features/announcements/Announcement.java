@@ -1,18 +1,6 @@
 package io.github.bilektugrul.simpleservertools.features.announcements;
 
-public class Announcement {
-
-    private final AnnouncementType type;
-    private final String permission;
-    private final String group;
-    private final String content;
-
-    public Announcement(AnnouncementType type, String permission, String group, String content) {
-        this.type = type;
-        this.permission = permission;
-        this.group = group;
-        this.content = content;
-    }
+public record Announcement(AnnouncementType type, String permission, String group, String content) {
 
     public Announcement(AnnouncementType type, String group, String content) {
         this(type, null, group, content);
