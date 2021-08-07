@@ -93,6 +93,9 @@ tpa:
     mode: EVERYONE
   # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
+homes:
+  default-max-home-amount: 3
+
 convert-enabled: false # disables /convert by default. set this to true if you want to use a converter.
 
 disabled-commands:

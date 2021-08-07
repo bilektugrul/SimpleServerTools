@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools.users;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.features.homes.Home;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -23,7 +24,12 @@ public class UserManager {
         String name = p.getName();
         UUID uuid = p.getUniqueId();
         YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + uuid + ".yml"));
-        User user = new User(dataFile, uuid, UserState.PLAYING, false, name, plugin);
+        Set<Home> homes = new HashSet<>();
+        for (String homeName : dataFile.getConfigurationSection("homes").getKeys(false)) {
+            Home home = new Home(homeName, dataFile.getLocation("homes." + homeName + ".location"));
+            homes.add(home);
+        }
+        User user = new User(dataFile, uuid, UserState.PLAYING, false, name, homes, plugin);
         userList.add(user);
         return user;
     }

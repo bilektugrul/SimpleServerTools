@@ -1,15 +1,17 @@
 package io.github.bilektugrul.simpleservertools.users;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.features.homes.Home;
+import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
+import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class User {
 
@@ -23,8 +25,9 @@ public class User {
 
     private final List<String> tpaBlockedPlayers = new ArrayList<>();
     private final List<String> msgBlockedPlayers = new ArrayList<>();
+    private final Set<Home> homes = new HashSet<>();
 
-    public User(YamlConfiguration data, UUID uuid, UserState state, boolean isGod, String name, SST plugin) {
+    public User(YamlConfiguration data, UUID uuid, UserState state, boolean isGod, String name, Set<Home> homes, SST plugin) {
         this.uuid = uuid;
         this.state = state;
         this.isGod = isGod;
@@ -73,6 +76,35 @@ public class User {
 
     public List<String> getTPABlockedPlayers() {
         return tpaBlockedPlayers;
+    }
+
+    public Set<Home> getHomes() {
+        return homes;
+    }
+
+    public Home getHomeByName(String name) {
+        for (Home home : homes) {
+            if (home.getName().equals(name)) {
+                return home;
+            }
+        }
+        return null;
+    }
+
+    public boolean createHome(Player userPlayer, String name, Location location) {
+        if (getHomeByName(name) == null && homes.size() != getMaxHomeAmount(userPlayer)) {
+            homes.add(new Home(name, location));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteHome(String name) {
+        return homes.removeIf(home -> home.getName().equals(name));
+    }
+
+    public int getMaxHomeAmount(Player userPlayer) {
+        return Utils.getMaximum(userPlayer, "sst.homes.", HomeManager.defaultMaxHomeAmount);
     }
 
     public boolean toggleTPABlock(String name) {
@@ -134,6 +166,9 @@ public class User {
     public void save() throws IOException {
         data.set("msg-blocked-players", msgBlockedPlayers);
         data.set("tpa-blocked-players", tpaBlockedPlayers);
+        for (Home home : homes) {
+            data.set("homes." + home.getName() + ".location", home.getLocation());
+        }
         data.save(new File(plugin.getDataFolder() + "/players/" + uuid + ".yml"));
     }
 
