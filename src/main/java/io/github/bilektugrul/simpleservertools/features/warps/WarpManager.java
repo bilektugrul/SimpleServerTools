@@ -127,7 +127,6 @@ public class WarpManager {
     public void saveWarps() {
         for (Warp entry : warpList) {
             String name = entry.getName();
-
             warpsFile.set(("warps." + name + ".location"), entry.getLocation());
             warpsFile.set(("warps." + name + ".permissionRequired"), entry.getPermRequire());
         }
@@ -143,7 +142,7 @@ public class WarpManager {
         boolean isAdmin = sender.hasPermission("sst.admin");
         if (!warpList.isEmpty()) {
             List<String> warps = warpList.stream()
-                    .filter(warp -> isAdmin || !warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission()))
+                    .filter(warp -> isAdmin || !warp.getPermRequire() || sender.hasPermission(warp.getPermission()))
                     .map(Warp::getName)
                     .collect(Collectors.toList());
             return String.join(", ", warps);
@@ -174,12 +173,10 @@ public class WarpManager {
 
     public void loadWarps() {
         warpList.clear();
-        if (warpsFile.contains("warps")) {
-            for (String name : warpsFile.getConfigurationSection("warps").getKeys(false)) {
-                boolean permRequired = warpsFile.getBoolean("warps." + name + ".permissionRequired");
-                Location location = (Location) warpsFile.get("warps." + name + ".location");
-                warpList.add(new Warp(name, location, permRequired));
-            }
+        for (String name : warpsFile.getConfigurationSection("warps").getKeys(false)) {
+            boolean permRequired = warpsFile.getBoolean("warps." + name + ".permissionRequired");
+            Location location = (Location) warpsFile.get("warps." + name + ".location");
+            warpList.add(new Warp(name, location, permRequired));
         }
     }
 
