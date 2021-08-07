@@ -63,7 +63,7 @@ public class TeleportTask extends BukkitRunnable {
         cancelDamageMode = settings.getCancelDamageMode();
         user = userManager.getUser(player);
 
-        final Mode mode = teleportMode.getMode();
+        Mode mode = teleportMode.getMode();
 
         if (mode == Mode.WARPS) {
             user.setState(UserState.TELEPORTING);

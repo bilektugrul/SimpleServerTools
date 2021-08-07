@@ -43,7 +43,7 @@ public class AnnouncementManager {
     public void reload() {
         announcementsFile = ConfigUtils.getConfig(plugin, "announcements");
         load();
-        if (announcementTask != null && announcementTask.hasStarted) {
+        if (announcementTask != null && announcementTask.isStarted()) {
             announcementTask.cancel();
             announcementTask = null;
         }
@@ -55,7 +55,7 @@ public class AnnouncementManager {
         if (enabled) {
             announcementTask = new AsyncAnnouncementTask(this, plugin, matchMode());
             announcementTask.start();
-        } else if (announcementTask != null && announcementTask.hasStarted) {
+        } else if (announcementTask != null && announcementTask.isStarted()) {
             announcementTask.cancel();
             announcementTask = null;
         }

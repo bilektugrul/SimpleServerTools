@@ -20,7 +20,7 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
     private final AnnouncementMode mode;
     private int next = 0;
 
-    public boolean hasStarted = false;
+    private boolean started = false;
 
     private final List<Announcement> list;
 
@@ -38,7 +38,7 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
 
     public void start() {
         plugin.getLogger().info("Async announcement thread starting...");
-        hasStarted = true;
+        started = true;
         int i = announcementManager.getAnnouncementsFile().getInt("announcements.time");
         long time = i * 20L;
         runTaskTimerAsynchronously(plugin, time, time);
@@ -78,6 +78,10 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
                 }
             }
         }
+    }
+
+    public boolean isStarted() {
+        return started;
     }
 
 }
