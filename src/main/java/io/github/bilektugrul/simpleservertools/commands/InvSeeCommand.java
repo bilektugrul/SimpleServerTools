@@ -39,7 +39,7 @@ public class InvSeeCommand implements CommandExecutor {
                 }
             }
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

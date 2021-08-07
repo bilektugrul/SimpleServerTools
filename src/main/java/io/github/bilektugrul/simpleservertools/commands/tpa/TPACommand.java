@@ -30,7 +30,7 @@ public class TPACommand implements CommandExecutor {
         if (sender instanceof Player p) {
 
             if (!sender.hasPermission("sst.tpa")) {
-                sender.sendMessage(Utils.getMessage("no-permission", sender));
+                Utils.noPermission(sender);
                 return true;
             }
 
@@ -84,7 +84,7 @@ public class TPACommand implements CommandExecutor {
                 p.sendMessage(Utils.getMessage("tpa.not-found", p));
             }
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

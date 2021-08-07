@@ -54,7 +54,7 @@ public class WarpCommand implements CommandExecutor {
         boolean isNotSame = !toTeleport.equals(sender);
 
         if (isNotSame && !sender.hasPermission("sst.warp.others")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 

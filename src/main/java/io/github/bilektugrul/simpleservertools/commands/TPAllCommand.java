@@ -22,7 +22,7 @@ public class TPAllCommand implements CommandExecutor {
             p.sendMessage(Utils.getMessage("tpall.teleported", p)
                     .replace("%size%", String.valueOf(players.size())));
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

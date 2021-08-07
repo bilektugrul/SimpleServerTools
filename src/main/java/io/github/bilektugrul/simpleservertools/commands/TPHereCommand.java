@@ -13,7 +13,7 @@ public class TPHereCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("sst.tphere")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
@@ -24,7 +24,7 @@ public class TPHereCommand implements CommandExecutor {
 
         Player senderPlayer = sender instanceof Player ? (Player) sender : null;
         if (senderPlayer == null) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 

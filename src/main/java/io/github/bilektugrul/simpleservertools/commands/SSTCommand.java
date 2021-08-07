@@ -25,7 +25,7 @@ public class SSTCommand implements CommandExecutor {
                 Utils.sendMessage(sender, "help-message");
             }
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

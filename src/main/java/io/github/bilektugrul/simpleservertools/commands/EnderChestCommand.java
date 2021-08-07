@@ -19,7 +19,7 @@ public class EnderChestCommand implements CommandExecutor {
                 if (sender.hasPermission("sst.enderchest.others")) {
                     holder = Bukkit.getPlayer(args[0]);
                 } else {
-                    sender.sendMessage(Utils.getMessage("no-permission", sender));
+                    Utils.noPermission(sender);
                     return true;
                 }
                 
@@ -32,7 +32,7 @@ public class EnderChestCommand implements CommandExecutor {
                 p.sendMessage(Utils.getMessage("ender-chest.not-found", p));
             }
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

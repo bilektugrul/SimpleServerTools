@@ -13,9 +13,11 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Locale;
+import java.util.TreeSet;
 
 public class Utils {
 
@@ -26,6 +28,10 @@ public class Utils {
     private static final LanguageManager languageManager = plugin.getLanguageManager();
 
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+
+    public static void noPermission(CommandSender sender) {
+        sender.sendMessage(getMessage("no-permission", sender));
+    }
 
     public static String getMessage(String string) {
         return getString(languageManager.getLanguage(), "messages." + string, null, false, false);
@@ -114,6 +120,18 @@ public class Utils {
 
     public static int getLanguageInt(String path) {
         return languageManager.getLanguage().getInt(path);
+    }
+
+    // made by hakan-krgn
+    public static int getMaximum(Player player, String perm, int def) {
+        TreeSet<Integer> permMax = new TreeSet<>();
+        for (PermissionAttachmentInfo permissionAttachmentInfo : player.getEffectivePermissions()) {
+            String permission = permissionAttachmentInfo.getPermission();
+            if (permission.contains(perm)) {
+                permMax.add(Integer.parseInt(permission.replace(perm, "")));
+            }
+        }
+        return permMax.size() != 0 ? permMax.last() : def;
     }
 
     public static boolean isSameLoc(Location loc1, Location loc2) {

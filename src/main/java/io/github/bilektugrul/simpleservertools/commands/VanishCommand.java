@@ -21,7 +21,7 @@ public class VanishCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!sender.hasPermission("sst.vanish")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
@@ -29,7 +29,7 @@ public class VanishCommand implements CommandExecutor {
         boolean isSame = sender.equals(vanishPlayer);
 
         if (!isSame && !sender.hasPermission("sst.vanish.others")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 

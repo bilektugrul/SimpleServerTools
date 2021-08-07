@@ -35,7 +35,7 @@ public class TPAIgnoreCommand implements CommandExecutor {
                     .replace("%blocked%", block)
                     .replace("%toggledto%", Utils.getMessage("tpa.block-modes." + toggledTo, p)));
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

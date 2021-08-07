@@ -44,7 +44,7 @@ public class TPAAcceptCommand implements CommandExecutor {
                 p.sendMessage(Utils.getMessage("tpa.no-request", p));
             }
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

@@ -32,7 +32,7 @@ public class ConvertCommand implements CommandExecutor {
         }
 
         if (!sender.hasPermission("sst.convert")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
