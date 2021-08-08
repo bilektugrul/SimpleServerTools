@@ -5,6 +5,7 @@ import io.github.bilektugrul.simpleservertools.converting.Converter;
 import io.github.bilektugrul.simpleservertools.converting.FinalState;
 import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
+import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -25,6 +26,11 @@ public class EssentialsWarpConverter implements Converter {
     public EssentialsWarpConverter(SST plugin) {
         this.plugin = plugin;
         this.warpManager = plugin.getWarpManager();
+    }
+
+    @Override
+    public boolean canConvert() {
+        return true;
     }
 
     @Override
@@ -57,8 +63,8 @@ public class EssentialsWarpConverter implements Converter {
                 double x = yaml.getDouble("x");
                 double y = yaml.getDouble("y");
                 double z = yaml.getDouble("z");
-                float yaw = getFloat(yaml, "yaw");
-                float pitch = getFloat(yaml, "pitch");
+                float yaw = Utils.getFloat(yaml, "yaw");
+                float pitch = Utils.getFloat(yaml, "pitch");
                 String name = yaml.getString("name");
 
                 Location loc = new Location(world, x, y, z, yaw, pitch);
@@ -109,8 +115,5 @@ public class EssentialsWarpConverter implements Converter {
         return "bilektugrul";
     }
 
-    public float getFloat(YamlConfiguration yaml, String path) {
-        return Float.parseFloat(yaml.getString(path));
-    }
 
 }

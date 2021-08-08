@@ -29,6 +29,11 @@ public class CMIWarpConverter implements Converter {
     }
 
     @Override
+    public boolean canConvert() {
+        return true;
+    }
+
+    @Override
     public FinalState convert() {
         Logger logger = plugin.getLogger();
         String s = File.separator;

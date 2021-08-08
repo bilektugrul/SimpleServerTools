@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -118,6 +119,10 @@ public class Utils {
         return file.getInt(path);
     }
 
+    public static float getFloat(YamlConfiguration yaml, String path) {
+        return Float.parseFloat(yaml.getString(path));
+    }
+
     public static int getLanguageInt(String path) {
         return languageManager.getLanguage().getInt(path);
     }
@@ -132,6 +137,10 @@ public class Utils {
             }
         }
         return permMax.size() != 0 ? permMax.last() : def;
+    }
+
+    public static Location getLocation(YamlConfiguration yaml, String key) {
+        return (Location) yaml.get(key);
     }
 
     public static boolean isSameLoc(Location loc1, Location loc2) {

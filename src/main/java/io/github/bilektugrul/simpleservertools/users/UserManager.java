@@ -21,16 +21,13 @@ public class UserManager {
     }
 
     public User loadUser(Player p) {
-        String name = p.getName();
-        UUID uuid = p.getUniqueId();
+        return loadUser(p.getUniqueId(), false);
+    }
+
+    public User loadUser(UUID uuid, boolean keep) {
         YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + uuid + ".yml"));
-        Set<Home> homes = new HashSet<>();
-        for (String homeName : dataFile.getConfigurationSection("homes").getKeys(false)) {
-            Home home = new Home(homeName, dataFile.getLocation("homes." + homeName + ".location"));
-            homes.add(home);
-        }
-        User user = new User(dataFile, uuid, UserState.PLAYING, false, name, homes, plugin);
-        userList.add(user);
+        User user = new User(dataFile, uuid, plugin);
+        if (keep) userList.add(user);
         return user;
     }
 

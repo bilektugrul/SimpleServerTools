@@ -21,24 +21,27 @@ public class User {
     private boolean isGod;
     private boolean isAfk;
     private final YamlConfiguration data;
-    private final String name;
 
     private final List<String> tpaBlockedPlayers = new ArrayList<>();
     private final List<String> msgBlockedPlayers = new ArrayList<>();
     private final Set<Home> homes = new HashSet<>();
 
-    public User(YamlConfiguration data, UUID uuid, UserState state, boolean isGod, String name, Set<Home> homes, SST plugin) {
+    public User(YamlConfiguration data, UUID uuid, SST plugin) {
         this.uuid = uuid;
-        this.state = state;
-        this.isGod = isGod;
+        this.state = UserState.PLAYING;
         this.data = data;
 
         if (!data.contains("accepting-tpa")) data.set("accepting-tpa", true);
         if (!data.contains("accepting-msg")) data.set("accepting-msg", true);
         tpaBlockedPlayers.addAll(data.getStringList("tpa-blocked-players"));
         msgBlockedPlayers.addAll(data.getStringList("msg-blocked-players"));
+        if (data.contains("homes")) {
+            for (String homeName : data.getConfigurationSection("homes").getKeys(false)) {
+                Home home = new Home(homeName, Utils.getLocation(data,"homes." + homeName + ".location"));
+                homes.add(home);
+            }
+        }
 
-        this.name = name;
         this.plugin = plugin;
     }
 
@@ -56,10 +59,6 @@ public class User {
 
     public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
-    }
-
-    public String getName() {
-        return name;
     }
 
     public boolean isGod() {
@@ -89,6 +88,14 @@ public class User {
             }
         }
         return null;
+    }
+
+    public boolean createHome(Home home) {
+        if (getHomeByName(home.getName()) == null) {
+            homes.add(home);
+            return true;
+        }
+        return false;
     }
 
     public boolean createHome(Player userPlayer, String name, Location location) {
