@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -40,6 +41,7 @@ public class EssentialsHomeConverter implements Converter {
 
     @Override
     public FinalState convert() {
+        long start = System.currentTimeMillis();
         Logger logger = plugin.getLogger();
 
         if (!canConvert()) {
@@ -55,81 +57,70 @@ public class EssentialsHomeConverter implements Converter {
             return FinalState.UNSUCCESSFUL;
         }
 
-        for (File file : essUsers) {
-            List<Home> convertedHomes = new ArrayList<>();
-            List<String> brokenHomes = new ArrayList<>();
+        List<String> detailedLog = new ArrayList<>();
 
-            String fileName = file.getName();
-            String uuid = fileName.replace(".yml", "");
-            User user = userManager.loadUser(UUID.fromString(uuid), false);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            int count = 0;
+            for (File file : essUsers) {
+                List<Home> convertedHomes = new ArrayList<>();
 
-            try {
-                YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-                for (String homeName : yaml.getConfigurationSection("homes").getKeys(false)) {
+                String fileName = file.getName();
+                String uuid = fileName.replace(".yml", "");
+                User user = null;
 
-                    String full = "homes." + homeName + ".";
+                try {
+                    YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+                    if (yaml.isConfigurationSection("homes")) {
+                        for (String homeName : yaml.getConfigurationSection("homes").getKeys(false)) {
 
-                    String worldName = yaml.getString(full + "world");
-                    World world = Bukkit.getWorld(worldName);
-                    if (world == null) {
-                        logger.warning(ChatColor.RED + "World " + worldName + " does not exist");
-                        brokenHomes.add(homeName);
-                        continue;
+                            String full = "homes." + homeName + ".";
+
+                            String worldName = yaml.getString(full + "world");
+                            assert worldName != null;
+                            World world = Bukkit.getWorld(worldName);
+                            if (world == null) {
+                                detailedLog.add(ChatColor.RED + "World '" + worldName + "' does not exist. (Warning from: home '" + homeName + "' of '" + uuid + "')");
+                                continue;
+                            }
+
+                            user = userManager.loadUser(UUID.fromString(uuid), false);
+                            count++;
+
+                            double x = yaml.getDouble(full + "x");
+                            double y = yaml.getDouble(full + "y");
+                            double z = yaml.getDouble(full + "z");
+                            float yaw = Utils.getFloat(yaml, full + "yaw");
+                            float pitch = Utils.getFloat(yaml, full + "pitch");
+
+                            Location loc = new Location(world, x, y, z, yaw, pitch);
+                            Home converted = new Home(homeName, loc);
+                            convertedHomes.add(converted);
+                        }
+                    }
+                } catch (Exception ex) {
+                    detailedLog.add(ChatColor.RED + "Something went wrong while converting Essentials user data " + fileName + ". Error:" + Arrays.toString(ex.getStackTrace()));
+                }
+
+                if (user != null) {
+                    for (Home convertedHome : convertedHomes) {
+                        if (!user.createHome(convertedHome)) {
+                            detailedLog.add(uuid + " already has a home with name " + convertedHome.getName());
+                        }
                     }
 
-                    double x = yaml.getDouble(full + "x");
-                    double y = yaml.getDouble(full + "y");
-                    double z = yaml.getDouble(full + "z");
-                    float yaw = Utils.getFloat(yaml, full + "yaw");
-                    float pitch = Utils.getFloat(yaml, full + "pitch");
-
-                    Location loc = new Location(world, x, y, z, yaw, pitch);
-                    Home converted = new Home(homeName, loc);
-                    convertedHomes.add(converted);
+                    try {
+                        user.save();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (Exception ex) {
-                logger.warning(ChatColor.RED + "Something went wrong while converting Essentials user data " + fileName + ". Error:");
-                ex.printStackTrace();
             }
 
+            detailedLog.add(System.lineSeparator() + ChatColor.GREEN + (count + " of user home data converted in " + (System.currentTimeMillis() - start) + "ms"));
+            logger.info(Utils.listToString(detailedLog));
+        });
 
-            for (Home convertedHome : convertedHomes) {
-                user.createHome(convertedHome);
-            }
-            try {
-                user.save();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //List<Warp> convertedWarps2 = new ArrayList<>(convertedHomes);
-
-        /*for (Warp converted : convertedWarps2) {
-            if (!warpManager.registerWarp(converted)) {
-                brokenHomes.add(converted.getName());
-                convertedHomes.remove(converted);
-            }
-        }*/
-
-        /*if (brokenHomes.size() == essUsers.length) {
-            logger.log(Level.WARNING, ChatColor.RED + "Everything went wrong. Sorry. Your Essentials warps files are broken or you have already converted them.");
-            return FinalState.UNSUCCESSFUL;
-        }*/
-
-        FinalState state = FinalState.COMPLETED;
-
-        /*if (brokenHomes.isEmpty()) {
-            logger.info(ChatColor.GREEN + "All Essentials warps has been converted. Congratulations. Never use it again.");
-        } else {
-            logger.warning(ChatColor.RED + "Some Essentials warps couldn't be converted. Here is the list of them:");
-            brokenHomes.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp));
-            state = FinalState.ALMOST;
-        }*/
-
-        //logger.info(ChatColor.GREEN + "Successfully converted and registered warps (" + convertedHomes.size() + "):");
-        //convertedHomes.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp.getName()));
-        return state;
+        return FinalState.STILL_RUNNING;
     }
 
     @Override

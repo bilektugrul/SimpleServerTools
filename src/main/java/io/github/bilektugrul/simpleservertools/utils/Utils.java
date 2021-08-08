@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.TreeSet;
 
@@ -187,6 +188,14 @@ public class Utils {
     public static String arrayToString(String[] array, CommandSender sender, boolean replacePersonalPlaceholders, boolean replacePAPI) {
         String str = String.join(" ", array);
         return replacePlaceholders(str, sender, replacePersonalPlaceholders, replacePAPI);
+    }
+
+    public static String listToString(List<String> list) {
+        StringBuilder builder = new StringBuilder();
+        for (String s : list) {
+            builder.append(s).append("\n");
+        }
+        return builder.toString();
     }
 
 }

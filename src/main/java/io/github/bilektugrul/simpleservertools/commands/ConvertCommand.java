@@ -27,12 +27,12 @@ public class ConvertCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Utils.getBoolean("convert-enabled")) {
+        if (!sender.hasPermission("sst.convert")) {
+            Utils.noPermission(sender);
             return true;
         }
 
-        if (!sender.hasPermission("sst.convert")) {
-            Utils.noPermission(sender);
+        if (!Utils.getBoolean("convert-enabled")) {
             return true;
         }
 
@@ -70,6 +70,10 @@ public class ConvertCommand implements CommandExecutor {
                     }
                     case UNSUCCESSFUL -> {
                         sender.sendMessage(ChatColor.RED + "Convert could not be completed. Check console for more information.");
+                        return true;
+                    }
+                    case STILL_RUNNING -> {
+                        sender.sendMessage(ChatColor.GREEN + "Converting process is still running in the background. A message will appear in the console when it's finished.");
                         return true;
                     }
                 }
