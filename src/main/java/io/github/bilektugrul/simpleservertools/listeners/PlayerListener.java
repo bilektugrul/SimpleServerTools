@@ -59,7 +59,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onConnect(PlayerLoginEvent e) {
         Player p = e.getPlayer();
-        if (maintenanceManager.isInMaintenance() && !p.hasPermission("sst.maintenance.join")) {
+        if (maintenanceManager.isFullyClosed()) {
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, maintenanceManager.getFullyClosedMessage());
+        } else if (maintenanceManager.isInMaintenance() && !p.hasPermission("sst.maintenance.join")) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Utils.getString(maintenanceManager.getMaintenanceFile(), "maintenance.in-maintenance-message", p)
                     .replace("%reason%", Utils.replacePlaceholders(maintenanceManager.getReason(), p, true)));
         }

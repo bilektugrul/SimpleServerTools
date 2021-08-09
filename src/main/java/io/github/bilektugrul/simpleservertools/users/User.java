@@ -35,7 +35,7 @@ public class User {
         if (!data.contains("accepting-msg")) data.set("accepting-msg", true);
         tpaBlockedPlayers.addAll(data.getStringList("tpa-blocked-players"));
         msgBlockedPlayers.addAll(data.getStringList("msg-blocked-players"));
-        if (data.contains("homes")) {
+        if (data.isConfigurationSection("homes")) {
             for (String homeName : data.getConfigurationSection("homes").getKeys(false)) {
                 Home home = new Home(homeName, Utils.getLocation(data,"homes." + homeName + ".location"));
                 homes.add(home);

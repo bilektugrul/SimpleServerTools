@@ -6,6 +6,9 @@ maintenance:
   in-maintenance-message: |
     &cWe're in maintenance.
     Reason: %reason%
+  fully-closed-message: |
+    &cServer is in maintenance.
+    &cNobody can enter for now.
   default-reason: '&cWe''re working on some fixes and gameplay changes.'
   last-reason: ''
   changed: '%prefix% &bMaintenance mode is now %newmode%&b.'

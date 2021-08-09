@@ -21,7 +21,7 @@ public class UserManager {
     }
 
     public User loadUser(Player p) {
-        return loadUser(p.getUniqueId(), false);
+        return loadUser(p.getUniqueId(), true);
     }
 
     public User loadUser(UUID uuid, boolean keep) {
@@ -38,7 +38,7 @@ public class UserManager {
                 return user;
             }
         }
-        return loadUser(p);
+        return loadUser(uuid, true);
     }
 
     public boolean isTeleporting(User user) {

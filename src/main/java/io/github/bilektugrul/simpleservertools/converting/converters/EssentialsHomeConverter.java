@@ -49,6 +49,8 @@ public class EssentialsHomeConverter implements Converter {
             return FinalState.UNSUCCESSFUL;
         }
 
+        maintenanceManager.setFullyClosed(true);
+
         String s = File.separator;
         File[] essUsers = new File("plugins" + s + "Essentials" + s + "userdata" + s).listFiles();
 
@@ -120,6 +122,7 @@ public class EssentialsHomeConverter implements Converter {
             logger.info(Utils.listToString(detailedLog));
         });
 
+        maintenanceManager.setFullyClosed(false);
         return FinalState.STILL_RUNNING;
     }
 
