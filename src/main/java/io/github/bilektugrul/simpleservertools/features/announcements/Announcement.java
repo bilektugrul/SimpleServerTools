@@ -14,20 +14,4 @@ public record Announcement(AnnouncementType type, String permission, String grou
         this(AnnouncementType.NONE, null, null, content);
     }
 
-    public AnnouncementType getType() {
-        return type;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
 }

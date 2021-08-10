@@ -3,15 +3,18 @@ package io.github.bilektugrul.simpleservertools.users;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.homes.Home;
 import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
+import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class User {
 
@@ -83,7 +86,7 @@ public class User {
 
     public Home getHomeByName(String name) {
         for (Home home : homes) {
-            if (home.getName().equals(name)) {
+            if (home.name().equalsIgnoreCase(name)) {
                 return home;
             }
         }
@@ -91,7 +94,7 @@ public class User {
     }
 
     public boolean createHome(Home home) {
-        if (getHomeByName(home.getName()) == null) {
+        if (getHomeByName(home.name()) == null) {
             homes.add(home);
             return true;
         }
@@ -99,7 +102,7 @@ public class User {
     }
 
     public boolean createHome(Player userPlayer, String name, Location location) {
-        if (getHomeByName(name) == null && homes.size() != getMaxHomeAmount(userPlayer)) {
+        if (getHomeByName(name) == null && homes.size() != Utils.getMaxHomeAmount(userPlayer)) {
             homes.add(new Home(name, location));
             return true;
         }
@@ -107,11 +110,18 @@ public class User {
     }
 
     public boolean deleteHome(String name) {
-        return homes.removeIf(home -> home.getName().equals(name));
+        return homes.removeIf(home -> home.name().equalsIgnoreCase(name));
     }
 
-    public int getMaxHomeAmount(Player userPlayer) {
-        return Utils.getMaximum(userPlayer, "sst.homes.", HomeManager.defaultMaxHomeAmount);
+    public String readableHomeList() {
+        if (!homes.isEmpty()) {
+            List<String> homes = this.homes.stream()
+                    .map(Home::name)
+                    .collect(Collectors.toList());
+            return String.join(", ", homes);
+        } else {
+            return Utils.getMessage("homes.no-home", null);
+        }
     }
 
     public boolean toggleTPABlock(String name) {
@@ -174,7 +184,7 @@ public class User {
         data.set("msg-blocked-players", msgBlockedPlayers);
         data.set("tpa-blocked-players", tpaBlockedPlayers);
         for (Home home : homes) {
-            data.set("homes." + home.getName() + ".location", home.getLocation());
+            data.set("homes." + home.name() + ".location", home.location());
         }
         data.save(new File(plugin.getDataFolder() + "/players/" + uuid + ".yml"));
     }

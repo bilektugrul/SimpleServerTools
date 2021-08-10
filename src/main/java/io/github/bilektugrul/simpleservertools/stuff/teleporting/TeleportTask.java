@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+//TODO: this class can be better. dunno how but it can.
 public class TeleportTask extends BukkitRunnable {
 
     private final TeleportManager teleportManager;
@@ -63,18 +64,23 @@ public class TeleportTask extends BukkitRunnable {
         cancelDamageMode = settings.getCancelDamageMode();
         user = userManager.getUser(player);
 
-        Mode mode = teleportMode.getMode();
+        Mode mode = teleportMode.mode();
 
         if (mode == Mode.WARPS) {
             user.setState(UserState.TELEPORTING);
-            String name = teleportMode.getWarp().getName();
+            String name = teleportMode.warp().name();
             teleportedMsg = teleportedMsg.replace("%warp%", name);
             teleportingMsg = teleportingMsg.replace("%warp%", name);
         } else if (mode == Mode.SPAWN) {
             user.setState(UserState.TELEPORTING_SPAWN);
+        } else if (mode == Mode.HOMES) {
+            user.setState(UserState.TELEPORTING_HOME);
+            String name = teleportMode.home().name();
+            teleportedMsg = teleportedMsg.replace("%home%", name);
+            teleportingMsg = teleportingMsg.replace("%home%", name);
         } else {
             user.setState(UserState.TELEPORTING_PLAYER);
-            String teleportingTo = teleportMode.getTPAInfo().getToTeleport().getName();
+            String teleportingTo = teleportMode.tpaInfo().toTeleport().getName();
             teleportedMsg = teleportedMsg.replace("%teleporting%", teleportingTo);
             teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo);
         }

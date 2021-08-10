@@ -73,7 +73,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion {
 
         } else if (identifier.contains("custom")) {
             String name = identifier.substring(identifier.indexOf("custom_") + 7);
-            return placeholderManager.getPlaceholder(name).getValue();
+            return placeholderManager.getPlaceholder(name).value();
 
         } else if (userRequired) {
             User user = userManager.getUser(player);

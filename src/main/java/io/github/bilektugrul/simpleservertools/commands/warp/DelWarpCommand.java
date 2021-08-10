@@ -37,7 +37,7 @@ public class DelWarpCommand implements CommandExecutor {
             return true;
         }
 
-        String warpName = warp.getName();
+        String warpName = warp.name();
 
         warpManager.sendWarpInfo(warp, sender);
         sender.sendMessage(Utils.getMessage("warps.deleting", sender)

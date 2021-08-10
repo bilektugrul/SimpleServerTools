@@ -50,7 +50,7 @@ public class SpawnCommand implements CommandExecutor {
         }
 
         Spawn spawn = spawnManager.getSpawn();
-        TeleportMode mode = new TeleportMode(Mode.SPAWN, null, spawn, null);
+        TeleportMode mode = new TeleportMode(Mode.SPAWN, spawn);
         final Location loc = spawn.getLocation();
 
         Player toTeleport = argPresent ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;

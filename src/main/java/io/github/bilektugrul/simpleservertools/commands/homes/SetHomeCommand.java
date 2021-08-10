@@ -3,34 +3,28 @@ package io.github.bilektugrul.simpleservertools.commands.homes;
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.homes.Home;
 import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
-import io.github.bilektugrul.simpleservertools.stuff.teleporting.Mode;
-import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportManager;
-import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class HomeCommand implements CommandExecutor {
+public class SetHomeCommand implements CommandExecutor {
 
     private final UserManager userManager;
-    private final TeleportManager teleportManager;
     private final HomeManager homeManager;
 
-    public HomeCommand(SST plugin) {
+    public SetHomeCommand(SST plugin) {
         this.userManager = plugin.getUserManager();
-        this.teleportManager = plugin.getTeleportManager();
         this.homeManager = plugin.getHomeManager();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player player) || !sender.hasPermission("sst.home")) {
+        if (!(sender instanceof Player player) || !sender.hasPermission("sst.sethome")) {
             Utils.noPermission(sender);
             return true;
         }
@@ -43,24 +37,26 @@ public class HomeCommand implements CommandExecutor {
         String homeName = args[0];
         User user = userManager.getUser(player);
 
-        if (homeName.equalsIgnoreCase("list")) {
-            player.sendMessage(Utils.getMessage("homes.list", player)
-                    .replace("%homeamount%", String.valueOf(user.getHomes().size()))
-                    .replace("%homes%", user.readableHomeList()));
-            return true;
-        }
-
-        Home home = user.getHomeByName(homeName);
-
-        if (home == null) {
-            player.sendMessage(Utils.getMessage("homes.not-created", player)
+        if (!(user.getHomeByName(homeName) == null)) {
+            player.sendMessage(Utils.getMessage("homes.already-exists", player)
                     .replace("%home%", homeName));
             return true;
         }
 
-        Location loc = home.location();
-        TeleportMode mode = new TeleportMode(Mode.HOMES, home);
-        teleportManager.teleport(player, loc, mode, homeManager.getSettings());
+        int max = Utils.getMaxHomeAmount(player);
+        int created = user.getHomes().size();
+
+        if (max == 0) max = homeManager.getDefaultMaxHomeAmount();
+        if (created == max) {
+            player.sendMessage(Utils.getMessage("homes.reached-max", player)
+                    .replace("%maximum%", String.valueOf(max))
+                    .replace("%created%", String.valueOf(created)));
+            return true;
+        }
+
+        user.createHome(new Home(homeName, player.getLocation()));
+        player.sendMessage(Utils.getMessage("homes.created", player)
+                .replace("%home%", homeName));
         return true;
     }
 

@@ -58,8 +58,8 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
     }
 
     public void announce(Announcement announcement) {
-        String content = announcement.getContent();
-        AnnouncementType type = announcement.getType();
+        String content = announcement.content();
+        AnnouncementType type = announcement.type();
         if (type == AnnouncementType.NONE) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 p.sendMessage(Utils.replacePlaceholders(content, p, true));
@@ -67,13 +67,13 @@ public class AsyncAnnouncementTask extends BukkitRunnable {
         } else if (type == AnnouncementType.GROUP && plugin.isPermManagerReady()) {
             Permission provider = vaultManager.getPermissionProvider();
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (Arrays.stream(provider.getPlayerGroups(p)).anyMatch(announcement.getGroup()::equalsIgnoreCase)) {
+                if (Arrays.stream(provider.getPlayerGroups(p)).anyMatch(announcement.group()::equalsIgnoreCase)) {
                     p.sendMessage(Utils.replacePlaceholders(content, p, true));
                 }
             }
         } else {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (p.hasPermission(announcement.getPermission())) {
+                if (p.hasPermission(announcement.permission())) {
                     p.sendMessage(Utils.replacePlaceholders(content, p, true));
                 }
             }

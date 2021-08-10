@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools.utils;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
 import io.github.bilektugrul.simpleservertools.features.language.LanguageManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.stuff.MessageType;
@@ -28,6 +29,7 @@ public class Utils {
     private static final SST plugin = JavaPlugin.getPlugin(SST.class);
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
     private static final LanguageManager languageManager = plugin.getLanguageManager();
+    private static final HomeManager homeManager = plugin.getHomeManager();
 
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
 
@@ -86,6 +88,10 @@ public class Utils {
 
     public static String replacePlaceholders(String msg, CommandSender from, boolean replacePersonalPlaceholders) {
         return replacePlaceholders(msg, from, replacePersonalPlaceholders, true);
+    }
+
+    public static String getString(String string) {
+        return plugin.getConfig().getString(string);
     }
 
     public static String matchName(CommandSender entity) {
@@ -198,4 +204,7 @@ public class Utils {
         return builder.toString();
     }
 
+    public static int getMaxHomeAmount(Player userPlayer) {
+            return getMaximum(userPlayer, "sst.homes.", homeManager.getDefaultMaxHomeAmount());
+    }
 }

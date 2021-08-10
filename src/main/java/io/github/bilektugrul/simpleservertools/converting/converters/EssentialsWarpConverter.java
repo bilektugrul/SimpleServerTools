@@ -80,7 +80,7 @@ public class EssentialsWarpConverter implements Converter {
 
         for (Warp converted : convertedWarps2) {
             if (!warpManager.registerWarp(converted)) {
-                brokenWarps.add(converted.getName());
+                brokenWarps.add(converted.name());
                 convertedWarps.remove(converted);
             }
         }
@@ -101,7 +101,7 @@ public class EssentialsWarpConverter implements Converter {
         }
 
         logger.info(ChatColor.GREEN + "Successfully converted and registered warps (" + convertedWarps.size() + "):");
-        convertedWarps.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp.getName()));
+        convertedWarps.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp.name()));
         return state;
     }
 

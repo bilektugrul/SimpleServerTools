@@ -269,3 +269,27 @@ messages:
     modes:
       true: AFK
       false: not AFK
+
+  homes:
+    wrong-usage: '%prefix% &cPlease specify a home name.'
+    already-exists: '%prefix% &cYou already have a home named &b%home%&c.'
+    reached-max: |
+      %prefix% &cYou have already reached the maximum amount of homes you can create.
+      %prefix% &cMaximum home amount: &b%maximum%
+      %prefix% &cYour home amount: &b%created%
+    created: '%prefix% &bYou have succesfully created a home named &e%home%&b.'
+    not-created: '%prefix% &cYou do not have a home named &b%home%&c.'
+    deleted: '%prefix% &bYou have deleted a home named &e%home%&b.'
+    no-home: '%prefix% &cYou do not have any home.'
+    list: '%prefix% &eYour home list (%homeamount%): %homes%'
+
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix%
+        &eTeleporting to &b%home%&e... &b%time%
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix%
+        &eYou have been teleported to &b%home%&e.

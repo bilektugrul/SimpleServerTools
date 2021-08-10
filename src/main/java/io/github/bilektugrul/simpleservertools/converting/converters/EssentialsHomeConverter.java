@@ -106,7 +106,7 @@ public class EssentialsHomeConverter implements Converter {
                 if (user != null) {
                     for (Home convertedHome : convertedHomes) {
                         if (!user.createHome(convertedHome)) {
-                            detailedLog.add(uuid + " already has a home with name " + convertedHome.getName());
+                            detailedLog.add(uuid + " already has a home with name " + convertedHome.name());
                         }
                     }
 
