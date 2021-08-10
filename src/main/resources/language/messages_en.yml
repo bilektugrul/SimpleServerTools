@@ -3,7 +3,7 @@ language: English
 messages:
 
   no-permission: '%prefix% &cI''m sorry %player% but you can not do that.'
-  users-saved: '%prefix% &cAll users'' data has been saved.'
+  users-saved: '%prefix% &bAll users'' data has been saved.'
 
   help-message:
     beginning: |

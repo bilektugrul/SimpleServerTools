@@ -3,6 +3,7 @@ language: Türkçe
 messages:
 
   no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'
+  users-saved: '%prefix% &bTüm oyuncuların verileri kaydedildi.'
 
   help-message:
     beginning: |
@@ -10,6 +11,7 @@ messages:
       &6İçinde [] bulunan argümanlar opsiyoneldir.
     only-staff: |
       &9/sst reload &f- &6Ayar dosyasını yeniler.
+      &9/sst save-users &f- Oyuncuların verilerini kaydeder.
       &9/vanish [<bir oyuncu>] &f- &6Sizi veya girdiğiniz oyuncuyu, yetkili olmayan kişilerden gizler. Yeniden görünür olmak için komutu tekrar kullanın.
     everyone: |
       &9/warp <isim> [<argümanlar>] &f- &6Sizi yazdığınız warpa ışınlar. Warp komutunun argümanları hakkında bilgi almak için: /sst help warpArgs.
@@ -283,3 +285,28 @@ messages:
     modes:
       true: AFK modundasın
       false: AFK değilsin
+
+  homes:
+    # thanks to rudde for translation
+    wrong-usage: '%prefix% &cLütfen bir ev adı girin.'
+    already-exists: '%prefix% &cZaten &b%home% &cadlı bir eviniz var.'
+    reached-max: |
+      %prefix% &cOluşturabileceğiniz maksimum ev sayısına ulaştınız.
+      %prefix% &cMaksimum ev sayısı: &b%maximum%
+      %prefix% &cSahip olduğunuz ev sayısı: &b%created%
+    created: '%prefix% &bBaşarıyla &e%home% &badında ev oluşturdunuz.'
+    not-created: '%prefix% &b%home% &cadlı bir eviniz bulunmuyor.'
+    deleted: '%prefix% &bBaşarıyla &e%home% &badlı evinizi kaldırdınız.'
+    no-home: '%prefix% &cHerhangi bir eviniz yok.'
+    list: '%prefix% &eEv listeniz (%homeamount%): %homes%'
+
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix%
+        &b%home% &eadlı evinize ışınlanıyorsunuz... &b%time%
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix%
+        &eBaşarıyla &b%home% &eadlı evinize ışınlandınız.
