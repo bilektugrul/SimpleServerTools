@@ -15,7 +15,7 @@ public class DisposalCommand implements CommandExecutor {
         if (sender instanceof Player player && sender.hasPermission("sst.disposal")) {
             player.openInventory(Bukkit.getServer().createInventory(player, 54, Utils.getMessage("disposal.title", player)));
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

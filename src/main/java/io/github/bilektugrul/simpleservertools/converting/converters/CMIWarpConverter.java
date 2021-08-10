@@ -29,6 +29,11 @@ public class CMIWarpConverter implements Converter {
     }
 
     @Override
+    public boolean canConvert() {
+        return true;
+    }
+
+    @Override
     public FinalState convert() {
         Logger logger = plugin.getLogger();
         String s = File.separator;
@@ -68,7 +73,7 @@ public class CMIWarpConverter implements Converter {
 
         for (Warp converted : convertedWarps2) {
             if (!warpManager.registerWarp(converted)) {
-                brokenWarps.add(converted.getName());
+                brokenWarps.add(converted.name());
                 convertedWarps.remove(converted);
             }
         }
@@ -89,7 +94,7 @@ public class CMIWarpConverter implements Converter {
         }
 
         logger.info(ChatColor.GREEN + "Successfully converted and registered warps (" + convertedWarps.size() + "):");
-        convertedWarps.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp.getName()));
+        convertedWarps.forEach(warp -> logger.info(ChatColor.DARK_AQUA + "- " + warp.name()));
         return state;
     }
 

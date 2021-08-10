@@ -2,6 +2,7 @@ package io.github.bilektugrul.simpleservertools.converting;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.converting.converters.CMIWarpConverter;
+import io.github.bilektugrul.simpleservertools.converting.converters.EssentialsHomeConverter;
 import io.github.bilektugrul.simpleservertools.converting.converters.EssentialsWarpConverter;
 
 import java.util.Arrays;
@@ -16,6 +17,7 @@ public class ConverterManager {
     public ConverterManager(SST plugin) {
         registerConverter(new EssentialsWarpConverter(plugin), "esswarps", "esswarp", "ewarp", "ewarps", "eswarp", "eswarps");
         registerConverter(new CMIWarpConverter(plugin), "cmiwarps", "cmiwarp", "cwarp", "cwarps", "cmwarp", "cmwarps");
+        registerConverter(new EssentialsHomeConverter(plugin), "esshomes", "ehomes", "esshome", "ehome", "eshomes", "eshome");
     }
 
     public void registerConverter(Converter converter, String... aliases) {

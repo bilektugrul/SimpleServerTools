@@ -2,6 +2,9 @@ package io.github.bilektugrul.simpleservertools;
 
 import io.github.bilektugrul.simpleservertools.commands.*;
 import io.github.bilektugrul.simpleservertools.commands.gamemode.GamemodeCommand;
+import io.github.bilektugrul.simpleservertools.commands.homes.DelHomeCommand;
+import io.github.bilektugrul.simpleservertools.commands.homes.HomeCommand;
+import io.github.bilektugrul.simpleservertools.commands.homes.SetHomeCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageIgnoreCommand;
 import io.github.bilektugrul.simpleservertools.commands.msg.MessageToggleCommand;
@@ -14,6 +17,7 @@ import io.github.bilektugrul.simpleservertools.commands.warp.SetWarpCommand;
 import io.github.bilektugrul.simpleservertools.commands.warp.WarpCommand;
 import io.github.bilektugrul.simpleservertools.converting.ConverterManager;
 import io.github.bilektugrul.simpleservertools.features.announcements.AnnouncementManager;
+import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.language.LanguageManager;
 import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
@@ -63,6 +67,7 @@ public class SST extends JavaPlugin {
     private SpyManager spyManager;
     private ConverterManager converterManager;
     private RulesManager rulesManager;
+    private HomeManager homeManager;
 
     private AsyncUserSaveThread asyncUserSaveThread;
 
@@ -117,8 +122,12 @@ public class SST extends JavaPlugin {
 
     private void registerManagers() {
         pluginManager = getServer().getPluginManager();
+
         placeholderManager = new CustomPlaceholderManager(this);
         languageManager = new LanguageManager(this);
+
+        homeManager = new HomeManager();
+
         userManager = new UserManager(this);
         teleportManager = new TeleportManager(this);
         warpManager = new WarpManager(this);
@@ -146,7 +155,7 @@ public class SST extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("simpleservertools").setExecutor(new SSTCommand()); // Main command can not be disabled.
+        getCommand("simpleservertools").setExecutor(new SSTCommand(this)); // Main command can not be disabled.
 
         registerCommand(new GamemodeCommand(), "gamemode");
         registerCommand(new FlyCommand(), "fly");
@@ -186,6 +195,9 @@ public class SST extends JavaPlugin {
         registerCommand(new AFKCommand(this), "afk");
         registerCommand(new TPAIgnoreCommand(this), "tpaignore");
         registerCommand(new MessageIgnoreCommand(this), "msgignore");
+        registerCommand(new HomeCommand(this), "home");
+        registerCommand(new SetHomeCommand(this), "sethome");
+        registerCommand(new DelHomeCommand(this), "delhome");
 
         if (!disabledCommands.isEmpty()) {
             logger.info(ChatColor.RED + "Some commands are disabled. You have to remove them from disabled commands list and restart the server if you want to use them. ");
@@ -300,6 +312,10 @@ public class SST extends JavaPlugin {
         return converterManager;
     }
 
+    public HomeManager getHomeManager() {
+        return homeManager;
+    }
+
     public boolean isConverterManagerReady() {
         return converterManager != null;
     }
@@ -335,6 +351,7 @@ public class SST extends JavaPlugin {
             tpaManager.loadSettings();
             maintenanceManager.reload();
             rulesManager.reloadRules();
+            homeManager.reload();
             if (Utils.getBoolean("auto-save-users")) {
                 asyncUserSaveThread = new AsyncUserSaveThread(this);
             } else if (asyncUserSaveThread != null) {

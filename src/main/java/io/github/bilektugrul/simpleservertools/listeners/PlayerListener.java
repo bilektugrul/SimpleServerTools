@@ -59,7 +59,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onConnect(PlayerLoginEvent e) {
         Player p = e.getPlayer();
-        if (maintenanceManager.isInMaintenance() && !p.hasPermission("sst.maintenance.join")) {
+        if (maintenanceManager.isFullyClosed()) {
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, maintenanceManager.getFullyClosedMessage());
+        } else if (maintenanceManager.isInMaintenance() && !p.hasPermission("sst.maintenance.join")) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Utils.getString(maintenanceManager.getMaintenanceFile(), "maintenance.in-maintenance-message", p)
                     .replace("%reason%", Utils.replacePlaceholders(maintenanceManager.getReason(), p, true)));
         }
@@ -76,15 +78,15 @@ public class PlayerListener implements Listener {
         ArrayList<JoinMessage> msgList = joinMessageManager.getList();
 
         for (JoinMessage msg : msgList) {
-            JoinMessageType type = msg.getType();
-            String content = msg.getContent();
+            JoinMessageType type = msg.type();
+            String content = msg.content();
             if (type == JoinMessageType.EVERYONE) {
                 player.sendMessage(Utils.replacePlaceholders(content, player, true));
             } else if (plugin.isPermManagerReady() && type == JoinMessageType.GROUP) {
-                if (Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.getGroup()::equalsIgnoreCase)) {
+                if (Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.group()::equalsIgnoreCase)) {
                     player.sendMessage(Utils.replacePlaceholders(content, player, true));
                 }
-            } else if (type == JoinMessageType.PERMISSION && player.hasPermission(msg.getPermission())) {
+            } else if (type == JoinMessageType.PERMISSION && player.hasPermission(msg.permission())) {
                 player.sendMessage(Utils.replacePlaceholders(content, player, true));
             }
         }

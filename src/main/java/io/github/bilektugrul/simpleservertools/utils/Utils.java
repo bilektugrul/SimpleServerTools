@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools.utils;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
 import io.github.bilektugrul.simpleservertools.features.language.LanguageManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.stuff.MessageType;
@@ -12,20 +13,29 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.TreeSet;
 
 public class Utils {
 
     private Utils() {}
 
     private static final SST plugin = JavaPlugin.getPlugin(SST.class);
+    private static HomeManager homeManager;
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
     private static final LanguageManager languageManager = plugin.getLanguageManager();
 
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+
+    public static void noPermission(CommandSender sender) {
+        sender.sendMessage(getMessage("no-permission", sender));
+    }
 
     public static String getMessage(String string) {
         return getString(languageManager.getLanguage(), "messages." + string, null, false, false);
@@ -80,6 +90,10 @@ public class Utils {
         return replacePlaceholders(msg, from, replacePersonalPlaceholders, true);
     }
 
+    public static String getString(String string) {
+        return plugin.getConfig().getString(string);
+    }
+
     public static String matchName(CommandSender entity) {
         return entity instanceof Player ? entity.getName() : "CONSOLE";
     }
@@ -112,8 +126,28 @@ public class Utils {
         return file.getInt(path);
     }
 
+    public static float getFloat(YamlConfiguration yaml, String path) {
+        return Float.parseFloat(yaml.getString(path));
+    }
+
     public static int getLanguageInt(String path) {
         return languageManager.getLanguage().getInt(path);
+    }
+
+    // made by hakan-krgn
+    public static int getMaximum(Player player, String perm, int def) {
+        TreeSet<Integer> permMax = new TreeSet<>();
+        for (PermissionAttachmentInfo permissionAttachmentInfo : player.getEffectivePermissions()) {
+            String permission = permissionAttachmentInfo.getPermission();
+            if (permission.contains(perm)) {
+                permMax.add(Integer.parseInt(permission.replace(perm, "")));
+            }
+        }
+        return permMax.size() != 0 ? permMax.last() : def;
+    }
+
+    public static Location getLocation(YamlConfiguration yaml, String key) {
+        return (Location) yaml.get(key);
     }
 
     public static boolean isSameLoc(Location loc1, Location loc2) {
@@ -162,4 +196,16 @@ public class Utils {
         return replacePlaceholders(str, sender, replacePersonalPlaceholders, replacePAPI);
     }
 
+    public static String listToString(List<String> list) {
+        StringBuilder builder = new StringBuilder();
+        for (String s : list) {
+            builder.append(s).append("\n");
+        }
+        return builder.toString();
+    }
+
+    public static int getMaxHomeAmount(Player userPlayer) {
+        if (homeManager == null) homeManager = plugin.getHomeManager();
+        return getMaximum(userPlayer, "sst.homes.", homeManager.getDefaultMaxHomeAmount());
+    }
 }

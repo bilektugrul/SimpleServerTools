@@ -29,7 +29,7 @@ public class SetWarpCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player p) || !sender.hasPermission("sst.admin")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 

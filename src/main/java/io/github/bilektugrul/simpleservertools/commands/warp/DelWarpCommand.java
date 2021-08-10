@@ -21,7 +21,7 @@ public class DelWarpCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!sender.hasPermission("sst.admin")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
@@ -37,7 +37,7 @@ public class DelWarpCommand implements CommandExecutor {
             return true;
         }
 
-        String warpName = warp.getName();
+        String warpName = warp.name();
 
         warpManager.sendWarpInfo(warp, sender);
         sender.sendMessage(Utils.getMessage("warps.deleting", sender)

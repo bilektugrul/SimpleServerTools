@@ -29,7 +29,7 @@ public class SkullCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("sst.skull")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
@@ -56,7 +56,7 @@ public class SkullCommand implements CommandExecutor {
         }
 
         if (!toGive.getName().equals(Utils.matchName(sender)) && !sender.hasPermission("sst.skull.others")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 

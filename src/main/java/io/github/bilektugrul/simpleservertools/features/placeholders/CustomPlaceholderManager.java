@@ -28,7 +28,7 @@ public class CustomPlaceholderManager {
 
     public String replacePlaceholders(String in) {
         for (CustomPlaceholder placeholder : placeholderList) {
-            in = in.replace("%" + placeholder.getName() + "%", placeholder.getValue());
+            in = in.replace("%" + placeholder.name() + "%", placeholder.value());
         }
         return in;
     }
@@ -43,7 +43,7 @@ public class CustomPlaceholderManager {
 
     public CustomPlaceholder getPlaceholder(String name) {
         for (CustomPlaceholder placeholder : placeholderList) {
-            if (placeholder.getName().equalsIgnoreCase(name)) {
+            if (placeholder.name().equalsIgnoreCase(name)) {
                 return placeholder;
             }
         }

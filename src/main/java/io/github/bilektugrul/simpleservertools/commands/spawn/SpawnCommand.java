@@ -28,7 +28,7 @@ public class SpawnCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!sender.hasPermission("sst.spawn")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
@@ -45,12 +45,12 @@ public class SpawnCommand implements CommandExecutor {
         boolean argPresent = args.length > 0;
 
         if (argPresent && !sender.hasPermission("sst.spawn.others")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
         Spawn spawn = spawnManager.getSpawn();
-        TeleportMode mode = new TeleportMode(Mode.SPAWN, null, spawn, null);
+        TeleportMode mode = new TeleportMode(Mode.SPAWN, spawn);
         final Location loc = spawn.getLocation();
 
         Player toTeleport = argPresent ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;

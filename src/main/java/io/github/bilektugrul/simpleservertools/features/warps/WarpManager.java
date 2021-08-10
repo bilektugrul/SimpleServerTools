@@ -28,7 +28,7 @@ public class WarpManager {
     }
 
     public boolean registerWarp(Warp warp) {
-        return registerWarp(warp.getName(), warp.getLocation(), warp.getPermRequire());
+        return registerWarp(warp.name(), warp.location(), warp.permRequired());
     }
 
     public boolean registerWarp(String name, Location loc) {
@@ -61,7 +61,7 @@ public class WarpManager {
 
     public boolean deleteWarp(String name) {
         if (isPresent(name)) {
-            warpList.removeIf(entry -> entry.getName().equalsIgnoreCase(name));
+            warpList.removeIf(entry -> entry.name().equalsIgnoreCase(name));
             saveWarps();
             return true;
         }
@@ -69,12 +69,12 @@ public class WarpManager {
     }
 
     public boolean deleteWarp(Warp warp) {
-        return deleteWarp(warp.getName());
+        return deleteWarp(warp.name());
     }
 
     public boolean isPresent(String name) {
         for (Warp entry : warpList) {
-            if (entry.getName().equalsIgnoreCase(name)) {
+            if (entry.name().equalsIgnoreCase(name)) {
                 return true;
             }
         }
@@ -82,18 +82,18 @@ public class WarpManager {
     }
 
     public void loadSettings() {
-        final int time = Utils.getInt("warps.teleport-time");
+        int time = Utils.getInt("warps.teleport-time");
 
-        final boolean blockMove = Utils.getBoolean("warps.cancel-when-move.settings.block-move");
-        final boolean blockCommands = Utils.getBoolean("warps.block-commands.enabled");
-        final boolean cancelTeleportOnMove = Utils.getBoolean("warps.cancel-when-move.settings.cancel-teleport");
-        final boolean blockDamage = Utils.getBoolean("warps.cancel-damage.settings.block-damage");
-        final boolean cancelTeleportOnDamage = Utils.getBoolean("warps.cancel-damage.settings.cancel-teleport");
-        final boolean staffBypassTime = Utils.getBoolean("warps.staff-bypass-time");
+        boolean blockMove = Utils.getBoolean("warps.cancel-when-move.settings.block-move");
+        boolean blockCommands = Utils.getBoolean("warps.block-commands.enabled");
+        boolean cancelTeleportOnMove = Utils.getBoolean("warps.cancel-when-move.settings.cancel-teleport");
+        boolean blockDamage = Utils.getBoolean("warps.cancel-damage.settings.block-damage");
+        boolean cancelTeleportOnDamage = Utils.getBoolean("warps.cancel-damage.settings.cancel-teleport");
+        boolean staffBypassTime = Utils.getBoolean("warps.staff-bypass-time");
 
-        final CancelMode cancelMoveMode = CancelMode.valueOf(Utils.getString("warps.cancel-when-move.mode", null));
-        final CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("warps.cancel-damage.mode", null));
-        final CancelMode cancelCommandsMode = CancelMode.valueOf(Utils.getString("warps.block-commands.mode", null));
+        CancelMode cancelMoveMode = CancelMode.valueOf(Utils.getString("warps.cancel-when-move.mode"));
+        CancelMode cancelDamageMode = CancelMode.valueOf(Utils.getString("warps.cancel-damage.mode"));
+        CancelMode cancelCommandsMode = CancelMode.valueOf(Utils.getString("warps.block-commands.mode"));
 
         settings = new TeleportSettings()
                 .setTime(time)
@@ -117,7 +117,7 @@ public class WarpManager {
 
     public Warp getWarp(String name) {
         for (Warp entry : warpList) {
-            if (entry.getName().equalsIgnoreCase(name)) {
+            if (entry.name().equalsIgnoreCase(name)) {
                 return entry;
             }
         }
@@ -126,9 +126,9 @@ public class WarpManager {
 
     public void saveWarps() {
         for (Warp entry : warpList) {
-            String name = entry.getName();
-            warpsFile.set(("warps." + name + ".location"), entry.getLocation());
-            warpsFile.set(("warps." + name + ".permissionRequired"), entry.getPermRequire());
+            String name = entry.name();
+            warpsFile.set(("warps." + name + ".location"), entry.location());
+            warpsFile.set(("warps." + name + ".permissionRequired"), entry.permRequired());
         }
         ConfigUtils.saveConfig(plugin, warpsFile, "warps");
     }
@@ -142,8 +142,8 @@ public class WarpManager {
         boolean isAdmin = sender.hasPermission("sst.admin");
         if (!warpList.isEmpty()) {
             List<String> warps = warpList.stream()
-                    .filter(warp -> isAdmin || !warp.getPermRequire() || sender.hasPermission(warp.getPermission()))
-                    .map(Warp::getName)
+                    .filter(warp -> isAdmin || !warp.permRequired() || sender.hasPermission(warp.getPermission()))
+                    .map(Warp::name)
                     .collect(Collectors.toList());
             return String.join(", ", warps);
         } else {
@@ -154,9 +154,9 @@ public class WarpManager {
     public void sendWarpInfo(Warp warp, CommandSender sender) {
         if (!sender.hasPermission("sst.warpinfo")) return;
         sender.sendMessage(Utils.getMessage("warps.info", sender)
-                .replace("%warp%", warp.getName())
+                .replace("%name%", warp.name())
                 .replace("%warploc%", readableWarpLoc(warp))
-                .replace("%warpperm%", warp.getPermRequire() ? warp.getPermission() : "yok"));
+                .replace("%warpperm%", warp.permRequired() ? warp.getPermission() : "yok"));
     }
 
     public ArrayList<Warp> getWarpList() {
@@ -168,7 +168,7 @@ public class WarpManager {
     }
 
     public String readableWarpLoc(Warp warp) {
-        return LocationSerializer.toString(warp.getLocation());
+        return LocationSerializer.toString(warp.location());
     }
 
     public void loadWarps() {

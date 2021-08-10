@@ -54,7 +54,7 @@ public class WarpCommand implements CommandExecutor {
         boolean isNotSame = !toTeleport.equals(sender);
 
         if (isNotSame && !sender.hasPermission("sst.warp.others")) {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
             return true;
         }
 
@@ -68,9 +68,9 @@ public class WarpCommand implements CommandExecutor {
 
         if (warpManager.isPresent(arg)) {
             Warp warp = warpManager.getWarp(arg);
-            Location loc = warp.getLocation();
-            TeleportMode mode = new TeleportMode(Mode.WARPS, warp, null, null);
-            if (!warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission())) {
+            Location loc = warp.location();
+            TeleportMode mode = new TeleportMode(Mode.WARPS, warp);
+            if (!warp.permRequired() || sender.hasPermission(warp.getPermission())) {
                 if (isNotSame) {
                     sender.sendMessage(Utils.getMessage("warps.teleporting-player", sender)
                             .replace("%other%", toTeleport.getName())
@@ -102,8 +102,8 @@ public class WarpCommand implements CommandExecutor {
                 switch (args.length) {
                     case 1:
                         return warpManager.getWarpList().stream()
-                                .filter(warp -> isAdmin || !warp.getPermRequire() || warp.getPermRequire() && sender.hasPermission(warp.getPermission()))
-                                .map(Warp::getName)
+                                .filter(warp -> isAdmin || !warp.permRequired() || sender.hasPermission(warp.getPermission()))
+                                .map(Warp::name)
                                 .collect(Collectors.toList());
                     case 2:
                         if (sender.hasPermission("sst.warp.others"))

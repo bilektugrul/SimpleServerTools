@@ -10,7 +10,9 @@ public class MaintenanceManager {
     private FileConfiguration maintenanceFile;
 
     private String reason;
+    private String fullyClosedMessage;
     private boolean isInMaintenance;
+    private boolean isFullyClosed;
 
     private final SST plugin;
 
@@ -31,8 +33,20 @@ public class MaintenanceManager {
         this.reason = reason;
     }
 
+    public void setFullyClosed(boolean fullyClosed) {
+        this.isFullyClosed = fullyClosed;
+    }
+
+    public boolean isFullyClosed() {
+        return isFullyClosed;
+    }
+
     public String getReason() {
         return reason;
+    }
+
+    public String getFullyClosedMessage() {
+        return fullyClosedMessage;
     }
 
     public void reload() {
@@ -42,6 +56,7 @@ public class MaintenanceManager {
         reason = lastReason.isEmpty()
                 ? Utils.getString(maintenanceFile, "maintenance.default-reason", null)
                 : lastReason;
+        fullyClosedMessage = Utils.getString(maintenanceFile, "maintenance.fully-closed-message", null, false);
     }
 
     public void save() {

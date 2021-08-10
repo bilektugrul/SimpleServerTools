@@ -35,7 +35,7 @@ public class MessageIgnoreCommand implements CommandExecutor {
                     .replace("%blocked%", block)
                     .replace("%toggledto%", Utils.getMessage("msg.block-modes." + toggledTo, p)));
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

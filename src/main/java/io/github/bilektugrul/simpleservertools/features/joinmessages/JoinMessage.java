@@ -14,20 +14,4 @@ public record JoinMessage(String content, JoinMessageType type, String group, St
         this(content, type, null, null);
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public JoinMessageType getType() {
-        return type;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
 }

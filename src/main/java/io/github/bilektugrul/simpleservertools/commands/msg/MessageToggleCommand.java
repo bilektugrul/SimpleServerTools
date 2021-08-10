@@ -27,7 +27,7 @@ public class MessageToggleCommand implements CommandExecutor {
             p.sendMessage(Utils.getMessage("msg.toggled", p)
                     .replace("%newmode%", Utils.getMessage("msg.modes." + newMode, p)));
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

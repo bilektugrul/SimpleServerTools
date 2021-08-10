@@ -27,7 +27,6 @@ commands:
     usage: /vanish [<another player>]
     aliases: [v]
   warp:
-    aliases: setwarp, delwarp
     usage: /warp <name> [<arguments>]
   setwarp:
     usage: /setwarp <warp name>
@@ -110,7 +109,12 @@ commands:
     usage: /tpaignore <player>
   msgignore:
     usage: /msgignore <player>
-
+  home:
+    usage: /home <home>
+  delhome:
+    usage: /delhome <home>
+  sethome:
+    usage: /sethome <home>
 permissions:
   sst.*:
     default: op
@@ -220,4 +224,10 @@ permissions:
       sst.tpaignore:
         default: op
       sst.msgignore:
+        default: op
+      sst.home:
+        default: op
+      sst.sethome:
+        default: op
+      sst.delhome:
         default: op

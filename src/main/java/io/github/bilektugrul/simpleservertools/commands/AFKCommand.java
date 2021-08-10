@@ -26,7 +26,7 @@ public class AFKCommand implements CommandExecutor {
             player.sendMessage(Utils.getMessage("afk.toggled", player)
                     .replace("%mode%", Utils.getMessage("afk.modes." + user.isAfk())));
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

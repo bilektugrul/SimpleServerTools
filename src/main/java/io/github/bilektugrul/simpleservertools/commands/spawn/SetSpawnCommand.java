@@ -34,7 +34,7 @@ public class SetSpawnCommand implements CommandExecutor {
                 spawnManager.saveSpawn();
             }
         } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

@@ -3,6 +3,7 @@ language: English
 messages:
 
   no-permission: '%prefix% &cI''m sorry %player% but you can not do that.'
+  users-saved: '%prefix% &cAll users'' data has been saved.'
 
   help-message:
     beginning: |
@@ -10,6 +11,7 @@ messages:
       &6Arguments that contains [] are optional.
     only-staff: |
       &9/sst reload &f- &6Reloads everything.
+      &9/sst save-users &f- &6Saves user data. Can cause lag for a moment.
     everyone: |
 
     ending: |
@@ -269,3 +271,27 @@ messages:
     modes:
       true: AFK
       false: not AFK
+
+  homes:
+    wrong-usage: '%prefix% &cPlease specify a home name.'
+    already-exists: '%prefix% &cYou already have a home named &b%home%&c.'
+    reached-max: |
+      %prefix% &cYou have already reached the maximum amount of homes you can create.
+      %prefix% &cMaximum home amount: &b%maximum%
+      %prefix% &cYour home amount: &b%created%
+    created: '%prefix% &bYou have succesfully created a home named &e%home%&b.'
+    not-created: '%prefix% &cYou do not have a home named &b%home%&c.'
+    deleted: '%prefix% &bYou have deleted a home named &e%home%&b.'
+    no-home: '%prefix% &cYou do not have any home.'
+    list: '%prefix% &eYour home list (%homeamount%): %homes%'
+
+    teleporting:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix%
+        &eTeleporting to &b%home%&e... &b%time%
+    teleported:
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      message: |
+        %prefix%
+        &eYou have been teleported to &b%home%&e.

@@ -27,7 +27,7 @@ public class TPAToggleCommand implements CommandExecutor {
             p.sendMessage(Utils.getMessage("tpa.toggled", p)
                     .replace("%newmode%", Utils.getMessage("tpa.modes." + newMode, p)));
          } else {
-            sender.sendMessage(Utils.getMessage("no-permission", sender));
+            Utils.noPermission(sender);
         }
         return true;
     }

@@ -93,6 +93,26 @@ tpa:
     mode: EVERYONE
   # Modes: EVERYONE, STAFF, EXCEPT_STAFF
 
+homes:
+  default-max-home-amount: 3
+  tab-complete: true # home list will be sent to players when they click TAB.
+  teleport-time: 5 # in seconds
+  staff-bypass-time: true
+  cancel-when-move:
+    settings:
+      block-move: true # if true, players can not move while teleporting.
+      cancel-teleport: false # if true, teleportation process will be cancelled when they moved.
+    mode: EVERYONE
+  cancel-damage:
+    settings:
+      block-damage: true
+      cancel-teleport: false
+    mode: EVERYONE
+  block-commands:
+    enabled: true
+    mode: EVERYONE
+  # Modes: EVERYONE, STAFF, EXCEPT_STAFF
+
 convert-enabled: false # disables /convert by default. set this to true if you want to use a converter.
 
 disabled-commands:
