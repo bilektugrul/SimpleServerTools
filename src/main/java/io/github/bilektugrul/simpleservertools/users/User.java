@@ -2,12 +2,9 @@ package io.github.bilektugrul.simpleservertools.users;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.homes.Home;
-import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
-import io.github.bilektugrul.simpleservertools.features.warps.Warp;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -109,8 +106,9 @@ public class User {
         return false;
     }
 
-    public boolean deleteHome(String name) {
-        return homes.removeIf(home -> home.name().equalsIgnoreCase(name));
+    public void deleteHome(String name) {
+        homes.removeIf(home -> home.name().equalsIgnoreCase(name));
+        data.set("homes." + name, null);
     }
 
     public String readableHomeList() {

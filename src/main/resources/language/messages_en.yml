@@ -3,6 +3,7 @@ language: English
 messages:
 
   no-permission: '%prefix% &cI''m sorry %player% but you can not do that.'
+  users-saved: '%prefix% &cAll users'' data has been saved.'
 
   help-message:
     beginning: |
@@ -10,6 +11,7 @@ messages:
       &6Arguments that contains [] are optional.
     only-staff: |
       &9/sst reload &f- &6Reloads everything.
+      &9/sst save-users &f- &6Saves user data. Can cause lag for a moment.
     everyone: |
 
     ending: |

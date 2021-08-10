@@ -2,7 +2,6 @@ package io.github.bilektugrul.simpleservertools.commands.homes;
 
 import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.homes.Home;
-import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
 import io.github.bilektugrul.simpleservertools.users.User;
 import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
@@ -15,11 +14,9 @@ import org.jetbrains.annotations.NotNull;
 public class SetHomeCommand implements CommandExecutor {
 
     private final UserManager userManager;
-    private final HomeManager homeManager;
 
     public SetHomeCommand(SST plugin) {
         this.userManager = plugin.getUserManager();
-        this.homeManager = plugin.getHomeManager();
     }
 
     @Override
@@ -46,8 +43,7 @@ public class SetHomeCommand implements CommandExecutor {
         int max = Utils.getMaxHomeAmount(player);
         int created = user.getHomes().size();
 
-        if (max == 0) max = homeManager.getDefaultMaxHomeAmount();
-        if (created == max) {
+        if (created >= max) {
             player.sendMessage(Utils.getMessage("homes.reached-max", player)
                     .replace("%maximum%", String.valueOf(max))
                     .replace("%created%", String.valueOf(created)));

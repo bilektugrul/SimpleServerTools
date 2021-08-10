@@ -123,10 +123,11 @@ public class SST extends JavaPlugin {
     private void registerManagers() {
         pluginManager = getServer().getPluginManager();
 
-        homeManager = new HomeManager();
-
         placeholderManager = new CustomPlaceholderManager(this);
         languageManager = new LanguageManager(this);
+
+        homeManager = new HomeManager();
+
         userManager = new UserManager(this);
         teleportManager = new TeleportManager(this);
         warpManager = new WarpManager(this);
@@ -154,7 +155,7 @@ public class SST extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("simpleservertools").setExecutor(new SSTCommand()); // Main command can not be disabled.
+        getCommand("simpleservertools").setExecutor(new SSTCommand(this)); // Main command can not be disabled.
 
         registerCommand(new GamemodeCommand(), "gamemode");
         registerCommand(new FlyCommand(), "fly");
@@ -350,6 +351,7 @@ public class SST extends JavaPlugin {
             tpaManager.loadSettings();
             maintenanceManager.reload();
             rulesManager.reloadRules();
+            homeManager.reload();
             if (Utils.getBoolean("auto-save-users")) {
                 asyncUserSaveThread = new AsyncUserSaveThread(this);
             } else if (asyncUserSaveThread != null) {

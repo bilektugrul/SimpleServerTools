@@ -4,18 +4,20 @@ import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 
-//TODO: RELOADING (DEFAULT MAX HOME AMOUNT IS NOT WORKING)
 public class HomeManager {
     
     private int defaultMaxHomeAmount;
     private TeleportSettings settings;
+
+    public HomeManager() {
+        reload();
+    }
 
     public int getDefaultMaxHomeAmount() {
         return defaultMaxHomeAmount;
     }
 
     public void loadSettings() {
-        defaultMaxHomeAmount = Utils.getInt("homes.default-max-home-amount");
         int time = Utils.getInt("homes.teleport-time");
 
         boolean blockMove = Utils.getBoolean("homes.cancel-when-move.settings.block-move");
@@ -47,6 +49,11 @@ public class HomeManager {
             loadSettings();
         }
         return settings;
+    }
+
+    public void reload() {
+        defaultMaxHomeAmount = Utils.getInt("homes.default-max-home-amount");
+        loadSettings();
     }
 
 }

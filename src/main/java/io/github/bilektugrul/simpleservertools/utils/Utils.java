@@ -27,9 +27,9 @@ public class Utils {
     private Utils() {}
 
     private static final SST plugin = JavaPlugin.getPlugin(SST.class);
+    private static HomeManager homeManager;
     private static final CustomPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
     private static final LanguageManager languageManager = plugin.getLanguageManager();
-    private static final HomeManager homeManager = plugin.getHomeManager();
 
     private static final boolean isPAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
 
@@ -205,6 +205,7 @@ public class Utils {
     }
 
     public static int getMaxHomeAmount(Player userPlayer) {
-            return getMaximum(userPlayer, "sst.homes.", homeManager.getDefaultMaxHomeAmount());
+        if (homeManager == null) homeManager = plugin.getHomeManager();
+        return getMaximum(userPlayer, "sst.homes.", homeManager.getDefaultMaxHomeAmount());
     }
 }

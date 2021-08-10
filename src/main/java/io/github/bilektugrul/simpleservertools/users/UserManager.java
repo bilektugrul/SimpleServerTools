@@ -1,7 +1,6 @@
 package io.github.bilektugrul.simpleservertools.users;
 
 import io.github.bilektugrul.simpleservertools.SST;
-import io.github.bilektugrul.simpleservertools.features.homes.Home;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
