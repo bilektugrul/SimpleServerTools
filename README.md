@@ -4,7 +4,7 @@ A well-coded Essentials alternative with many commands and features. SST doesn't
 
 ## Requirements
 
-SST is designed for every actively used Minecraft version. It supports every Minecraft version from 1.8.8 (PaperSpigot) to 1.16.5 (Paper recommended).  
+SST is designed for every actively used Minecraft version. It supports every Minecraft version from 1.8.8 (PaperSpigot) to 1.17.1 (Paper recommended).  
 Some features requires ProtocolLib.  
 Vault is required for permissions and group-based features.  
 Paper (or any fork of it) is recommended and will work better.  
@@ -27,7 +27,8 @@ We recommend IntelliJ IDEA.
 ## Download
 
 You can get the latest release from [Spigot page](https://www.spigotmc.org/resources/simpleservertools-1-8-8-1-16-5-completely-configurable-all-in-one.92388/) or GitHub Releases.  
-We also use master branch for stable commits, so you can download the latest stable build from last GitHub Actions run. 
+We also use master branch for stable commits, so you can download the latest stable build from last GitHub Actions run.  
+Also you can ask for development builds from us. Keep in mind that they are only for testing purposes and must not be used in production.
 
 
 ## Support
