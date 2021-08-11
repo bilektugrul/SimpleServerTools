@@ -31,21 +31,17 @@ public class UserManager {
     }
 
     public User getUser(Player p) {
-        return getUser(p.getUniqueId(), false);
-    }
-
-    public User getUser(Player p, boolean keep) {
         UUID uuid = p.getUniqueId();
-        return getUser(uuid, keep);
+        return getUser(uuid);
     }
 
-    public User getUser(UUID uuid, boolean keep) {
+    public User getUser(UUID uuid) {
         for (User user : userList) {
             if (user.getUUID().equals(uuid)) {
                 return user;
             }
         }
-        return loadUser(uuid, keep);
+        return null;
     }
 
     public boolean isTeleporting(User user) {
@@ -54,7 +50,7 @@ public class UserManager {
     }
 
     public boolean isTeleporting(Player player) {
-        User user = getUser(player, false);
+        User user = getUser(player);
         if (user != null) {
             return isTeleporting(user);
         }
