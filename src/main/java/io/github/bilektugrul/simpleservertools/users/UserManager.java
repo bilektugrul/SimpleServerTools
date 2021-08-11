@@ -30,6 +30,10 @@ public class UserManager {
         return user;
     }
 
+    public User getUser(Player p) {
+        return getUser(p.getUniqueId(), false);
+    }
+
     public User getUser(Player p, boolean keep) {
         UUID uuid = p.getUniqueId();
         return getUser(uuid, keep);
