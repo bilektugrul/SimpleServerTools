@@ -30,40 +30,35 @@ public class UserManager {
         return user;
     }
 
-    public User getUser(Player p) {
+    public User getUser(Player p, boolean keep) {
         UUID uuid = p.getUniqueId();
+        return getUser(uuid, keep);
+    }
+
+    public User getUser(UUID uuid, boolean keep) {
         for (User user : userList) {
             if (user.getUUID().equals(uuid)) {
                 return user;
             }
         }
-        return loadUser(uuid, true);
+        return loadUser(uuid, keep);
     }
 
     public boolean isTeleporting(User user) {
         UserState state = user.getState();
-        return state == UserState.TELEPORTING || state == UserState.TELEPORTING_SPAWN || state == UserState.TELEPORTING_PLAYER;
+        return state == UserState.TELEPORTING || state == UserState.TELEPORTING_SPAWN || state == UserState.TELEPORTING_PLAYER || state == UserState.TELEPORTING_HOME;
     }
 
     public boolean isTeleporting(Player player) {
-        UUID uuid = player.getUniqueId();
-        if (isPresent(uuid)) {
-            return isTeleporting(getUser(player));
+        User user = getUser(player, false);
+        if (user != null) {
+            return isTeleporting(user);
         }
         return false;
     }
 
     public Set<User> getUserList() {
         return userList;
-    }
-
-    public boolean isPresent(UUID uuid) {
-        for (User user : userList) {
-            if (user.getUUID().equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void saveUsers() throws IOException {

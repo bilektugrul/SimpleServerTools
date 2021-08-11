@@ -1,6 +1,7 @@
 package io.github.bilektugrul.simpleservertools.listeners;
 
 import io.github.bilektugrul.simpleservertools.SST;
+import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessage;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageType;
@@ -16,6 +17,7 @@ import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -43,6 +45,7 @@ public class PlayerListener implements Listener {
     private final VanishManager vanishManager;
     private final TPAManager tpaManager;
     private final MaintenanceManager maintenanceManager;
+    private final HomeManager homeManager;
 
     public PlayerListener(SST plugin) {
         this.plugin = plugin;
@@ -54,6 +57,7 @@ public class PlayerListener implements Listener {
         this.vanishManager = plugin.getVanishManager();
         this.tpaManager = plugin.getTPAManager();
         this.maintenanceManager = plugin.getMaintenanceManager();
+        this.homeManager = plugin.getHomeManager();
     }
 
     @EventHandler
@@ -83,7 +87,8 @@ public class PlayerListener implements Listener {
             if (type == JoinMessageType.EVERYONE) {
                 player.sendMessage(Utils.replacePlaceholders(content, player, true));
             } else if (plugin.isPermManagerReady() && type == JoinMessageType.GROUP) {
-                if (Arrays.stream(vaultManager.getPermissionProvider().getPlayerGroups(player)).anyMatch(msg.group()::equalsIgnoreCase)) {
+                Permission permissionProvider = vaultManager.getPermissionProvider();
+                if (Arrays.stream(permissionProvider.getPlayerGroups(player)).anyMatch(msg.group()::equalsIgnoreCase)) {
                     player.sendMessage(Utils.replacePlaceholders(content, player, true));
                 }
             } else if (type == JoinMessageType.PERMISSION && player.hasPermission(msg.permission())) {
@@ -142,8 +147,8 @@ public class PlayerListener implements Listener {
 
         boolean isVictimPlayer = victimEntity instanceof Player;
 
-        if (attackerEntity instanceof Player) {
-            User attackerUser = userManager.getUser((Player) attackerEntity);
+        if (attackerEntity instanceof Player attackerPlayer) {
+            User attackerUser = userManager.getUser(attackerPlayer);
             if (!isVictimPlayer) {
                 e.setCancelled(attackerUser.isGod() || getCancelState(attackerUser));
             }
@@ -225,6 +230,7 @@ public class PlayerListener implements Listener {
             case TELEPORTING -> warpManager.getSettings();
             case TELEPORTING_SPAWN -> spawnManager.getSettings();
             case TELEPORTING_PLAYER -> tpaManager.getSettings();
+            case TELEPORTING_HOME -> homeManager.getSettings();
             default -> null;
         };
     }
