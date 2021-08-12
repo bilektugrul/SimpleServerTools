@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-public class EssentialsHomeConverter implements Converter {
+public class EssentialsHomeConverter extends Converter {
 
     private final SST plugin;
     private final UserManager userManager;

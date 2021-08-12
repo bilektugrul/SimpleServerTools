@@ -1,21 +1,12 @@
 package io.github.bilektugrul.simpleservertools.listeners;
 
 import io.github.bilektugrul.simpleservertools.SST;
-import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessage;
-import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageManager;
 import io.github.bilektugrul.simpleservertools.features.joinmessages.JoinMessageType;
-import io.github.bilektugrul.simpleservertools.features.maintenance.MaintenanceManager;
-import io.github.bilektugrul.simpleservertools.features.spawn.SpawnManager;
-import io.github.bilektugrul.simpleservertools.features.tpa.TPAManager;
-import io.github.bilektugrul.simpleservertools.features.vanish.VanishManager;
-import io.github.bilektugrul.simpleservertools.features.warps.WarpManager;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportSettings;
 import io.github.bilektugrul.simpleservertools.users.User;
-import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
-import io.github.bilektugrul.simpleservertools.utils.VaultManager;
 import io.papermc.lib.PaperLib;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -23,7 +14,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -34,30 +24,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-public class PlayerListener implements Listener {
-
-    private final SST plugin;
-    private final UserManager userManager;
-    private final SpawnManager spawnManager;
-    private final WarpManager warpManager;
-    private final JoinMessageManager joinMessageManager;
-    private final VaultManager vaultManager;
-    private final VanishManager vanishManager;
-    private final TPAManager tpaManager;
-    private final MaintenanceManager maintenanceManager;
-    private final HomeManager homeManager;
+public class PlayerListener extends ListenerAdapter {
 
     public PlayerListener(SST plugin) {
-        this.plugin = plugin;
-        this.userManager = plugin.getUserManager();
-        this.spawnManager = plugin.getSpawnManager();
-        this.warpManager = plugin.getWarpManager();
-        this.joinMessageManager = plugin.getJoinMessageManager();
-        this.vaultManager = plugin.getVaultManager();
-        this.vanishManager = plugin.getVanishManager();
-        this.tpaManager = plugin.getTPAManager();
-        this.maintenanceManager = plugin.getMaintenanceManager();
-        this.homeManager = plugin.getHomeManager();
+        super(plugin);
     }
 
     @EventHandler
@@ -168,14 +138,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
-        Entity victim = e.getEntity();
-        if (victim instanceof Player victimPlayer) {
-            if (e.getCause() == EntityDamageEvent.DamageCause.VOID) {
-                if (Utils.getBoolean("falling-into-void.teleport-spawn")) {
-                    victim.teleport(spawnManager.getSpawn().getLocation());
-                    if (Utils.getBoolean("falling-into-void.cancel-damage")) e.setCancelled(true);
-                    return;
-                }
+        if (e.getEntity() instanceof Player victimPlayer) {
+            if (e.getCause() == EntityDamageEvent.DamageCause.VOID && Utils.getBoolean("falling-into-void.teleport-spawn")) {
+                victimPlayer.teleport(spawnManager.getSpawn().getLocation());
+                if (Utils.getBoolean("falling-into-void.cancel-damage"))
+                    e.setCancelled(true);
+                return;
             }
             if (victimPlayer.isOnline()) { // NPC check
                 User user = userManager.getUser(victimPlayer);

@@ -1,13 +1,13 @@
 package io.github.bilektugrul.simpleservertools.converting;
 
-public interface Converter {
+public abstract class Converter {
 
-    boolean canConvert();
+    public abstract boolean canConvert();
 
-    FinalState convert();
+    public abstract FinalState convert();
 
-    String getName();
+    public abstract String getName();
 
-    String getAuthor();
+    public abstract String getAuthor();
 
 }

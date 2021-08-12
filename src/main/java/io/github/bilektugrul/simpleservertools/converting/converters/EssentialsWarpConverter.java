@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class EssentialsWarpConverter implements Converter {
+public class EssentialsWarpConverter extends Converter {
 
     private final SST plugin;
     private final WarpManager warpManager;
