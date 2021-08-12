@@ -95,7 +95,6 @@ tpa:
 
 homes:
   default-max-home-amount: 3
-  tab-complete: true # home list will be sent to players when they click TAB.
   teleport-time: 5 # in seconds
   staff-bypass-time: true
   cancel-when-move:

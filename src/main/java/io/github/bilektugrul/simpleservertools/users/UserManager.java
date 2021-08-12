@@ -20,12 +20,12 @@ public class UserManager {
     }
 
     public User loadUser(Player p) {
-        return loadUser(p.getUniqueId(), true);
+        return loadUser(p.getUniqueId(), p.getName(), true);
     }
 
-    public User loadUser(UUID uuid, boolean keep) {
+    public User loadUser(UUID uuid, String name, boolean keep) {
         YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + uuid + ".yml"));
-        User user = new User(dataFile, uuid, plugin);
+        User user = new User(dataFile, uuid, name, plugin);
         if (keep) userList.add(user);
         return user;
     }

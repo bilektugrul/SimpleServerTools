@@ -73,20 +73,22 @@ public class EssentialsHomeConverter implements Converter {
                 try {
                     YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
                     if (yaml.isConfigurationSection("homes")) {
+                        String userName = yaml.getString("lastAccountName");
                         for (String homeName : yaml.getConfigurationSection("homes").getKeys(false)) {
 
                             String full = "homes." + homeName + ".";
 
                             String worldName = yaml.getString(full + "world");
-                            assert worldName != null;
                             World world = Bukkit.getWorld(worldName);
                             if (world == null) {
-                                detailedLog.add(ChatColor.RED + "World '" + worldName + "' does not exist. (Warning from: home '" + homeName + "' of '" + uuid + "')");
+                                detailedLog.add(ChatColor.RED + "World '" + worldName + "' does not exist. (Warning from: home '" + homeName + "' of '" + userName + "')");
                                 continue;
                             }
 
-                            user = userManager.loadUser(UUID.fromString(uuid), false);
-                            count++;
+                            if (user == null) {
+                                user = userManager.loadUser(UUID.fromString(uuid), userName, false);
+                                count++;
+                            }
 
                             double x = yaml.getDouble(full + "x");
                             double y = yaml.getDouble(full + "y");

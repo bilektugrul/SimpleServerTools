@@ -17,6 +17,7 @@ public class User {
 
     private final SST plugin;
     private final UUID uuid;
+    private final String name;
     private UserState state;
     private boolean isGod;
     private boolean isAfk;
@@ -26,11 +27,13 @@ public class User {
     private final List<String> msgBlockedPlayers = new ArrayList<>();
     private final Set<Home> homes = new HashSet<>();
 
-    public User(YamlConfiguration data, UUID uuid, SST plugin) {
-        this.uuid = uuid;
-        this.state = UserState.PLAYING;
+    public User(YamlConfiguration data, UUID uuid, String name, SST plugin) {
         this.data = data;
+        this.uuid = uuid;
+        this.name = name;
+        this.state = UserState.PLAYING;
 
+        data.set("lastKnownName", name);
         if (!data.contains("accepting-tpa")) data.set("accepting-tpa", true);
         if (!data.contains("accepting-msg")) data.set("accepting-msg", true);
         tpaBlockedPlayers.addAll(data.getStringList("tpa-blocked-players"));
@@ -47,6 +50,10 @@ public class User {
 
     public UUID getUUID() {
         return uuid;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public UserState getState() {
@@ -93,14 +100,6 @@ public class User {
     public boolean createHome(Home home) {
         if (getHomeByName(home.name()) == null) {
             homes.add(home);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean createHome(Player userPlayer, String name, Location location) {
-        if (getHomeByName(name) == null && homes.size() != Utils.getMaxHomeAmount(userPlayer)) {
-            homes.add(new Home(name, location));
             return true;
         }
         return false;
