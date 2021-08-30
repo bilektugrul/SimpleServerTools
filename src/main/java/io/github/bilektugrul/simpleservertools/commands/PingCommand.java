@@ -30,7 +30,8 @@ public class PingCommand implements CommandExecutor {
                     .replace("%ping%", Integer.toString(Utils.getPing(pingPlayer))));
         } else {
             sender.sendMessage(Utils.getMessage("ping.message-other", sender)
-                    .replace("%ping%", Integer.toString(Utils.getPing(pingPlayer))));
+                    .replace("%ping%", Integer.toString(Utils.getPing(pingPlayer)))
+                    .replace("%other%", pingPlayer.getName()));
         }
         return true;
     }

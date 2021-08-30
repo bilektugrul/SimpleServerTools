@@ -215,6 +215,18 @@ public class SST extends JavaPlugin {
         }
     }
 
+    //TODO: use this
+    public void registerFakeCommand(Command whatCommand) {
+        try {
+            Method commandMap = getServer().getClass().getMethod("getCommandMap", (Class<?>) null);
+            Object commandMapObject = commandMap.invoke(getServer(), (Object[]) null);
+            Method register = commandMapObject.getClass().getMethod("register", String.class, Command.class);
+            register.invoke(commandMapObject, whatCommand.getName(), whatCommand);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Set<String> getDisabledCommands() {
         return disabledCommands;
     }
@@ -349,7 +361,7 @@ public class SST extends JavaPlugin {
             rulesManager.reloadRules();
             homeManager.reload();
             if (Utils.getBoolean("auto-save-users")) {
-                asyncUserSaveThread = new AsyncUserSaveThread(this);
+                if (asyncUserSaveThread == null) asyncUserSaveThread = new AsyncUserSaveThread(this);
             } else if (asyncUserSaveThread != null) {
                 asyncUserSaveThread.cancel();
             }
