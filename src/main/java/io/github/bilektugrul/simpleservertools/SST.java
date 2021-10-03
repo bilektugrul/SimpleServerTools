@@ -228,7 +228,7 @@ public class SST extends JavaPlugin {
     }
 
     public Set<String> getDisabledCommands() {
-        return disabledCommands;
+        return new HashSet<>(disabledCommands);
     }
 
     private void checkUpdate() {
