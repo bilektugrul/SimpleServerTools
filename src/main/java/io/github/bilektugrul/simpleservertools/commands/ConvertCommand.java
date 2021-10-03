@@ -49,39 +49,41 @@ public class ConvertCommand implements CommandExecutor {
         ConverterManager converterManager = plugin.getConverterManager();
 
         Converter converter = converterManager.findConverter(args[0]);
-        if (converter != null) {
-            String name = converter.getName();
-            if (!timer.contains(name)) {
-                sender.sendMessage(ChatColor.GREEN + "Found converter: " + name + " made by " + converter.getAuthor());
-                sender.sendMessage("Use the command again in 7 seconds to start converting.");
-                timer.add(name);
-                Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> timer.remove(name), 140);
-            } else {
-                timer.remove(name);
-                FinalState state = converter.convert();
-                switch (state) {
-                    case COMPLETED -> {
-                        sender.sendMessage(ChatColor.GREEN + "Convert successfully completed. Check console for more information.");
-                        return true;
-                    }
-                    case ALMOST -> {
-                        sender.sendMessage(ChatColor.RED + "Convert completed with some errors. Check console for more information.");
-                        return true;
-                    }
-                    case UNSUCCESSFUL -> {
-                        sender.sendMessage(ChatColor.RED + "Convert could not be completed. Check console for more information.");
-                        return true;
-                    }
-                    case STILL_RUNNING -> {
-                        sender.sendMessage(ChatColor.GREEN + "Converting process is still running in the background. A message will appear in the console when it's finished.");
-                        return true;
-                    }
-                }
-            }
-        } else {
+        if (converter == null) {
             sender.sendMessage(ChatColor.RED + "There is no converter with name " + args[0]);
+            return true;
         }
 
+        String name = converter.getName();
+
+        if (!timer.contains(name)) {
+            sender.sendMessage(ChatColor.GREEN + "Found converter: " + name + " made by " + converter.getAuthor());
+            sender.sendMessage("Use the command again in 7 seconds to start converting.");
+            timer.add(name);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> timer.remove(name), 140);
+            return true;
+        }
+
+        timer.remove(name);
+        FinalState state = converter.convert();
+        switch (state) {
+            case COMPLETED -> {
+                sender.sendMessage(ChatColor.GREEN + "Convert successfully completed. Check console for more information.");
+                return true;
+            }
+            case ALMOST -> {
+                sender.sendMessage(ChatColor.RED + "Convert completed with some errors. Check console for more information.");
+                return true;
+            }
+            case UNSUCCESSFUL -> {
+                sender.sendMessage(ChatColor.RED + "Convert could not be completed. Check console for more information.");
+                return true;
+            }
+            case STILL_RUNNING -> {
+                sender.sendMessage(ChatColor.GREEN + "Converting process is still running in the background. A message will appear in the console when it's finished.");
+                return true;
+            }
+        }
         return true;
     }
 

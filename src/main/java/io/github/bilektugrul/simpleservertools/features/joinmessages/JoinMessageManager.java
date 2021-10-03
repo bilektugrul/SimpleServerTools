@@ -5,12 +5,13 @@ import me.despical.commons.configuration.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JoinMessageManager {
 
     private FileConfiguration msgFile;
     private final SST plugin;
-    private final ArrayList<JoinMessage> joinMessageList = new ArrayList<>();
+    private final List<JoinMessage> joinMessageList = new ArrayList<>();
 
     public JoinMessageManager(SST plugin) {
         this.plugin = plugin;
@@ -52,8 +53,8 @@ public class JoinMessageManager {
         load();
     }
 
-    public ArrayList<JoinMessage> getList() {
-        return joinMessageList;
+    public List<JoinMessage> getList() {
+        return new ArrayList<>(joinMessageList);
     }
 
 }

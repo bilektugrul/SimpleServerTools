@@ -58,7 +58,7 @@ public class UserManager {
     }
 
     public Set<User> getUserList() {
-        return userList;
+        return new HashSet<>(userList);
     }
 
     public void saveUsers() throws IOException {

@@ -66,7 +66,7 @@ public class AnnouncementManager {
     }
 
     public List<Announcement> getAnnouncements() {
-        return announcements;
+        return new ArrayList<>(announcements);
     }
 
     public FileConfiguration getAnnouncementsFile() {

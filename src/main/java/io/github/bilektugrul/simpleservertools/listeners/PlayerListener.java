@@ -22,6 +22,7 @@ import org.bukkit.event.player.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class PlayerListener extends ListenerAdapter {
@@ -49,7 +50,7 @@ public class PlayerListener extends ListenerAdapter {
 
         userManager.loadUser(player);
 
-        ArrayList<JoinMessage> msgList = joinMessageManager.getList();
+        List<JoinMessage> msgList = joinMessageManager.getList();
 
         for (JoinMessage msg : msgList) {
             JoinMessageType type = msg.type();

@@ -34,7 +34,7 @@ public class ConverterManager {
     }
 
     public HashMap<Converter, List<String>> getConverters() {
-        return converters;
+        return new HashMap<>(converters);
     }
 
 }

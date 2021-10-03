@@ -38,7 +38,7 @@ public class CustomPlaceholderManager {
     }
 
     public Set<CustomPlaceholder> getPlaceholderList() {
-        return placeholderList;
+        return new HashSet<>(placeholderList);
     }
 
     public CustomPlaceholder getPlaceholder(String name) {

@@ -160,7 +160,7 @@ public class WarpManager {
     }
 
     public ArrayList<Warp> getWarpList() {
-        return warpList;
+        return new ArrayList<>(warpList);
     }
 
     public String readableWarpLoc(String warp) {

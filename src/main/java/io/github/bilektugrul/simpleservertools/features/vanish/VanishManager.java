@@ -14,11 +14,11 @@ public class VanishManager {
     private final Set<UUID> onlineVanishedPlayers = new HashSet<>();
 
     public Set<UUID> getVanishedPlayers() {
-        return vanishedPlayers;
+        return new HashSet<>(vanishedPlayers);
     }
 
     public Set<UUID> getOnlineVanishedPlayers() {
-        return onlineVanishedPlayers;
+        return new HashSet<>(onlineVanishedPlayers);
     }
 
     public void hidePlayer(Player player, boolean silent) {

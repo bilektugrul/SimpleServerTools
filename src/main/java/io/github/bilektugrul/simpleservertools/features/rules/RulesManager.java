@@ -18,16 +18,16 @@ import java.util.Locale;
 
 public class RulesManager {
 
-    public final SST plugin;
-    public FileConfiguration file;
+    private final SST plugin;
+    private FileConfiguration rulesFile;
 
-    public int splitRulesEvery;
+    private int splitRulesEvery;
     double pageCount;
-    public List<String> rules;
-    public RuleMode ruleMode;
-    public boolean pageSelectorEnabled;
-    public String prefix;
-    public String suffix;
+    private List<String> rules;
+    private RuleMode ruleMode;
+    private boolean pageSelectorEnabled;
+    private String prefix;
+    private String suffix;
 
     public RulesManager(SST plugin) {
         this.plugin = plugin;
@@ -35,15 +35,15 @@ public class RulesManager {
     }
 
     public void reloadRules() {
-        file = ConfigUtils.getConfig(plugin, "rules");
-        rules = file.getStringList("lines");
-        splitRulesEvery = file.getInt("split-rules-every");
+        rulesFile = ConfigUtils.getConfig(plugin, "rules");
+        rules = rulesFile.getStringList("lines");
+        splitRulesEvery = rulesFile.getInt("split-rules-every");
         pageCount = (double) rules.size() / splitRulesEvery;
         pageCount = Math.ceil(pageCount);
-        ruleMode = RuleMode.valueOf(file.getString("mode").toUpperCase(Locale.ROOT));
-        pageSelectorEnabled = file.getBoolean("page-selector.enabled");
-        prefix = file.getString("prefix");
-        suffix = file.getString("suffix");
+        ruleMode = RuleMode.valueOf(rulesFile.getString("mode").toUpperCase(Locale.ROOT));
+        pageSelectorEnabled = rulesFile.getBoolean("page-selector.enabled");
+        prefix = rulesFile.getString("prefix");
+        suffix = rulesFile.getString("suffix");
     }
 
     public List<List<String>> setupRulePages() {
@@ -75,7 +75,7 @@ public class RulesManager {
     public void sendRules(CommandSender sender, int page) {
         page = Math.max(1, page);
         if (rules.isEmpty()) {
-            sender.sendMessage(Utils.getString(file, "no-rule", sender));
+            sender.sendMessage(Utils.getString(rulesFile, "no-rule", sender));
             return;
         }
         if (ruleMode == RuleMode.BOOK && sender instanceof Player p) {
@@ -102,13 +102,13 @@ public class RulesManager {
 
     public void sendComponent(CommandSender sender, int page, String pageString) {
         if (pageSelectorEnabled) {
-            TextComponent component = new TextComponent(Utils.getString(file, "page-selector.back", sender));
+            TextComponent component = new TextComponent(Utils.getString(rulesFile, "page-selector.back", sender));
             component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rules " + (page - 1)));
 
-            TextComponent middle = new TextComponent(Utils.getString(file, "page-selector.middle", sender)
+            TextComponent middle = new TextComponent(Utils.getString(rulesFile, "page-selector.middle", sender)
                     .replace("%page%", pageString));
 
-            BaseComponent next = new TextComponent(Utils.getString(file, "page-selector.next", sender));
+            BaseComponent next = new TextComponent(Utils.getString(rulesFile, "page-selector.next", sender));
             next.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rules " + (page + 1)));
 
             component.addExtra(middle);
