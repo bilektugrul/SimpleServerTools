@@ -4,7 +4,6 @@ import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.features.homes.Home;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -77,15 +76,15 @@ public class User {
     }
 
     public List<String> getMsgBlockedPlayers() {
-        return msgBlockedPlayers;
+        return new ArrayList<>(msgBlockedPlayers);
     }
 
     public List<String> getTPABlockedPlayers() {
-        return tpaBlockedPlayers;
+        return new ArrayList<>(tpaBlockedPlayers);
     }
 
     public Set<Home> getHomes() {
-        return homes;
+        return new HashSet<>(homes);
     }
 
     public Home getHomeByName(String name) {

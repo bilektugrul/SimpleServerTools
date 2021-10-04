@@ -25,7 +25,7 @@ public class PacketListener extends PacketAdapter {
         super(plugin, ListenerPriority.LOWEST, PacketType.Status.Server.SERVER_INFO);
         this.plugin = plugin;
         this.vanishManager = plugin.getVanishManager();
-        plugin.getLogger().info(ChatColor.GREEN + "PacketListener enabled!");
+        this.plugin.getLogger().info(ChatColor.GREEN + "PacketListener enabled!");
     }
 
     @Override

@@ -66,12 +66,12 @@ messages:
                     girersen var olan warpı otomatik olarak silip yeni lokasyonuyla oluşturabilirsin.'
     wrong-usage: '%warpprefix% &cKomutu hatalı kullandınız.'
     teleporting:
-      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %warpprefix%
         &e&b%warp% &eadlı warpa ışınlanılıyor... &b%time%
     teleported:
-      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %warpprefix%
         &b%warp% &eadlı warpa başarıyla ışınlandın!
@@ -96,12 +96,12 @@ messages:
       %spawnprefix% &eSpawn lokasyonu değiştirildi.
       %spawnprefix% &eYeni lokasyon: &b%spawnlocation%
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %spawnprefix%
         &bSpawn'a &eışınlanılıyor... &b%time%
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %spawnprefix%
         &bSpawn'a &eışınlandın!
@@ -201,12 +201,12 @@ messages:
       true: alıyorsun
       false: almıyorsun
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %tpaprefix%
         &b%teleporting% &eadlı oyuncuya ışınlanılıyor... &b%time%
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %tpaprefix%
         &b%teleporting% &eadlı oyuncuya ışınlanıldı.
@@ -301,12 +301,12 @@ messages:
     list: '%prefix% &eEv listeniz (%homeamount%): %homes%'
 
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %prefix%
         &b%home% &eadlı evinize ışınlanıyorsunuz... &b%time%
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %prefix%
         &eBaşarıyla &b%home% &eadlı evinize ışınlandınız.

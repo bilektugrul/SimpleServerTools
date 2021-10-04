@@ -11,26 +11,28 @@ import java.util.Set;
 public class TeleportManager {
 
     private final SST plugin;
-
     private final UserManager userManager;
+    private final Set<TeleportTask> teleportTasks = new HashSet<>();
 
     public TeleportManager(SST plugin) {
         this.plugin = plugin;
         this.userManager = plugin.getUserManager();
     }
 
-    private final Set<TeleportTask> teleportTasks = new HashSet<>();
-
-    public Set<TeleportTask> getTeleportTasks() {
-        return teleportTasks;
-    }
-
     public void teleport(Player p, Location loc, TeleportMode teleportMode, TeleportSettings teleportSettings) {
         if (!userManager.isTeleporting(p)) {
-            TeleportTask task = new TeleportTask(p, loc, teleportMode, teleportSettings, this, userManager);
+            TeleportTask task = new TeleportTask(plugin, p, loc, teleportMode, teleportSettings);
             teleportTasks.add(task);
             task.runTaskTimer(plugin, 0, 20L);
         }
+    }
+
+    public void removeTeleportTask(TeleportTask task) {
+        teleportTasks.remove(task);
+    }
+
+    public Set<TeleportTask> getTeleportTasks() {
+        return new HashSet<>(teleportTasks);
     }
 
 }

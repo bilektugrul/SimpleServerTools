@@ -160,12 +160,29 @@ public class Utils {
 
     public static void sendMessage(Player p, MessageType mode, String msg, String subtitle, String time) {
         msg = msg.replace("%time%", time);
-        subtitle = subtitle.replace("%time%", time) ;
-        // TODO: ADD OTHER TYPES SUCH AS CHAT_AND_TITLE, CHAT_AND_BAR ETC.
+        subtitle = subtitle.replace("%time%", time);
+        String actionBar = msg.replace('\n', ' ');
         switch (mode) {
             case CHAT -> p.sendMessage(msg);
             case TITLE -> Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
-            case ACTIONBAR -> sendActionBar(p, msg.replace('\n', ' '));
+            case ACTIONBAR -> sendActionBar(p, actionBar);
+            case CHAT_AND_TITLE -> {
+                p.sendMessage(msg);
+                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+            }
+            case BAR_AND_TITLE -> {
+                sendActionBar(p, actionBar);
+                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+            }
+            case CHAT_AND_BAR -> {
+                p.sendMessage(msg);
+                sendActionBar(p, actionBar);
+            }
+            case ALL -> {
+                p.sendMessage(msg);
+                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+                sendActionBar(p, actionBar);
+            }
         }
     }
 

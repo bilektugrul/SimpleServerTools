@@ -51,12 +51,12 @@ messages:
     already-exists: '%warpprefix% &bThis warp already exists. Type the command again in 5 seconds and the warp will be overwritten with new location.'
     wrong-usage: '%warpprefix% &cWrong usage.'
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %warpprefix%
         &eTeleporting to &b%warp%&e... &b%time%
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %warpprefix%
         &eYou have been teleported to &b%warp%&e.
@@ -81,12 +81,12 @@ messages:
       %spawnprefix% &eSpawn's location has been changed.
       %spawnprefix% &eNew location: &b%spawnlocation%
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %spawnprefix%
         &eTeleporting to spawn... &b%time%
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %spawnprefix%
         &bYou have been teleported to spawn.
@@ -187,12 +187,12 @@ messages:
       true: will receive
       false: won't receive
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %tpaprefix%
         &eTeleporting to &b%teleporting% &ein &b%time%...
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %tpaprefix%
         &eYou have teleported to &b%teleporting%
@@ -286,12 +286,12 @@ messages:
     list: '%prefix% &eYour home list (%homeamount%): %homes%'
 
     teleporting:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %prefix%
         &eTeleporting to &b%home%&e... &b%time%
     teleported:
-      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT
+      mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       message: |
         %prefix%
         &eYou have been teleported to &b%home%&e.

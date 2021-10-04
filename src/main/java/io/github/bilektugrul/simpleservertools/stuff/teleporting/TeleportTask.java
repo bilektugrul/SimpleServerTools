@@ -1,9 +1,9 @@
 package io.github.bilektugrul.simpleservertools.stuff.teleporting;
 
+import io.github.bilektugrul.simpleservertools.SST;
 import io.github.bilektugrul.simpleservertools.stuff.CancelMode;
 import io.github.bilektugrul.simpleservertools.stuff.MessageType;
 import io.github.bilektugrul.simpleservertools.users.User;
-import io.github.bilektugrul.simpleservertools.users.UserManager;
 import io.github.bilektugrul.simpleservertools.users.UserState;
 import io.github.bilektugrul.simpleservertools.utils.Utils;
 import io.papermc.lib.PaperLib;
@@ -17,75 +17,75 @@ public class TeleportTask extends BukkitRunnable {
 
     private final TeleportManager teleportManager;
 
-    private final Player p;
-
-    private final TeleportSettings settings;
-    private final boolean isStaff;
-    private int time;
-    private String teleportingMsg;
-    private final MessageType teleportingMode;
-    private String teleportingSub;
-    private String teleportedMsg;
-    private final MessageType teleportedMode;
-    private String teleportedSub;
-    private final Location firstLoc;
-    private final Location finalLoc;
-    private final double firstHealth;
-
-    private final CancelMode cancelMoveMode;
-    private final CancelMode cancelDamageMode;
+    private final Player player;
     private final User user;
+
+    private final boolean isStaff;
+    private final double firstHealth;
+    private final TeleportSettings settings;
+    private final MessageType teleportingMode, teleportedMode;
+    private final Location firstLoc, finalLoc;
+    private int time;
+    private String teleportingMsg, teleportingSub, teleportedMsg, teleportedSub;
+
+    private final CancelMode cancelMoveMode, cancelDamageMode;
     private final String mode;
 
-    public TeleportTask(Player player, Location loc, TeleportMode teleportMode, TeleportSettings teleportSettings, TeleportManager teleportManager, UserManager userManager) {
-        this.teleportManager = teleportManager;
-        p = player;
-        settings = teleportSettings;
-        mode = teleportMode.getModeString();
-        isStaff = player.hasPermission("sst.staff");
+    public TeleportTask(SST plugin, Player player, Location loc, TeleportMode teleportMode, TeleportSettings settings) {
+        this.teleportManager = plugin.getTeleportManager();
+        this.player = player;
+        this.settings = settings;
+        this.mode = teleportMode.getModeString();
+        this.isStaff = player.hasPermission("sst.staff");
 
-        time = isStaff && settings.doesStaffBypassTime()
+        this.time = isStaff && settings.doesStaffBypassTime()
                 ? 0
                 : settings.getTime();
 
-        teleportingMsg = Utils.getMessage("" + mode + ".teleporting.message", player);
-        teleportingMode = MessageType.valueOf(Utils.getMessage("" + mode + ".teleporting.mode", player));
-        teleportingSub = "";
+        this.teleportingMsg = Utils.getMessage("" + mode + ".teleporting.message", player);
+        this.teleportingMode = MessageType.valueOf(Utils.getMessage("" + mode + ".teleporting.mode", player));
+        this.teleportingSub = "";
 
-        teleportedMsg = Utils.getMessage("" + mode + ".teleported.message", player);
-        teleportedMode = MessageType.valueOf(Utils.getMessage("" + mode +".teleported.mode", player));
-        teleportedSub = "";
+        this.teleportedMsg = Utils.getMessage("" + mode + ".teleported.message", player);
+        this.teleportedMode = MessageType.valueOf(Utils.getMessage("" + mode +".teleported.mode", player));
+        this.teleportedSub = "";
 
-        firstLoc = player.getLocation();
-        finalLoc = loc;
-        firstHealth = player.getHealth();
+        this.firstLoc = player.getLocation();
+        this.finalLoc = loc;
+        this.firstHealth = player.getHealth();
 
-        cancelMoveMode = settings.getCancelMoveMode();
-        cancelDamageMode = settings.getCancelDamageMode();
-        user = userManager.getUser(player);
+        this.cancelMoveMode = settings.getCancelMoveMode();
+        this.cancelDamageMode = settings.getCancelDamageMode();
+        this.user = plugin.getUserManager().getUser(player);
 
         Mode mode = teleportMode.mode();
 
-        if (mode == Mode.WARPS) {
-            user.setState(UserState.TELEPORTING);
-            String name = teleportMode.warp().name();
-            teleportedMsg = teleportedMsg.replace("%warp%", name);
-            teleportingMsg = teleportingMsg.replace("%warp%", name);
-        } else if (mode == Mode.SPAWN) {
-            user.setState(UserState.TELEPORTING_SPAWN);
-        } else if (mode == Mode.HOMES) {
-            user.setState(UserState.TELEPORTING_HOME);
-            String name = teleportMode.home().name();
-            teleportedMsg = teleportedMsg.replace("%home%", name);
-            teleportingMsg = teleportingMsg.replace("%home%", name);
-        } else {
-            user.setState(UserState.TELEPORTING_PLAYER);
-            String teleportingTo = teleportMode.tpaInfo().toTeleport().getName();
-            teleportedMsg = teleportedMsg.replace("%teleporting%", teleportingTo);
-            teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo);
+        switch (mode) {
+            case WARPS -> {
+                user.setState(UserState.TELEPORTING);
+                String name = teleportMode.warp().name();
+                teleportedMsg = teleportedMsg.replace("%warp%", name);
+                teleportingMsg = teleportingMsg.replace("%warp%", name);
+            }
+            case SPAWN -> user.setState(UserState.TELEPORTING_SPAWN);
+            case HOMES -> {
+                user.setState(UserState.TELEPORTING_HOME);
+                String name = teleportMode.home().name();
+                teleportedMsg = teleportedMsg.replace("%home%", name);
+                teleportingMsg = teleportingMsg.replace("%home%", name);
+            }
+            default -> {
+                user.setState(UserState.TELEPORTING_PLAYER);
+                String teleportingTo = teleportMode.tpaInfo().toTeleport().getName();
+                teleportedMsg = teleportedMsg.replace("%teleporting%", teleportingTo);
+                teleportingMsg = teleportingMsg.replace("%teleporting%", teleportingTo);
+            }
         }
+        setupTitle();
+    }
 
-        if (teleportingMode == MessageType.TITLE && teleportingMsg.contains("\n")) {
+    private void setupTitle() {
+        if ((teleportingMode.name().contains("TITLE") || teleportingMode == MessageType.ALL) && teleportingMsg.contains("\n")) {
             int index = teleportingMsg.indexOf("\n");
             try {
                 teleportingSub = teleportingMsg.split("\n")[1];
@@ -94,7 +94,8 @@ public class TeleportTask extends BukkitRunnable {
             }
             teleportingMsg = teleportingMsg.substring(0, index);
         }
-        if (teleportedMode == MessageType.TITLE && teleportedMsg.contains("\n")) {
+
+        if ((teleportingMode.name().contains("TITLE") || teleportingMode == MessageType.ALL) && teleportedMsg.contains("\n")) {
             int index = teleportedMsg.indexOf("\n");
             try {
                 teleportedSub = teleportedMsg.split("\n")[1];
@@ -103,12 +104,11 @@ public class TeleportTask extends BukkitRunnable {
             }
             teleportedMsg = teleportedMsg.substring(0, index);
         }
-
     }
 
     @Override
     public void run() {
-        if (!Utils.isSameLoc(firstLoc, p.getLocation())) {
+        if (!Utils.isSameLoc(firstLoc, player.getLocation())) {
             boolean cancel = cancelMoveMode == CancelMode.EVERYONE
                     || (cancelMoveMode == CancelMode.STAFF && isStaff)
                     || (cancelMoveMode == CancelMode.EXCEPT_STAFF && !isStaff);
@@ -117,17 +117,17 @@ public class TeleportTask extends BukkitRunnable {
                     cancelTeleport(true);
                     return;
                 }
-                if (settings.doesBlockMove()) p.teleport(firstLoc);
+                if (settings.doesBlockMove()) player.teleport(firstLoc);
             }
         }
 
-        if (p.getHealth() != firstHealth) {
+        if (player.getHealth() != firstHealth) {
             boolean cancel = cancelDamageMode == CancelMode.EVERYONE
                     || (cancelDamageMode == CancelMode.STAFF && isStaff)
                     || (cancelDamageMode == CancelMode.EXCEPT_STAFF && !isStaff);
             if (cancel) {
                 if (settings.doesBlockDamage()) {
-                    p.setHealth(firstHealth);
+                    player.setHealth(firstHealth);
                     return;
                 }
                 if (settings.doesCancelTeleportOnDamage()) cancelTeleport(true);
@@ -136,20 +136,20 @@ public class TeleportTask extends BukkitRunnable {
 
         if (time == 0) {
             user.setState(UserState.PLAYING);
-            PaperLib.teleportAsync(p, finalLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            Utils.sendMessage(p, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
+            PaperLib.teleportAsync(player, finalLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            Utils.sendMessage(player, teleportedMode, teleportedMsg, teleportedSub, String.valueOf(time));
             cancelTeleport(false);
             return;
         }
 
-        Utils.sendMessage(p, teleportingMode, teleportingMsg, teleportingSub, String.valueOf(time));
+        Utils.sendMessage(player, teleportingMode, teleportingMsg, teleportingSub, String.valueOf(time));
         time--;
     }
 
     public void cancelTeleport(boolean msg) {
         user.setState(UserState.PLAYING);
-        if (msg) p.sendMessage(Utils.getMessage(mode + ".teleport-cancelled", p));
-        teleportManager.getTeleportTasks().remove(this);
+        if (msg) player.sendMessage(Utils.getMessage(mode + ".teleport-cancelled", player));
+        teleportManager.removeTeleportTask(this);
         super.cancel();
     }
 
