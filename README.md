@@ -1,6 +1,6 @@
 # SimpleServerTools
 
-A well-coded Essentials alternative with many commands and features. SST doesn't contain any non-useful and pointless command. You can edit many features of the plugin as you wish. You can change every message.
+A well-coded (it was...) Essentials alternative with many commands and features. SST doesn't contain any non-useful and pointless command. You can edit many features of the plugin as you wish. You can change every message.
 
 ## Requirements
 
@@ -11,7 +11,7 @@ Paper (or any fork of it) is recommended and will work better.
 
 LuckPerms is a must. I have no experience with other permission plugin and cannot provide support for other plugins.  
 
-Fully tested and compiled with AdoptOpenJDK 16. Versions below 16 is not and will not be supported.
+Fully tested and compiled with TemurinJDK 17. Versions below 17 is not and will not be supported.
 
 ## Wiki
 
