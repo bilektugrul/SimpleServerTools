@@ -46,7 +46,7 @@ public class UserManager {
 
     public boolean isTeleporting(User user) {
         UserState state = user.getState();
-        return state == UserState.TELEPORTING || state == UserState.TELEPORTING_SPAWN || state == UserState.TELEPORTING_PLAYER || state == UserState.TELEPORTING_HOME;
+        return state == UserState.TELEPORTING_WARP || state == UserState.TELEPORTING_SPAWN || state == UserState.TELEPORTING_PLAYER || state == UserState.TELEPORTING_HOME;
     }
 
     public boolean isTeleporting(Player player) {

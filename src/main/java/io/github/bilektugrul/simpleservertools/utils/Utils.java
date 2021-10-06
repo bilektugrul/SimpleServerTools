@@ -5,6 +5,11 @@ import io.github.bilektugrul.simpleservertools.features.homes.HomeManager;
 import io.github.bilektugrul.simpleservertools.features.language.LanguageManager;
 import io.github.bilektugrul.simpleservertools.features.placeholders.CustomPlaceholderManager;
 import io.github.bilektugrul.simpleservertools.stuff.MessageType;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.MessageMode;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMessage;
+import io.github.bilektugrul.simpleservertools.stuff.teleporting.TeleportMode;
+import io.github.bilektugrul.simpleservertools.users.User;
+import io.github.bilektugrul.simpleservertools.users.UserState;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.despical.commons.compat.Titles;
 import me.despical.commons.compat.VersionResolver;
@@ -158,32 +163,62 @@ public class Utils {
         return (loc1.getBlockX() == loc2.getBlockX()) && (loc1.getBlockY() == loc2.getBlockY()) && (loc1.getBlockZ() == loc2.getBlockZ());
     }
 
-    public static void sendMessage(Player p, MessageType mode, String msg, String subtitle, String time) {
-        msg = msg.replace("%time%", time);
-        subtitle = subtitle.replace("%time%", time);
-        String actionBar = msg.replace('\n', ' ');
-        switch (mode) {
-            case CHAT -> p.sendMessage(msg);
-            case TITLE -> Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+    public static void sendMessage(Player p, User user, MessageType messageType, TeleportMessage message, TeleportMode teleportMode, String time) {
+        MessageMode messageMode = message.getMessageMode();
+        boolean isTeleporting = messageMode == MessageMode.TELEPORTING;
+        String chatMessage = isTeleporting
+                ? replaceEverything(user, message.getTeleportingChat(), teleportMode, time)
+                : replaceEverything(user, message.getTeleportedChat(), teleportMode, time);
+        String title = isTeleporting
+                ? replaceEverything(user, message.getTeleportingTitle(), teleportMode, time)
+                : replaceEverything(user, message.getTeleportedTitle(), teleportMode, time);
+        String subtitle = isTeleporting
+                ? replaceEverything(user, message.getTeleportingSub(), teleportMode, time)
+                : replaceEverything(user, message.getTeleportedSub(), teleportMode, time);
+        String actionBar = isTeleporting
+                ? replaceEverything(user, message.getTeleportingActionBar(), teleportMode, time)
+                : replaceEverything(user, message.getTeleportedActionBar(), teleportMode, time);
+        switch (messageType) {
+            case CHAT -> p.sendMessage(chatMessage);
+            case TITLE -> Titles.sendTitle(p, title, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
             case ACTIONBAR -> sendActionBar(p, actionBar);
             case CHAT_AND_TITLE -> {
-                p.sendMessage(msg);
-                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+                p.sendMessage(chatMessage);
+                Titles.sendTitle(p, title, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
             }
             case BAR_AND_TITLE -> {
                 sendActionBar(p, actionBar);
-                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+                Titles.sendTitle(p, title, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
             }
             case CHAT_AND_BAR -> {
-                p.sendMessage(msg);
+                p.sendMessage(chatMessage);
                 sendActionBar(p, actionBar);
             }
             case ALL -> {
-                p.sendMessage(msg);
-                Titles.sendTitle(p, msg, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
+                p.sendMessage(chatMessage);
+                Titles.sendTitle(p, title, subtitle, getInt("titles.fade-in"), getInt("titles.stay"), getInt("titles-fade-out"));
                 sendActionBar(p, actionBar);
             }
         }
+    }
+
+    public static String replaceEverything(User user, String string, TeleportMode teleportMode, String time) {
+        switch (teleportMode.mode()) {
+            case WARPS -> {
+                String name = teleportMode.warp().name();
+                string = string.replace("%warp%", name);
+            }
+            case SPAWN -> user.setState(UserState.TELEPORTING_SPAWN);
+            case HOMES -> {
+                String name = teleportMode.home().name();
+                string = string.replace("%home%", name);
+            }
+            default -> {
+                String teleportingTo = teleportMode.tpaInfo().toTeleport().getName();
+                string = string.replace("%teleporting%", teleportingTo);
+            }
+        }
+        return string.replace("%time%", time);
     }
 
     public static void sendMessage(CommandSender sender, String msg) {

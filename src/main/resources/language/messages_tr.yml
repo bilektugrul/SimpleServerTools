@@ -67,14 +67,18 @@ messages:
     wrong-usage: '%warpprefix% &cKomutu hatalı kullandınız.'
     teleporting:
       mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %warpprefix%
-        &e&b%warp% &eadlı warpa ışınlanılıyor... &b%time%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%warpprefix%'
+        subtitle: '&e&b%warp% &eadlı warpa ışınlanılıyor... &b%time%'
     teleported:
       mode: TITLE # Modlar: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %warpprefix%
-        &b%warp% &eadlı warpa başarıyla ışınlandın!
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%warpprefix%'
+        subtitle: '&b%warp% &eadlı warpa başarıyla ışınlandın!'
     teleport-cancelled: '%warpprefix% &cIşınlanma iptal edildi.'
     teleporting-player: '%warpprefix% &b%other% &3adlı oyuncu &b%warp% &3adlı warpa ışınlanıyor...'
     list: '%warpprefix% &eWarp listesi (%warpamount%): %warps%'
@@ -97,14 +101,18 @@ messages:
       %spawnprefix% &eYeni lokasyon: &b%spawnlocation%
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %spawnprefix%
-        &bSpawn'a &eışınlanılıyor... &b%time%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%spawnprefix%'
+        subtitle: '&bSpawn'a &eışınlanılıyor... &b%time%'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %spawnprefix%
-        &bSpawn'a &eışınlandın!
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%spawnprefix%'
+        subtitle: '&bSpawn''a &eışınlandın!'
     teleport-cancelled: '%spawnprefix% &cIşınlanma iptal edildi.'
     player-not-found: '%spawnprefix% &cÜzgünüm ancak o oyuncuyu bulamadım.'
     spawn-not-set: '%spawnprefix% &cHenüz bir spawn bulunmuyor.'
@@ -202,14 +210,18 @@ messages:
       false: almıyorsun
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %tpaprefix%
-        &b%teleporting% &eadlı oyuncuya ışınlanılıyor... &b%time%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%tpaprefix%'
+        subtitle: '&b%teleporting% &eadlı oyuncuya ışınlanılıyor... &b%time%'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %tpaprefix%
-        &b%teleporting% &eadlı oyuncuya ışınlanıldı.
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%tpaprefix%'
+        subtitle: '&b%teleporting% &eadlı oyuncuya ışınlanıldı.'
     teleport-cancelled: '%tpaprefix% &cIşınlanma iptal edildi.'
     blocked: '%tpaprefix% &cBu oyuncu sizi engellemiş.'
     block-toggled: '%tpaprefix% &b%blocked% %toggledto%'
@@ -302,11 +314,15 @@ messages:
 
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %prefix%
-        &b%home% &eadlı evinize ışınlanıyorsunuz... &b%time%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%prefix%'
+        subtitle: '&b%home% &eadlı evinize ışınlanıyorsunuz... &b%time%'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %prefix%
-        &eBaşarıyla &b%home% &eadlı evinize ışınlandınız.
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%prefix%'
+        sutitle: '&eBaşarıyla &b%home% &eadlı evinize ışınlandınız.'

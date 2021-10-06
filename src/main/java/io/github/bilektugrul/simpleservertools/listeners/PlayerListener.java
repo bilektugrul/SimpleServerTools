@@ -195,7 +195,7 @@ public class PlayerListener extends ListenerAdapter {
 
     private TeleportSettings getCurrentSettings(User user) {
         return switch (user.getState()) {
-            case TELEPORTING -> warpManager.getSettings();
+            case TELEPORTING_WARP -> warpManager.getSettings();
             case TELEPORTING_SPAWN -> spawnManager.getSettings();
             case TELEPORTING_PLAYER -> tpaManager.getSettings();
             case TELEPORTING_HOME -> homeManager.getSettings();

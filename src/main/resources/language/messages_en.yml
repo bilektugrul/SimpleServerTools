@@ -52,14 +52,18 @@ messages:
     wrong-usage: '%warpprefix% &cWrong usage.'
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %warpprefix%
-        &eTeleporting to &b%warp%&e... &b%time%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%warpprefix%'
+        subtitle: '&eTeleporting to &b%warp%&e... &b%time%'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %warpprefix%
-        &eYou have been teleported to &b%warp%&e.
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%warpprefix%'
+        subtitle: '&eYou have been teleported to &b%warp%&e.'
     teleport-cancelled: '%warpprefix% &cTeleportation process has been cancelled.'
     teleporting-player: '%warpprefix% &3Teleporting &b%other% &3to &b%warp%&3...'
     list: '%warpprefix% &eWarp list (%warpamount%): %warps%'
@@ -82,14 +86,18 @@ messages:
       %spawnprefix% &eNew location: &b%spawnlocation%
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %spawnprefix%
-        &eTeleporting to spawn... &b%time%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%spawnprefix%'
+        subtitle: '&eTeleporting to spawn... &b%time%'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %spawnprefix%
-        &bYou have been teleported to spawn.
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%spawnprefix%'
+        subtitle: '&bYou have been teleported to spawn.'
 
     teleport-cancelled: '%spawnprefix% &cTeleportation process has been cancelled.'
     player-not-found: '%spawnprefix% &cThat player is not online.'
@@ -188,14 +196,18 @@ messages:
       false: won't receive
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %tpaprefix%
-        &eTeleporting to &b%teleporting% &ein &b%time%...
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%tpaprefix%'
+        subtitle: '&eTeleporting to &b%teleporting% &ein &b%time%...'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %tpaprefix%
-        &eYou have teleported to &b%teleporting%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%tpaprefix%'
+        subtitle: '&eYou have teleported to &b%teleporting%'
     teleport-cancelled: '%tpaprefix% &cTeleport cancelled.'
     blocked: '%tpaprefix% &cThat player have blocked you.'
     block-toggled: '%tpaprefix% &b%blocked% %toggledto%'
@@ -287,11 +299,15 @@ messages:
 
     teleporting:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %prefix%
-        &eTeleporting to &b%home%&e... &b%time%
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%prefix%'
+        subtitle: '&eTeleporting to &b%home%&e... &b%time%'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
-      message: |
-        %prefix%
-        &eYou have been teleported to &b%home%&e.
+      chat: ''
+      actionbar: ''
+      title:
+        title: '%prefix%'
+        subtitle: '&eYou have been teleported to &b%home%&e.'
