@@ -80,7 +80,7 @@ messages:
         title: '%warpprefix%'
         subtitle: '&b%warp% &eadlı warpa başarıyla ışınlandın!'
     teleport-cancelled: '%warpprefix% &cIşınlanma iptal edildi.'
-    teleporting-player: '%warpprefix% &b%other% &3adlı oyuncu &b%warp% &3adlı warpa ışınlanıyor...'
+    teleporting-player: '%warpprefix% &b%other% &3adlı oyuncu &b%warp% &3adlı warpa ışınlanıyor..'
     list: '%warpprefix% &eWarp listesi (%warpamount%): %warps%'
     no-warp: '&cHiç warp yok.'
     saved: '%warpprefix% &eTüm warplar "warps.yml" dosyasına kaydedildi.'
@@ -105,7 +105,7 @@ messages:
       actionbar: ''
       title:
         title: '%spawnprefix%'
-        subtitle: '&bSpawn'a &eışınlanılıyor... &b%time%'
+        subtitle: '&bSpawn''a &eışınlanılıyor... &b%time%'
     teleported:
       mode: TITLE # Modes: ACTIONBAR, TITLE, CHAT, CHAT_AND_TITLE, CHAT_AND_BAR, BAR_AND_TITLE, ALL
       chat: ''
@@ -187,22 +187,28 @@ messages:
   tpa:
     request-sent: '%tpaprefix% &b%teleporting% &eadlı oyuncuya bir TPA isteği yolladın.'
     new-request: '%tpaprefix% &b%requester% &eadlı oyuncu sana bir TPA isteği yolladı.'
-    click-to-accept: '%tpaprefix% &6&nKabul etmek için buraya tıkla'
-    click-to-deny: '%tpaprefix% &c&nReddetmek için buraya tıkla'
+    json:
+      enabled: true
+      click-to-accept: '%tpaprefix% &6&nKabul etmek için buraya tıkla'
+      click-to-deny: '%tpaprefix% &c&nReddetmek için buraya tıkla'
     extra-messages: |
       %prefix% &6Bu TPA isteği 10 saniye sonra iptal olacak.
     request-accepted: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini kabul etti.'
-    request-accepted-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini kabul ettin..'
+    request-accepted-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini kabul ettin.'
     request-denied: '%tpaprefix% &b%teleporting% &eadlı oyuncu senin TPA isteğini reddetti.'
     request-denied-2: '%tpaprefix% &b%requester% &eadlı oyuncunun TPA isteğini reddettin. '
     request-cancelled: '%tpaprefix% &b%requester% &eadlı oyuncunun sana yolladığı TPA isteği iptal edildi.'
-    request-cancelled-2: '%tpaprefix% &b%teleporting% &eadlı oyuncuya yolladığın TPA isteği iptal edildi..'
+    request-cancelled-2: '%tpaprefix% &b%teleporting% &eadlı oyuncuya yolladığın TPA isteği iptal edildi.'
     no-request: '%tpaprefix% &cHiç TPA isteğin yok veya komutu hatalı kullandın.'
-    went-wrong: '%tpaprefix% &cO oyuncu sana TPA isteği yollamamış veya bir şeyler ters gitti.'
+    no-request-from: '%tpaprefix% &cO oyuncu sana bir TPA isteği yollamamış.'
     not-found: '%tpaprefix% &cO oyuncuya TPA isteği yollayamazsın.'
+    player-not-found: '%tpaprefix% &cO oyuncu aktif değil.'
+    not-yourself: '%tpaprefix% &cKendini yazdığının farkında mısın?'
     usage: '%tpaprefix% &c/tpa <oyuncu>'
-    not-now: '%tpaprefix% &cŞu an TPA isteği yollayamazsın..'
-    not-now-2: '%tpaprefix% &cO oyuncuya şu an TPA isteği yollayamazsın. Daha sonra tekrar dene.'
+    usage-accept: '%tpaprefix% &c/tpaccept <oyuncu>'
+    usage-deny: '%tpaprefix% &c/tpdeny <oyuncu>'
+    not-now: '%tpaprefix% &cŞu an TPA isteği yollayamazsın.'
+    not-available: '%tpaprefix% &cO oyuncu şu anda müsait değil.'
     toggled: '%tpaprefix% &cArtık TPA isteklerini %newmode%.'
     different-worlds: '%tpaprefix% &b%other% &cile aynı dünyada olmalısın.'
     modes:

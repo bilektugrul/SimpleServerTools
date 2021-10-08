@@ -173,8 +173,10 @@ messages:
   tpa:
     request-sent: '%tpaprefix% &6You have sent a TPA request to &3%teleporting%'
     new-request: '%tpaprefix% &3%requester% &6have sent a TPA request to you'
-    click-to-accept: '%tpaprefix% &6&nClick here to accept'
-    click-to-deny: '%tpaprefix% &c&nClick here to deny'
+    json:
+      enabled: true
+      click-to-accept: '%tpaprefix% &6&nClick here to accept'
+      click-to-deny: '%tpaprefix% &c&nClick here to deny'
     extra-messages: |
       %prefix% &6Request will be cancelled in 10 seconds.
     request-accepted: '%tpaprefix% &3%teleporting% &6have accepted your TPA request.'
@@ -183,12 +185,16 @@ messages:
     request-denied-2: '%tpaprefix% &6You have denied &3%requester%''s TPA request.'
     request-cancelled: '%tpaprefix% &6TPA request from &3%requester% &6cancelled by server.'
     request-cancelled-2: '%tpaprefix% &6Your TPA request that sent to &3%teleporting% &6cancelled by server.'
-    no-request: '%tpaprefix% &cYou don''t have any TPA request or command was wrong.'
-    went-wrong: '%tpaprefix% &cThat player didn''t send you a TPA request or something went wrong.'
+    no-request: '%tpaprefix% &cYou don''t have any TPA request.'
+    no-request-from: '%tpaprefix% &cThat player didn''t send you a TPA request.'
     not-found: '%tpaprefix% &cYou can''t send TPA request to that user.'
+    player-not-found: '%tpaprefix% &cThat player is not online.'
+    not-yourself: '%tpaprefix% &cCome on dude. That is you.'
     usage: '%tpaprefix% &c/tpa <player>'
+    usage-accept: '%tpaprefix% &c/tpaccept <player>'
+    usage-deny: '%tpaprefix% &c/tpdeny <player>'
     not-now: '%tpaprefix% &cYou can not send a TPA request.'
-    not-now-2: '%tpaprefix% &cYou can not send a TPA request to that player for now. Try again later.'
+    not-available: '%tpaprefix% &cThat user is not available at the moment.'
     toggled: '%tpaprefix% &cYou %newmode% TPA request from now on.'
     different-worlds: '%tpaprefix% &cYou must be in the same world with %other%.'
     modes:

@@ -47,41 +47,48 @@ public class TPACommand implements CommandExecutor {
             }
 
             Player toTeleport = Bukkit.getPlayer(args[0]);
+            if (toTeleport == null) {
+                p.sendMessage(Utils.getMessage("tpa.player-not-found"));
+                return true;
+            }
+
+            if (toTeleport.equals(sender)) {
+                p.sendMessage(Utils.getMessage("tpa.not-yourself"));
+                return true;
+            }
 
             if (tpaManager.isPresent(toTeleport, p)) {
                 p.sendMessage(Utils.getMessage("tpa.not-now", p));
                 return true;
             }
 
-            if (toTeleport != null && !toTeleport.equals(sender)) {
-                String pName = p.getName();
-                User toTeleportUser = userManager.getUser(toTeleport);
+            String pName = p.getName();
+            User toTeleportUser = userManager.getUser(toTeleport);
 
-                if (toTeleportUser.isBlockedTPAsFrom(pName)) {
-                    p.sendMessage(Utils.getMessage("tpa.blocked"));
-                    return true;
-                }
+            if (toTeleportUser.isBlockedTPAsFrom(pName)) {
+                p.sendMessage(Utils.getMessage("tpa.blocked"));
+                return true;
+            }
 
-                if (toTeleportUser.isAcceptingTPA() && toTeleportUser.isAvailable()) {
-                    if (tpaManager.startWaitTask(p, toTeleport)) {
-                        p.sendMessage(Utils.getMessage("tpa.request-sent", p)
-                                .replace("%teleporting%", toTeleport.getName()));
-                        toTeleport.sendMessage(Utils.getMessage("tpa.new-request", toTeleport)
-                                .replace("%requester%", pName));
-                        TextComponent component = new TextComponent(Utils.getMessage("tpa.click-to-accept", toTeleport));
+            if (toTeleportUser.isAcceptingTPA() && toTeleportUser.isAvailable()) {
+                if (tpaManager.startWaitTask(p, toTeleport)) {
+                    p.sendMessage(Utils.getMessage("tpa.request-sent", p)
+                            .replace("%teleporting%", toTeleport.getName()));
+                    toTeleport.sendMessage(Utils.getMessage("tpa.new-request", toTeleport)
+                            .replace("%requester%", pName));
+                    if (Utils.getLanguageBoolean("messages.tpa.json.enabled")) {
+                        TextComponent component = new TextComponent(Utils.getMessage("tpa.json.click-to-accept", toTeleport));
                         component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaaccept " + pName));
-                        BaseComponent baseComponent = new TextComponent("\n" + Utils.getMessage("tpa.click-to-deny", toTeleport));
+                        BaseComponent baseComponent = new TextComponent("\n" + Utils.getMessage("tpa.json.click-to-deny", toTeleport));
                         baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny " + pName));
                         component.addExtra(baseComponent);
                         toTeleport.sendMessage(component);
-                        p.sendMessage(Utils.getMessage("tpa.extra-messages", p));
-                        toTeleport.sendMessage(Utils.getMessage("tpa.extra-messages", toTeleport));
                     }
-                } else {
-                    p.sendMessage(Utils.getMessage("tpa.not-now-2", p));
+                    p.sendMessage(Utils.getMessage("tpa.extra-messages", p));
+                    toTeleport.sendMessage(Utils.getMessage("tpa.extra-messages", toTeleport));
                 }
             } else {
-                p.sendMessage(Utils.getMessage("tpa.not-found", p));
+                p.sendMessage(Utils.getMessage("tpa.not-available", p));
             }
         } else {
             Utils.noPermission(sender);
