@@ -18,19 +18,18 @@ public class ClearChatCommand implements CommandExecutor {
             return true;
         }
 
-        int limit = Utils.getLanguageInt("messages.clear-chat.lines");
-        String lines = StringUtils.repeat(" \n", limit);
+        String lines = StringUtils.repeat(" \n", Utils.getLanguageInt("messages.clear-chat.lines"));
         boolean effectsStaff = Utils.getLanguageBoolean("messages.clear-chat.for-staffs.enabled");
+        String cleared = Utils.getMessage("clear-chat.cleared", sender).replace("%executor%", Utils.matchName(sender));
+        boolean isEmpty = cleared.isEmpty();
 
         for (Player player : Bukkit.getOnlinePlayers()) { // broadcast will effect logs so sending to players is better
             if (player.hasPermission("sst.staff") && !effectsStaff) {
                 continue;
             }
             player.sendMessage(lines);
+            if (!isEmpty) player.sendMessage(cleared);
         }
-
-        String cleared = Utils.getMessage("clear-chat.cleared", sender);
-        if (!cleared.isEmpty()) Bukkit.broadcastMessage(cleared.replace("%executor%", Utils.matchName(sender)));
 
         return true;
     }
