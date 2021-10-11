@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+// TODO: recode this
 public class InvSeeCommand implements CommandExecutor {
 
     @Override

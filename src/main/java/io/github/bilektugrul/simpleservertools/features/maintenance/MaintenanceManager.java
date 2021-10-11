@@ -7,14 +7,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class MaintenanceManager {
 
-    private FileConfiguration maintenanceFile;
+    private final SST plugin;
 
     private String reason;
     private String fullyClosedMessage;
+    private FileConfiguration maintenanceFile;
     private boolean isInMaintenance;
     private boolean isFullyClosed;
-
-    private final SST plugin;
 
     public MaintenanceManager(SST plugin) {
         this.plugin = plugin;

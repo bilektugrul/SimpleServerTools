@@ -10,9 +10,10 @@ import java.util.List;
 public class AnnouncementManager {
 
     private final SST plugin;
+    private final List<Announcement> announcements = new ArrayList<>();
+
     private AsyncAnnouncementTask announcementTask;
     private FileConfiguration announcementsFile;
-    private final List<Announcement> announcements = new ArrayList<>();
 
     public AnnouncementManager(SST plugin) {
         this.plugin = plugin;
@@ -62,7 +63,9 @@ public class AnnouncementManager {
     }
 
     public AnnouncementMode matchMode() {
-        return (announcementsFile.getBoolean("announcements.random")) ? AnnouncementMode.RANDOM : AnnouncementMode.ORDERED;
+        return announcementsFile.getBoolean("announcements.random")
+                ? AnnouncementMode.RANDOM
+                : AnnouncementMode.ORDERED;
     }
 
     public List<Announcement> getAnnouncements() {

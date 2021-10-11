@@ -34,13 +34,13 @@ public class DelHomeCommand implements CommandExecutor {
         String homeName = args[0];
         User user = userManager.getUser(player);
         Home home = user.getHomeByName(homeName);
-
         if (home == null) {
             player.sendMessage(Utils.getMessage("homes.not-created", player)
                     .replace("%home%", homeName));
             return true;
         }
 
+        homeName = home.name();
         user.deleteHome(homeName);
         player.sendMessage(Utils.getMessage("homes.deleted", player)
                 .replace("%home%", homeName));

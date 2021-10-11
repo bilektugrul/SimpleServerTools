@@ -21,9 +21,11 @@ public class SpyManager {
         }
 
         boolean newMode = !isSpy(p);
-
-        if (isSpy(p)) spies.remove(p);
-        else spies.add(p);
+        if (isSpy(p)) {
+            spies.remove(p);
+        } else {
+            spies.add(p);
+        }
 
         p.sendMessage(Utils.getMessage("spy.toggled", p)
                 .replace("%newmode%", Utils.getMessage("spy.modes." + newMode, p)));

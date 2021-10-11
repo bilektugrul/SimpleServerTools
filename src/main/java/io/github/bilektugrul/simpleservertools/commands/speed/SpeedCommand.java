@@ -28,15 +28,13 @@ public class SpeedCommand implements CommandExecutor {
 
         new SpeedInfo().setExecutor(sender)
                 .setPlayer(args.length == 3 ? Bukkit.getPlayer(args[2]) : sender instanceof Player ? (Player) sender : null)
-                .setMode(matchMode(args[0])) // apply() method will take care of mode if this returns null
+                .setMode(matchMode(args[0].toLowerCase(Locale.ROOT))) // apply() method will take care of mode if this returns null
                 .setSpeed(usage == SpeedUsage.BASIC ? args[0] : args[1])
                 .apply();
-
         return true;
     }
 
     private SpeedMode matchMode(String s) {
-        s = s.toLowerCase(Locale.ROOT);
         if (s.equals("walk")) {
             return SpeedMode.WALK;
         } else if (s.equals("fly")) {

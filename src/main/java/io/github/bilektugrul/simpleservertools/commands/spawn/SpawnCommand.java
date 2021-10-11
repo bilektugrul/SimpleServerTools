@@ -54,7 +54,6 @@ public class SpawnCommand implements CommandExecutor {
         final Location loc = spawn.getLocation();
 
         Player toTeleport = argPresent ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
-
         if (toTeleport == null) {
             sender.sendMessage(Utils.getMessage("spawn.player-not-found", sender));
             return true;

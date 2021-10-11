@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+// TODO: take a look at everything related to spawn system
 public class SetSpawnCommand implements CommandExecutor {
 
     private final SpawnManager spawnManager;

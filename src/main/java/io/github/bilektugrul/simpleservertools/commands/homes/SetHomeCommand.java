@@ -42,7 +42,6 @@ public class SetHomeCommand implements CommandExecutor {
 
         int max = Utils.getMaxHomeAmount(player);
         int created = user.getHomes().size();
-
         if (created >= max) {
             player.sendMessage(Utils.getMessage("homes.reached-max", player)
                     .replace("%maximum%", String.valueOf(max))

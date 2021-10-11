@@ -33,7 +33,6 @@ public class WarpCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
-
         boolean isAdmin = sender.hasPermission("sst.admin");
         boolean canSeeList = isAdmin || sender.hasPermission("sst.warplist");
         boolean argsNotPresent = args.length == 0;
@@ -45,21 +44,18 @@ public class WarpCommand implements CommandExecutor {
         }
 
         Player toTeleport = args.length >= 2 ? Bukkit.getPlayer(args[1]) : sender instanceof Player ? (Player) sender : null;
-
         if (argsNotPresent || toTeleport == null) {
             sender.sendMessage(Utils.getMessage("warps.wrong-usage", sender));
             return true;
         }
 
         boolean isNotSame = !toTeleport.equals(sender);
-
         if (isNotSame && !sender.hasPermission("sst.warp.others")) {
             Utils.noPermission(sender);
             return true;
         }
 
         String arg = args[0];
-
         if (arg.equalsIgnoreCase("save") && isAdmin) {
             warpManager.saveWarps();
             sender.sendMessage(Utils.getMessage("warps.saved", sender));

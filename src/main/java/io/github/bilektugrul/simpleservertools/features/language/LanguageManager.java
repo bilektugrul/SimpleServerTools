@@ -10,10 +10,10 @@ import java.util.Locale;
 
 public class LanguageManager {
 
+    private final SST plugin;
+
     private FileConfiguration language;
     private String languageString;
-
-    private final SST plugin;
 
     public LanguageManager(SST plugin) {
         this.plugin = plugin;

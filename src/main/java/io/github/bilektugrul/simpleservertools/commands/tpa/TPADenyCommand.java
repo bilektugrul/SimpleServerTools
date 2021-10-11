@@ -21,7 +21,6 @@ public class TPADenyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player p) {
-
             if (!sender.hasPermission("sst.tpa")) {
                 Utils.noPermission(sender);
                 return true;

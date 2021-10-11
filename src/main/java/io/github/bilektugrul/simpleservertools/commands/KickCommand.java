@@ -25,7 +25,6 @@ public class KickCommand implements CommandExecutor {
         }
 
         Player kickPlayer = Bukkit.getPlayer(args[0]);
-
         if (kickPlayer == null) {
             sender.sendMessage(Utils.getMessage("kick.not-online", sender));
             return true;

@@ -28,7 +28,6 @@ public class TPACommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player p) {
-
             if (!sender.hasPermission("sst.tpa")) {
                 Utils.noPermission(sender);
                 return true;
@@ -64,7 +63,6 @@ public class TPACommand implements CommandExecutor {
 
             String pName = p.getName();
             User toTeleportUser = userManager.getUser(toTeleport);
-
             if (toTeleportUser.isBlockedTPAsFrom(pName)) {
                 p.sendMessage(Utils.getMessage("tpa.blocked"));
                 return true;

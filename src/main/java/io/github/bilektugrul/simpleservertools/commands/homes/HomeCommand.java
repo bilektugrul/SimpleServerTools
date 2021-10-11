@@ -51,7 +51,6 @@ public class HomeCommand implements CommandExecutor {
         }
 
         Home home = user.getHomeByName(homeName);
-
         if (home == null) {
             player.sendMessage(Utils.getMessage("homes.not-created", player)
                     .replace("%home%", homeName));

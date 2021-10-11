@@ -13,23 +13,17 @@ public class EnderChestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player p && sender.hasPermission("sst.enderchest")) {
-            Player holder = p;
-
-            if (args.length >= 1) {
-                if (sender.hasPermission("sst.enderchest.others")) {
-                    holder = Bukkit.getPlayer(args[0]);
-                } else {
-                    Utils.noPermission(sender);
-                    return true;
-                }
-                
-            }
+            Player holder = args.length >= 1
+                    ? sender.hasPermission("sst.enderchest.others")
+                            ? Bukkit.getPlayer(args[0])
+                            : null
+                    : p;
 
             if (holder != null) {
                 p.closeInventory();
                 p.openInventory(holder.getEnderChest());
             } else {
-                p.sendMessage(Utils.getMessage("ender-chest.not-found", p));
+                Utils.noPermission(p);
             }
         } else {
             Utils.noPermission(sender);

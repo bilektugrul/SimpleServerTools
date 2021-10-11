@@ -20,9 +20,10 @@ public class BroadcastCommand implements CommandExecutor {
             String builder = Utils.getMessage("broadcast.prefix", sender) + " " +
                     Utils.arrayToString(args, sender, true, true);
             Bukkit.broadcastMessage(Utils.replacePlaceholders(builder, sender, true));
-        } else {
-            sender.sendMessage(Utils.getMessage("broadcast.not-enough", sender));
+            return true;
         }
+
+        sender.sendMessage(Utils.getMessage("broadcast.not-enough", sender));
         return true;
     }
 

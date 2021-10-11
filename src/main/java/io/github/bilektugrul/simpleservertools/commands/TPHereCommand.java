@@ -29,7 +29,6 @@ public class TPHereCommand implements CommandExecutor {
         }
 
         Player toTeleport = Bukkit.getPlayer(args[0]);
-
         if (toTeleport == null) {
             sender.sendMessage(Utils.getMessage("tphere.type-player", sender));
             return true;

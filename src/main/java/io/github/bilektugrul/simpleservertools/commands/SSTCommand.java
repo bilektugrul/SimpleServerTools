@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+//TODO: recode this too
 public class SSTCommand implements CommandExecutor {
 
     private final SST plugin;

@@ -21,7 +21,6 @@ public class TopCommand implements CommandExecutor {
         Location loc = p.getLocation();
         World world = p.getWorld();
         p.teleport(world.getHighestBlockAt(loc).getLocation());
-
         return true;
     }
 

@@ -19,7 +19,6 @@ public class HealCommand implements CommandExecutor {
         }
 
         Player healPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
-
         if (healPlayer == null) {
             sender.sendMessage(Utils.getMessage("heal.not-found", sender));
             return true;
@@ -30,7 +29,6 @@ public class HealCommand implements CommandExecutor {
     }
 
     private void heal(Player player, CommandSender from)  {
-
         boolean isSame = player.equals(from);
         if (!isSame && !from.hasPermission("sst.heal.others")) {
             from.sendMessage(Utils.getMessage("no-permission", from));

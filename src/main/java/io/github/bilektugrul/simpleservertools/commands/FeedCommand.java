@@ -19,7 +19,6 @@ public class FeedCommand implements CommandExecutor {
         }
 
         Player feedPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
-
         if (feedPlayer == null) {
             sender.sendMessage(Utils.getMessage("feed.not-found", sender));
             return true;
@@ -30,7 +29,6 @@ public class FeedCommand implements CommandExecutor {
     }
 
     private void feed(Player player, CommandSender from)  {
-
         boolean isSame = player.equals(from);
         if (!isSame && !from.hasPermission("sst.feed.others")) {
             from.sendMessage(Utils.getMessage("no-permission", from));

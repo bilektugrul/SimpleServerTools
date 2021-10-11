@@ -27,24 +27,20 @@ public class GodCommand implements CommandExecutor {
         }
 
         Player godPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
-
-        boolean argGodMode = args.length >= 2;
-
         if (godPlayer == null) {
             sender.sendMessage(Utils.getMessage("god.type-player", sender));
             return true;
         }
 
         User godUser = userManager.getUser(godPlayer);
-        if (argGodMode) change(sender, godPlayer, godUser, Utils.matchMode(args[1]));
+
+        if (args.length >= 2) change(sender, godPlayer, godUser, Utils.matchMode(args[1]));
         else change(sender, godPlayer, godUser, !godUser.isGod());
         return true;
     }
 
     public void change(CommandSender from, Player godPlayer, User godUser, boolean newMode) {
-
         boolean isSame = from.equals(godPlayer);
-
         if (!isSame && !from.hasPermission("sst.god.others")) {
             from.sendMessage(Utils.getMessage("no-permission", from));
             return;
@@ -53,7 +49,7 @@ public class GodCommand implements CommandExecutor {
         godUser.setGod(newMode);
         godPlayer.sendMessage(Utils.getMessage("god.toggled", godPlayer)
                 .replace("%godmode%", Utils.getMessage("god.modes." + newMode, from)));
-        if (!from.equals(godPlayer)) {
+        if (!isSame) {
             from.sendMessage(Utils.getMessage("god.toggled-other", from)
                     .replace("%other%", godPlayer.getName())
                     .replace("%godmode%", Utils.getMessage("god.modes." + newMode, from)));

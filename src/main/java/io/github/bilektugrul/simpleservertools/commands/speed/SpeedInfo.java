@@ -60,16 +60,16 @@ public class SpeedInfo {
             return;
         }
 
-        if (mode == null)
+        if (mode == null) {
             mode = matchMode();
-        if (mode == SpeedMode.WALK)
+        } else if (mode == SpeedMode.WALK) {
             player.setWalkSpeed(speed);
-        else
+        } else {
             player.setFlySpeed(speed);
+        }
 
         String modeString = Utils.getMessage("speed.modes." + mode.name());
         String speedString = String.valueOf(speed);
-
         player.sendMessage(Utils.getMessage("speed.changed", player)
                 .replace("%mode%", modeString)
                 .replace("%newspeed%", speedString));

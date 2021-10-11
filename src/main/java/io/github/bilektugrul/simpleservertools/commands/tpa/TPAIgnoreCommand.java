@@ -21,7 +21,6 @@ public class TPAIgnoreCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender.hasPermission("sst.tpaignore") && sender instanceof Player p) {
-
             if (args.length == 0) {
                 sender.sendMessage(Utils.getMessage("tpa.wrong-ignore"));
                 return true;

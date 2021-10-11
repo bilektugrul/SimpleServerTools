@@ -18,7 +18,6 @@ public class FlyCommand implements CommandExecutor {
         }
 
         Player flightPlayer = args.length > 0 ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
-
         if (flightPlayer != null) {
             boolean newFlightMode = args.length >= 2 ? Utils.matchMode(args[1]) : !flightPlayer.getAllowFlight();
             change(sender, flightPlayer, newFlightMode);
@@ -29,9 +28,7 @@ public class FlyCommand implements CommandExecutor {
     }
 
     public void change(CommandSender from, Player flightPlayer, boolean newMode) {
-
         boolean isSame = from.equals(flightPlayer);
-
         if (!isSame && !from.hasPermission("sst.fly.others")) {
             from.sendMessage(Utils.getMessage("no-permission", from));
             return;

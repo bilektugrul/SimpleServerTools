@@ -26,16 +26,18 @@ public class SocialSpyCommand implements CommandExecutor {
         }
 
         boolean argsPresent = args.length >= 1;
-
         if (argsPresent && args[0].equals("list")) {
-            if (sender.hasPermission("sst.socialspy.list")) sender.sendMessage(Utils.getMessage("spy.list", sender)
-                    .replace("%list%", spyManager.getReadableSpyList()));
-            else Utils.noPermission(sender);
+            if (sender.hasPermission("sst.socialspy.list")) {
+                sender.sendMessage(Utils.getMessage("spy.list", sender)
+                        .replace("%list%", spyManager.getReadableSpyList())
+                );
+            } else {
+                Utils.noPermission(sender);
+            }
             return true;
         }
 
         Player toChange = argsPresent ? Bukkit.getPlayer(args[0]) : sender instanceof Player ? (Player) sender : null;
-
         if (toChange == null) {
             sender.sendMessage(Utils.getMessage("spy.not-online", sender));
             return true;

@@ -27,23 +27,21 @@ public class SetWarpCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         if (!(sender instanceof Player p) || !sender.hasPermission("sst.admin")) {
             Utils.noPermission(sender);
             return true;
         }
-
-        String name = p.getName();
-        Location loc = p.getLocation();
 
         if (args.length == 0) {
             p.sendMessage(Utils.getMessage("warps.not-enough-arguments", p));
             return true;
         }
 
+        String name = p.getName();
+        Location loc = p.getLocation();
         String arg = args[0];
-        boolean force = forceCreateList.containsValue(arg);
 
+        boolean force = forceCreateList.containsValue(arg);
         if (!force && warpManager.isPresent(arg)) {
             sender.sendMessage(Utils.getMessage("warps.already-exists", sender));
             forceCreateList.put(name, arg);
