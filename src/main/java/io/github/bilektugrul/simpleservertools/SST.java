@@ -66,9 +66,7 @@ public class SST extends JavaPlugin {
     private HomeManager homeManager;
 
     private AsyncUserSaveThread asyncUserSaveThread;
-
     private PluginManager pluginManager;
-
     private Logger logger;
 
     @Override
@@ -76,10 +74,10 @@ public class SST extends JavaPlugin {
         long start = System.currentTimeMillis();
         saveDefaultConfig();
         logger = getLogger();
+        pluginManager = getServer().getPluginManager();
         logger.info(ChatColor.GREEN + "SimpleServerTools v" + getDescription().getVersion() + " is being enabled. Thanks for using SST!");
 
         registerManagers();
-
         for (Player looped : Bukkit.getOnlinePlayers()) {
             userManager.loadUser(looped);
         }
@@ -87,18 +85,13 @@ public class SST extends JavaPlugin {
         pluginManager.registerEvents(new PlayerListener(this), this);
 
         registerCommands();
-
         reload(true);
-        if (Utils.getBoolean("auto-save-users")) {
-            asyncUserSaveThread = new AsyncUserSaveThread(this);
-        }
         if (Utils.getBoolean("metrics-enabled")) {
             logger.info(ChatColor.GREEN + "Enabling metrics...");
             new Metrics(this, 11344);
         }
 
         checkUpdate();
-
         logger.log(Level.INFO, ChatColor.GREEN + "Enabling process is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
     }
 
@@ -117,8 +110,6 @@ public class SST extends JavaPlugin {
     }
 
     private void registerManagers() {
-        pluginManager = getServer().getPluginManager();
-
         placeholderManager = new CustomPlaceholderManager(this);
         languageManager = new LanguageManager(this);
 
