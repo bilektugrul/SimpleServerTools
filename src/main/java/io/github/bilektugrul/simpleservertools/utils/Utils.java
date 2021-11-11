@@ -304,4 +304,15 @@ public class Utils {
         if (homeManager == null) homeManager = plugin.getHomeManager();
         return getMaximum(userPlayer, "sst.homes.", homeManager.getDefaultMaxHomeAmount());
     }
+
+    //Author: Alpho320
+    public static String took(long from) {
+        return tookThisLong(from) + "ms";
+    }
+
+    //Author: Alpho320
+    public static long tookThisLong(long from) {
+        return System.currentTimeMillis() - from;
+    }
+
 }

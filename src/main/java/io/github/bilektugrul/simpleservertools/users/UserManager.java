@@ -25,7 +25,7 @@ public class UserManager {
 
     public User loadUser(UUID uuid, String name, boolean keep) {
         YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + "/players/" + uuid + ".yml"));
-        User user = new User(dataFile, uuid, name, plugin);
+        User user = new User(dataFile, uuid, name);
         if (keep) userList.add(user);
         return user;
     }
@@ -42,6 +42,10 @@ public class UserManager {
             }
         }
         return null;
+    }
+
+    public void removeUser(User user) {
+        userList.remove(user);
     }
 
     public boolean isTeleporting(User user) {

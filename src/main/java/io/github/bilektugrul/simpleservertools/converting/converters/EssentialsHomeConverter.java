@@ -120,7 +120,7 @@ public class EssentialsHomeConverter extends Converter {
                 }
             }
 
-            detailedLog.add(System.lineSeparator() + ChatColor.GREEN + (count + " of user home data converted in " + (System.currentTimeMillis() - start) + "ms"));
+            detailedLog.add(System.lineSeparator() + ChatColor.GREEN + count + " of user home data converted in " + Utils.took(start));
             logger.info(Utils.listToString(detailedLog));
             maintenanceManager.setFullyClosed(false);
         });

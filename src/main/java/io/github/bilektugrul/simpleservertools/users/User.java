@@ -6,6 +6,7 @@ import io.github.bilektugrul.simpleservertools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,19 +15,20 @@ import java.util.stream.Collectors;
 
 public class User {
 
-    private final SST plugin;
-    private final UUID uuid;
-    private final String name;
-    private UserState state;
-    private boolean isGod;
-    private boolean isAfk;
-    private final YamlConfiguration data;
+    private static final SST plugin = JavaPlugin.getPlugin(SST.class);
 
     private final List<String> tpaBlockedPlayers = new ArrayList<>();
     private final List<String> msgBlockedPlayers = new ArrayList<>();
     private final Set<Home> homes = new HashSet<>();
+    private final YamlConfiguration data;
+    private final String name;
+    private final UUID uuid;
 
-    public User(YamlConfiguration data, UUID uuid, String name, SST plugin) {
+    private boolean isGod;
+    private boolean isAfk;
+    private UserState state;
+
+    public User(YamlConfiguration data, UUID uuid, String name) {
         this.data = data;
         this.uuid = uuid;
         this.name = name;
@@ -43,8 +45,6 @@ public class User {
                 homes.add(home);
             }
         }
-
-        this.plugin = plugin;
     }
 
     public UUID getUUID() {

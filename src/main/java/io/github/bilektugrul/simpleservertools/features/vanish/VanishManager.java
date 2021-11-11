@@ -21,6 +21,14 @@ public class VanishManager {
         return new HashSet<>(onlineVanishedPlayers);
     }
 
+    public void removeOnlineVanishedPlayer(UUID uuid) {
+        onlineVanishedPlayers.remove(uuid);
+    }
+
+    public void removeVanishedPlayer(UUID uuid) {
+        vanishedPlayers.remove(uuid);
+    }
+
     public void hidePlayer(Player player, boolean silent) {
         UUID uuid = player.getUniqueId();
         vanishedPlayers.add(uuid);

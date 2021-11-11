@@ -43,14 +43,11 @@ public class PlayerListener extends ListenerAdapter {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-
         userManager.loadUser(player);
 
         List<JoinMessage> msgList = joinMessageManager.getList();
-
         for (JoinMessage msg : msgList) {
             JoinMessageType type = msg.type();
             String content = msg.content();
@@ -95,19 +92,21 @@ public class PlayerListener extends ListenerAdapter {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) throws IOException {
-
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         User user = userManager.getUser(player);
         user.save();
-        userManager.getUserList().remove(user);
+        userManager.removeUser(user);
 
         if (Utils.getBoolean("join-quit-messages.enabled", false)) {
-            if (!vanishManager.isVanished(uuid)) e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", player));
+            if (!vanishManager.isVanished(uuid)) {
+                e.setQuitMessage(Utils.getString("join-quit-messages.quit-message", player));
+            }
         }
 
-        if (vanishManager.isVanished(uuid)) vanishManager.getOnlineVanishedPlayers().remove(uuid);
-
+        if (vanishManager.isVanished(uuid)) {
+            vanishManager.removeOnlineVanishedPlayer(uuid);
+        }
     }
 
     @EventHandler
@@ -173,9 +172,7 @@ public class PlayerListener extends ListenerAdapter {
         Player player = e.getPlayer();
         User user = userManager.getUser(player);
         TeleportSettings settings = getCurrentSettings(user);
-
         if (settings != null && settings.doesBlockCommands()) {
-
             boolean isStaff = player.hasPermission("sst.staff");
             CancelMode cancelCommandsMode = settings.getCancelCommandsMode();
 
@@ -184,13 +181,12 @@ public class PlayerListener extends ListenerAdapter {
             } else {
                 e.setCancelled(cancelCommandsMode == CancelMode.STAFF && isStaff);
             }
+
             if (e.isCancelled()) {
                 Bukkit.getScheduler().runTaskLater(plugin, () -> player.closeInventory(), 2); // fix stupid DeluxeMenus error - drives me crazy
                 player.sendMessage(Utils.getMessage("command-blocked", player));
             }
-
         }
-
     }
 
     private TeleportSettings getCurrentSettings(User user) {

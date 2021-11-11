@@ -92,7 +92,7 @@ public class SST extends JavaPlugin {
         }
 
         checkUpdate();
-        logger.log(Level.INFO, ChatColor.GREEN + "Enabling process is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
+        logger.log(Level.INFO, ChatColor.GREEN + "Enabling process is done, enjoy! " + ChatColor.AQUA + Utils.took(start));
     }
 
     @Override
@@ -335,11 +335,11 @@ public class SST extends JavaPlugin {
         reloadConfig();
         checkAndLoadPacketListener();
         placeholderManager.load();
-        if (Utils.getBoolean("convert-enabled")) {
-            converterManager = new ConverterManager(this);
-        } else {
-            converterManager = null;
-        }
+
+        converterManager = Utils.getBoolean("convert-enabled")
+                ? new ConverterManager(this)
+                : null;
+
         if (!first) {
             languageManager.loadLanguage();
             announcementManager.reload();
@@ -356,7 +356,7 @@ public class SST extends JavaPlugin {
             } else if (asyncUserSaveThread != null) {
                 asyncUserSaveThread.cancel();
             }
-            logger.log(Level.INFO, ChatColor.GREEN + "Reloading is done, enjoy! " + ChatColor.AQUA + "{0} ms", System.currentTimeMillis() - start);
+            logger.log(Level.INFO, ChatColor.GREEN + "Reloading is done, enjoy! " + ChatColor.AQUA + Utils.took(start));
         }
     }
 
