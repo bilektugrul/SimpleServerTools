@@ -20,23 +20,23 @@ public class MessageIgnoreCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.msgignore") && sender instanceof Player p) {
-
-            if (args.length == 0) {
-                sender.sendMessage(Utils.getMessage("msg.wrong-ignore"));
-                return true;
-            }
-
-            String block = args[0];
-            User user = userManager.getUser(p);
-            boolean toggledTo = user.toggleMsgBlock(block);
-
-            p.sendMessage(Utils.getMessage("msg.block-toggled", p)
-                    .replace("%blocked%", block)
-                    .replace("%toggledto%", Utils.getMessage("msg.block-modes." + toggledTo, p)));
-        } else {
+        if (!sender.hasPermission("sst.msgignore") || !(sender instanceof Player senderPlayer)) {
             Utils.noPermission(sender);
+            return true;
         }
+
+        if (args.length == 0) {
+            sender.sendMessage(Utils.getMessage("msg.wrong-ignore"));
+            return true;
+        }
+
+        String toBlock = args[0];
+        User user = userManager.getUser(senderPlayer);
+        boolean toggledTo = user.toggleMsgBlock(toBlock);
+
+        senderPlayer.sendMessage(Utils.getMessage("msg.block-toggled", senderPlayer)
+                .replace("%blocked%", toBlock)
+                .replace("%toggledto%", Utils.getMessage("msg.block-modes." + toggledTo, senderPlayer)));
         return true;
     }
 

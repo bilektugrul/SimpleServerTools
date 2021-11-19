@@ -1,6 +1,6 @@
 # SimpleServerTools
 
-A well-coded (it was...) Essentials alternative with many commands and features. SST doesn't contain any non-useful and pointless command. You can edit many features of the plugin as you wish. You can change every message.
+A well-coded Essentials alternative with many commands and features. SST doesn't contain any non-useful and pointless command. You can edit many features of the plugin as you wish. You can change every message as a lot easier than Essentials.
 
 ## Requirements
 

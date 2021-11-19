@@ -20,22 +20,23 @@ public class TPAIgnoreCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.tpaignore") && sender instanceof Player p) {
-            if (args.length == 0) {
-                sender.sendMessage(Utils.getMessage("tpa.wrong-ignore"));
-                return true;
-            }
-
-            String block = args[0];
-            User user = userManager.getUser(p);
-            boolean toggledTo = user.toggleTPABlock(block);
-
-            p.sendMessage(Utils.getMessage("tpa.block-toggled", p)
-                    .replace("%blocked%", block)
-                    .replace("%toggledto%", Utils.getMessage("tpa.block-modes." + toggledTo, p)));
-        } else {
+        if (!sender.hasPermission("sst.tpaignore") || !(sender instanceof Player senderPlayer)) {
             Utils.noPermission(sender);
+            return true;
         }
+
+        if (args.length == 0) {
+            sender.sendMessage(Utils.getMessage("tpa.wrong-ignore"));
+            return true;
+        }
+
+        String block = args[0];
+        User user = userManager.getUser(senderPlayer);
+        boolean toggledTo = user.toggleTPABlock(block);
+
+        senderPlayer.sendMessage(Utils.getMessage("tpa.block-toggled", senderPlayer)
+                .replace("%blocked%", block)
+                .replace("%toggledto%", Utils.getMessage("tpa.block-modes." + toggledTo, senderPlayer)));
         return true;
     }
 

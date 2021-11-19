@@ -4,6 +4,7 @@ messages:
 
   no-permission: '%prefix% &cI''m sorry %player% but you can not do that.'
   users-saved: '%prefix% &bAll users'' data has been saved.'
+  went-wrong: '%prefix% &cSomething went wrong. Please check console for details.'
 
   help-message:
     beginning: |

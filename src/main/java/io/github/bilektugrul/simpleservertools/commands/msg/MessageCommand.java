@@ -44,9 +44,7 @@ public class MessageCommand implements CommandExecutor {
         }
 
         String senderName = Utils.matchName(sender);
-        String format = Utils.getMessage("msg.format", sender)
-                .replace("%from%", senderName);
-
+        String format = Utils.getMessage("msg.format", sender).replace("%from%", senderName);
         String to = args[0];
         boolean reply = false;
 

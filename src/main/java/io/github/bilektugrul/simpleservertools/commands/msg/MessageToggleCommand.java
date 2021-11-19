@@ -20,15 +20,17 @@ public class MessageToggleCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.msgtoggle") && sender instanceof Player p) {
-            User user = userManager.getUser(p);
-            boolean newMode = !user.isAcceptingMsg();
-            user.setAcceptingMsg(newMode);
-            p.sendMessage(Utils.getMessage("msg.toggled", p)
-                    .replace("%newmode%", Utils.getMessage("msg.modes." + newMode, p)));
-        } else {
+        if (!sender.hasPermission("sst.msgtoggle") || !(sender instanceof Player senderPlayer)) {
             Utils.noPermission(sender);
+            return true;
         }
+
+        User user = userManager.getUser(senderPlayer);
+        boolean newMode = !user.isAcceptingMsg();
+        user.setAcceptingMsg(newMode);
+
+        senderPlayer.sendMessage(Utils.getMessage("msg.toggled", senderPlayer)
+                .replace("%newmode%", Utils.getMessage("msg.modes." + newMode, senderPlayer)));
         return true;
     }
 }

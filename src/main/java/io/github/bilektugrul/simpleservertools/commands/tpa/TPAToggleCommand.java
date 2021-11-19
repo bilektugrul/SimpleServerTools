@@ -20,15 +20,17 @@ public class TPAToggleCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender.hasPermission("sst.tpatoggle") && sender instanceof Player p) {
-            User user = userManager.getUser(p);
-            boolean newMode = !user.isAcceptingTPA();
-            user.setAcceptingTPA(newMode);
-            p.sendMessage(Utils.getMessage("tpa.toggled", p)
-                    .replace("%newmode%", Utils.getMessage("tpa.modes." + newMode, p)));
-         } else {
+        if (!sender.hasPermission("sst.tpatoggle") || !(sender instanceof Player senderPlayer)) {
             Utils.noPermission(sender);
+            return true;
         }
+
+        User user = userManager.getUser(senderPlayer);
+        boolean newMode = !user.isAcceptingTPA();
+        user.setAcceptingTPA(newMode);
+
+        senderPlayer.sendMessage(Utils.getMessage("tpa.toggled", senderPlayer)
+                .replace("%newmode%", Utils.getMessage("tpa.modes." + newMode, senderPlayer)));
         return true;
     }
 

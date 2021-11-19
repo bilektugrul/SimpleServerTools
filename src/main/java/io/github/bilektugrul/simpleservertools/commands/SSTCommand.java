@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
-//TODO: recode this too
 public class SSTCommand implements CommandExecutor {
 
     private final SST plugin;
@@ -19,24 +18,28 @@ public class SSTCommand implements CommandExecutor {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String s, String[] args) {
-        boolean isAdmin = sender.hasPermission("sst.admin");
-        if (!Utils.getBoolean("main-command-perm-required") || sender.hasPermission("sst.maincmd")) {
-            if (args.length > 0) {
-                if (args[0].equalsIgnoreCase("reload") && isAdmin) {
-                    plugin.reload(false);
-                    sender.sendMessage(Utils.getMessage("config-reloaded", sender));
-                } else if (args[0].equalsIgnoreCase("save-users") && isAdmin) {
-                    try {
-                        plugin.getUserManager().saveUsers();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        if (Utils.getBoolean("main-command-perm-required") && !sender.hasPermission("sst.maincmd")) {
+            Utils.noPermission(sender);
+            return true;
+        }
+
+        if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
+            Utils.sendMessage(sender, "help-message");
+            return true;
+        }
+
+        if (sender.hasPermission("sst.admin")) {
+            if (args[0].equalsIgnoreCase("reload")) {
+                plugin.reload(false);
+                sender.sendMessage(Utils.getMessage("config-reloaded", sender));
+            } else if (args[0].equalsIgnoreCase("save-users")) {
+                try {
+                    plugin.getUserManager().saveUsers();
                     sender.sendMessage(Utils.getMessage("users-saved", sender));
-                } else if (args[0].equalsIgnoreCase("help")) {
-                    Utils.sendMessage(sender, "help-message");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    sender.sendMessage(Utils.getMessage("went-wrong", sender));
                 }
-            } else {
-                Utils.sendMessage(sender, "help-message");
             }
         } else {
             Utils.noPermission(sender);

@@ -22,20 +22,21 @@ public class SetSpawnCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (sender instanceof Player p && sender.hasPermission("sst.setspawn")) {
-            Location newLoc = p.getLocation();
-            if (spawnManager.getSpawn() == null) {
-                spawnManager.setSpawn(newLoc);
-                p.sendMessage(Utils.getMessage("spawn.created", p)
-                        .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
-            } else {
-                spawnManager.getSpawn().setLocation(newLoc);
-                p.sendMessage(Utils.getMessage("spawn.changed", p)
-                        .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
-                spawnManager.saveSpawn();
-            }
-        } else {
+        if (!sender.hasPermission("sst.setspawn") || !(sender instanceof Player senderPlayer)) {
             Utils.noPermission(sender);
+            return true;
+        }
+
+        Location newLoc = senderPlayer.getLocation();
+        if (!spawnManager.isPresent()) {
+            spawnManager.setSpawn(newLoc);
+            senderPlayer.sendMessage(Utils.getMessage("spawn.created", senderPlayer)
+                    .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
+        } else {
+            spawnManager.getSpawn().setLocation(newLoc);
+            senderPlayer.sendMessage(Utils.getMessage("spawn.changed", senderPlayer)
+                    .replace("%spawnlocation%", LocationSerializer.toString(newLoc)));
+            spawnManager.saveSpawn();
         }
         return true;
     }

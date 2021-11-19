@@ -39,6 +39,7 @@ public class SpeedInfo {
         try {
             result = Float.parseFloat(speed);
         } catch (NumberFormatException ignored) {}
+
         if (result > 1) result = 1;
         this.speed = result;
         return this;
@@ -60,12 +61,10 @@ public class SpeedInfo {
             return;
         }
 
-        if (mode == null) {
-            mode = matchMode();
-        } else if (mode == SpeedMode.WALK) {
-            player.setWalkSpeed(speed);
-        } else {
-            player.setFlySpeed(speed);
+        switch (mode) {
+            case null -> mode = matchMode();
+            case FLY -> player.setFlySpeed(speed);
+            case WALK -> player.setWalkSpeed(speed);
         }
 
         String modeString = Utils.getMessage("speed.modes." + mode.name());

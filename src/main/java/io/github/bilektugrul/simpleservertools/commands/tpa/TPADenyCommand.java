@@ -20,47 +20,42 @@ public class TPADenyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player p) {
-            if (!sender.hasPermission("sst.tpa")) {
-                Utils.noPermission(sender);
-                return true;
-            }
-
-            if (args.length == 0) {
-                p.sendMessage(Utils.getMessage("tpa.usage-deny", p));
-                return true;
-            }
-
-            if (!tpaManager.isPresent(p)) {
-                p.sendMessage(Utils.getMessage("tpa.no-request", p));
-                return true;
-            }
-
-            Player reqSender = Bukkit.getPlayer(args[0]);
-            if (reqSender == null) {
-                p.sendMessage(Utils.getMessage("tpa.player-not-found", p));
-                return true;
-            }
-
-            if (reqSender.equals(p)) {
-                p.sendMessage(Utils.getMessage("tpa.not-yourself", p));
-                return true;
-            }
-
-            if (!tpaManager.isPresent(p, reqSender)) {
-                p.sendMessage(Utils.getMessage("tpa.no-request-from", p));
-                return true;
-            }
-
-            tpaManager.remove(reqSender, p);
-            reqSender.sendMessage(Utils.getMessage("tpa.request-denied", reqSender)
-                    .replace("%teleporting%", p.getName()));
-            p.sendMessage(Utils.getMessage("tpa.request-denied-2", p)
-                    .replace("%requester%", reqSender.getName()));
-
-        } else {
+        if (!(sender instanceof Player senderPlayer) || !senderPlayer.hasPermission("sst.tpa")) {
             Utils.noPermission(sender);
+            return true;
         }
+
+        if (args.length == 0) {
+            senderPlayer.sendMessage(Utils.getMessage("tpa.usage-deny", senderPlayer));
+            return true;
+        }
+
+        if (!tpaManager.isPresent(senderPlayer)) {
+            senderPlayer.sendMessage(Utils.getMessage("tpa.no-request", senderPlayer));
+            return true;
+        }
+
+        Player reqSender = Bukkit.getPlayer(args[0]);
+        if (reqSender == null) {
+            senderPlayer.sendMessage(Utils.getMessage("tpa.player-not-found", senderPlayer));
+            return true;
+        }
+
+        if (reqSender.equals(senderPlayer)) {
+            senderPlayer.sendMessage(Utils.getMessage("tpa.not-yourself", senderPlayer));
+            return true;
+        }
+
+        if (!tpaManager.isPresent(senderPlayer, reqSender)) {
+            senderPlayer.sendMessage(Utils.getMessage("tpa.no-request-from", senderPlayer));
+            return true;
+        }
+
+        tpaManager.remove(reqSender, senderPlayer);
+        reqSender.sendMessage(Utils.getMessage("tpa.request-denied", reqSender)
+                .replace("%teleporting%", senderPlayer.getName()));
+        senderPlayer.sendMessage(Utils.getMessage("tpa.request-denied-2", senderPlayer)
+                .replace("%requester%", reqSender.getName()));
         return true;
     }
 }
