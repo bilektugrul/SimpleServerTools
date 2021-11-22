@@ -4,6 +4,7 @@ messages:
 
   no-permission: '%prefix% &cÜzgünüm %player% ancak bunu yapamazsın.'
   users-saved: '%prefix% &bTüm oyuncuların verileri kaydedildi.'
+  went-wrong: '%prefix% &cBir şeyler ters gitti. Detaylar için konsola bakın.'
 
   help-message:
     beginning: |
@@ -332,3 +333,7 @@ messages:
       title:
         title: '%prefix%'
         sutitle: '&eBaşarıyla &b%home% &eadlı evinize ışınlandınız.'
+
+  kits:
+    no-kits: '%prefix% &cThere are no kits.'
+    list: '%prefix% &eKit list (%kitamount%): %kits%'

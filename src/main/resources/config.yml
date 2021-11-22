@@ -16,6 +16,7 @@ custom-placeholders: # You can use these placeholders everywhere in SST files. (
 main-command-perm-required: true # if true, players will need "sst.maincmd" permission to use "/sst" command.
 auto-save-users: true
 auto-save-interval: 30 # in minutes
+date-format: 'dd/MM/yyyy hh:mm'
 
 updates:
   notify: true

@@ -318,3 +318,15 @@ messages:
       title:
         title: '%prefix%'
         subtitle: '&eYou have been teleported to &b%home%&e.'
+
+  kits:
+    no-kits: '%prefix% &cThere are no kits.'
+    list: '%prefix% &eKit list (%kitamount%): %kits%'
+    no-permission: '%prefix% &cYou do not have permission for that kit.'
+    no-permission-others: '%prefix% &cYou are not allowed to give kits to others.'
+    in-cooldown: '%prefix% &cYou have to wait &b%cooldown% &cfor take that kit again. You can take it again at &b%fulldate%&c.'
+    in-cooldown-other: '%prefix% &b%other% &chas to wait &b%cooldown% &cfor take that kit again. They can take it again at &b%fulldate%&c.'
+    cooldown-format: '%02d days %02d hours %02d minutes %02d seconds'
+    not-enough-money: '%prefix% &cYou do not have enough money for the kit &b%kit%&c. Required money: &b%money%'
+    not-enough-money-others: '%prefix% &b%kituser% &cdoes not have enough money for the kit &b%kit%&c. Required money: &b%money%'
+    wrong-usage: '%prefix% &cWrong usage: Correct usage: &b/kit <kit> [<player>]'

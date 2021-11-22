@@ -115,6 +115,8 @@ commands:
     usage: /delhome <home>
   sethome:
     usage: /sethome <home>
+  kit:
+    usage: /kit <kit>
 permissions:
   sst.*:
     default: op
@@ -230,4 +232,6 @@ permissions:
       sst.sethome:
         default: op
       sst.delhome:
+        default: op
+      sst.kit:
         default: op

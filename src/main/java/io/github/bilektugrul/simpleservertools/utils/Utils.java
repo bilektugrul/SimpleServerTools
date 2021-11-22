@@ -22,6 +22,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -84,7 +86,7 @@ public class Utils {
             plugin.getLogger().warning(org.bukkit.ChatColor.RED + "Your language file[s] is/are corrupted or old. Please reset or update them.");
             return "";
         }
-        msg = placeholderManager.replacePlaceholders(Strings.format(msg))
+        msg = placeholderManager.replacePlaceholders(colorize(msg))
                 .replace("%nl%", "\n");
         if (replacePersonalPlaceholders) {
             msg = msg.replace("%player%", matchName(from));
@@ -97,6 +99,10 @@ public class Utils {
 
     public static String replacePlaceholders(String msg, CommandSender from, boolean replacePersonalPlaceholders) {
         return replacePlaceholders(msg, from, replacePersonalPlaceholders, true);
+    }
+
+    public static String colorize(String string) {
+        return Strings.format(string);
     }
 
     public static String getString(String string) {
@@ -293,11 +299,7 @@ public class Utils {
     }
 
     public static String listToString(List<String> list) {
-        StringBuilder builder = new StringBuilder();
-        for (String s : list) {
-            builder.append(s).append("\n");
-        }
-        return builder.toString();
+        return String.join("\n", list);
     }
 
     public static int getMaxHomeAmount(Player userPlayer) {
@@ -313,6 +315,22 @@ public class Utils {
     //Author: Alpho320
     public static long tookThisLong(long from) {
         return System.currentTimeMillis() - from;
+    }
+
+    public static boolean hasSpace(Inventory inventory, ItemStack itemStack) {
+        int totalCount = 0;
+        for (int slot = 0; slot < inventory.getSize() * 9; slot++) {
+            ItemStack item = inventory.getItem(slot);
+            if (item == null) {
+                return true;
+            } else if (item.isSimilar(itemStack)) {
+                totalCount = totalCount + itemStack.getMaxStackSize() - item.getAmount();
+                if (totalCount > itemStack.getAmount()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

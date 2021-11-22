@@ -1,0 +1,36 @@
+kits:
+  tools:
+    cooldown: 1500
+    items:
+      item-1:
+        material: stone_sword
+      item-2:
+        material: stone_shovel
+      item-3:
+        material: stone_pickaxe
+      item-4:
+        material: stone_axe
+  tools-2:
+    cooldown: 2400
+    price: 5000
+    items:
+      item-1:
+        material: stone_sword
+        enchants:
+          - DAMAGE_ALL 2
+          - DURABILITY 2
+      item-2:
+        material: stone_shovel
+        name: '&aSuper Shovel'
+      item-3:
+        material: stone_pickaxe
+        lore:
+          - 'This is a stone pickaxe'
+          - 'Gifted with a lore'
+      item-4:
+        material: stone_axe
+        enchants:
+          - DIG_SPEED 2
+      item-5:
+        material: GOLDEN_APPLE
+        amount: 12
