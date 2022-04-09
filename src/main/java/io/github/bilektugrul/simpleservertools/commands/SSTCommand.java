@@ -28,6 +28,11 @@ public class SSTCommand implements CommandExecutor {
             return true;
         }
 
+        if (!sender.hasPermission("sst.admin")) {
+            Utils.noPermission(sender);
+            return true;
+        }
+
         if (sender.hasPermission("sst.admin")) {
             if (args[0].equalsIgnoreCase("reload")) {
                 plugin.reload(false);
@@ -41,8 +46,6 @@ public class SSTCommand implements CommandExecutor {
                     sender.sendMessage(Utils.getMessage("went-wrong", sender));
                 }
             }
-        } else {
-            Utils.noPermission(sender);
         }
         return true;
     }

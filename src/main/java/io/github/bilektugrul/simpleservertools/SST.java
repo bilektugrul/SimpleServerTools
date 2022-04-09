@@ -111,6 +111,10 @@ public class SST extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
+        saveEverything();
+    }
+
+    public void saveEverything() {
         try {
             userManager.saveUsers();
         } catch (IOException e) {
@@ -211,7 +215,7 @@ public class SST extends JavaPlugin {
 
     private final Set<String> disabledCommands = new HashSet<>();
 
-    public void registerCommand(CommandExecutor executor, String command) {
+    private void registerCommand(CommandExecutor executor, String command) {
         String className = executor.getClass().getName();
         int beginIndex = className.lastIndexOf(".") + 1;
         className = className.substring(beginIndex).trim();
@@ -386,6 +390,7 @@ public class SST extends JavaPlugin {
                 if (asyncUserSaveThread == null) asyncUserSaveThread = new AsyncUserSaveThread(this);
             } else if (asyncUserSaveThread != null) {
                 asyncUserSaveThread.cancel();
+                asyncUserSaveThread = null;
             }
             logger.log(Level.INFO, ChatColor.GREEN + "Reloading is done, enjoy! " + ChatColor.AQUA + Utils.took(start));
         }

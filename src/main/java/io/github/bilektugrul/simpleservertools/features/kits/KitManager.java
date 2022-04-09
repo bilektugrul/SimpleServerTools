@@ -91,13 +91,13 @@ public class KitManager {
         }
     }
 
-    public void giveItems(List<Kit.KitItem> items, Player player) {
+    private void giveItems(List<Kit.KitItem> items, Player player) {
         Inventory inventory = player.getInventory();
         World world = player.getWorld();
         Location location = player.getLocation();
 
         for (Kit.KitItem item : items) {
-            ItemStack realItem = item.item();
+            ItemStack realItem = item.item().clone();
             if (Utils.hasSpace(inventory, realItem)) {
                 inventory.addItem(realItem);
             } else {
@@ -141,7 +141,7 @@ public class KitManager {
         addKit(kit);
     }
 
-    public Kit.KitItem loadItem(ConfigurationSection section) {
+    private Kit.KitItem loadItem(ConfigurationSection section) {
         ItemStack item = XMaterial.matchXMaterial(section.getString("material")).orElseThrow().parseItem();
         ItemMeta meta = item.getItemMeta();
 
@@ -200,7 +200,7 @@ public class KitManager {
         }
     }
 
-    public void saveKitItem(Kit kit, Kit.KitItem kitItem) {
+    private void saveKitItem(Kit kit, Kit.KitItem kitItem) {
         String path = "kits." + kit.id() + ".items." + kitItem.id();
         kitsFile.set(path, kitItem.item());
     }
